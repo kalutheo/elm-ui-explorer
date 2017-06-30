@@ -68,6 +68,5 @@ toast =
     viewToast << selectorToast
 
 
-story : Html Msg
-story =
+story selectedStateId =
     toast { label = "Toast", isShown = True, severity = Success }

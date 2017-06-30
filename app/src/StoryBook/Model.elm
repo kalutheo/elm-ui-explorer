@@ -6,7 +6,7 @@ import Html exposing (Html)
 type alias Story msg =
     { id : String
     , description : String
-    , view : Html msg
+    , view : Maybe String -> Html msg
     }
 
 
@@ -17,4 +17,5 @@ type alias Stories msg =
 type alias Model msg =
     { stories : Stories msg
     , selectedStoryId : Maybe String
+    , selectedStateId : Maybe String
     }

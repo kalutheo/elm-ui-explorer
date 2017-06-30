@@ -2,8 +2,10 @@ module Atom.Button exposing (..)
 
 import Html exposing (Html, text, button)
 import StoryBook.Update exposing (Msg)
+import StoryBook.View exposing (renderStory)
 import Elegant exposing (..)
 import Atom.System exposing (..)
+import Dict
 
 
 type alias ButtonModel =
@@ -57,6 +59,11 @@ customButton =
     viewButton << selectorButton
 
 
-story : Html Msg
-story =
-    customButton { label = "Ok", isLarge = True }
+buttonstates =
+    [ ( "Large", { label = "Large", isLarge = True } )
+    , ( "Tiny", { label = "Tiny", isLarge = False } )
+    ]
+
+
+story selectedStateId =
+    renderStory selectedStateId customButton buttonstates

@@ -7,6 +7,7 @@ import StoryBook.Model exposing (..)
 import StoryBook.Update exposing (..)
 import Elegant exposing (..)
 import Color exposing (..)
+import Dict
 
 
 sizes =
@@ -104,3 +105,31 @@ viewMenu stories selectedStoryId =
         [ ul [ class "menu-list" ]
             (List.map (viewMenuItem selectedStoryId) stories)
         ]
+
+
+renderStory selectedStateId storyView storyStates =
+    let
+        menu =
+            ul []
+                (List.map
+                    (\state -> li [ onClick (SelectState (Tuple.first state)) ] [ text (Tuple.first state) ])
+                    storyStates
+                )
+
+        dictStates =
+            Dict.fromList storyStates
+
+        content =
+            case selectedStateId of
+                Just stateId ->
+                    case Dict.get stateId dictStates of
+                        Just state ->
+                            storyView state
+
+                        _ ->
+                            text ""
+
+                Nothing ->
+                    text ""
+    in
+        div [] [ menu, content ]

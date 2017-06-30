@@ -21,6 +21,9 @@ update msg model =
         Noop ->
             model
 
+        SelectState stateId ->
+            { model | selectedStateId = Just stateId }
+
         SelectStory storyId ->
             { model | selectedStoryId = Just storyId }
 
@@ -42,6 +45,7 @@ model =
           }
         ]
     , selectedStoryId = Nothing
+    , selectedStateId = Nothing
     }
 
 
@@ -66,7 +70,7 @@ viewContent model =
                     Nothing ->
                         False
             )
-        |> List.map .view
+        |> List.map (\s -> s.view model.selectedStateId)
         |> List.head
         |> Maybe.withDefault (div [] [ text "A simple storybook POC in ELM" ])
 

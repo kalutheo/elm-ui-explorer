@@ -51,5 +51,5 @@ collapsible =
     viewCollapsible << selectorCollapsible
 
 
-story =
+story selectedStateId =
     collapsible { label = "Couccou", isOpen = False, content = div [] [] }
