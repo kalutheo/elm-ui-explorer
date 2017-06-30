@@ -1,4 +1,4 @@
-module Atom.Toast exposing (..)
+module Atom.Toast.Index exposing (..)
 
 import Html exposing (Html, text, div, span)
 import Storybook.Msg exposing (Msg)
@@ -66,7 +66,3 @@ viewToast model =
 toast : ToastModel -> Html Msg
 toast =
     viewToast << selectorToast
-
-
-story selectedStateId =
-    toast { label = "Toast", isShown = True, severity = Success }
