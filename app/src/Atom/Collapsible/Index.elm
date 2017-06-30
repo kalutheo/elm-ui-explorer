@@ -1,4 +1,4 @@
-module Atom.Collapsible exposing (..)
+module Atom.Collapsible.Index exposing (..)
 
 import Html exposing (Html, div, text, button, header, span, i, section)
 
@@ -46,10 +46,6 @@ viewCollapsible model =
         ]
 
 
-collapsible : CollapsibleModel a -> Html a
+collapsible : CollapsibleModel msg -> Html msg
 collapsible =
     viewCollapsible << selectorCollapsible
-
-
-story selectedStateId =
-    collapsible { label = "Couccou", isOpen = False, content = div [] [] }
