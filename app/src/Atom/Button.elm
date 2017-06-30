@@ -1,13 +1,13 @@
 module Atom.Button exposing (..)
 
-import Html.Attributes exposing (class)
 import Html exposing (Html, text, button)
 import StoryBook.Update exposing (Msg)
 import Elegant exposing (..)
+import Atom.System exposing (..)
 
 
 type alias ButtonModel =
-    { label : String }
+    { label : String, isLarge : Bool }
 
 
 type alias ButtonViewModel =
@@ -17,23 +17,39 @@ type alias ButtonViewModel =
     }
 
 
+styles =
+    { base =
+        [ backgroundColor colors.primary
+        , textColor colors.light
+        , borderRadius 10
+        , margin medium
+        , borderWidth 0
+        , padding (Em 1)
+        ]
+    }
+
+
 selectorButton : ButtonModel -> ButtonViewModel
 selectorButton model =
     let
         label =
             ">>" ++ model.label
 
+        buttonWidth =
+            if model.isLarge then
+                14
+            else
+                10
+
         buttonStyle =
-            style
-                [ margin medium
-                ]
+            style (List.append styles.base [ width (Em buttonWidth) ])
     in
         { label = label, isLoading = False, buttonStyle = buttonStyle }
 
 
 viewButton : ButtonViewModel -> Html Msg
 viewButton model =
-    button [ model.buttonStyle, class "button is-primary" ] [ text model.label ]
+    button [ model.buttonStyle ] [ text model.label ]
 
 
 customButton : ButtonModel -> Html Msg
@@ -43,4 +59,4 @@ customButton =
 
 story : Html Msg
 story =
-    customButton { label = "Ok" }
+    customButton { label = "Ok", isLarge = True }
