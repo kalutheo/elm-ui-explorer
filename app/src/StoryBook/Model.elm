@@ -16,5 +16,5 @@ type alias Stories msg =
 
 type alias Model msg =
     { stories : Stories msg
-    , selectedStoryId : String
+    , selectedStoryId : Maybe String
     }

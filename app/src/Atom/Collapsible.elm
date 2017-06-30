@@ -1,9 +1,6 @@
 module Atom.Collapsible exposing (..)
 
-import Html.Attributes exposing (class)
-import Html exposing (Html, text, button)
-import StoryBook.Update exposing (Msg)
-import Elegant exposing (..)
+import Html exposing (Html, div, text, button, header, span, i, section)
 
 
 -- Collapsible --
@@ -52,3 +49,7 @@ viewCollapsible model =
 collapsible : CollapsibleModel a -> Html a
 collapsible =
     viewCollapsible << selectorCollapsible
+
+
+story =
+    collapsible { label = "Couccou", isOpen = False, content = div [] [] }

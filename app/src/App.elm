@@ -10,8 +10,9 @@ import Html.Attributes exposing (class)
 import StoryBook.Model exposing (..)
 import StoryBook.Update exposing (..)
 import StoryBook.View exposing (viewSidebar, viewHeader)
-import Atom.Button as Button exposing (..)
-import Atom.Toast as Toast exposing (..)
+import Atom.Button as Button
+import Atom.Toast as Toast
+import Atom.Collapsible as Collapsible
 
 
 update : Msg -> Model Msg -> Model Msg
@@ -21,13 +22,17 @@ update msg model =
             model
 
         SelectStory storyId ->
-            { model | selectedStoryId = storyId }
+            { model | selectedStoryId = Just storyId }
 
 
 model : Model Msg
 model =
     { stories =
-        [ { id = "CustomButton"
+        [ { id = "Collapsible"
+          , description = "a simple collapsible"
+          , view = Collapsible.story
+          }
+        , { id = "CustomButton"
           , description = "a simple button"
           , view = Button.story
           }
@@ -36,7 +41,7 @@ model =
           , view = Toast.story
           }
         ]
-    , selectedStoryId = ""
+    , selectedStoryId = Nothing
     }
 
 
@@ -52,7 +57,15 @@ main =
 viewContent : Model Msg -> Html Msg
 viewContent model =
     model.stories
-        |> List.filter (\story -> story.id == model.selectedStoryId)
+        |> List.filter
+            (\story ->
+                case model.selectedStoryId of
+                    Just id ->
+                        story.id == id
+
+                    Nothing ->
+                        False
+            )
         |> List.map .view
         |> List.head
         |> Maybe.withDefault (div [] [ text "A simple storybook POC in ELM" ])

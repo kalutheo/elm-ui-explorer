@@ -75,11 +75,16 @@ viewHeader =
         ]
 
 
-viewMenuItem : String -> Story Msg -> Html Msg
+viewMenuItem : Maybe String -> Story Msg -> Html Msg
 viewMenuItem selectedStoryId story =
     let
         isSelected =
-            story.id == selectedStoryId
+            case selectedStoryId of
+                Just id ->
+                    id == story.id
+
+                Nothing ->
+                    False
 
         linkClass =
             if isSelected then
@@ -93,7 +98,7 @@ viewMenuItem selectedStoryId story =
             ]
 
 
-viewMenu : Stories Msg -> String -> Html Msg
+viewMenu : Stories Msg -> Maybe String -> Html Msg
 viewMenu stories selectedStoryId =
     aside [ class "menu", style [ marginTop (Px 0) ] ]
         [ ul [ class "menu-list" ]
