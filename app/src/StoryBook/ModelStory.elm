@@ -5,7 +5,7 @@ import Storybook.Msg exposing (Msg)
 
 
 type alias Story =
-    { id : StoryId
+    { id : String
     , description : String
     , view : Html Msg
     }
