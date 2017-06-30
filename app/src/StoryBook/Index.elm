@@ -19,10 +19,17 @@ update msg model =
             { model | selectedStoryId = Just storyId }
 
 
-storybook : Model Msg -> Program Never (Model Msg) Msg
-storybook model =
-    Html.beginnerProgram
-        { model = model
-        , view = view
-        , update = update
-        }
+storybook : Stories Msg -> Program Never (Model Msg) Msg
+storybook stories =
+    let
+        model =
+            { stories = stories
+            , selectedStoryId = Nothing
+            , selectedStateId = Nothing
+            }
+    in
+        Html.beginnerProgram
+            { model = model
+            , view = view
+            , update = update
+            }
