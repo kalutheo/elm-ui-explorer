@@ -1,7 +1,7 @@
 module Atom.Button exposing (..)
 
 import Html exposing (Html, text, button)
-import Storybook.Message exposing (Msg)
+import Storybook.Msg exposing (Msg)
 import StoryBook.View exposing (renderStory)
 import Elegant exposing (..)
 import Atom.System exposing (..)

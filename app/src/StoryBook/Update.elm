@@ -1,6 +1,6 @@
 module StoryBook.Update exposing (..)
 
-import Storybook.Message exposing (..)
+import Storybook.Msg exposing (..)
 import Storybook.Model exposing (..)
 
 

@@ -4,7 +4,7 @@ import Html exposing (Html, aside, ul, li, a, text, div, section, h1, h2)
 import Html.Attributes exposing (class)
 import Html.Events exposing (onClick)
 import StoryBook.Model exposing (..)
-import Storybook.Message exposing (..)
+import Storybook.Msg exposing (..)
 import Elegant exposing (..)
 import Color exposing (..)
 import Dict

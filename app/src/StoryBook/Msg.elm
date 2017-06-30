@@ -1,4 +1,4 @@
-module Storybook.Message exposing (..)
+module Storybook.Msg exposing (..)
 
 
 type Msg

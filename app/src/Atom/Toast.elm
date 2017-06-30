@@ -1,7 +1,7 @@
 module Atom.Toast exposing (..)
 
 import Html exposing (Html, text, div, span)
-import Storybook.Message exposing (Msg)
+import Storybook.Msg exposing (Msg)
 import Elegant exposing (..)
 import Elegant.Elements exposing (..)
 import Color exposing (..)
