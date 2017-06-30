@@ -148,20 +148,20 @@ renderStory selectedStateId storyView storyStates =
         menu =
             ul [] (List.map renderState storyStates)
 
-        dictStates =
-            Dict.fromList storyStates
-
-        content =
+        currentStates =
             case selectedStateId of
-                Just stateId ->
-                    case Dict.get stateId dictStates of
-                        Just state ->
-                            storyView state
-
-                        _ ->
-                            text ""
+                Just selectedId ->
+                    List.filter (\( id, state ) -> id == selectedId) storyStates
 
                 Nothing ->
-                    text ""
+                    storyStates
+
+        content =
+            case currentStates |> List.head of
+                Just ( id, state ) ->
+                    storyView state
+
+                Nothing ->
+                    text "Include somes states in your story..."
     in
         div [] [ menu, content ]
