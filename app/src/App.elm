@@ -14,31 +14,33 @@ import Atom.Button as Button exposing (..)
 import Atom.Toast as Toast exposing (..)
 
 
-update : Msg -> Model -> Model
+update : Msg -> Model Msg -> Model Msg
 update msg model =
     case msg of
         Noop ->
             model
 
-        SelectStory story ->
-            { model | selectedStoryId = story.id }
+        SelectStory storyId ->
+            { model | selectedStoryId = storyId }
 
 
-model : Model
+model : Model Msg
 model =
     { stories =
         [ { id = CustomButton
           , description = "a simple button"
+          , view = Button.story
           }
         , { id = Toast
           , description = "a simple toast"
+          , view = Toast.story
           }
         ]
     , selectedStoryId = None
     }
 
 
-main : Program Never Model Msg
+main : Program Never (Model Msg) Msg
 main =
     Html.beginnerProgram
         { model = model
@@ -47,20 +49,16 @@ main =
         }
 
 
-viewContent : Model -> Html Msg
+viewContent : Model Msg -> Html Msg
 viewContent model =
-    case model.selectedStoryId of
-        CustomButton ->
-            Button.story
-
-        Toast ->
-            Toast.story
-
-        _ ->
-            div [] [ text "A simple storybook POC in ELM" ]
+    model.stories
+        |> List.filter (\story -> story.id == model.selectedStoryId)
+        |> List.map .view
+        |> List.head
+        |> Maybe.withDefault (div [] [ text "A simple storybook POC in ELM" ])
 
 
-view : Model -> Html Msg
+view : Model Msg -> Html Msg
 view model =
     div []
         [ viewHeader

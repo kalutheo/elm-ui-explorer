@@ -1,8 +1,8 @@
 module StoryBook.Update exposing (..)
 
-import StoryBook.Model exposing (Story)
+import StoryBook.Model exposing (StoryId)
 
 
 type Msg
     = Noop
-    | SelectStory Story
+    | SelectStory StoryId

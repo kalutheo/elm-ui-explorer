@@ -47,7 +47,7 @@ styles =
     }
 
 
-viewSidebar : Model -> Html Msg
+viewSidebar : Model Msg -> Html Msg
 viewSidebar model =
     div [ class "column" ]
         [ div
@@ -75,7 +75,7 @@ viewHeader =
         ]
 
 
-viewMenuItem : StoryId -> Story -> Html Msg
+viewMenuItem : StoryId -> Story Msg -> Html Msg
 viewMenuItem selectedStoryId story =
     let
         isSelected =
@@ -88,12 +88,12 @@ viewMenuItem selectedStoryId story =
                 ""
     in
         li [ styles.sidebarItem ]
-            [ a [ class linkClass, onClick (SelectStory story), styles.sidebarItemLink ]
+            [ a [ class linkClass, onClick (SelectStory story.id), styles.sidebarItemLink ]
                 [ text (story.id |> toString) ]
             ]
 
 
-viewMenu : Stories -> StoryId -> Html Msg
+viewMenu : Stories Msg -> StoryId -> Html Msg
 viewMenu stories selectedStoryId =
     aside [ class "menu", style [ marginTop (Px 0) ] ]
         [ ul [ class "menu-list" ]
