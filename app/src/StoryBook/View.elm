@@ -1,4 +1,4 @@
-module StoryBook.View exposing (..)
+module StoryBook.View exposing (view, renderStory)
 
 import Html exposing (Html, aside, ul, li, a, text, div, section, h1, h2)
 import Html.Attributes exposing (class)
@@ -137,27 +137,7 @@ view model =
         ]
 
 
-update : Msg -> Model Msg -> Model Msg
-update msg model =
-    case msg of
-        Noop ->
-            model
-
-        SelectState stateId ->
-            { model | selectedStateId = Just stateId }
-
-        SelectStory storyId ->
-            { model | selectedStoryId = Just storyId }
-
-
-storybook model =
-    Html.beginnerProgram
-        { model = model
-        , view = view
-        , update = update
-        }
-
-
+renderStory : Maybe String -> (a -> Html Msg) -> List ( String, a ) -> Html Msg
 renderStory selectedStateId storyView storyStates =
     let
         menu =

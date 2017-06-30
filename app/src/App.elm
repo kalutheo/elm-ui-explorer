@@ -1,6 +1,6 @@
 module App exposing (..)
 
-import StoryBook.View exposing (storybook)
+import StoryBook.Index exposing (storybook)
 import Atom.Button as Button
 import Atom.Toast as Toast
 import Atom.Collapsible as Collapsible
