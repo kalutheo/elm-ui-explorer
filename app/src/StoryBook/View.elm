@@ -137,15 +137,16 @@ view model =
         ]
 
 
+renderState : ( String, a ) -> Html Msg
+renderState ( id, state ) =
+    li [ onClick (SelectState id) ] [ text id ]
+
+
 renderStory : Maybe String -> (a -> Html Msg) -> List ( String, a ) -> Html Msg
 renderStory selectedStateId storyView storyStates =
     let
         menu =
-            ul []
-                (List.map
-                    (\state -> li [ onClick (SelectState (Tuple.first state)) ] [ text (Tuple.first state) ])
-                    storyStates
-                )
+            ul [] (List.map renderState storyStates)
 
         dictStates =
             Dict.fromList storyStates
