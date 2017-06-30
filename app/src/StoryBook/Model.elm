@@ -4,7 +4,7 @@ import Html exposing (Html)
 
 
 type alias Story msg =
-    { id : StoryId
+    { id : String
     , description : String
     , view : Html msg
     }
@@ -16,11 +16,5 @@ type alias Stories msg =
 
 type alias Model msg =
     { stories : Stories msg
-    , selectedStoryId : StoryId
+    , selectedStoryId : String
     }
-
-
-type StoryId
-    = CustomButton
-    | Toast
-    | None

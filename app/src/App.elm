@@ -27,16 +27,16 @@ update msg model =
 model : Model Msg
 model =
     { stories =
-        [ { id = CustomButton
+        [ { id = "CustomButton"
           , description = "a simple button"
           , view = Button.story
           }
-        , { id = Toast
+        , { id = "Toast"
           , description = "a simple toast"
           , view = Toast.story
           }
         ]
-    , selectedStoryId = None
+    , selectedStoryId = ""
     }
 
 
