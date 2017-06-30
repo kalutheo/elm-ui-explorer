@@ -16,7 +16,7 @@ update msg model =
             { model | selectedStateId = Just stateId }
 
         SelectStory storyId ->
-            { model | selectedStoryId = Just storyId }
+            { model | selectedStoryId = Just storyId, selectedStateId = Nothing }
 
 
 storybook : Stories Msg -> Program Never (Model Msg) Msg
