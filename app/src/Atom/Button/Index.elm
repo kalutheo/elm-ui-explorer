@@ -1,7 +1,6 @@
 module Atom.Button.Index exposing (..)
 
 import Html exposing (Html, text, button)
-import Storybook.Msg exposing (Msg)
 import Elegant exposing (..)
 import Atom.System exposing (..)
 
@@ -10,10 +9,16 @@ type alias ButtonModel =
     { label : String, isLarge : Bool }
 
 
-type alias ButtonViewModel =
+type alias ButtonViewModel msg =
     { label : String
     , isLoading : Bool
-    , buttonStyle : Html.Attribute Msg
+    , buttonStyle : Html.Attribute msg
+    }
+
+
+sizes =
+    { largeWidth = 14
+    , tinyWidth = 10
     }
 
 
@@ -29,29 +34,26 @@ styles =
     }
 
 
-selectorButton : ButtonModel -> ButtonViewModel
+selectorButton : ButtonModel -> ButtonViewModel msg
 selectorButton model =
     let
-        label =
-            ">>" ++ model.label
-
         buttonWidth =
             if model.isLarge then
-                14
+                sizes.largeWidth
             else
-                10
+                sizes.tinyWidth
 
         buttonStyle =
             style (List.append styles.base [ width (Em buttonWidth) ])
     in
-        { label = label, isLoading = False, buttonStyle = buttonStyle }
+        { label = model.label, isLoading = False, buttonStyle = buttonStyle }
 
 
-viewButton : ButtonViewModel -> Html Msg
+viewButton : ButtonViewModel msg -> Html msg
 viewButton model =
     button [ model.buttonStyle ] [ text model.label ]
 
 
-customButton : ButtonModel -> Html Msg
+customButton : ButtonModel -> Html msg
 customButton =
     viewButton << selectorButton
