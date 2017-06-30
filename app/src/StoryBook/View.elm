@@ -4,7 +4,7 @@ import Html exposing (Html, aside, ul, li, a, text, div, section, h1, h2)
 import Html.Attributes exposing (class)
 import Html.Events exposing (onClick)
 import StoryBook.Model exposing (..)
-import StoryBook.Update exposing (..)
+import Storybook.Message exposing (..)
 import Elegant exposing (..)
 import Color exposing (..)
 import Dict
@@ -105,6 +105,57 @@ viewMenu stories selectedStoryId =
         [ ul [ class "menu-list" ]
             (List.map (viewMenuItem selectedStoryId) stories)
         ]
+
+
+viewContent : Model Msg -> Html Msg
+viewContent model =
+    model.stories
+        |> List.filter
+            (\story ->
+                case model.selectedStoryId of
+                    Just id ->
+                        story.id == id
+
+                    Nothing ->
+                        False
+            )
+        |> List.map (\s -> s.view model.selectedStateId)
+        |> List.head
+        |> Maybe.withDefault (div [] [ text "A simple storybook POC in ELM" ])
+
+
+view : Model Msg -> Html Msg
+view model =
+    div []
+        [ viewHeader
+        , div [ class "columns is-mobile" ]
+            [ viewSidebar model
+            , div [ class "column is-three-quarters" ]
+                [ viewContent model
+                ]
+            ]
+        ]
+
+
+update : Msg -> Model Msg -> Model Msg
+update msg model =
+    case msg of
+        Noop ->
+            model
+
+        SelectState stateId ->
+            { model | selectedStateId = Just stateId }
+
+        SelectStory storyId ->
+            { model | selectedStoryId = Just storyId }
+
+
+storybook model =
+    Html.beginnerProgram
+        { model = model
+        , view = view
+        , update = update
+        }
 
 
 renderStory selectedStateId storyView storyStates =

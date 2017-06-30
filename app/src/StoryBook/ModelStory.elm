@@ -1,7 +1,7 @@
 module StoryBook.ModelStory exposing (..)
 
 import Html exposing (Html)
-import StoryBook.Update exposing (Msg)
+import Storybook.Message exposing (Msg)
 
 
 type alias Story =
