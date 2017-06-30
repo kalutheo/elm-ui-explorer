@@ -107,18 +107,16 @@ viewMenu stories selectedStoryId =
         ]
 
 
+filterSelectedStory : Story Msg -> Model Msg -> Bool
+filterSelectedStory story model =
+    Maybe.map (\id -> story.id == id) model.selectedStoryId
+        |> Maybe.withDefault False
+
+
 viewContent : Model Msg -> Html Msg
 viewContent model =
     model.stories
-        |> List.filter
-            (\story ->
-                case model.selectedStoryId of
-                    Just id ->
-                        story.id == id
-
-                    Nothing ->
-                        False
-            )
+        |> List.filter (\story -> filterSelectedStory story model)
         |> List.map (\s -> s.view model.selectedStateId)
         |> List.head
         |> Maybe.withDefault (div [] [ text "A simple storybook POC in ELM" ])
