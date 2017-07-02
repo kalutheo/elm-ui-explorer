@@ -2,6 +2,7 @@ module Atom.Button.Story exposing (..)
 
 import StoryBook.View exposing (renderStory)
 import Atom.Button.Index exposing (customButton, ButtonModel)
+import Util exposing (..)
 
 
 stories : List ( String, ButtonModel )
@@ -12,4 +13,4 @@ stories =
 
 
 story selectedStateId =
-    renderStory selectedStateId customButton stories
+    renderStory selectedStateId customButton stories emptyMsg emptyDiv

@@ -1,4 +1,4 @@
-module StoryBook.View exposing (view, renderStory)
+module StoryBook.View exposing (..)
 
 import Html exposing (Html, aside, ul, li, a, text, div, section, h1, h2, node)
 import Html.Attributes exposing (class, rel, href)
@@ -131,7 +131,6 @@ view model =
                 [ viewContent model
                 ]
             ]
-        , css "https://cdnjs.cloudflare.com/ajax/libs/bulma/0.4.2/css/bulma.css"
         ]
 
 
@@ -140,8 +139,7 @@ renderState ( id, state ) =
     li [ onClick (SelectState id) ] [ text id ]
 
 
-renderStory : Maybe String -> (a -> Html Msg) -> List ( String, a ) -> Html Msg
-renderStory selectedStateId storyView storyStates =
+renderStory selectedStateId storyView storyStates toMap wrapper =
     let
         menu =
             ul [] (List.map renderState storyStates)
@@ -157,14 +155,9 @@ renderStory selectedStateId storyView storyStates =
         content =
             case currentStates |> List.head of
                 Just ( id, state ) ->
-                    storyView state
+                    Html.map toMap (storyView state) |> wrapper
 
                 Nothing ->
                     text "Include somes states in your story..."
     in
         div [] [ menu, content ]
-
-
-css : String -> Html a
-css path =
-    node "link" [ rel "stylesheet", href path ] []
