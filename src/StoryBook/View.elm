@@ -13,7 +13,10 @@ sizes =
     { commonMargin = 40
     , headerHeight = 100
     , headerMargin = 20
+    , stateNavigationMargin = 20
+    , stateButtonsMargin = 10
     , sidebarWidth = 200
+    , storyContentPadding = 10
     }
 
 
@@ -36,6 +39,9 @@ styles =
             ]
     , sidebarItem = style [ width (Px sizes.sidebarWidth) ]
     , sidebarItemLink = style [ paddingLeft (Px sizes.commonMargin) ]
+    , stateNavigation = style [ margin (Px sizes.stateNavigationMargin) ]
+    , stateButton = style [ marginRight (Px sizes.stateButtonsMargin) ]
+    , storyContent = style [ paddingLeft (Px sizes.storyContentPadding) ]
     , header =
         style
             [ height (Px sizes.headerHeight)
@@ -136,13 +142,13 @@ view model =
 
 renderState : ( String, a ) -> Html Msg
 renderState ( id, state ) =
-    li [ onClick (SelectState id) ] [ text id ]
+    li [ styles.stateButton, onClick (SelectState id), class "button" ] [ text id ]
 
 
 renderStory selectedStateId storyView storyStates toMap wrapper =
     let
         menu =
-            ul [] (List.map renderState storyStates)
+            ul [ styles.stateNavigation ] (List.map renderState storyStates)
 
         currentStates =
             case selectedStateId of
@@ -160,4 +166,4 @@ renderStory selectedStateId storyView storyStates toMap wrapper =
                 Nothing ->
                     text "Include somes states in your story..."
     in
-        div [] [ menu, content ]
+        div [] [ menu, div [ styles.storyContent ] [ content ] ]
