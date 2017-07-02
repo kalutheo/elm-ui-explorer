@@ -39,7 +39,7 @@ styles =
             ]
     , sidebarItem = style [ width (Px sizes.sidebarWidth) ]
     , sidebarItemLink = style [ paddingLeft (Px sizes.commonMargin) ]
-    , stateNavigation = style [ margin (Px sizes.stateNavigationMargin) ]
+    , stateNavigation = style [ margin (Px sizes.stateNavigationMargin), marginLeft (Px sizes.stateButtonsMargin) ]
     , stateButton = style [ marginRight (Px sizes.stateButtonsMargin) ]
     , storyContent = style [ paddingLeft (Px sizes.storyContentPadding) ]
     , header =
