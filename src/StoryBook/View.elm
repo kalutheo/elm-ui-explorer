@@ -1,7 +1,7 @@
 module StoryBook.View exposing (..)
 
 import Html exposing (Html, aside, ul, li, a, text, div, section, h1, h2, node)
-import Html.Attributes exposing (class, rel, href)
+import Html.Attributes exposing (class, rel, href, classList)
 import Html.Events exposing (onClick)
 import StoryBook.Model exposing (..)
 import Storybook.Msg exposing (..)
@@ -140,15 +140,22 @@ view model =
         ]
 
 
-renderState : ( String, a ) -> Html Msg
-renderState ( id, state ) =
-    li [ styles.stateButton, onClick (SelectState id), class "button" ] [ text id ]
+renderState index selectedStateId ( id, state ) =
+    let
+        isActive =
+            Maybe.map (\theId -> id == theId) selectedStateId
+                |> Maybe.withDefault (index == 0)
+
+        buttonClass =
+            classList [ ( "button", True ), ( "is-primary", isActive ) ]
+    in
+        li [ styles.stateButton, onClick (SelectState id), buttonClass ] [ text id ]
 
 
 renderStory selectedStateId storyView storyStates toMap wrapper =
     let
         menu =
-            ul [ styles.stateNavigation ] (List.map renderState storyStates)
+            ul [ styles.stateNavigation ] (List.indexedMap (\index -> renderState index selectedStateId) storyStates)
 
         currentStates =
             case selectedStateId of
