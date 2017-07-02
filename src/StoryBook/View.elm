@@ -1,13 +1,12 @@
 module StoryBook.View exposing (view, renderStory)
 
-import Html exposing (Html, aside, ul, li, a, text, div, section, h1, h2)
-import Html.Attributes exposing (class)
+import Html exposing (Html, aside, ul, li, a, text, div, section, h1, h2, node)
+import Html.Attributes exposing (class, rel, href)
 import Html.Events exposing (onClick)
 import StoryBook.Model exposing (..)
 import Storybook.Msg exposing (..)
 import Elegant exposing (..)
 import Color exposing (..)
-import Dict
 
 
 sizes =
@@ -132,6 +131,7 @@ view model =
                 [ viewContent model
                 ]
             ]
+        , css "https://cdnjs.cloudflare.com/ajax/libs/bulma/0.4.2/css/bulma.css"
         ]
 
 
@@ -163,3 +163,8 @@ renderStory selectedStateId storyView storyStates =
                     text "Include somes states in your story..."
     in
         div [] [ menu, content ]
+
+
+css : String -> Html a
+css path =
+    node "link" [ rel "stylesheet", href path ] []

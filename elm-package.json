@@ -3,7 +3,7 @@
 	"summary": "A simple storybook for ELM inspired by React-Storybook",
 	"repository": "https://github.com/kalutheo/elm-simple-storybook.git",
 	"license": "BSD3",
-	"source-directories": [".", "src/", "../../src"],
+	"source-directories": [".", "src/"],
 	"exposed-modules": [],
 	"dependencies": {
 		"elm-bodybuilder/elegant": "4.1.0 <= v < 5.0.0",
