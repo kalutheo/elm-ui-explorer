@@ -1,4 +1,13 @@
-module StoryBook.Index exposing (..)
+module StoryBook.Index exposing (storybook)
+
+{-|
+
+This library helps you create a simple storybook
+
+# Storybook
+@docs storybook
+
+-}
 
 import Html exposing (Html)
 import StoryBook.Model exposing (..)
@@ -19,6 +28,9 @@ update msg model =
             { model | selectedStoryId = Just storyId, selectedStateId = Nothing }
 
 
+{-| Generates a storybook Applicaton
+    storybook stories
+-}
 storybook : Stories Msg -> Program Never (Model Msg) Msg
 storybook stories =
     let
