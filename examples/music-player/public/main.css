@@ -1,3 +1,9 @@
+body {
+    background-color: #291720;
+    color: #f0edee;
+    font-family: Lato;
+}
+
 .musicPlayerApp {
     border-radius: 5px;
     box-shadow: 5px 10px 20px rgba(0, 0, 0, 0.3);

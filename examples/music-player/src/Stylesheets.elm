@@ -10,7 +10,9 @@ port files : CssFileStructure -> Cmd msg
 fileStructure : CssFileStructure
 fileStructure =
     Css.File.toFileStructure
-        [ ( "public/main.css", Css.File.compile [ MainCss.css ] ) ]
+        [ ( "public/main.css", Css.File.compile [ MainCss.css ] )
+        , ( "storybook/public/main.css", Css.File.compile [ MainCss.css ] )
+        ]
 
 
 main : CssCompilerProgram

@@ -2,7 +2,9 @@ module MainCss exposing (..)
 
 import Css exposing (..)
 import Css.Namespace exposing (namespace)
+import Css.Elements exposing (body)
 import Html.CssHelpers exposing (withNamespace)
+import Style.System exposing (colors, fonts, size)
 
 
 type CssClasses
@@ -26,16 +28,22 @@ appNameSpace =
 css : Stylesheet
 css =
     (stylesheet << namespace appNameSpace.name)
-        [ class App
+        [ body
+            [ backgroundColor colors.primary
+            , color colors.light
+            , fontFamilies fonts.primary
+            ]
+        , class
+            App
             [ borderRadius (px 5)
             , boxShadow4 (px 5) (px 10) (px 20) (rgba 0 0 0 0.3)
             , overflow hidden
-            , width (px 280)
-            , height (px 400)
+            , width size.artworkSize
+            , height size.playerHeight
             ]
         , class Artwork
-            [ width (px 280)
-            , height (px 280)
+            [ width size.artworkSize
+            , height size.artworkSize
             , backgroundSize cover
             , position relative
             ]
@@ -45,7 +53,7 @@ css =
             , left zero
             , width (pct 100)
             , displayFlex
-            , height (px 280)
+            , height size.artworkSize
             , boxSizing borderBox
             , backgroundColor (rgba 41 23 32 0.3)
             , justifyContent spaceAround
@@ -70,25 +78,25 @@ css =
             , fontWeight (int 300)
             , cursor pointer
             , hover
-                [ backgroundColor (hex "#39202d")
+                [ backgroundColor colors.selected
                 , cursor pointer
-                , color (hex "#d90368")
+                , color colors.warm
                 , children
                     [ class TrackDuration [ property "opacity" "1" ]
                     ]
                 ]
             ]
         , class TrackList
-            [ width (px 280)
+            [ width size.artworkSize
             , height (px 120)
-            , backgroundColor (hex "#4a293a")
+            , backgroundColor colors.secondary
             , overflowY auto
             , padding zero
             ]
         , class TrackSelected
-            [ backgroundColor (hex "#39202d")
+            [ backgroundColor colors.selected
             , cursor default
-            , color (hex "#d90368")
+            , color colors.warm
             , children
                 [ class TrackDuration [ property "opacity" "1" ]
                 ]
