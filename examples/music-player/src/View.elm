@@ -1,37 +1,42 @@
 module View exposing (..)
 
 import Html exposing (text, Html, div, i, ul, li)
-import Html.Attributes exposing (class, attribute, id, classList)
+import Html.Attributes exposing (class, attribute, classList)
 import Html.Events exposing (onClick)
 import Msg exposing (..)
 import Model exposing (Model, Track)
-import String.Extra exposing (ellipsis)
+import String.Extra
 import Utils exposing (..)
+import MainCss exposing (..)
+
+
+{ class, classList } =
+    appNameSpace
 
 
 trackView : Int -> Track -> Bool -> Html Msg
 trackView index track isSelected =
     let
         classNames =
-            classList [ ( "selected", isSelected ) ]
+            classList [ ( TrackSelected, isSelected ) ]
     in
-        li [ onClick <| SelectTrack track, classNames ]
-            [ div [ class "number" ]
-                [ text <| toString (index + 1) ]
-            , div [ class "title" ]
-                [ text <| ellipsis 28 track.name ]
-            , div [ class "duration" ]
-                [ text <| (track.duration |> toFloat |> msToTime) ]
+        li [ class [ TrackItem ], onClick <| SelectTrack track, classNames ]
+            [ div [ class [ TrackNumber ] ]
+                [ Html.text <| toString (index + 1) ]
+            , div [ class [ TrackTitle ] ]
+                [ Html.text <| String.Extra.ellipsis 28 track.name ]
+            , div [ class [ TrackDuration ] ]
+                [ Html.text <| (track.duration |> toFloat |> msToTime) ]
             ]
 
 
 playPauseView : Model -> Html Msg
 playPauseView model =
     if model.isPlaying then
-        i [ class "fa fa-fw fa-pause", id "pause", onClick Pause ]
+        i [ class [ ControlIcon ], Html.Attributes.class "fa fa-fw fa-pause", onClick Pause ]
             []
     else
-        i [ class "fa fa-fw fa-play", id "play", onClick Play ]
+        i [ class [ ControlIcon ], Html.Attributes.class "fa fa-fw fa-play", onClick Play ]
             []
 
 
@@ -47,18 +52,18 @@ trackListView model =
                 trackView i track (isSelected track)
             )
     in
-        ul [ class "TrackList" ] (List.indexedMap listItem model.album.playlist)
+        ul [ class [ TrackList ] ] (List.indexedMap listItem model.album.playlist)
 
 
 view : Model -> Html Msg
 view model =
-    div [ class "App", attribute "data-reactroot" "" ]
-        [ div [ class "Artwork", attribute "style" "background-image: url('https://i.scdn.co/image/d025af49bb84dbb26393f42ff9646f1c748c3035');" ]
-            [ div [ class "Controls" ]
-                [ i [ class "fa fa-fw fa-fast-backward", onClick Previous ]
+    div [ class [ App ] ]
+        [ div [ class [ Artwork ], attribute "style" "background-image: url('https://i.scdn.co/image/d025af49bb84dbb26393f42ff9646f1c748c3035');" ]
+            [ div [ class [ Controls ] ]
+                [ i [ class [ ControlIcon ], Html.Attributes.class "fa fa-fw fa-fast-backward", onClick Previous ]
                     []
                 , playPauseView model
-                , i [ class "fa fa-fw fa-fast-forward", onClick Next ]
+                , i [ class [ ControlIcon ], Html.Attributes.class "fa fa-fw fa-fast-forward", onClick Next ]
                     []
                 ]
             ]

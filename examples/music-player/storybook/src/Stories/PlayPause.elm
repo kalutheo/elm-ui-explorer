@@ -30,13 +30,7 @@ stories =
 
 
 wrapper children =
-    div [ class "App" ]
-        [ div [ class "Artwork" ]
-            [ div [ class "Controls" ]
-                [ children
-                ]
-            ]
-        ]
+    div [] [ children ]
 
 
 story selectedStateId =
