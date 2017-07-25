@@ -1,6 +1,6 @@
 module StoryBook.View exposing (..)
 
-import Html exposing (Html, aside, ul, li, a, text, div, section, h1, h2, node)
+import Html exposing (Html, aside, ul, li, a, text, div, section, h1, h2, node, article)
 import Html.Attributes exposing (class, rel, href, classList)
 import Html.Events exposing (onClick)
 import StoryBook.Model exposing (..)
@@ -42,6 +42,15 @@ styles =
     , stateNavigation = style [ margin (Px sizes.stateNavigationMargin), marginLeft (Px sizes.stateButtonsMargin) ]
     , stateButton = style [ marginRight (Px sizes.stateButtonsMargin) ]
     , storyContent = style [ paddingLeft (Px sizes.storyContentPadding) ]
+    , description =
+        style
+            [ margin (Px sizes.storyContentPadding)
+            , paddingTop (Px sizes.storyContentPadding)
+            , marginTop (Px (sizes.storyContentPadding * 4))
+            , borderTopSolid
+            , borderTopWidth 1
+            , borderTopColor gray
+            ]
     , header =
         style
             [ height (Px sizes.headerHeight)
@@ -50,6 +59,9 @@ styles =
             , borderBottomWidth 1
             , borderBottomColor white
             ]
+    , welcome =
+        style
+            [ margin (Px sizes.storyContentPadding) ]
     }
 
 
@@ -120,11 +132,20 @@ filterSelectedStory story model =
 
 viewContent : Model Msg -> Html Msg
 viewContent model =
-    model.stories
-        |> List.filter (\story -> filterSelectedStory story model)
-        |> List.map (\s -> s.view model.selectedStateId)
-        |> List.head
-        |> Maybe.withDefault (div [] [ text "A simple storybook POC in ELM" ])
+    let
+        filteredStories =
+            model.stories |> List.filter (\story -> filterSelectedStory story model)
+    in
+        div []
+            [ filteredStories
+                |> List.map (\s -> s.view model.selectedStateId)
+                |> List.head
+                |> Maybe.withDefault (div [ styles.welcome ] [ text "A simple storybook POC in ELM" ])
+            , article []
+                (filteredStories
+                    |> List.map (\s -> div [ styles.description ] [ text s.description ])
+                )
+            ]
 
 
 view : Model Msg -> Html Msg
@@ -173,4 +194,7 @@ renderStory selectedStateId storyView storyStates toMap wrapper =
                 Nothing ->
                     text "Include somes states in your story..."
     in
-        div [] [ menu, div [ styles.storyContent ] [ content ] ]
+        div []
+            [ menu
+            , div [ styles.storyContent ] [ content ]
+            ]
