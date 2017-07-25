@@ -55,17 +55,22 @@ trackListView model =
         ul [ class [ TrackList ] ] (List.indexedMap listItem model.album.playlist)
 
 
+controlsView : Model -> Html Msg
+controlsView model =
+    div [ class [ Artwork ], attribute "style" "background-image: url('https://i.scdn.co/image/d025af49bb84dbb26393f42ff9646f1c748c3035');" ]
+        [ div [ class [ Controls ] ]
+            [ i [ class [ ControlIcon ], Html.Attributes.class "fa fa-fw fa-fast-backward", onClick Previous ]
+                []
+            , playPauseView model
+            , i [ class [ ControlIcon ], Html.Attributes.class "fa fa-fw fa-fast-forward", onClick Next ]
+                []
+            ]
+        ]
+
+
 view : Model -> Html Msg
 view model =
     div [ class [ App ] ]
-        [ div [ class [ Artwork ], attribute "style" "background-image: url('https://i.scdn.co/image/d025af49bb84dbb26393f42ff9646f1c748c3035');" ]
-            [ div [ class [ Controls ] ]
-                [ i [ class [ ControlIcon ], Html.Attributes.class "fa fa-fw fa-fast-backward", onClick Previous ]
-                    []
-                , playPauseView model
-                , i [ class [ ControlIcon ], Html.Attributes.class "fa fa-fw fa-fast-forward", onClick Next ]
-                    []
-                ]
-            ]
+        [ controlsView model
         , trackListView model
         ]

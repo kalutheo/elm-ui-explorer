@@ -1,10 +1,7 @@
-body {
+.musicPlayerApp {
     background-color: #291720;
     color: #f0edee;
     font-family: Lato;
-}
-
-.musicPlayerApp {
     border-radius: 5px;
     box-shadow: 5px 10px 20px rgba(0, 0, 0, 0.3);
     overflow: hidden;
@@ -21,6 +18,7 @@ body {
 
 .musicPlayerControls {
     position: absolute;
+    color: #f0edee;
     bottom: 0;
     left: 0;
     width: 100%;
@@ -52,6 +50,7 @@ body {
     text-transform: uppercase;
     font-weight: 300;
     cursor: pointer;
+    color: #f0edee;
 }
 
 .musicPlayerTrackItem:hover {

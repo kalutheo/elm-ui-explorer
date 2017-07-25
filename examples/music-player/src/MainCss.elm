@@ -29,13 +29,13 @@ css : Stylesheet
 css =
     (stylesheet << namespace appNameSpace.name)
         [ body
+            []
+        , class
+            App
             [ backgroundColor colors.primary
             , color colors.light
             , fontFamilies fonts.primary
-            ]
-        , class
-            App
-            [ borderRadius (px 5)
+            , borderRadius (px 5)
             , boxShadow4 (px 5) (px 10) (px 20) (rgba 0 0 0 0.3)
             , overflow hidden
             , width size.artworkSize
@@ -49,6 +49,7 @@ css =
             ]
         , class Controls
             [ position absolute
+            , color colors.light
             , bottom zero
             , left zero
             , width (pct 100)
@@ -77,6 +78,7 @@ css =
             , textTransform uppercase
             , fontWeight (int 300)
             , cursor pointer
+            , color colors.light
             , hover
                 [ backgroundColor colors.selected
                 , cursor pointer
