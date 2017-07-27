@@ -9,11 +9,11 @@ import Stories.TrackList as TrackList
 main =
     storybook
         [ { id = "PlayPause"
-          , description = "a simple playPause Button"
+          , description = "A simple play/pause button"
           , view = PlayPause.story
           }
         , { id = "Controls"
-          , description = "music player Controls"
+          , description = "Music player controls"
           , view = Controls.story
           }
         , { id = "TrackList"
