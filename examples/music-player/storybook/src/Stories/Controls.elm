@@ -1,9 +1,9 @@
-module Stories.PlayPause exposing (..)
+module Stories.Controls exposing (..)
 
 import Html exposing (Html, div, ul, text)
 import Html.Attributes exposing (class)
 import StoryBook.View exposing (renderStory)
-import View exposing (playPauseView)
+import View exposing (controlsView)
 import Model exposing (Model)
 import Storybook.Msg exposing (..)
 
@@ -34,4 +34,4 @@ wrapper children =
 
 
 story selectedStateId =
-    renderStory selectedStateId playPauseView stories (\_ -> Noop) wrapper
+    renderStory selectedStateId controlsView stories (\_ -> Noop) wrapper

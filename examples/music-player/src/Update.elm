@@ -11,7 +11,9 @@ init : ( Model, Cmd Msg )
 init =
     let
         firstTrack =
-            Array.fromList model.album.playlist |> Array.get 0
+            model.album.playlist
+                |> Array.fromList
+                |> Array.get 0
     in
         case firstTrack of
             Nothing ->
