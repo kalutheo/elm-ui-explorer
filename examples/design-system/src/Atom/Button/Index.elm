@@ -6,7 +6,7 @@ import Atom.System exposing (..)
 
 
 type alias ButtonModel =
-    { label : String, isLarge : Bool }
+    { label : String, isLarge : Bool, isPrimary : Bool }
 
 
 type alias ButtonViewModel msg =
@@ -26,6 +26,7 @@ styles =
     { base =
         [ backgroundColor colors.primary
         , textColor colors.light
+        , fontSize (Px 15)
         , borderRadius 10
         , margin medium
         , borderWidth 0
@@ -34,19 +35,39 @@ styles =
     }
 
 
-selectorButton : ButtonModel -> ButtonViewModel msg
-selectorButton model =
+applyColor isPrimary baseStyle =
+    let
+        bgColor =
+            if isPrimary then
+                colors.primary
+            else
+                colors.secondary
+    in
+        baseStyle ++ [ backgroundColor bgColor ]
+
+
+applySize isLarge baseStyle =
     let
         buttonWidth =
-            if model.isLarge then
+            if isLarge then
                 sizes.largeWidth
             else
                 sizes.tinyWidth
-
-        buttonStyle =
-            style (List.append styles.base [ width (Em buttonWidth) ])
     in
-        { label = model.label, isLoading = False, buttonStyle = buttonStyle }
+        baseStyle ++ [ width (Em buttonWidth) ]
+
+
+selectorButton : ButtonModel -> ButtonViewModel msg
+selectorButton model =
+    { label = model.label
+    , isLoading = False
+    , buttonStyle =
+        style
+            (styles.base
+                |> applyColor model.isPrimary
+                |> applySize model.isLarge
+            )
+    }
 
 
 viewButton : ButtonViewModel msg -> Html msg

@@ -41,8 +41,9 @@ selectorToast model =
         toastStyle =
             style
                 [ backgroundColor toastColor
-                , border black
+                , border white
                 , textColor white
+                , width (Px 400)
                 , padding medium
                 , margin medium
                 ]

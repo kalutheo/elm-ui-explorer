@@ -14,8 +14,8 @@ hexToColor color =
 
 
 colors =
-    { primary = hexToColor "#723d46"
-    , secondary = hexToColor "#472d30"
+    { primary = hexToColor "#db7093"
+    , secondary = hexToColor "#ff6347"
     , success = hexToColor "#c9cba3"
     , warning = hexToColor "#ffe1a8"
     , danger = hexToColor "#e26d5c"
