@@ -6,8 +6,10 @@ import Atom.Button.Index exposing (customButton, ButtonModel)
 
 stories : List ( String, ButtonModel )
 stories =
-    [ ( "Large", { label = "Large", isLarge = True } )
-    , ( "Tiny", { label = "Tiny", isLarge = False } )
+    [ ( "LargePrimary", { label = "Primary", isLarge = True, isPrimary = True } )
+    , ( "TinyPrimary", { label = "Primary", isLarge = False, isPrimary = True } )
+    , ( "LargeSecondary", { label = "Secondary", isLarge = True, isPrimary = False } )
+    , ( "TinySecondary", { label = "Secondary", isLarge = False, isPrimary = False } )
     ]
 
 
