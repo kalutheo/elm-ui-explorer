@@ -1,6 +1,6 @@
 module StoryBook.View exposing (..)
 
-import Html exposing (Html, aside, ul, li, a, text, div, section, h1, h2, node)
+import Html exposing (Html, aside, ul, li, a, text, div, section, h1, h2, node, span)
 import Html.Attributes exposing (class, rel, href, classList)
 import Html.Events exposing (onClick)
 import StoryBook.Model exposing (..)
@@ -17,6 +17,7 @@ sizes =
     , stateButtonsMargin = 10
     , sidebarWidth = 200
     , storyContentPadding = 10
+    , welcomePadding = 20
     }
 
 
@@ -42,6 +43,7 @@ styles =
     , stateNavigation = style [ margin (Px sizes.stateNavigationMargin), marginLeft (Px sizes.stateButtonsMargin) ]
     , stateButton = style [ marginRight (Px sizes.stateButtonsMargin) ]
     , storyContent = style [ paddingLeft (Px sizes.storyContentPadding) ]
+    , welcome = style [ paddingTop (Px sizes.welcomePadding) ]
     , header =
         style
             [ height (Px sizes.headerHeight)
@@ -124,7 +126,12 @@ viewContent model =
         |> List.filter (\story -> filterSelectedStory story model)
         |> List.map (\s -> s.view model.selectedStateId)
         |> List.head
-        |> Maybe.withDefault (div [] [ text "A simple storybook POC in ELM" ])
+        |> Maybe.withDefault
+            (div []
+                [ h1 [ styles.welcome, class "title" ] [ text "Welcome" ]
+                , span [] [ text "Storybook is a development environment for UI components. It allows you to browse a component library, view the different states of each component, and interactively develop and test components." ]
+                ]
+            )
 
 
 view : Model Msg -> Html Msg
