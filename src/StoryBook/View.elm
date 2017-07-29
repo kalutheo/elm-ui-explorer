@@ -1,6 +1,6 @@
 module StoryBook.View exposing (..)
 
-import Html exposing (Html, aside, ul, li, a, text, div, section, h1, h2, node, article)
+import Html exposing (Html, aside, ul, li, a, text, div, section, h1, h2, node, span)
 import Html.Attributes exposing (class, rel, href, classList)
 import Html.Events exposing (onClick)
 import StoryBook.Model exposing (..)
@@ -16,7 +16,9 @@ sizes =
     , stateNavigationMargin = 20
     , stateButtonsMargin = 10
     , sidebarWidth = 200
+    , sidebarMenuPadding = 30
     , storyContentPadding = 10
+    , welcomePadding = 20
     }
 
 
@@ -39,18 +41,10 @@ styles =
             ]
     , sidebarItem = style [ width (Px sizes.sidebarWidth) ]
     , sidebarItemLink = style [ paddingLeft (Px sizes.commonMargin) ]
+    , sidebarMenu = style [ paddingTop (Px sizes.sidebarMenuPadding) ]
     , stateNavigation = style [ margin (Px sizes.stateNavigationMargin), marginLeft (Px sizes.stateButtonsMargin) ]
     , stateButton = style [ marginRight (Px sizes.stateButtonsMargin) ]
     , storyContent = style [ paddingLeft (Px sizes.storyContentPadding) ]
-    , description =
-        style
-            [ margin (Px sizes.storyContentPadding)
-            , paddingTop (Px sizes.storyContentPadding)
-            , marginTop (Px (sizes.storyContentPadding * 4))
-            , borderTopSolid
-            , borderTopWidth 1
-            , borderTopColor gray
-            ]
     , header =
         style
             [ height (Px sizes.headerHeight)
@@ -61,7 +55,10 @@ styles =
             ]
     , welcome =
         style
-            [ margin (Px sizes.storyContentPadding) ]
+            [ margin (Px sizes.storyContentPadding)
+            , marginLeft (Px 0)
+            , paddingTop (Px sizes.welcomePadding)
+            ]
     }
 
 
@@ -72,7 +69,7 @@ viewSidebar model =
             [ styles.sidebar
             ]
             []
-        , viewMenu model.stories model.selectedStoryId
+        , div [ styles.sidebarMenu ] [ viewMenu model.stories model.selectedStoryId ]
         ]
 
 
@@ -132,20 +129,16 @@ filterSelectedStory story model =
 
 viewContent : Model Msg -> Html Msg
 viewContent model =
-    let
-        filteredStories =
-            model.stories |> List.filter (\story -> filterSelectedStory story model)
-    in
-        div []
-            [ filteredStories
-                |> List.map (\s -> s.view model.selectedStateId)
-                |> List.head
-                |> Maybe.withDefault (div [ styles.welcome ] [ text "A simple storybook POC in ELM" ])
-            , article []
-                (filteredStories
-                    |> List.map (\s -> div [ styles.description ] [ text s.description ])
-                )
-            ]
+    model.stories
+        |> List.filter (\story -> filterSelectedStory story model)
+        |> List.map (\s -> s.view model.selectedStateId)
+        |> List.head
+        |> Maybe.withDefault
+            (div []
+                [ h1 [ styles.welcome, class "title" ] [ text "Welcome" ]
+                , span [] [ text "Storybook is a development environment for UI components. It allows you to browse a component library, view the different states of each component, and interactively develop and test components." ]
+                ]
+            )
 
 
 view : Model Msg -> Html Msg
