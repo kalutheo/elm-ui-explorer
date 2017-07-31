@@ -1,8 +1,15 @@
 [
   {
     "name": "StoryBook",
-    "comment": "\n\nThis library helps you create a simple storybook\n\n# Storybook\n@docs storybook\n\n@docs renderStory\n\n",
-    "aliases": [],
+    "comment": "\n\nThis library helps you create a simple storybook\n\n# Storybook\n@docs storybook\n@docs renderStory\n@docs Story\n",
+    "aliases": [
+      {
+        "name": "Story",
+        "comment": " Item used to describe a Story\n",
+        "args": [],
+        "type": "{ id : String , description : String , view : Maybe.Maybe String -> Html.Html StoryBook.Msg }"
+      }
+    ],
     "types": [],
     "values": [
       {
@@ -13,7 +20,7 @@
       {
         "name": "storybook",
         "comment": " Generates a storybook Applicaton\n    storybook stories\n",
-        "type": "StoryBook.Stories StoryBook.Msg -> Platform.Program Basics.Never (StoryBook.Model StoryBook.Msg) StoryBook.Msg"
+        "type": "List StoryBook.Story -> Platform.Program Basics.Never StoryBook.Model StoryBook.Msg"
       }
     ],
     "generated-with-elm-version": "0.18.0"

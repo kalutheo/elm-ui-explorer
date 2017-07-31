@@ -1,4 +1,4 @@
-module StoryBook exposing (storybook, renderStory)
+module StoryBook exposing (storybook, renderStory, Story)
 
 {-|
 
@@ -6,9 +6,8 @@ This library helps you create a simple storybook
 
 # Storybook
 @docs storybook
-
 @docs renderStory
-
+@docs Story
 -}
 
 import Html exposing (Html)
@@ -34,29 +33,23 @@ type Msg
 
 {-| Item used to describe a Story
 -}
-type alias Story msg =
+type alias Story =
     { id : String
     , description : String
-    , view : Maybe String -> Html msg
+    , view : Maybe String -> Html Msg
     }
-
-
-{-| Item used to describe a List of stories
--}
-type alias Stories msg =
-    List (Story msg)
 
 
 {-| Model of the storybook
 -}
-type alias Model msg =
-    { stories : Stories msg
+type alias Model =
+    { stories : List Story
     , selectedStoryId : Maybe String
     , selectedStateId : Maybe String
     }
 
 
-update : Msg -> Model Msg -> Model Msg
+update : Msg -> Model -> Model
 update msg model =
     case msg of
         Noop ->
@@ -72,7 +65,7 @@ update msg model =
 {-| Generates a storybook Applicaton
     storybook stories
 -}
-storybook : Stories Msg -> Program Never (Model Msg) Msg
+storybook : List Story -> Program Never Model Msg
 storybook stories =
     let
         model =
@@ -148,7 +141,7 @@ styles =
     }
 
 
-viewSidebar : Model Msg -> Html Msg
+viewSidebar : Model -> Html Msg
 viewSidebar model =
     div [ class "column" ]
         [ div
@@ -176,7 +169,7 @@ viewHeader =
         ]
 
 
-viewMenuItem : Maybe String -> Story Msg -> Html Msg
+viewMenuItem : Maybe String -> Story -> Html Msg
 viewMenuItem selectedStoryId story =
     let
         isSelected =
@@ -199,7 +192,7 @@ viewMenuItem selectedStoryId story =
             ]
 
 
-viewMenu : Stories Msg -> Maybe String -> Html Msg
+viewMenu : List Story -> Maybe String -> Html Msg
 viewMenu stories selectedStoryId =
     aside [ class "menu", style [ marginTop (Px 0) ] ]
         [ ul [ class "menu-list" ]
@@ -207,13 +200,13 @@ viewMenu stories selectedStoryId =
         ]
 
 
-filterSelectedStory : Story Msg -> Model Msg -> Bool
+filterSelectedStory : Story -> Model -> Bool
 filterSelectedStory story model =
     Maybe.map (\id -> story.id == id) model.selectedStoryId
         |> Maybe.withDefault False
 
 
-viewContent : Model Msg -> Html Msg
+viewContent : Model -> Html Msg
 viewContent model =
     let
         filteredStories =
@@ -231,7 +224,7 @@ viewContent model =
             ]
 
 
-view : Model Msg -> Html Msg
+view : Model -> Html Msg
 view model =
     div []
         [ viewHeader
