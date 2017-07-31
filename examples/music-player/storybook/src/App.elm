@@ -1,6 +1,6 @@
 module App exposing (..)
 
-import StoryBook.Index exposing (storybook)
+import StoryBook exposing (storybook)
 import Stories.PlayPause as PlayPause
 import Stories.Controls as Controls
 import Stories.TrackList as TrackList

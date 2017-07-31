@@ -1,12 +1,95 @@
-module StoryBook.View exposing (..)
+module StoryBook exposing (storybook, renderStory)
 
+{-|
+
+This library helps you create a simple storybook
+
+# Storybook
+@docs storybook
+
+@docs renderStory
+
+-}
+
+import Html exposing (Html)
 import Html exposing (Html, aside, ul, li, a, text, div, section, h1, h2, node, article)
 import Html.Attributes exposing (class, rel, href, classList)
 import Html.Events exposing (onClick)
-import StoryBook.Model exposing (..)
-import Storybook.Msg exposing (..)
 import Elegant exposing (..)
 import Color exposing (..)
+
+
+{--Messages --}
+
+
+type Msg
+    = Noop
+    | SelectStory String
+    | SelectState String
+
+
+
+{--Model --}
+
+
+{-| Item used to describe a Story
+-}
+type alias Story msg =
+    { id : String
+    , description : String
+    , view : Maybe String -> Html msg
+    }
+
+
+{-| Item used to describe a List of stories
+-}
+type alias Stories msg =
+    List (Story msg)
+
+
+{-| Model of the storybook
+-}
+type alias Model msg =
+    { stories : Stories msg
+    , selectedStoryId : Maybe String
+    , selectedStateId : Maybe String
+    }
+
+
+update : Msg -> Model Msg -> Model Msg
+update msg model =
+    case msg of
+        Noop ->
+            model
+
+        SelectState stateId ->
+            { model | selectedStateId = Just stateId }
+
+        SelectStory storyId ->
+            { model | selectedStoryId = Just storyId, selectedStateId = Nothing }
+
+
+{-| Generates a storybook Applicaton
+    storybook stories
+-}
+storybook : Stories Msg -> Program Never (Model Msg) Msg
+storybook stories =
+    let
+        model =
+            { stories = stories
+            , selectedStoryId = Nothing
+            , selectedStateId = Nothing
+            }
+    in
+        Html.beginnerProgram
+            { model = model
+            , view = view
+            , update = update
+            }
+
+
+
+{--VIEW --}
 
 
 sizes =
@@ -173,8 +256,17 @@ renderState index selectedStateId ( id, state ) =
         li [ styles.stateButton, onClick (SelectState id), buttonClass ] [ text id ]
 
 
-renderStory selectedStateId storyView storyStates toMap wrapper =
+{-| Renders a Story
+-}
+renderStory : Maybe String -> (a -> Html msg) -> List ( String, a ) -> Html Msg
+renderStory selectedStateId storyView storyStates =
     let
+        wrapper children =
+            div [] [ children ]
+
+        toMap =
+            (\_ -> Noop)
+
         menu =
             ul [ styles.stateNavigation ] (List.indexedMap (\index -> renderState index selectedStateId) storyStates)
 
