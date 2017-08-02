@@ -1,7 +1,6 @@
 module Atom.Toast.Index exposing (..)
 
 import Html exposing (Html, text, div, span)
-import Storybook.Msg exposing (Msg)
 import Elegant exposing (..)
 import Elegant.Elements exposing (..)
 import Color exposing (..)
@@ -17,14 +16,14 @@ type alias ToastModel =
     { label : String, isShown : Bool, severity : Severity }
 
 
-type alias ToastViewModel =
+type alias ToastViewModel msg =
     { label : String
     , isShown : Bool
-    , toastStyle : Html.Attribute Msg
+    , toastStyle : Html.Attribute msg
     }
 
 
-selectorToast : ToastModel -> ToastViewModel
+selectorToast : ToastModel -> ToastViewModel msg
 selectorToast model =
     let
         toastColor =
@@ -53,7 +52,7 @@ selectorToast model =
         }
 
 
-viewToast : ToastViewModel -> Html Msg
+viewToast : ToastViewModel msg -> Html msg
 viewToast model =
     case model.isShown of
         True ->
@@ -63,6 +62,6 @@ viewToast model =
             div [ model.toastStyle ] []
 
 
-toast : ToastModel -> Html Msg
+toast : ToastModel -> Html msg
 toast =
     viewToast << selectorToast

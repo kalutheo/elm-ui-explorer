@@ -1,8 +1,7 @@
 module Atom.Toast.Story exposing (..)
 
 import Atom.Toast.Index exposing (..)
-import StoryBook.View exposing (renderStory)
-import Util exposing (..)
+import StoryBook exposing (renderStory)
 
 
 stories : List ( String, ToastModel )
@@ -14,4 +13,4 @@ stories =
 
 
 story selectedStateId =
-    renderStory selectedStateId toast stories emptyMsg emptyDiv
+    renderStory selectedStateId toast stories

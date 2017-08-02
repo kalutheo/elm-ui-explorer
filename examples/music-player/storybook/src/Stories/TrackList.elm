@@ -1,10 +1,9 @@
 module Stories.TrackList exposing (..)
 
 import Html exposing (Html, div, ul, text)
-import StoryBook.View exposing (renderStory)
+import StoryBook exposing (renderStory)
 import View exposing (trackListView)
 import Model exposing (Model, mockAlbum)
-import Storybook.Msg exposing (..)
 
 
 playlist =
@@ -35,4 +34,4 @@ wrapper children =
 
 
 story selectedStateId =
-    renderStory selectedStateId trackListView stories (\_ -> Noop) wrapper
+    renderStory selectedStateId trackListView stories

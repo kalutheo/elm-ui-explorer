@@ -2,10 +2,9 @@ module Stories.Controls exposing (..)
 
 import Html exposing (Html, div, ul, text)
 import Html.Attributes exposing (class)
-import StoryBook.View exposing (renderStory)
+import StoryBook exposing (renderStory)
 import View exposing (controlsView)
 import Model exposing (Model)
-import Storybook.Msg exposing (..)
 
 
 album =
@@ -29,9 +28,5 @@ stories =
     ]
 
 
-wrapper children =
-    div [] [ children ]
-
-
 story selectedStateId =
-    renderStory selectedStateId controlsView stories (\_ -> Noop) wrapper
+    renderStory selectedStateId controlsView stories

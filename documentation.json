@@ -1,49 +1,28 @@
 [
   {
-    "name": "StoryBook.Index",
-    "comment": "\n\nThis library helps you create a simple storybook\n\n# Storybook\n@docs storybook\n\n",
-    "aliases": [],
-    "types": [],
-    "values": [
-      {
-        "name": "storybook",
-        "comment": " Generates a storybook Applicaton\n    storybook stories\n",
-        "type": "StoryBook.Model.Stories Storybook.Msg.Msg -> Platform.Program Basics.Never (StoryBook.Model.Model Storybook.Msg.Msg) Storybook.Msg.Msg"
-      }
-    ],
-    "generated-with-elm-version": "0.18.0"
-  },
-  {
-    "name": "StoryBook.Model",
-    "comment": "\n\nStorybook datastructures\n\n# Story\n@docs Story\n\n# Stories\n@docs Stories\n\n# Model\n@docs Model\n",
+    "name": "StoryBook",
+    "comment": "\n\nThis library helps you create a simple storybook\n\n# Storybook\n@docs storybook\n@docs renderStory\n@docs Story\n",
     "aliases": [
-      {
-        "name": "Model",
-        "comment": " Model of the storybook\n",
-        "args": [
-          "msg"
-        ],
-        "type": "{ stories : StoryBook.Model.Stories msg , selectedStoryId : Maybe.Maybe String , selectedStateId : Maybe.Maybe String }"
-      },
-      {
-        "name": "Stories",
-        "comment": " Item used to describe a List of stories\n",
-        "args": [
-          "msg"
-        ],
-        "type": "List (StoryBook.Model.Story msg)"
-      },
       {
         "name": "Story",
         "comment": " Item used to describe a Story\n",
-        "args": [
-          "msg"
-        ],
-        "type": "{ id : String , description : String , view : Maybe.Maybe String -> Html.Html msg }"
+        "args": [],
+        "type": "{ id : String , description : String , view : Maybe.Maybe String -> Html.Html StoryBook.Msg }"
       }
     ],
     "types": [],
-    "values": [],
+    "values": [
+      {
+        "name": "renderStory",
+        "comment": " Renders a Story\n",
+        "type": "Maybe.Maybe String -> (a -> Html.Html msg) -> List ( String, a ) -> Html.Html StoryBook.Msg"
+      },
+      {
+        "name": "storybook",
+        "comment": " Generates a storybook Applicaton\n    storybook stories\n",
+        "type": "List StoryBook.Story -> Platform.Program Basics.Never StoryBook.Model StoryBook.Msg"
+      }
+    ],
     "generated-with-elm-version": "0.18.0"
   }
 ]
