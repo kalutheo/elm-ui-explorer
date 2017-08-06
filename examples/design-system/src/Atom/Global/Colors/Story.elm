@@ -1,8 +1,7 @@
 module Atom.Global.Colors.Story exposing (..)
 
 import Atom.Global.Colors.Index exposing (..)
-import StoryBook.View exposing (renderStory)
-import Util exposing (..)
+import StoryBook exposing (renderStory)
 import Atom.System exposing (..)
 
 
@@ -41,4 +40,4 @@ states =
 
 
 story selectedStateId =
-    renderStory selectedStateId view states emptyMsg emptyDiv
+    renderStory selectedStateId view states
