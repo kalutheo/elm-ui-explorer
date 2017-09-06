@@ -127,11 +127,10 @@ styles =
     , sidebarItemCategory =
         style
             [ width (Px sizes.sidebarWidth)
-            , backgroundColor (hexToColor "#1d8a7a")
             , borderBottomSolid
             , borderBottomWidth 1
-            , borderBottomColor (hexToColor "#FFF")
-            , textColor (hexToColor "#FFF")
+            , borderBottomColor (hexToColor "#999")
+            , textColor (hexToColor "#222")
             , width (Px sizes.sidebarWidth)
             , displayFlex
             , height (Px 40)
@@ -139,8 +138,16 @@ styles =
             , marginBottom (Px 0)
             , paddingLeft (Px sizes.categoryPadding)
             ]
-    , sidebarItemLink = style [ paddingLeft (Px sizes.commonMargin) ]
-    , stateNavigation = style [ margin (Px sizes.stateNavigationMargin), marginLeft (Px sizes.stateButtonsMargin) ]
+    , sidebarItemLink =
+        style
+            [ paddingLeft (Px sizes.commonMargin)
+            , textColor (hexToColor "#666")
+            ]
+    , stateNavigation =
+        style
+            [ margin (Px sizes.stateNavigationMargin)
+            , marginLeft (Px sizes.stateButtonsMargin)
+            ]
     , stateButton = style [ marginRight (Px sizes.stateButtonsMargin) ]
     , storyContent = style [ paddingLeft (Px sizes.storyContentPadding) ]
     , description =
