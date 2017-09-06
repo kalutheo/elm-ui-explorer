@@ -243,11 +243,11 @@ filterSelectedStory story model =
 viewContent : Model -> Html Msg
 viewContent model =
     let
-        stories =
-            model.stories |> List.map Tuple.second |> List.foldr (++) []
-
         filteredStories =
-            stories |> List.filter (\story -> filterSelectedStory story model)
+            model.stories
+                |> List.map Tuple.second
+                |> List.foldr (++) []
+                |> List.filter (\story -> filterSelectedStory story model)
     in
         div []
             [ filteredStories
