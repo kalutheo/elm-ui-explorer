@@ -1,10 +1,22 @@
 module StoryBook exposing (storybook, renderStory, Story)
 
-import Html exposing (Html, aside, ul, li, a, text, div, section, h1, h2, node, span)
+{-|
+
+This library helps you create a simple storybook
+
+# Storybook
+@docs storybook
+@docs renderStory
+@docs Story
+-}
+
+import Html exposing (Html)
+import Html exposing (Html, aside, ul, li, a, text, div, section, h1, h2, node, article)
 import Html.Attributes exposing (class, rel, href, classList)
 import Html.Events exposing (onClick)
 import Elegant exposing (..)
 import Color exposing (..)
+import Atom.System exposing (hexToColor)
 
 
 {--Messages --}
@@ -29,10 +41,18 @@ type alias Story =
     }
 
 
+type alias StoryCategory =
+    ( String, List Story )
+
+
+type alias StoryCollection =
+    List StoryCategory
+
+
 {-| Model of the storybook
 -}
 type alias Model =
-    { stories : List Story
+    { stories : StoryCollection
     , selectedStoryId : Maybe String
     , selectedStateId : Maybe String
     }
@@ -54,7 +74,7 @@ update msg model =
 {-| Generates a storybook Applicaton
     storybook stories
 -}
-storybook : List Story -> Program Never Model Msg
+storybook : StoryCollection -> Program Never Model Msg
 storybook stories =
     let
         model =
@@ -82,7 +102,7 @@ sizes =
     , stateButtonsMargin = 10
     , sidebarWidth = 200
     , storyContentPadding = 10
-    , welcomePadding = 20
+    , categoryPadding = 15
     }
 
 
@@ -104,6 +124,21 @@ styles =
             , positionAbsolute
             ]
     , sidebarItem = style [ width (Px sizes.sidebarWidth) ]
+    , sidebarItemCategory =
+        style
+            [ width (Px sizes.sidebarWidth)
+            , backgroundColor (hexToColor "#444")
+            , borderBottomSolid
+            , borderBottomWidth 1
+            , borderBottomColor (hexToColor "#666")
+            , textColor (hexToColor "#FFF")
+            , width (Px sizes.sidebarWidth)
+            , displayFlex
+            , height (Px 40)
+            , lineHeight (Px 38)
+            , marginBottom (Px 0)
+            , paddingLeft (Px sizes.categoryPadding)
+            ]
     , sidebarItemLink = style [ paddingLeft (Px sizes.commonMargin) ]
     , stateNavigation = style [ margin (Px sizes.stateNavigationMargin), marginLeft (Px sizes.stateButtonsMargin) ]
     , stateButton = style [ marginRight (Px sizes.stateButtonsMargin) ]
@@ -174,12 +209,21 @@ viewMenuItem selectedStoryId story =
             ]
 
 
-viewMenu : List Story -> Maybe String -> Html Msg
-viewMenu stories selectedStoryId =
-    aside [ class "menu", style [ marginTop (Px 0) ] ]
-        [ ul [ class "menu-list" ]
+viewMenuCategory : Maybe String -> StoryCategory -> Html Msg
+viewMenuCategory selectedStoryId ( title, stories ) =
+    div []
+        [ a
+            [ class "menu-label", styles.sidebarItemCategory ]
+            [ text ("> " ++ title) ]
+        , ul [ class "menu-list" ]
             (List.map (viewMenuItem selectedStoryId) stories)
         ]
+
+
+viewMenu : StoryCollection -> Maybe String -> Html Msg
+viewMenu storyCollection selectedStoryId =
+    aside [ class "menu", style [ marginTop (Px 0) ] ]
+        (List.map (viewMenuCategory selectedStoryId) storyCollection)
 
 
 filterSelectedStory : Story -> Model -> Bool
@@ -190,16 +234,23 @@ filterSelectedStory story model =
 
 viewContent : Model -> Html Msg
 viewContent model =
-    model.stories
-        |> List.filter (\story -> filterSelectedStory story model)
-        |> List.map (\s -> s.view model.selectedStateId)
-        |> List.head
-        |> Maybe.withDefault
-            (div []
-                [ h1 [ styles.welcome, class "title" ] [ text "Welcome" ]
-                , span [] [ text "Storybook is a development environment for UI components. It allows you to browse a component library, view the different states of each component, and interactively develop and test components." ]
-                ]
-            )
+    let
+        stories =
+            model.stories |> List.map Tuple.second |> List.foldr (++) []
+
+        filteredStories =
+            stories |> List.filter (\story -> filterSelectedStory story model)
+    in
+        div []
+            [ filteredStories
+                |> List.map (\s -> s.view model.selectedStateId)
+                |> List.head
+                |> Maybe.withDefault (div [ styles.welcome ] [ text "A simple storybook POC in ELM" ])
+            , article []
+                (filteredStories
+                    |> List.map (\s -> div [ styles.description ] [ text s.description ])
+                )
+            ]
 
 
 view : Model -> Html Msg
