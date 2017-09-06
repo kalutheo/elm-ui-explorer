@@ -127,10 +127,10 @@ styles =
     , sidebarItemCategory =
         style
             [ width (Px sizes.sidebarWidth)
-            , backgroundColor (hexToColor "#444")
+            , backgroundColor (hexToColor "#1d8a7a")
             , borderBottomSolid
             , borderBottomWidth 1
-            , borderBottomColor (hexToColor "#666")
+            , borderBottomColor (hexToColor "#FFF")
             , textColor (hexToColor "#FFF")
             , width (Px sizes.sidebarWidth)
             , displayFlex
