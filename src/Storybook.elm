@@ -17,6 +17,8 @@ import Html.Events exposing (onClick)
 import Elegant exposing (..)
 import Color exposing (..)
 import Atom.System exposing (hexToColor)
+import Navigation
+import Array
 
 
 {--Messages --}
@@ -26,6 +28,7 @@ type Msg
     = Noop
     | SelectStory String
     | SelectState String
+    | UrlChange Navigation.Location
 
 
 
@@ -55,20 +58,51 @@ type alias Model =
     { stories : StoryCollection
     , selectedStoryId : Maybe String
     , selectedStateId : Maybe String
+    , history : List Navigation.Location
     }
 
 
-update : Msg -> Model -> Model
+getSelectedStoryfromPath location =
+    location.hash
+        |> String.split "/"
+        |> Array.fromList
+        |> Array.get (1)
+
+
+getSelectedStatefromPath location =
+    location.hash
+        |> String.split "/"
+        |> Array.fromList
+        |> Array.get (2)
+
+
+update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
         Noop ->
-            model
+            ( model, Cmd.none )
 
         SelectState stateId ->
-            { model | selectedStateId = Just stateId }
+            ( { model | selectedStateId = Just stateId }, Cmd.none )
 
         SelectStory storyId ->
-            { model | selectedStoryId = Just storyId, selectedStateId = Nothing }
+            ( { model | selectedStoryId = Just storyId, selectedStateId = Nothing }, Cmd.none )
+
+        UrlChange location ->
+            let
+                selectedStoryId =
+                    getSelectedStoryfromPath location
+            in
+                case selectedStoryId of
+                    Just storyId ->
+                        let
+                            ( newModel, newCmd ) =
+                                update (SelectStory storyId) model
+                        in
+                            ( { newModel | history = location :: model.history }, Cmd.none )
+
+                    Nothing ->
+                        ( { model | history = location :: model.history }, Cmd.none )
 
 
 {-| Generates a storybook Applicaton
@@ -76,18 +110,21 @@ update msg model =
 -}
 storybook : StoryCollection -> Program Never Model Msg
 storybook stories =
-    let
-        model =
-            { stories = stories
-            , selectedStoryId = Nothing
-            , selectedStateId = Nothing
-            }
-    in
-        Html.beginnerProgram
-            { model = model
-            , view = view
-            , update = update
-            }
+    Navigation.program UrlChange
+        { init =
+            (\location ->
+                ( { stories = stories
+                  , selectedStoryId = getSelectedStoryfromPath location
+                  , selectedStateId = getSelectedStatefromPath location
+                  , history = [ location ]
+                  }
+                , Cmd.none
+                )
+            )
+        , view = view
+        , update = update
+        , subscriptions = (\_ -> Sub.none)
+        }
 
 
 
@@ -193,8 +230,8 @@ viewHeader =
         ]
 
 
-viewMenuItem : Maybe String -> Story -> Html Msg
-viewMenuItem selectedStoryId story =
+viewMenuItem : String -> Maybe String -> Story -> Html Msg
+viewMenuItem category selectedStoryId story =
     let
         isSelected =
             case selectedStoryId of
@@ -211,7 +248,11 @@ viewMenuItem selectedStoryId story =
                 ""
     in
         li [ styles.sidebarItem ]
-            [ a [ class linkClass, onClick (SelectStory story.id), styles.sidebarItemLink ]
+            [ a
+                [ class linkClass
+                , href ("#" ++ category ++ "/" ++ story.id)
+                , styles.sidebarItemLink
+                ]
                 [ text story.id ]
             ]
 
@@ -223,7 +264,7 @@ viewMenuCategory selectedStoryId ( title, stories ) =
             [ class "menu-label", styles.sidebarItemCategory ]
             [ text ("> " ++ title) ]
         , ul [ class "menu-list" ]
-            (List.map (viewMenuItem selectedStoryId) stories)
+            (List.map (viewMenuItem title selectedStoryId) stories)
         ]
 
 
