@@ -14,18 +14,12 @@ hexToColor color =
 
 
 colors =
-    { primary = hexToColor "#db7093"
-    , secondary = hexToColor "#ff6347"
-    , success = hexToColor "#c9cba3"
-    , warning = hexToColor "#ffe1a8"
-    , danger = hexToColor "#e26d5c"
-    , light = white
-    , gray2 = hexToColor "#f7f9f9"
-    , gray15 = hexToColor "#d9d9d9"
-    , gray35 = hexToColor "#a5a5a5"
-    , gray50 = hexToColor "#808080"
-    , gray65 = hexToColor "#595959"
-    , gray73 = hexToColor "#444444"
-    , gray87 = hexToColor "#222222"
-    , black = hexToColor "#000000"
+    { primary = "#db7093"
+    , secondary = "#ff6347"
+    , success = "hsl(141, 71%, 48%)"
+    , warning = "hsl(48, 100%, 67%)"
+    , danger = "hsl(348, 100%, 61%)"
+    , light = "hsl(0, 0%, 96%)"
+    , gray = "hsl(0, 0%, 21%)"
+    , black = "hsl(0, 0%, 4%)"
     }

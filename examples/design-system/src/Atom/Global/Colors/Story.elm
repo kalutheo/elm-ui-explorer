@@ -9,30 +9,24 @@ states : List ( String, Model )
 states =
     [ ( "Brand"
       , { colors =
-            [ colors.primary
-            , colors.secondary
+            [ "#db7093"
+            , "#ff6347"
             ]
         }
       )
     , ( "Neutral"
       , { colors =
-            [ colors.light
-            , colors.gray2
-            , colors.gray15
-            , colors.gray35
-            , colors.gray50
-            , colors.gray65
-            , colors.gray73
-            , colors.gray87
-            , colors.black
+            [ "hsl(0, 0%, 4%)"
+            , "hsl(0, 0%, 21%)"
+            , "hsl(0, 0%, 96%)"
             ]
         }
       )
     , ( "Utility"
       , { colors =
-            [ colors.success
-            , colors.warning
-            , colors.danger
+            [ "hsl(141, 71%, 48%)"
+            , "hsl(48, 100%, 67%)"
+            , "hsl(348, 100%, 61%)"
             ]
         }
       )

@@ -1,8 +1,8 @@
 module Atom.Button.Index exposing (..)
 
 import Html exposing (Html, text, button)
-import Elegant exposing (..)
-import Atom.System exposing (..)
+import Html.Attributes exposing (style, class)
+import Atom.System exposing (colors)
 
 
 type alias ButtonModel =
@@ -24,13 +24,8 @@ sizes =
 
 styles =
     { base =
-        [ backgroundColor colors.primary
-        , textColor colors.light
-        , fontSize (Px 15)
-        , borderRadius 10
-        , margin medium
-        , borderWidth 0
-        , padding (Em 1)
+        [ ( "backgroundColor", "#db7093" )
+        , ( "color", colors.light )
         ]
     }
 
@@ -43,7 +38,7 @@ applyColor isPrimary baseStyle =
             else
                 colors.secondary
     in
-        baseStyle ++ [ backgroundColor bgColor ]
+        baseStyle ++ [ ( "backgroundColor", bgColor ), ( "color", colors.light ) ]
 
 
 applySize isLarge baseStyle =
@@ -54,7 +49,7 @@ applySize isLarge baseStyle =
             else
                 sizes.tinyWidth
     in
-        baseStyle ++ [ width (Em buttonWidth) ]
+        baseStyle ++ [ ( "width", (buttonWidth |> toString) ++ "em" ) ]
 
 
 selectorButton : ButtonModel -> ButtonViewModel msg
@@ -72,7 +67,7 @@ selectorButton model =
 
 viewButton : ButtonViewModel msg -> Html msg
 viewButton model =
-    button [ model.buttonStyle ] [ text model.label ]
+    button [ class "button is-white", model.buttonStyle ] [ text model.label ]
 
 
 customButton : ButtonModel -> Html msg

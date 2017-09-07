@@ -101,7 +101,7 @@ sizes =
     , stateNavigationMargin = 20
     , stateButtonsMargin = 10
     , sidebarWidth = 200
-    , storyContentPadding = 10
+    , storyContentPadding = 30
     , categoryPadding = 15
     }
 
@@ -260,7 +260,12 @@ viewContent model =
             [ filteredStories
                 |> List.map (\s -> s.view model.selectedStateId)
                 |> List.head
-                |> Maybe.withDefault (div [ styles.welcome ] [ text "A simple storybook POC in ELM" ])
+                |> Maybe.withDefault
+                    (div [ styles.welcome ]
+                        [ span [ class "subtitle is-4" ] [ text "We’re not designing pages, we’re designing systems of components." ]
+                        , span [ class "subtitle is-5" ] [ text "—Stephen Hay" ]
+                        ]
+                    )
             , article []
                 (filteredStories
                     |> List.map (\s -> div [ styles.description ] [ text s.description ])
