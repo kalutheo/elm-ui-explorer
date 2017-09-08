@@ -33,5 +33,5 @@ states =
     ]
 
 
-story selectedStateId =
-    renderStory selectedStateId view states
+story config =
+    renderStory config view states
