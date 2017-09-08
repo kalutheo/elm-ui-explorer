@@ -13,5 +13,5 @@ stories =
     ]
 
 
-story selectedStateId =
-    renderStory selectedStateId customButton stories
+story config =
+    renderStory config customButton stories

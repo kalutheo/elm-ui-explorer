@@ -12,5 +12,5 @@ stories =
     ]
 
 
-story selectedStateId =
-    renderStory selectedStateId toast stories
+story config =
+    renderStory config toast stories

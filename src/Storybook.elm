@@ -26,7 +26,6 @@ import Array
 
 type Msg
     = Noop
-    | SelectStory String
     | SelectState String
     | UrlChange Navigation.Location
 
@@ -40,7 +39,7 @@ type Msg
 type alias Story =
     { id : String
     , description : String
-    , view : Maybe String -> Html Msg
+    , view : StoryViewConfig -> Html Msg
     }
 
 
@@ -54,12 +53,31 @@ type alias StoryCollection =
 
 {-| Model of the storybook
 -}
+type alias StoryViewConfig =
+    { selectedStoryId : Maybe String
+    , selectedStateId : Maybe String
+    }
+
+
 type alias Model =
     { stories : StoryCollection
     , selectedStoryId : Maybe String
     , selectedStateId : Maybe String
+    , selectedCategory : Maybe String
     , history : List Navigation.Location
     }
+
+
+getSelectedCategoryfromPath location =
+    let
+        removeHash =
+            List.map (\s -> s |> String.slice 1 (s |> String.length))
+    in
+        location.hash
+            |> String.split "/"
+            |> removeHash
+            |> Array.fromList
+            |> Array.get (0)
 
 
 getSelectedStoryfromPath location =
@@ -76,6 +94,17 @@ getSelectedStatefromPath location =
         |> Array.get (2)
 
 
+makeStateUrl model stateId =
+    Maybe.map2
+        (\categoryId storyId ->
+            [ categoryId, storyId, stateId ]
+                |> String.join "/"
+                |> (++) "#"
+        )
+        model.selectedCategory
+        model.selectedStoryId
+
+
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
@@ -83,26 +112,22 @@ update msg model =
             ( model, Cmd.none )
 
         SelectState stateId ->
-            ( { model | selectedStateId = Just stateId }, Cmd.none )
+            case makeStateUrl model stateId of
+                Just url ->
+                    ( model, Navigation.newUrl url )
 
-        SelectStory storyId ->
-            ( { model | selectedStoryId = Just storyId, selectedStateId = Nothing }, Cmd.none )
+                Nothing ->
+                    ( model, Cmd.none )
 
         UrlChange location ->
-            let
-                selectedStoryId =
-                    getSelectedStoryfromPath location
-            in
-                case selectedStoryId of
-                    Just storyId ->
-                        let
-                            ( newModel, newCmd ) =
-                                update (SelectStory storyId) model
-                        in
-                            ( { newModel | history = location :: model.history }, Cmd.none )
-
-                    Nothing ->
-                        ( { model | history = location :: model.history }, Cmd.none )
+            ( { model
+                | history = location :: model.history
+                , selectedStoryId = getSelectedStoryfromPath location
+                , selectedStateId = getSelectedStatefromPath location
+                , selectedCategory = getSelectedCategoryfromPath location
+              }
+            , Cmd.none
+            )
 
 
 {-| Generates a storybook Applicaton
@@ -116,6 +141,7 @@ storybook stories =
                 ( { stories = stories
                   , selectedStoryId = getSelectedStoryfromPath location
                   , selectedStateId = getSelectedStatefromPath location
+                  , selectedCategory = getSelectedCategoryfromPath location
                   , history = [ location ]
                   }
                 , Cmd.none
@@ -204,13 +230,19 @@ styles =
 
 viewSidebar : Model -> Html Msg
 viewSidebar model =
-    div [ class "column" ]
-        [ div
-            [ styles.sidebar
+    let
+        viewConfig =
+            { selectedStateId = model.selectedStateId
+            , selectedStoryId = model.selectedStoryId
+            }
+    in
+        div [ class "column" ]
+            [ div
+                [ styles.sidebar
+                ]
+                []
+            , viewMenu model.stories viewConfig
             ]
-            []
-        , viewMenu model.stories model.selectedStoryId
-        ]
 
 
 viewHeader : Html msg
@@ -257,8 +289,8 @@ viewMenuItem category selectedStoryId story =
             ]
 
 
-viewMenuCategory : Maybe String -> StoryCategory -> Html Msg
-viewMenuCategory selectedStoryId ( title, stories ) =
+viewMenuCategory : StoryViewConfig -> StoryCategory -> Html Msg
+viewMenuCategory { selectedStoryId, selectedStateId } ( title, stories ) =
     div []
         [ a
             [ class "menu-label", styles.sidebarItemCategory ]
@@ -268,10 +300,10 @@ viewMenuCategory selectedStoryId ( title, stories ) =
         ]
 
 
-viewMenu : StoryCollection -> Maybe String -> Html Msg
-viewMenu storyCollection selectedStoryId =
+viewMenu : StoryCollection -> StoryViewConfig -> Html Msg
+viewMenu storyCollection storyViewConfig =
     aside [ class "menu", style [ marginTop (Px 0) ] ]
-        (List.map (viewMenuCategory selectedStoryId) storyCollection)
+        (List.map (viewMenuCategory storyViewConfig) storyCollection)
 
 
 filterSelectedStory : Story -> Model -> Bool
@@ -288,10 +320,15 @@ viewContent model =
                 |> List.map Tuple.second
                 |> List.foldr (++) []
                 |> List.filter (\story -> filterSelectedStory story model)
+
+        viewConfig =
+            { selectedStateId = model.selectedStateId
+            , selectedStoryId = model.selectedStoryId
+            }
     in
         div []
             [ filteredStories
-                |> List.map (\s -> s.view model.selectedStateId)
+                |> List.map (\s -> s.view viewConfig)
                 |> List.head
                 |> Maybe.withDefault
                     (div [ styles.welcome ]
@@ -319,7 +356,7 @@ view model =
         ]
 
 
-renderState index selectedStateId ( id, state ) =
+renderState index { selectedStateId } ( id, state ) =
     let
         isActive =
             Maybe.map (\theId -> id == theId) selectedStateId
@@ -333,9 +370,12 @@ renderState index selectedStateId ( id, state ) =
 
 {-| Renders a Story
 -}
-renderStory : Maybe String -> (a -> Html msg) -> List ( String, a ) -> Html Msg
-renderStory selectedStateId storyView storyStates =
+renderStory : StoryViewConfig -> (a -> Html msg) -> List ( String, a ) -> Html Msg
+renderStory storyViewConfig storyView storyStates =
     let
+        { selectedStateId } =
+            storyViewConfig
+
         wrapper children =
             div [] [ children ]
 
@@ -343,7 +383,7 @@ renderStory selectedStateId storyView storyStates =
             (\_ -> Noop)
 
         menu =
-            ul [ styles.stateNavigation ] (List.indexedMap (\index -> renderState index selectedStateId) storyStates)
+            ul [ styles.stateNavigation ] (List.indexedMap (\index -> renderState index storyViewConfig) storyStates)
 
         currentStates =
             case selectedStateId of
