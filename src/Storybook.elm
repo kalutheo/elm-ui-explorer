@@ -28,6 +28,7 @@ type Msg
     = Noop
     | SelectState String
     | UrlChange Navigation.Location
+    | NavigateToHome
 
 
 
@@ -129,6 +130,9 @@ update msg model =
             , Cmd.none
             )
 
+        NavigateToHome ->
+            ( model, Navigation.newUrl "#" )
+
 
 {-| Generates a storybook Applicaton
     storybook stories
@@ -164,7 +168,7 @@ sizes =
     , stateNavigationMargin = 20
     , stateButtonsMargin = 10
     , sidebarWidth = 200
-    , storyContentPadding = 30
+    , storyContentPadding = 10
     , categoryPadding = 15
     }
 
@@ -253,13 +257,13 @@ viewSidebar model =
             ]
 
 
-viewHeader : Html msg
+viewHeader : Html Msg
 viewHeader =
     section
         [ class "hero is-primary"
         , styles.header
         ]
-        [ div []
+        [ div [ onClick NavigateToHome ]
             [ div [ styles.logo ]
                 [ h1 [ class "title" ]
                     [ text "ELM" ]
