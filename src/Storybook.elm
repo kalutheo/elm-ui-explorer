@@ -180,16 +180,6 @@ colors =
 
 styles =
     { logo = style [ paddingLeft (Px sizes.commonMargin) ]
-    , sidebar =
-        style
-            [ width (Px sizes.sidebarWidth)
-            , top (Px 0)
-            , left (Px 0)
-            , bottom (Px 0)
-            , zIndex -1
-            , backgroundColor colors.neutral
-            , positionAbsolute
-            ]
     , sidebarItem = style [ width (Px sizes.sidebarWidth) ]
     , sidebarItemCategory =
         style
@@ -250,8 +240,7 @@ viewSidebar model =
     in
         div [ class "column" ]
             [ div
-                [ styles.sidebar
-                ]
+                []
                 []
             , viewMenu model.stories viewConfig
             ]

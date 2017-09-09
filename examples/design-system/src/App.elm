@@ -9,6 +9,7 @@ import Molecule.Card.Story as Card
 import Molecule.Menu.Story as Menu
 import Organism.CardGrid.Story as CardGrid
 import Organism.Header.Story as Header
+import Organism.Hero.Story as Hero
 import Page.Home.Story as Home
 import Page.Contacts.Story as Contacts
 
@@ -53,6 +54,10 @@ main =
             , { id = "Header"
               , description = ""
               , view = Header.story
+              }
+            , { id = "Hero"
+              , description = ""
+              , view = Hero.story
               }
             ]
           )

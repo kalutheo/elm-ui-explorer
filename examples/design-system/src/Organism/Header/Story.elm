@@ -14,5 +14,9 @@ states =
     ]
 
 
+nav model =
+    div [ style [ ( "width", "80%" ) ] ] [ view model ]
+
+
 story config =
-    renderStory config view states
+    renderStory config nav states
