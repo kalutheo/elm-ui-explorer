@@ -6,8 +6,11 @@ import Atom.Toast.Story as Toast
 import Atom.Logo.Story as Logo
 import Atom.Global.Colors.Story as Colors
 import Molecule.Card.Story as Card
-import Molecule.NavBar.Story as NavBar
+import Molecule.Menu.Story as Menu
 import Organism.CardGrid.Story as CardGrid
+import Organism.Header.Story as Header
+import Page.Home.Story as Home
+import Page.Contacts.Story as Contacts
 
 
 main =
@@ -36,9 +39,9 @@ main =
               , description = "a simple Toast"
               , view = Toast.story
               }
-            , { id = "NavBar"
+            , { id = "Menu"
               , description = "the main navigation menu"
-              , view = NavBar.story
+              , view = Menu.story
               }
             ]
           )
@@ -47,8 +50,21 @@ main =
               , description = "a grid of cards"
               , view = CardGrid.story
               }
+            , { id = "Header"
+              , description = ""
+              , view = Header.story
+              }
             ]
           )
-        , ( "Templates", [] )
-        , ( "Pages", [] )
+        , ( "Pages"
+          , [ { id = "Home"
+              , description = "Welcome page"
+              , view = Home.story
+              }
+            , { id = "Contacts"
+              , description = "Lists your contacts"
+              , view = Contacts.story
+              }
+            ]
+          )
         ]

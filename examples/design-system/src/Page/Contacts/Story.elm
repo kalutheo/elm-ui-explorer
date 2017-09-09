@@ -1,7 +1,9 @@
-module Molecule.NavBar.Story exposing (..)
+module Page.Contacts.Story exposing (..)
 
-import Molecule.NavBar.Index exposing (view)
+import Page.Contacts.Index exposing (view)
 import StoryBook exposing (renderStory)
+import Html exposing (div)
+import Html.Attributes exposing (style)
 
 
 states : List ( String, {} )
