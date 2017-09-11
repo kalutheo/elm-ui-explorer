@@ -218,7 +218,7 @@ styles =
             ]
     , welcome =
         style
-            [ margin (Px sizes.storyContentPadding) ]
+            [ margin (Px sizes.storyContentPadding), width (Px 410) ]
     }
 
 
@@ -325,7 +325,7 @@ viewContent model =
                 |> List.head
                 |> Maybe.withDefault
                     (div [ styles.welcome ]
-                        [ span [ class "subtitle is-4" ] [ text "We’re not designing pages, we’re designing systems of components." ]
+                        [ span [ class "subtitle is-4 has-text-grey" ] [ text "We’re not designing pages, we’re designing systems of components." ]
                         , span [ class "subtitle is-5" ] [ text "—Stephen Hay" ]
                         ]
                     )
