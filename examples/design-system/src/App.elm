@@ -5,6 +5,7 @@ import Atom.Button.Story as Button
 import Atom.Toast.Story as Toast
 import Atom.Logo.Story as Logo
 import Atom.Global.Colors.Story as Colors
+import Atom.Typography.Story as Typography
 import Molecule.Card.Story as Card
 import Molecule.Menu.Story as Menu
 import Organism.CardGrid.Story as CardGrid
@@ -28,6 +29,10 @@ main =
             , { id = "Logo"
               , description = "The logo"
               , view = Logo.story
+              }
+            , { id = "Typography"
+              , description = "List of font with sizes"
+              , view = Typography.story
               }
             ]
           )
