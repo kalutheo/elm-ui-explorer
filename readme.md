@@ -1,3 +1,3 @@
-# ELM Simple Storybook
+# ELM UI EXPLORER
 
-A simple storybook for ELM inspired by React-Storybook
+A simple UI Explorer for ELM inspired by React-Storybook
