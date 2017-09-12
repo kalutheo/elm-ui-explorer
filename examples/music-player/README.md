@@ -4,8 +4,8 @@ This is a simple Music Player in ELM.<br/>
 It uses ports with the HTML5 Audio Api.<br/>
 SoundTracks are Mocked from Spotify API.
 
-Inline-style:
-![Music Player]("player-screenshot.png")
+
+<img src="player-screenshot.png" width="300" />
 
 
 ### Structure
