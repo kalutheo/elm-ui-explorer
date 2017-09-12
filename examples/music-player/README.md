@@ -13,6 +13,7 @@ The UI Explorer showcases how each view works in isolation.
 <center>
 <img src="musicplayer-storybook.gif"  />
 </center>
+
 ### Structure
 
 - public : Contains static assets such as html and css
