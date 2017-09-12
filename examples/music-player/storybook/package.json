@@ -1,7 +1,7 @@
 {
-	"name": "music-player",
+	"name": "music-player-storybook",
 	"version": "1.0.0",
-	"description": "Simple music player - HTML5 Audio API / Spotify API Mock",
+	"description": "Simple music player - UI Explorer",
 	"main": "index.js",
 	"scripts": {
 		"start": "elm-app start"

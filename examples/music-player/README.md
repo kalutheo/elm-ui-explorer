@@ -18,10 +18,15 @@ This is a simple Music Player in ELM.
 - package.json : Describes Node packages dependencies
 
 
-### How to run it
+### How to run
+#### The App
 - run ```npm i``` to install node packages
 - run ```npm start``` to run the Music Player
-- run ```npm run storybook``` to run the UI Explorer
+
+#### The UI Explorer
+- run ```cd storybook```
+- run ```npm i``` to install node packages
+- run ```npm start``` to run the UI Explorer
 
 
 ### Notes
