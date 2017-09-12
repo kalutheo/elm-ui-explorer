@@ -11,7 +11,7 @@ This library helps you create a simple storybook
 -}
 
 import Html exposing (Html)
-import Html exposing (Html, aside, ul, li, a, text, div, section, h1, h2, node, article)
+import Html exposing (Html, aside, ul, li, a, span, text, div, section, h1, h2, node, article)
 import Html.Attributes exposing (class, rel, href, classList)
 import Html.Events exposing (onClick)
 import Elegant exposing (..)
@@ -217,7 +217,15 @@ styles =
             ]
     , stateButton = style [ marginRight (Px sizes.stateButtonsMargin) ]
     , storyContent = style [ paddingLeft (Px sizes.storyContentPadding) ]
-    , welcome = style [ paddingTop (Px sizes.welcomePadding) ]
+    , description =
+        style
+            [ margin (Px sizes.storyContentPadding)
+            , paddingTop (Px sizes.storyContentPadding)
+            , marginTop (Px (sizes.storyContentPadding * 4))
+            , borderTopSolid
+            , borderTopWidth 1
+            , borderTopColor gray
+            ]
     , header =
         style
             [ height (Px sizes.headerHeight)
