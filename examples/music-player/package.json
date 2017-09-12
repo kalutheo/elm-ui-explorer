@@ -4,7 +4,8 @@
 	"description": "Simple music player - HTML5 Audio API / Spotify API Mock",
 	"main": "index.js",
 	"scripts": {
-		"start": "elm-app start"
+		"start": "elm-app start",
+		"build": "elm-app build"
 	},
 	"author": "",
 	"license": "ISC",
