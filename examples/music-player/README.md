@@ -18,9 +18,9 @@ This is a simple Music Player in ELM.
 
 
 ### How to run it
-- run ```npm i``` to node install packages
-- run ```npm start``` to run the musicplayer
-- run ```npm storybook``` to run the ui explorer
+- run ```npm i``` to install node packages
+- run ```npm start``` to run the Music Player
+- run ```npm storybook``` to run the UI Explorer
 
 
 ### Notes
