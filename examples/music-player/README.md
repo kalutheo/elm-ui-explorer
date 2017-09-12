@@ -2,6 +2,7 @@
 
 This is a simple Music Player in ELM.
 - It uses ports with the HTML5 Audio Api.
+- SoundTracks are Mocked from Spotify API.
 
 
 <img src="player-screenshot.png" width="300" />
