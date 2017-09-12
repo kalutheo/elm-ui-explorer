@@ -1,7 +1,7 @@
 module Stories.TrackList exposing (..)
 
 import Html exposing (Html, div, ul, text)
-import StoryBook exposing (renderStory)
+import UIExplorer exposing (renderStory)
 import View exposing (trackListView)
 import Model exposing (Model, mockAlbum)
 

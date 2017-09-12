@@ -2,7 +2,7 @@ module Stories.PlayPause exposing (..)
 
 import Html exposing (Html, div, ul, text)
 import Html.Attributes exposing (class)
-import StoryBook exposing (renderStory)
+import UIExplorer exposing (renderStory)
 import View exposing (playPauseView)
 import Model exposing (Model)
 

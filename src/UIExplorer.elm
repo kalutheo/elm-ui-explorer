@@ -1,14 +1,21 @@
-module UIExplorer exposing (storybook, renderStory, Story, StoryCollection)
+module UIExplorer exposing (storybook, renderStory, Story, StoryCollection, StoryCategory)
 
 {-|
 
-This library helps you create a simple storybook
+Component Explorers or Style Guides have been around for a while now.
+We don't build pages anymore but components that are assembled together to build Systems.
+
+In the ELM world, components are just called views, and are defined as pure functions.
+ELM UI Explorer takes advantage of the composability and the purity of ELM and offers a way to showcase
+your views and their states in a single tool.
 
 # Storybook
 @docs storybook
 @docs renderStory
 @docs Story
 @docs StoryCollection
+@docs StoryCategory
+
 -}
 
 import Html exposing (Html)
@@ -46,6 +53,8 @@ type alias Story =
     }
 
 
+{-| A list of categories
+-}
 type alias StoryCategory =
     ( String, List Story )
 
