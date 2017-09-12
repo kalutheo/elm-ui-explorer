@@ -8,16 +8,19 @@ import Stories.TrackList as TrackList
 
 main =
     storybook
-        [ { id = "PlayPause"
-          , description = "A simple play/pause button"
-          , view = PlayPause.story
-          }
-        , { id = "Controls"
-          , description = "Music player controls"
-          , view = Controls.story
-          }
-        , { id = "TrackList"
-          , description = "List of tracks"
-          , view = TrackList.story
-          }
+        [ ( "Default"
+          , [ { id = "PlayPause"
+              , description = "A simple play/pause button"
+              , view = PlayPause.story
+              }
+            , { id = "Controls"
+              , description = "Music player controls"
+              , view = Controls.story
+              }
+            , { id = "TrackList"
+              , description = "List of tracks"
+              , view = TrackList.story
+              }
+            ]
+          )
         ]

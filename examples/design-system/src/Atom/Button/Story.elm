@@ -4,8 +4,8 @@ import StoryBook exposing (renderStory)
 import Atom.Button.Index exposing (customButton, ButtonModel)
 
 
-stories : List ( String, ButtonModel )
-stories =
+states : List ( String, ButtonModel )
+states =
     [ ( "LargePrimary", { label = "Primary", isLarge = True, isPrimary = True } )
     , ( "TinyPrimary", { label = "Primary", isLarge = False, isPrimary = True } )
     , ( "LargeSecondary", { label = "Secondary", isLarge = True, isPrimary = False } )
@@ -14,4 +14,4 @@ stories =
 
 
 story config =
-    renderStory config customButton stories
+    renderStory config customButton states

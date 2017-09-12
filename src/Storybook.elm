@@ -16,9 +16,10 @@ import Html.Attributes exposing (class, rel, href, classList)
 import Html.Events exposing (onClick)
 import Elegant exposing (..)
 import Color exposing (..)
-import Atom.System exposing (hexToColor)
 import Navigation
 import Array
+import Color exposing (..)
+import Color.Convert as ColorConvert
 
 
 {--Messages --}
@@ -159,6 +160,15 @@ storybook stories =
 
 
 {--VIEW --}
+
+
+hexToColor color =
+    case ColorConvert.hexToColor color of
+        Ok c ->
+            c
+
+        Err c ->
+            white
 
 
 sizes =
@@ -358,7 +368,7 @@ renderState index { selectedStateId } ( id, state ) =
         buttonClass =
             classList [ ( "button", True ), ( "is-primary", isActive ) ]
     in
-        li [ styles.stateButton, onClick (SelectState id), buttonClass ] [ text id ]
+        li [ styles.stateButton, onClick <| SelectState id, buttonClass ] [ text id ]
 
 
 {-| Renders a Story
@@ -368,12 +378,6 @@ renderStory storyViewConfig storyView storyStates =
     let
         { selectedStateId } =
             storyViewConfig
-
-        wrapper children =
-            div [] [ children ]
-
-        toMap =
-            (\_ -> Noop)
 
         menu =
             ul [ styles.stateNavigation ] (List.indexedMap (\index -> renderState index storyViewConfig) storyStates)
@@ -389,7 +393,7 @@ renderStory storyViewConfig storyView storyStates =
         content =
             case currentStates |> List.head of
                 Just ( id, state ) ->
-                    Html.map toMap (storyView state) |> wrapper
+                    storyView state |> Html.map (\_ -> Noop)
 
                 Nothing ->
                     text "Include somes states in your story..."
