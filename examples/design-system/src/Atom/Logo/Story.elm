@@ -1,7 +1,7 @@
 module Atom.Logo.Story exposing (..)
 
 import Atom.Logo.Index exposing (view)
-import StoryBook exposing (renderStory)
+import UIExplorer exposing (renderStory)
 
 
 states : List ( String, {} )

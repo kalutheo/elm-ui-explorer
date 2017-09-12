@@ -1,6 +1,6 @@
 module Atom.Button.Story exposing (..)
 
-import StoryBook exposing (renderStory)
+import UIExplorer exposing (renderStory)
 import Atom.Button.Index exposing (customButton, ButtonModel)
 
 

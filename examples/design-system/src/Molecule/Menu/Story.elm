@@ -1,7 +1,7 @@
 module Molecule.Menu.Story exposing (..)
 
 import Molecule.Menu.Index exposing (view)
-import StoryBook exposing (renderStory)
+import UIExplorer exposing (renderStory)
 
 
 states : List ( String, {} )

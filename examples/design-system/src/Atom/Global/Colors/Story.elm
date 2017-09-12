@@ -1,7 +1,7 @@
 module Atom.Global.Colors.Story exposing (..)
 
 import Atom.Global.Colors.Index exposing (..)
-import StoryBook exposing (renderStory)
+import UIExplorer exposing (renderStory)
 import Atom.System exposing (..)
 
 

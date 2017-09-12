@@ -1,7 +1,7 @@
 module Atom.Toast.Story exposing (..)
 
 import Atom.Toast.Index exposing (..)
-import StoryBook exposing (renderStory)
+import UIExplorer exposing (renderStory)
 
 
 states : List ( String, ToastModel )

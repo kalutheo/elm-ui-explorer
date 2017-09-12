@@ -1,7 +1,7 @@
 module Organism.Header.Story exposing (..)
 
 import Organism.Header.Index exposing (view)
-import StoryBook exposing (renderStory)
+import UIExplorer exposing (renderStory)
 import Html exposing (div)
 import Html.Attributes exposing (style)
 

@@ -1,4 +1,4 @@
-module StoryBook exposing (storybook, renderStory, Story)
+module UIExplorer exposing (storybook, renderStory, Story, StoryCollection)
 
 {-|
 
@@ -8,6 +8,7 @@ This library helps you create a simple storybook
 @docs storybook
 @docs renderStory
 @docs Story
+@docs StoryCollection
 -}
 
 import Html exposing (Html)
@@ -49,18 +50,20 @@ type alias StoryCategory =
     ( String, List Story )
 
 
+{-| A list of stories
+-}
 type alias StoryCollection =
     List StoryCategory
 
 
-{-| Model of the storybook
--}
 type alias StoryViewConfig =
     { selectedStoryId : Maybe String
     , selectedStateId : Maybe String
     }
 
 
+{-| Model of the storybook
+-}
 type alias Model =
     { stories : StoryCollection
     , selectedStoryId : Maybe String

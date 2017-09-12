@@ -1,13 +1,19 @@
 [
   {
     "name": "StoryBook",
-    "comment": "\n\nThis library helps you create a simple storybook\n\n# Storybook\n@docs storybook\n@docs renderStory\n@docs Story\n",
+    "comment": "\n\nThis library helps you create a simple storybook\n\n# Storybook\n@docs storybook\n@docs renderStory\n@docs Story\n@docs StoryCollection\n",
     "aliases": [
       {
         "name": "Story",
         "comment": " Item used to describe a Story\n",
         "args": [],
-        "type": "{ id : String , description : String , view : Maybe.Maybe String -> Html.Html StoryBook.Msg }"
+        "type": "{ id : String , description : String , view : StoryBook.StoryViewConfig -> Html.Html StoryBook.Msg }"
+      },
+      {
+        "name": "StoryCollection",
+        "comment": " A list of stories\n",
+        "args": [],
+        "type": "List StoryBook.StoryCategory"
       }
     ],
     "types": [],
@@ -15,12 +21,12 @@
       {
         "name": "renderStory",
         "comment": " Renders a Story\n",
-        "type": "Maybe.Maybe String -> (a -> Html.Html msg) -> List ( String, a ) -> Html.Html StoryBook.Msg"
+        "type": "StoryBook.StoryViewConfig -> (a -> Html.Html msg) -> List ( String, a ) -> Html.Html StoryBook.Msg"
       },
       {
         "name": "storybook",
         "comment": " Generates a storybook Applicaton\n    storybook stories\n",
-        "type": "List StoryBook.Story -> Platform.Program Basics.Never StoryBook.Model StoryBook.Msg"
+        "type": "StoryBook.StoryCollection -> Platform.Program Basics.Never StoryBook.Model StoryBook.Msg"
       }
     ],
     "generated-with-elm-version": "0.18.0"

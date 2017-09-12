@@ -1,7 +1,7 @@
 module Atom.Typography.Story exposing (..)
 
 import Atom.Typography.Index exposing (view, Model)
-import StoryBook exposing (renderStory)
+import UIExplorer exposing (renderStory)
 
 
 stories : List ( String, Model )

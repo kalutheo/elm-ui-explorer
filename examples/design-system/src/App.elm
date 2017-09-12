@@ -1,6 +1,6 @@
 module App exposing (..)
 
-import StoryBook exposing (storybook)
+import UIExplorer exposing (storybook)
 import Atom.Button.Story as Button
 import Atom.Toast.Story as Toast
 import Atom.Logo.Story as Logo
