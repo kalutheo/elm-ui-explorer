@@ -4,8 +4,8 @@ import Atom.Toast.Index exposing (..)
 import StoryBook exposing (renderStory)
 
 
-stories : List ( String, ToastModel )
-stories =
+states : List ( String, ToastModel )
+states =
     [ ( "Success", { label = "Toast", isShown = True, severity = Success } )
     , ( "Warning", { label = "Toast", isShown = True, severity = Warning } )
     , ( "Error", { label = "Toast", isShown = True, severity = Error } )
@@ -13,4 +13,4 @@ stories =
 
 
 story config =
-    renderStory config toast stories
+    renderStory config toast states
