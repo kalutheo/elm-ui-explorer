@@ -1,12 +1,12 @@
 module Atom.Button.Index exposing (..)
 
 import Html exposing (Html, text, button)
-import Elegant exposing (..)
-import Atom.System exposing (..)
+import Html.Attributes exposing (style, class)
+import Atom.System exposing (colors)
 
 
 type alias ButtonModel =
-    { label : String, isLarge : Bool }
+    { label : String, isLarge : Bool, isPrimary : Bool }
 
 
 type alias ButtonViewModel msg =
@@ -24,34 +24,50 @@ sizes =
 
 styles =
     { base =
-        [ backgroundColor colors.primary
-        , textColor colors.light
-        , borderRadius 10
-        , margin medium
-        , borderWidth 0
-        , padding (Em 1)
+        [ ( "backgroundColor", "#db7093" )
+        , ( "color", colors.light )
         ]
     }
 
 
-selectorButton : ButtonModel -> ButtonViewModel msg
-selectorButton model =
+applyColor isPrimary baseStyle =
+    let
+        bgColor =
+            if isPrimary then
+                colors.primary
+            else
+                colors.secondary
+    in
+        baseStyle ++ [ ( "backgroundColor", bgColor ), ( "color", colors.light ) ]
+
+
+applySize isLarge baseStyle =
     let
         buttonWidth =
-            if model.isLarge then
+            if isLarge then
                 sizes.largeWidth
             else
                 sizes.tinyWidth
-
-        buttonStyle =
-            style (List.append styles.base [ width (Em buttonWidth) ])
     in
-        { label = model.label, isLoading = False, buttonStyle = buttonStyle }
+        baseStyle ++ [ ( "width", (buttonWidth |> toString) ++ "em" ) ]
+
+
+selectorButton : ButtonModel -> ButtonViewModel msg
+selectorButton model =
+    { label = model.label
+    , isLoading = False
+    , buttonStyle =
+        style
+            (styles.base
+                |> applyColor model.isPrimary
+                |> applySize model.isLarge
+            )
+    }
 
 
 viewButton : ButtonViewModel msg -> Html msg
 viewButton model =
-    button [ model.buttonStyle ] [ text model.label ]
+    button [ class "button is-white", model.buttonStyle ] [ text model.label ]
 
 
 customButton : ButtonModel -> Html msg

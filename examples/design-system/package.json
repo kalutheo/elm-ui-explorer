@@ -1,10 +1,11 @@
 {
 	"name": "music-player",
 	"version": "1.0.0",
-	"description": "- This project was bootstrapped with [Create Elm App](https://github.com/halfzebra/create-elm-app). - run ```elm-package install``` in the root of this folder - To start the example run ```elm-app start```",
+	"description": "Design System Showcase - Atomic Design",
 	"main": "index.js",
 	"scripts": {
-		"start": "elm-app start"
+		"start": "elm-app start",
+		"build": "elm-app build"
 	},
 	"author": "",
 	"license": "ISC",

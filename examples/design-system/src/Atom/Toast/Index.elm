@@ -1,9 +1,7 @@
 module Atom.Toast.Index exposing (..)
 
-import Html exposing (Html, text, div, span)
-import Elegant exposing (..)
-import Elegant.Elements exposing (..)
-import Color exposing (..)
+import Html exposing (Html, text, div, span, button)
+import Html.Attributes exposing (style, class, classList)
 
 
 type Severity
@@ -20,35 +18,34 @@ type alias ToastViewModel msg =
     { label : String
     , isShown : Bool
     , toastStyle : Html.Attribute msg
+    , toastClassName : String
     }
 
 
 selectorToast : ToastModel -> ToastViewModel msg
 selectorToast model =
     let
-        toastColor =
+        toastClassName =
             case model.severity of
                 Success ->
-                    green
+                    "is-success"
 
                 Error ->
-                    red
+                    "is-danger"
 
                 _ ->
-                    yellow
+                    "is-warning"
 
         toastStyle =
             style
-                [ backgroundColor toastColor
-                , border black
-                , textColor white
-                , padding medium
-                , margin medium
+                [ ( "paddingRight", "1em" )
+                , ( "width", "80%" )
                 ]
     in
         { label = model.label
         , isShown = model.isShown
         , toastStyle = toastStyle
+        , toastClassName = toastClassName
         }
 
 
@@ -56,10 +53,23 @@ viewToast : ToastViewModel msg -> Html msg
 viewToast model =
     case model.isShown of
         True ->
-            div [ model.toastStyle ] [ span [] [ text model.label ] ]
+            div
+                [ classList
+                    ([ ( "notification", True )
+                     , ( model.toastClassName, True )
+                     ]
+                    )
+                , model.toastStyle
+                ]
+                [ button [ class "delete" ]
+                    []
+                , span
+                    []
+                    [ text model.label ]
+                ]
 
         False ->
-            div [ model.toastStyle ] []
+            div [ class "notification is-info", model.toastStyle ] []
 
 
 toast : ToastModel -> Html msg

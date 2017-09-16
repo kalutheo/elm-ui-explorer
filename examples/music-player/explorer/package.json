@@ -1,0 +1,15 @@
+{
+	"name": "music-player-storybook",
+	"version": "1.0.0",
+	"description": "Simple music player - UI Explorer",
+	"main": "index.js",
+	"scripts": {
+		"start": "elm-app start",
+		"build": "elm-app build"
+	},
+	"author": "",
+	"license": "ISC",
+	"devDependencies": {
+		"create-elm-app": "^1.2.1"
+	}
+}
