@@ -1,25 +1,25 @@
 module App exposing (..)
 
-import UIExplorer exposing (storybook)
+import UIExplorer exposing (app)
 import Stories.PlayPause as PlayPause
 import Stories.Controls as Controls
 import Stories.TrackList as TrackList
 
 
 main =
-    storybook
+    app
         [ ( "Default"
           , [ { id = "PlayPause"
               , description = "A simple play/pause button"
-              , view = PlayPause.story
+              , viewStories = PlayPause.story
               }
             , { id = "Controls"
               , description = "Music player controls"
-              , view = Controls.story
+              , viewStories = Controls.story
               }
             , { id = "TrackList"
               , description = "List of tracks"
-              , view = TrackList.story
+              , viewStories = TrackList.story
               }
             ]
           )

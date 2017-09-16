@@ -1,7 +1,7 @@
-module Atom.Toast.Story exposing (..)
+module Atom.Toast.Stories exposing (..)
 
 import Atom.Toast.Index exposing (..)
-import UIExplorer exposing (renderStory)
+import UIExplorer exposing (renderStories)
 
 
 states : List ( String, ToastModel )
@@ -12,5 +12,5 @@ states =
     ]
 
 
-story config =
-    renderStory config toast states
+viewStories config =
+    renderStories config toast states

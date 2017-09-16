@@ -1,6 +1,6 @@
-module Atom.Button.Story exposing (..)
+module Atom.Button.Stories exposing (..)
 
-import UIExplorer exposing (renderStory)
+import UIExplorer exposing (renderStories)
 import Atom.Button.Index exposing (customButton, ButtonModel)
 
 
@@ -13,5 +13,5 @@ states =
     ]
 
 
-story config =
-    renderStory config customButton states
+viewStories config =
+    renderStories config customButton states

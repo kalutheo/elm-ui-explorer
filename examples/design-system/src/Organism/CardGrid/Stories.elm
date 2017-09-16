@@ -1,7 +1,7 @@
-module Organism.CardGrid.Story exposing (..)
+module Organism.CardGrid.Stories exposing (..)
 
 import Organism.CardGrid.Index exposing (view)
-import UIExplorer exposing (renderStory)
+import UIExplorer exposing (renderStories)
 import Html exposing (div)
 import Html.Attributes exposing (style)
 
@@ -18,5 +18,5 @@ grid model =
     div [ style [ ( "width", "80%" ) ] ] [ view model ]
 
 
-story config =
-    renderStory config grid states
+viewStories config =
+    renderStories config grid states

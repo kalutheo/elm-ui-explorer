@@ -1,7 +1,7 @@
 module Stories.TrackList exposing (..)
 
 import Html exposing (Html, div, ul, text)
-import UIExplorer exposing (renderStory)
+import UIExplorer exposing (renderStories)
 import View exposing (trackListView)
 import Model exposing (Model, mockAlbum)
 
@@ -34,4 +34,4 @@ wrapper children =
 
 
 story selectedStateId =
-    renderStory selectedStateId trackListView stories
+    renderStories selectedStateId trackListView stories

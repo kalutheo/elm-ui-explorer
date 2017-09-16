@@ -1,20 +1,21 @@
-module UIExplorer exposing (storybook, renderStory, Story, StoryCollection, StoryCategory)
+module UIExplorer exposing (app, renderStories, UI, UICategory)
 
 {-|
 
-Component Explorers or Style Guides have been around for a while now.
+Component Explorers and Style Guides have been around for a while now.
 We don't build pages anymore but components that are assembled together to build Systems.
 
 In the ELM world, components are just called views, and are defined as pure functions.
 ELM UI Explorer takes advantage of the composability and the purity of ELM and offers a way to showcase
 your views and their states in a single tool.
 
-# Storybook
-@docs storybook
-@docs renderStory
-@docs Story
-@docs StoryCollection
-@docs StoryCategory
+Inspired by [React Storybook](https://storybook.js.org/)
+
+# UIExplorer
+@docs app
+@docs renderStories
+@docs UI
+@docs UICategory
 
 -}
 
@@ -35,7 +36,7 @@ import Color.Convert as ColorConvert
 
 type Msg
     = Noop
-    | SelectState String
+    | SelectStory String
     | UrlChange Navigation.Location
     | NavigateToHome
 
@@ -44,44 +45,39 @@ type Msg
 {--Model --}
 
 
-{-| Item used to describe a Story
+{-| A UI represents a view and lists a set of stories
 -}
-type alias Story =
+type alias UI =
     { id : String
     , description : String
-    , view : StoryViewConfig -> Html Msg
+    , viewStories : UIViewConfig -> Html Msg
     }
 
 
-{-| A list of categories
+{-| Represents a familly of related views. For example using Atomic Design, we can have the following categories (Atoms, Molecules etc..)
 -}
-type alias StoryCategory =
-    ( String, List Story )
+type alias UICategory =
+    ( String, List UI )
 
 
-{-| A list of stories
--}
-type alias StoryCollection =
-    List StoryCategory
-
-
-type alias StoryViewConfig =
-    { selectedStoryId : Maybe String
-    , selectedStateId : Maybe String
+type alias UIViewConfig =
+    { selectedUIId : Maybe String
+    , selectedStoryId : Maybe String
     }
 
 
 {-| Model of the storybook
 -}
 type alias Model =
-    { stories : StoryCollection
+    { categories : List UICategory
+    , selectedUIId : Maybe String
     , selectedStoryId : Maybe String
-    , selectedStateId : Maybe String
     , selectedCategory : Maybe String
     , history : List Navigation.Location
     }
 
 
+getSelectedCategoryfromPath : Navigation.Location -> Maybe String
 getSelectedCategoryfromPath location =
     let
         removeHash =
@@ -94,20 +90,23 @@ getSelectedCategoryfromPath location =
             |> Array.get (0)
 
 
-getSelectedStoryfromPath location =
+getSelectedUIfromPath : Navigation.Location -> Maybe String
+getSelectedUIfromPath location =
     location.hash
         |> String.split "/"
         |> Array.fromList
         |> Array.get (1)
 
 
-getSelectedStatefromPath location =
+getSelectedStoryfromPath : Navigation.Location -> Maybe String
+getSelectedStoryfromPath location =
     location.hash
         |> String.split "/"
         |> Array.fromList
         |> Array.get (2)
 
 
+makeStateUrl : Model -> String -> Maybe String
 makeStateUrl model stateId =
     Maybe.map2
         (\categoryId storyId ->
@@ -116,7 +115,7 @@ makeStateUrl model stateId =
                 |> (++) "#"
         )
         model.selectedCategory
-        model.selectedStoryId
+        model.selectedUIId
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -125,7 +124,7 @@ update msg model =
         Noop ->
             ( model, Cmd.none )
 
-        SelectState stateId ->
+        SelectStory stateId ->
             case makeStateUrl model stateId of
                 Just url ->
                     ( model, Navigation.newUrl url )
@@ -136,8 +135,8 @@ update msg model =
         UrlChange location ->
             ( { model
                 | history = location :: model.history
+                , selectedUIId = getSelectedUIfromPath location
                 , selectedStoryId = getSelectedStoryfromPath location
-                , selectedStateId = getSelectedStatefromPath location
                 , selectedCategory = getSelectedCategoryfromPath location
               }
             , Cmd.none
@@ -147,17 +146,16 @@ update msg model =
             ( model, Navigation.newUrl "#" )
 
 
-{-| Generates a storybook Applicaton
-    storybook stories
+{-| Launches a UIExplorer Applicaton given a list of categories
 -}
-storybook : StoryCollection -> Program Never Model Msg
-storybook stories =
+app : List UICategory -> Program Never Model Msg
+app categories =
     Navigation.program UrlChange
         { init =
             (\location ->
-                ( { stories = stories
+                ( { categories = categories
+                  , selectedUIId = getSelectedUIfromPath location
                   , selectedStoryId = getSelectedStoryfromPath location
-                  , selectedStateId = getSelectedStatefromPath location
                   , selectedCategory = getSelectedCategoryfromPath location
                   , history = [ location ]
                   }
@@ -248,7 +246,7 @@ styles =
             ]
     , welcome =
         style
-            [ margin (Px sizes.storyContentPadding), width (Px 410) ]
+            [ margin (Px sizes.storyContentPadding), width (Px 370) ]
     }
 
 
@@ -256,15 +254,15 @@ viewSidebar : Model -> Html Msg
 viewSidebar model =
     let
         viewConfig =
-            { selectedStateId = model.selectedStateId
-            , selectedStoryId = model.selectedStoryId
+            { selectedStoryId = model.selectedStoryId
+            , selectedUIId = model.selectedUIId
             }
     in
         div [ class "column" ]
             [ div
                 []
                 []
-            , viewMenu model.stories viewConfig
+            , viewMenu model.categories viewConfig
             ]
 
 
@@ -279,19 +277,19 @@ viewHeader =
                 [ h1 [ class "title" ]
                     [ text "ELM" ]
                 , h2 [ class "subtitle" ]
-                    [ text "Storybook" ]
+                    [ text "UI Explorer" ]
                 ]
             ]
         ]
 
 
-viewMenuItem : String -> Maybe String -> Story -> Html Msg
-viewMenuItem category selectedStoryId story =
+viewMenuItem : String -> Maybe String -> UI -> Html Msg
+viewMenuItem category selectedUIId ui =
     let
         isSelected =
-            case selectedStoryId of
+            case selectedUIId of
                 Just id ->
-                    id == story.id
+                    id == ui.id
 
                 Nothing ->
                     False
@@ -305,53 +303,53 @@ viewMenuItem category selectedStoryId story =
         li [ styles.sidebarItem ]
             [ a
                 [ class linkClass
-                , href ("#" ++ category ++ "/" ++ story.id)
+                , href ("#" ++ category ++ "/" ++ ui.id)
                 , styles.sidebarItemLink
                 ]
-                [ text story.id ]
+                [ text ui.id ]
             ]
 
 
-viewMenuCategory : StoryViewConfig -> StoryCategory -> Html Msg
-viewMenuCategory { selectedStoryId, selectedStateId } ( title, stories ) =
+viewMenuCategory : UIViewConfig -> UICategory -> Html Msg
+viewMenuCategory { selectedUIId, selectedStoryId } ( title, categories ) =
     div []
         [ a
             [ class "menu-label", styles.sidebarItemCategory ]
             [ text ("> " ++ title) ]
         , ul [ class "menu-list" ]
-            (List.map (viewMenuItem title selectedStoryId) stories)
+            (List.map (viewMenuItem title selectedUIId) categories)
         ]
 
 
-viewMenu : StoryCollection -> StoryViewConfig -> Html Msg
-viewMenu storyCollection storyViewConfig =
+viewMenu : List UICategory -> UIViewConfig -> Html Msg
+viewMenu categories config =
     aside [ class "menu", style [ marginTop (Px 0) ] ]
-        (List.map (viewMenuCategory storyViewConfig) storyCollection)
+        (List.map (viewMenuCategory config) categories)
 
 
-filterSelectedStory : Story -> Model -> Bool
-filterSelectedStory story model =
-    Maybe.map (\id -> story.id == id) model.selectedStoryId
+filterSelectedUI : UI -> Model -> Bool
+filterSelectedUI ui model =
+    Maybe.map (\id -> ui.id == id) model.selectedUIId
         |> Maybe.withDefault False
 
 
 viewContent : Model -> Html Msg
 viewContent model =
     let
-        filteredStories =
-            model.stories
+        filteredUIs =
+            model.categories
                 |> List.map Tuple.second
                 |> List.foldr (++) []
-                |> List.filter (\story -> filterSelectedStory story model)
+                |> List.filter (\ui -> filterSelectedUI ui model)
 
         viewConfig =
-            { selectedStateId = model.selectedStateId
-            , selectedStoryId = model.selectedStoryId
+            { selectedStoryId = model.selectedStoryId
+            , selectedUIId = model.selectedUIId
             }
     in
         div []
-            [ filteredStories
-                |> List.map (\s -> s.view viewConfig)
+            [ filteredUIs
+                |> List.map (\s -> s.viewStories viewConfig)
                 |> List.head
                 |> Maybe.withDefault
                     (div [ styles.welcome ]
@@ -360,7 +358,7 @@ viewContent model =
                         ]
                     )
             , article []
-                (filteredStories
+                (filteredUIs
                     |> List.map (\s -> div [ styles.description ] [ text s.description ])
                 )
             ]
@@ -379,41 +377,43 @@ view model =
         ]
 
 
-renderState index { selectedStateId } ( id, state ) =
+renderStory : Int -> UIViewConfig -> ( String, a ) -> Html Msg
+renderStory index { selectedStoryId } ( id, state ) =
     let
         isActive =
-            Maybe.map (\theId -> id == theId) selectedStateId
+            Maybe.map (\theId -> id == theId) selectedStoryId
                 |> Maybe.withDefault (index == 0)
 
         buttonClass =
             classList [ ( "button", True ), ( "is-primary", isActive ) ]
     in
-        li [ styles.stateButton, onClick <| SelectState id, buttonClass ] [ text id ]
+        li [ styles.stateButton, onClick <| SelectStory id, buttonClass ] [ text id ]
 
 
-{-| Renders a Story
+{-| Renders Stories of a given UI.
+A story represents a state of a view such as (Loading, Error, Success, NoNetwork ...)
 -}
-renderStory : StoryViewConfig -> (a -> Html msg) -> List ( String, a ) -> Html Msg
-renderStory storyViewConfig storyView storyStates =
+renderStories : UIViewConfig -> (a -> Html msg) -> List ( String, a ) -> Html Msg
+renderStories config storyView stories =
     let
-        { selectedStateId } =
-            storyViewConfig
+        { selectedStoryId } =
+            config
 
         menu =
-            ul [ styles.stateNavigation ] (List.indexedMap (\index -> renderState index storyViewConfig) storyStates)
+            ul [ styles.stateNavigation ] (List.indexedMap (\index -> renderStory index config) stories)
 
-        currentStates =
-            case selectedStateId of
+        currentStories =
+            case selectedStoryId of
                 Just selectedId ->
-                    List.filter (\( id, state ) -> id == selectedId) storyStates
+                    List.filter (\( id, state ) -> id == selectedId) stories
 
                 Nothing ->
-                    storyStates
+                    stories
 
         content =
-            case currentStates |> List.head of
-                Just ( id, state ) ->
-                    storyView state |> Html.map (\_ -> Noop)
+            case currentStories |> List.head of
+                Just ( id, story ) ->
+                    storyView story |> Html.map (\_ -> Noop)
 
                 Nothing ->
                     text "Include somes states in your story..."

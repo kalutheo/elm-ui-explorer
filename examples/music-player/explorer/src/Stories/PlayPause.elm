@@ -2,7 +2,7 @@ module Stories.PlayPause exposing (..)
 
 import Html exposing (Html, div, ul, text)
 import Html.Attributes exposing (class)
-import UIExplorer exposing (renderStory)
+import UIExplorer exposing (renderStories)
 import View exposing (playPauseView)
 import Model exposing (Model)
 
@@ -33,4 +33,4 @@ wrapper children =
 
 
 story selectedStateId =
-    renderStory selectedStateId playPauseView stories
+    renderStories selectedStateId playPauseView stories

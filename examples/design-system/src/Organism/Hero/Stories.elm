@@ -1,9 +1,7 @@
-module Organism.Hero.Story exposing (..)
+module Organism.Hero.Stories exposing (..)
 
 import Organism.Hero.Index exposing (view, Model)
-import UIExplorer exposing (renderStory)
-import Html exposing (div)
-import Html.Attributes exposing (style)
+import UIExplorer exposing (renderStories)
 
 
 states : List ( String, Model )
@@ -17,5 +15,5 @@ states =
     ]
 
 
-story config =
-    renderStory config view states
+viewStories config =
+    renderStories config view states

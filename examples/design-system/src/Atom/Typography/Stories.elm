@@ -1,7 +1,7 @@
-module Atom.Typography.Story exposing (..)
+module Atom.Typography.Stories exposing (..)
 
 import Atom.Typography.Index exposing (view, Model)
-import UIExplorer exposing (renderStory)
+import UIExplorer exposing (renderStories)
 
 
 stories : List ( String, Model )
@@ -9,5 +9,5 @@ stories =
     [ ( "Default", { label = "The quick brown fox jumps over the lazy dog" } ) ]
 
 
-story config =
-    renderStory config view stories
+viewStories config =
+    renderStories config view stories

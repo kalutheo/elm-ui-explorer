@@ -1,79 +1,79 @@
 module App exposing (..)
 
-import UIExplorer exposing (storybook)
-import Atom.Button.Story as Button
-import Atom.Toast.Story as Toast
-import Atom.Logo.Story as Logo
-import Atom.Global.Colors.Story as Colors
-import Atom.Typography.Story as Typography
-import Molecule.Card.Story as Card
-import Molecule.Menu.Story as Menu
-import Organism.CardGrid.Story as CardGrid
-import Organism.Header.Story as Header
-import Organism.Hero.Story as Hero
-import Page.Home.Story as Home
-import Page.Contacts.Story as Contacts
+import UIExplorer exposing (app)
+import Atom.Button.Stories as Button
+import Atom.Toast.Stories as Toast
+import Atom.Logo.Stories as Logo
+import Atom.Global.Colors.Stories as Colors
+import Atom.Typography.Stories as Typography
+import Molecule.Card.Stories as Card
+import Molecule.Menu.Stories as Menu
+import Organism.CardGrid.Stories as CardGrid
+import Organism.Header.Stories as Header
+import Organism.Hero.Stories as Hero
+import Page.Home.Stories as Home
+import Page.Contacts.Stories as Contacts
 
 
 main =
-    storybook
+    app
         [ ( "Atoms"
           , [ { id = "Colors"
               , description = "Global Color Schemes"
-              , view = Colors.story
+              , viewStories = Colors.viewStories
               }
             , { id = "Button"
-              , description = "a simple button"
-              , view = Button.story
+              , description = ""
+              , viewStories = Button.viewStories
               }
             , { id = "Logo"
-              , description = "The logo"
-              , view = Logo.story
+              , description = ""
+              , viewStories = Logo.viewStories
               }
             , { id = "Typography"
-              , description = "List of font with sizes"
-              , view = Typography.story
+              , description = "List of fonts with sizes"
+              , viewStories = Typography.viewStories
               }
             ]
           )
         , ( "Molecules"
           , [ { id = "Card"
-              , description = "a simple card"
-              , view = Card.story
+              , description = ""
+              , viewStories = Card.viewStories
               }
             , { id = "Toast"
-              , description = "a simple Toast"
-              , view = Toast.story
+              , description = ""
+              , viewStories = Toast.viewStories
               }
             , { id = "Menu"
-              , description = "the main navigation menu"
-              , view = Menu.story
+              , description = "The main navigation menu"
+              , viewStories = Menu.viewStories
               }
             ]
           )
         , ( "Organisms"
           , [ { id = "CardGrid"
-              , description = "a grid of cards"
-              , view = CardGrid.story
+              , description = "A grid of cards"
+              , viewStories = CardGrid.viewStories
               }
             , { id = "Header"
               , description = ""
-              , view = Header.story
+              , viewStories = Header.viewStories
               }
             , { id = "Hero"
               , description = ""
-              , view = Hero.story
+              , viewStories = Hero.viewStories
               }
             ]
           )
         , ( "Pages"
           , [ { id = "Home"
               , description = "Welcome page"
-              , view = Home.story
+              , viewStories = Home.viewStories
               }
             , { id = "Contacts"
               , description = "Lists your contacts"
-              , view = Contacts.story
+              , viewStories = Contacts.viewStories
               }
             ]
           )

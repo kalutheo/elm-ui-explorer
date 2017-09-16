@@ -1,8 +1,7 @@
-module Atom.Global.Colors.Story exposing (..)
+module Atom.Global.Colors.Stories exposing (..)
 
 import Atom.Global.Colors.Index exposing (..)
-import UIExplorer exposing (renderStory)
-import Atom.System exposing (..)
+import UIExplorer exposing (renderStories)
 
 
 states : List ( String, Model )
@@ -33,5 +32,5 @@ states =
     ]
 
 
-story config =
-    renderStory config view states
+viewStories config =
+    renderStories config view states

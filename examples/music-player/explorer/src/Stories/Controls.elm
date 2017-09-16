@@ -2,7 +2,7 @@ module Stories.Controls exposing (..)
 
 import Html exposing (Html, div, ul, text)
 import Html.Attributes exposing (class)
-import UIExplorer exposing (renderStory)
+import UIExplorer exposing (renderStories)
 import View exposing (controlsView)
 import Model exposing (Model)
 
@@ -29,4 +29,4 @@ stories =
 
 
 story selectedStateId =
-    renderStory selectedStateId controlsView stories
+    renderStories selectedStateId controlsView stories

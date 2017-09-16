@@ -1,6 +1,6 @@
 module Explorer exposing (..)
 
-import UIExplorer exposing (storybook, renderStory)
+import UIExplorer exposing (app, renderStories)
 import Html.Attributes exposing (style)
 import Main exposing (view, Model)
 import Html exposing (div)
@@ -28,7 +28,7 @@ viewStoriesWrapper model =
 
 
 viewStories config =
-    renderStory config viewStoriesWrapper stories
+    renderStories config viewStoriesWrapper stories
 
 
 
@@ -36,11 +36,11 @@ viewStories config =
 
 
 main =
-    storybook
+    app
         [ ( "Default"
           , [ { id = "dropdown"
               , description = "A dropdown Menu"
-              , view = viewStories
+              , viewStories = viewStories
               }
             ]
           )

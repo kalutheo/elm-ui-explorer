@@ -1,7 +1,7 @@
-module Organism.Header.Story exposing (..)
+module Organism.Header.Stories exposing (..)
 
 import Organism.Header.Index exposing (view)
-import UIExplorer exposing (renderStory)
+import UIExplorer exposing (renderStories)
 import Html exposing (div)
 import Html.Attributes exposing (style)
 
@@ -18,5 +18,5 @@ nav model =
     div [ style [ ( "width", "80%" ) ] ] [ view model ]
 
 
-story config =
-    renderStory config nav states
+viewStories config =
+    renderStories config nav states

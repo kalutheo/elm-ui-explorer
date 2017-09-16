@@ -11,14 +11,14 @@ This is a simple Music Player in ELM.
 The UI Explorer showcases how each view works in isolation.
 
 <center>
-<img src="musicplayer-storybook.gif"  />
+<img src="musicplayer-explorer.gif"  />
 </center>
 
 ### Structure
 
 - public : Contains static assets such as html and css
 - src : Source of the Music Player application
-- storybook : Contains the UI Explorer
+- explorer : Contains the UI Explorer
 - elm-package : Describes ELM packages dependencies
 - package.json : Describes Node packages dependencies
 
@@ -29,7 +29,7 @@ The UI Explorer showcases how each view works in isolation.
 - run ```npm start``` to run the Music Player
 
 #### The UI Explorer
-- run ```cd storybook```
+- run ```cd explorer```
 - run ```npm i``` to install node packages
 - run ```npm start``` to run the UI Explorer
 

@@ -5,7 +5,7 @@ UI Explorer makes building such a Design System in ELM a breeze :
 
 
 <center>
-<img src="design-system-storybook.gif" width="600" />
+<img src="design-system-explorer.gif" width="600" />
 </center>
 
 
@@ -25,4 +25,4 @@ UI Explorer makes building such a Design System in ELM a breeze :
 ### Notes
 
 - This project was bootstrapped with [Create Elm App](https://github.com/halfzebra/create-elm-app).
-- CSS is powered by the wonderfull [bulma framework](http://bulma.io/)
+- CSS is powered by the wonderful [bulma framework](http://bulma.io/)
