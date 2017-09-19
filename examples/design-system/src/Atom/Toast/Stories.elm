@@ -4,8 +4,8 @@ import Atom.Toast.Index exposing (..)
 import UIExplorer exposing (renderStories)
 
 
-states : List ( String, ToastModel )
-states =
+stories : List ( String, ToastModel )
+stories =
     [ ( "Success", { label = "Toast", isShown = True, severity = Success } )
     , ( "Warning", { label = "Toast", isShown = True, severity = Warning } )
     , ( "Error", { label = "Toast", isShown = True, severity = Error } )
@@ -13,4 +13,4 @@ states =
 
 
 viewStories config =
-    renderStories config toast states
+    renderStories config toast stories

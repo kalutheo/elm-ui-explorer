@@ -4,8 +4,8 @@ import Atom.Global.Colors.Index exposing (..)
 import UIExplorer exposing (renderStories)
 
 
-states : List ( String, Model )
-states =
+stories : List ( String, Model )
+stories =
     [ ( "Brand"
       , { colors =
             [ "#db7093"
@@ -33,4 +33,4 @@ states =
 
 
 viewStories config =
-    renderStories config view states
+    renderStories config view stories

@@ -4,8 +4,8 @@ import Atom.Logo.Index exposing (view)
 import UIExplorer exposing (renderStories)
 
 
-states : List ( String, {} )
-states =
+stories : List ( String, {} )
+stories =
     [ ( "Default"
       , {}
       )
@@ -13,4 +13,4 @@ states =
 
 
 viewStories config =
-    renderStories config view states
+    renderStories config view stories
