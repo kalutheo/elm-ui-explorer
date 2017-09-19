@@ -13,5 +13,5 @@ Inspired by [React Storybook](https://storybook.js.org/)
 
 [Examples](/examples)
 - Simple Example [source](/examples/simple)
-- Music Player [source](/examples/music-player)
-- Design system [source](/examples/design-system)
+- Music Player [source](/examples/music-player) | [explorer demo](https://kalutheo.github.io/elm-ui-explorer/examples/music-player/explorer/)
+- Design system [source](/examples/design-system) | [explorer demo](https://kalutheo.github.io/elm-ui-explorer/examples/design-system/explorer/)
