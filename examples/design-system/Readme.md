@@ -1,7 +1,7 @@
 ## Design System
 
-A Design System can help frontend developers and designers to define a unified set of UX & Design rules.
-UI Explorer makes building such a Design System in ELM a breeze :
+A [Design System](https://airbnb.design/building-a-visual-language/) can help frontend developers and designers to define a unified set of UX & Design rules.
+UI Explorer makes building such system in ELM a breeze :
 
 
 <center>
@@ -20,7 +20,7 @@ UI Explorer makes building such a Design System in ELM a breeze :
 ### How to run the UI Explorer
 
 - run ```npm i``` to install node packages
-- run ```npm start``` to run the Music Player
+- run ```npm start``` to run the explorer
 
 ### Notes
 
