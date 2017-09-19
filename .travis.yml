@@ -1,0 +1,10 @@
+cache:
+  directories:
+    - examples/music-player/node_modules
+language: node_js
+node_js:
+  - "6"
+  - "8"
+  - "node"
+script:
+  - cd examples/music-player && npm i && ./node_modules/.bin/elm-app build
