@@ -4,8 +4,8 @@ import Organism.Hero.Index exposing (view, Model)
 import UIExplorer exposing (renderStories)
 
 
-states : List ( String, Model )
-states =
+stories : List ( String, Model )
+stories =
     [ ( "Default"
       , { title = "Lorem"
         , subtitle = "Ipsum"
@@ -16,4 +16,4 @@ states =
 
 
 viewStories config =
-    renderStories config view states
+    renderStories config view stories

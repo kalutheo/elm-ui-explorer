@@ -6,8 +6,8 @@ import Html exposing (div)
 import Html.Attributes exposing (style)
 
 
-states : List ( String, {} )
-states =
+stories : List ( String, {} )
+stories =
     [ ( "Default"
       , {}
       )
@@ -19,4 +19,4 @@ card model =
 
 
 viewStories config =
-    renderStories config card states
+    renderStories config card stories
