@@ -12,6 +12,6 @@ Inspired by [React Storybook](https://storybook.js.org/)
 <img src="intro.gif"/>
 
 [Examples](/examples)
-- Simple Example [source](/examples/simple)| 
+- Simple Example [source](/examples/simple)| [explorer demo](https://kalutheo.github.io/elm-ui-explorer/examples/simples/explorer.html) | [app demo](https://kalutheo.github.io/elm-ui-explorer/examples/simples/index.html)
 - Music Player [source](/examples/music-player) | [explorer demo](https://kalutheo.github.io/elm-ui-explorer/examples/music-player/explorer/) | [app demo](https://kalutheo.github.io/elm-ui-explorer/examples/music-player/app/index.html)
 - Design system [source](/examples/design-system) | [explorer demo](https://kalutheo.github.io/elm-ui-explorer/examples/design-system/explorer/)
