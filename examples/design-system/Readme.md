@@ -8,6 +8,8 @@ UI Explorer makes building such system in ELM a breeze :
 <img src="design-system-explorer.gif" width="600" />
 </center>
 
+[Atomic Design](http://bradfrost.com/blog/post/atomic-web-design/) is the methodology used to build the Design System.
+
 
 ### Structure
 
