@@ -33,5 +33,5 @@ wrapper children =
     div [] [ children ]
 
 
-story selectedStateId =
-    renderStories selectedStateId trackListView stories
+viewStories config =
+    renderStories config trackListView stories

@@ -1,5 +1,5 @@
 {
-	"name": "music-player-storybook",
+	"name": "music-player",
 	"version": "1.0.0",
 	"description": "Simple music player - UI Explorer",
 	"main": "index.js",

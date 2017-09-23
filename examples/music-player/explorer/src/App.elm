@@ -11,15 +11,15 @@ main =
         [ ( "Default"
           , [ { id = "PlayPause"
               , description = "A simple play/pause button"
-              , viewStories = PlayPause.story
+              , viewStories = PlayPause.viewStories
               }
             , { id = "Controls"
               , description = "Music player controls"
-              , viewStories = Controls.story
+              , viewStories = Controls.viewStories
               }
             , { id = "TrackList"
               , description = "List of tracks"
-              , viewStories = TrackList.story
+              , viewStories = TrackList.viewStories
               }
             ]
           )

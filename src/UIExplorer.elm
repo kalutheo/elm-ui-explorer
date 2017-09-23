@@ -21,14 +21,10 @@ Inspired by [React Storybook](https://storybook.js.org/)
 
 import Html exposing (Html)
 import Html exposing (Html, aside, ul, li, a, span, text, div, section, h1, h2, node, article)
-import Html.Attributes exposing (class, rel, href, classList)
+import Html.Attributes exposing (class, rel, href, classList, style)
 import Html.Events exposing (onClick)
-import Elegant exposing (..)
-import Color exposing (..)
 import Navigation
 import Array
-import Color exposing (..)
-import Color.Convert as ColorConvert
 
 
 {--Messages --}
@@ -66,7 +62,7 @@ type alias UIViewConfig =
     }
 
 
-{-| Model of the storybook
+{-| Model of the UI Explorer
 -}
 type alias Model =
     { categories : List UICategory
@@ -106,11 +102,11 @@ getSelectedStoryfromPath location =
         |> Array.get (2)
 
 
-makeStateUrl : Model -> String -> Maybe String
-makeStateUrl model stateId =
+makeStoryUrl : Model -> String -> Maybe String
+makeStoryUrl model storyId =
     Maybe.map2
-        (\categoryId storyId ->
-            [ categoryId, storyId, stateId ]
+        (\selectedCategory selectedUIId ->
+            [ selectedCategory, selectedUIId, storyId ]
                 |> String.join "/"
                 |> (++) "#"
         )
@@ -124,8 +120,8 @@ update msg model =
         Noop ->
             ( model, Cmd.none )
 
-        SelectStory stateId ->
-            case makeStateUrl model stateId of
+        SelectStory storyId ->
+            case makeStoryUrl model storyId of
                 Just url ->
                     ( model, Navigation.newUrl url )
 
@@ -172,15 +168,6 @@ app categories =
 {--VIEW --}
 
 
-hexToColor color =
-    case ColorConvert.hexToColor color of
-        Ok c ->
-            c
-
-        Err c ->
-            white
-
-
 sizes =
     { commonMargin = 40
     , headerHeight = 100
@@ -189,64 +176,71 @@ sizes =
     , stateButtonsMargin = 10
     , sidebarWidth = 200
     , storyContentPadding = 10
-    , categoryPadding = 15
+    , storyContentWidth = 370
+    , categoryPaddingLeft = 40
+    , categoryPadding = 10
+    , categoryHeight = 40
+    , categoryLineHeight = 38
     }
 
 
+colors : { neutral : String }
 colors =
-    { neutral = gray
+    { neutral = "#333"
     }
+
+
+toPx : Int -> String
+toPx prop =
+    (prop |> toString) ++ "px"
 
 
 styles =
-    { logo = style [ paddingLeft (Px sizes.commonMargin) ]
-    , sidebarItem = style [ width (Px sizes.sidebarWidth) ]
+    { logo = style [ ( "paddingLeft", sizes.commonMargin |> toPx ) ]
+    , sidebarItem = style [ ( "width", sizes.sidebarWidth |> toPx ) ]
     , sidebarItemCategory =
         style
-            [ width (Px sizes.sidebarWidth)
-            , borderBottomSolid
-            , borderBottomWidth 1
-            , borderBottomColor (hexToColor "#999")
-            , textColor (hexToColor "#222")
-            , width (Px sizes.sidebarWidth)
-            , displayFlex
-            , height (Px 40)
-            , lineHeight (Px 38)
-            , marginBottom (Px 0)
-            , paddingLeft (Px sizes.categoryPadding)
+            [ ( "width", sizes.sidebarWidth |> toPx )
+            , ( "borderBottom", "1px solid #999" )
+            , ( "color", "#222" )
+            , ( "width", sizes.sidebarWidth |> toPx )
+            , ( "displayFlex", "" )
+            , ( "height", sizes.categoryHeight |> toPx )
+            , ( "lineHeight", sizes.categoryLineHeight |> toPx )
+            , ( "marginBottom", 0 |> toPx )
+            , ( "padding", sizes.categoryPadding |> toPx )
+            , ( "paddingLeft", sizes.categoryPaddingLeft |> toPx )
             ]
     , sidebarItemLink =
         style
-            [ paddingLeft (Px sizes.commonMargin)
-            , textColor (hexToColor "#666")
+            [ ( "paddingLeft", sizes.commonMargin + 10 |> toPx )
+            , ( "color", "#666" )
             ]
     , stateNavigation =
         style
-            [ margin (Px sizes.stateNavigationMargin)
-            , marginLeft (Px sizes.stateButtonsMargin)
+            [ ( "margin", sizes.stateNavigationMargin |> toPx )
+            , ( "marginLeft", sizes.stateButtonsMargin |> toPx )
             ]
-    , stateButton = style [ marginRight (Px sizes.stateButtonsMargin) ]
-    , storyContent = style [ paddingLeft (Px sizes.storyContentPadding) ]
+    , stateButton = style [ ( "marginRight", sizes.stateButtonsMargin |> toPx ) ]
+    , storyContent = style [ ( "paddingLeft", sizes.storyContentPadding |> toPx ) ]
     , description =
         style
-            [ margin (Px sizes.storyContentPadding)
-            , paddingTop (Px sizes.storyContentPadding)
-            , marginTop (Px (sizes.storyContentPadding * 4))
-            , borderTopSolid
-            , borderTopWidth 1
-            , borderTopColor gray
+            [ ( "margin", sizes.storyContentPadding |> toPx )
+            , ( "paddingTop", sizes.storyContentPadding |> toPx )
+            , ( "marginTop", (sizes.storyContentPadding * 4) |> toPx )
+            , ( "borderTop", "1px solid #999" )
             ]
     , header =
         style
-            [ height (Px sizes.headerHeight)
-            , paddingTop (Px sizes.headerMargin)
-            , borderBottomSolid
-            , borderBottomWidth 1
-            , borderBottomColor white
+            [ ( "height", sizes.headerHeight |> toPx )
+            , ( "paddingTop", sizes.headerMargin |> toPx )
+            , ( "borderBottom", "1px solid #FFFFFF" )
             ]
     , welcome =
         style
-            [ margin (Px sizes.storyContentPadding), width (Px 370) ]
+            [ ( "margin", sizes.storyContentPadding |> toPx )
+            , ( "width", sizes.storyContentWidth |> toPx )
+            ]
     }
 
 
@@ -323,7 +317,7 @@ viewMenuCategory { selectedUIId, selectedStoryId } ( title, categories ) =
 
 viewMenu : List UICategory -> UIViewConfig -> Html Msg
 viewMenu categories config =
-    aside [ class "menu", style [ marginTop (Px 0) ] ]
+    aside [ class "menu", style [ ( "marginTop", 0 |> toPx ) ] ]
         (List.map (viewMenuCategory config) categories)
 
 

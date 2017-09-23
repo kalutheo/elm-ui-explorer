@@ -28,5 +28,5 @@ stories =
     ]
 
 
-story selectedStateId =
-    renderStories selectedStateId controlsView stories
+viewStories config =
+    renderStories config controlsView stories
