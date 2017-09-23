@@ -18,8 +18,8 @@ install:
 
 
 script:
-  - elm-make examples/simple/Main.elm --yes
-  - elm-make examples/simple/Explorer.elm --yes
-  - elm-make examples/design-system/src/App.elm --yes
-  - elm-make examples/music-player/src/App.elm --yes
-  - elm-make examples/music-player/explorer/src/App.elm --yes
+  - cd $TRAVIS_BUILD_DIR/examples/simple/ && elm-make Main.elm --yes
+  - cd $TRAVIS_BUILD_DIR/examples/simple/ && elm-make Explorer.elm --yes
+  - cd $TRAVIS_BUILD_DIR/examples/design-system/src/ && elm-make App.elm --yes
+  - cd $TRAVIS_BUILD_DIR/examples/music-player/src && elm-make Main.elm --yes
+  - cd $TRAVIS_BUILD_DIR/examples/music-player/explorer/ && elm-make App.elm --yes
