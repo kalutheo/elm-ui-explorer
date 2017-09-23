@@ -1,18 +1,16 @@
 module Atom.System exposing (..)
 
-import Color exposing (..)
-import Color.Convert as ColorConvert
 
-
-hexToColor color =
-    case ColorConvert.hexToColor color of
-        Ok c ->
-            c
-
-        Err c ->
-            white
-
-
+colors :
+    { black : String
+    , danger : String
+    , gray : String
+    , light : String
+    , primary : String
+    , secondary : String
+    , success : String
+    , warning : String
+    }
 colors =
     { primary = "#db7093"
     , secondary = "#ff6347"

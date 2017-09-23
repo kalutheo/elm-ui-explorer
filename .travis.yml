@@ -1,10 +1,24 @@
+env: ELM_VERSION=0.18.0
+
 cache:
   directories:
-    - examples/music-player/node_modules
+    - examples/simple/elm-stuff
+    - examples/design-system/elm-stuff
+    - examples/music-player/elm-stuff
+    - examples/music-player/explorer/elm-stuff
+
 language: node_js
 node_js:
-  - "6"
   - "8"
   - "node"
+
+install:
+  - npm install -g elm@$ELM_VERSION mocha
+
+
 script:
-  - cd examples/music-player && npm i && ./node_modules/.bin/elm-app build
+  - elm-make examples/simple/Main.elm --yes
+  - elm-make examples/simple/Explorer.elm --yes
+  - elm-make examples/design-system/src/App.elm --yes
+  - elm-make examples/music-player/src/App.elm --yes
+  - elm-make examples/music-player/explorer/src/App.elm --yes
