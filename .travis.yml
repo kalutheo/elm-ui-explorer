@@ -20,6 +20,6 @@ install:
 script:
   - cd $TRAVIS_BUILD_DIR/examples/simple/ && elm-make Main.elm --yes
   - cd $TRAVIS_BUILD_DIR/examples/simple/ && elm-make Explorer.elm --yes
-  - cd $TRAVIS_BUILD_DIR/examples/design-system/src/ && elm-make App.elm --yes
-  - cd $TRAVIS_BUILD_DIR/examples/music-player/src && elm-make Main.elm --yes
-  - cd $TRAVIS_BUILD_DIR/examples/music-player/explorer/ && elm-make App.elm --yes
+  - cd $TRAVIS_BUILD_DIR/examples/design-system/ && elm-make src/App.elm --yes
+  - cd $TRAVIS_BUILD_DIR/examples/music-player/ && elm-make src/Main.elm --yes
+  - cd $TRAVIS_BUILD_DIR/examples/music-player/explorer/ && elm-make src/App.elm --yes
