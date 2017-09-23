@@ -32,5 +32,5 @@ wrapper children =
     div [] [ children ]
 
 
-story selectedStateId =
-    renderStories selectedStateId playPauseView stories
+viewStories =
+    renderStories playPauseView stories

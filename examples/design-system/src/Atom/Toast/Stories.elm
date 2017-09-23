@@ -12,5 +12,5 @@ stories =
     ]
 
 
-viewStories config =
-    renderStories config toast stories
+viewStories =
+    renderStories toast stories

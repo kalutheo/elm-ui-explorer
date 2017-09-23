@@ -1,7 +1,7 @@
 [
   {
     "name": "UIExplorer",
-    "comment": "\n\nComponent Explorers and Style Guides have been around for a while now.\nWe don't build pages anymore but components that are assembled together to build Systems.\n\nIn the ELM world, components are just called views, and are defined as pure functions.\nELM UI Explorer takes advantage of the composability and the purity of ELM and offers a way to showcase\nyour views and their states in a single tool.\n\ninspired by [React Storybook](https://storybook.js.org/)\n\n# UIExplorer\n@docs app\n@docs renderStories\n@docs UI\n@docs UICategory\n\n",
+    "comment": "\n\n[Component Explorers](https://blog.hichroma.com/the-crucial-tool-for-modern-frontend-engineers-fb849b06187a) and [Style Guides](http://styleguides.io/) have been around for a while now.\nWe don't build pages anymore but components that are assembled together to build systems.\n\nIn the ELM world, components are just called views, and are defined as pure functions.\nELM UI Explorer takes advantage of the composability and the purity of ELM and offers a way to showcase\nyour views and their states in a single tool.\n\nInspired by [React Storybook](https://storybook.js.org/)\n\n# UIExplorer\n@docs app\n@docs renderStories\n\n# Models\n\n@docs UI\n@docs UICategory\n\n",
     "aliases": [
       {
         "name": "UI",
@@ -11,7 +11,7 @@
       },
       {
         "name": "UICategory",
-        "comment": " Represents a familly of related views. For example using Atomic Design, we can have the following categories (Atoms, Molecules etc..)\n",
+        "comment": " Represents a familly of related views.\nFor example using [Atomic Design](http://bradfrost.com/blog/post/atomic-web-design/), we can have the following categories : Atoms, Molecules etc..\n",
         "args": [],
         "type": "( String, List UIExplorer.UI )"
       }
@@ -26,7 +26,7 @@
       {
         "name": "renderStories",
         "comment": " Renders Stories of a given UI.\nA story represents a state of a view such as (Loading, Error, Success, NoNetwork ...)\n",
-        "type": "UIExplorer.UIViewConfig -> (a -> Html.Html msg) -> List ( String, a ) -> Html.Html UIExplorer.Msg"
+        "type": "(a -> Html.Html msg) -> List ( String, a ) -> UIExplorer.UIViewConfig -> Html.Html UIExplorer.Msg"
       }
     ],
     "generated-with-elm-version": "0.18.0"

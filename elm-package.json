@@ -1,16 +1,14 @@
 {
 	"version": "1.0.0",
-	"summary": "A simple storybook for ELM inspired by React-Storybook",
-	"repository": "https://github.com/kalutheo/elm-simple-storybook.git",
+	"summary": "A simple UI Explorer for ELM inspired by React-Storybook",
+	"repository": "https://github.com/kalutheo/elm-ui-explorer.git",
 	"license": "BSD3",
 	"source-directories": ["src/"],
 	"exposed-modules": ["UIExplorer"],
 	"dependencies": {
-		"elm-bodybuilder/elegant": "4.1.0 <= v < 5.0.0",
 		"elm-lang/core": "5.0.0 <= v < 6.0.0",
 		"elm-lang/html": "2.0.0 <= v < 3.0.0",
-		"elm-lang/navigation": "2.1.0 <= v < 3.0.0",
-		"eskimoblood/elm-color-extra": "5.0.0 <= v < 6.0.0"
+		"elm-lang/navigation": "2.1.0 <= v < 3.0.0"
 	},
 	"elm-version": "0.18.0 <= v < 0.19.0"
 }
