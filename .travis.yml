@@ -1,25 +1,38 @@
-env: ELM_VERSION=0.18.0
+env:
+  matrix:
+    - ELM_VERSION=0.18.0
 
 cache:
   directories:
-    - examples/simple/elm-stuff
     - examples/design-system/elm-stuff
     - examples/music-player/elm-stuff
     - examples/music-player/explorer/elm-stuff
+    - examples/simple/elm-stuff
+    - node_modules
+    - sysconfcpus
 
 language: node_js
+
 node_js:
   - "6"
   - "8"
   - "node"
 
 install:
-  - npm install -g elm@$ELM_VERSION mocha
-
+  - | # build time improvement - see https://github.com/elm-lang/elm-compiler/issues/1473#issuecomment-245704142
+    if [ ! -d sysconfcpus/bin ];
+    then
+      git clone https://github.com/obmarg/libsysconfcpus.git; 
+      cd libsysconfcpus;
+      ./configure --prefix=$TRAVIS_BUILD_DIR/sysconfcpus;
+      make && make install;
+      cd ..;
+    fi
+  - npm install elm@$ELM_VERSION
 
 script:
-  - cd $TRAVIS_BUILD_DIR/examples/simple/ && elm-make Main.elm --yes
-  - cd $TRAVIS_BUILD_DIR/examples/simple/ && elm-make Explorer.elm --yes
-  - cd $TRAVIS_BUILD_DIR/examples/design-system/ && elm-make src/App.elm --yes
-  - cd $TRAVIS_BUILD_DIR/examples/music-player/ && elm-make src/Main.elm --yes
-  - cd $TRAVIS_BUILD_DIR/examples/music-player/explorer/ && elm-make src/App.elm --yes
+  - cd $TRAVIS_BUILD_DIR/examples/simple/ && $TRAVIS_BUILD_DIR/sysconfcpus/bin/sysconfcpus -n 2 ../../node_modules/.bin/elm-make Main.elm --yes
+  - cd $TRAVIS_BUILD_DIR/examples/simple/ && $TRAVIS_BUILD_DIR/sysconfcpus/bin/sysconfcpus -n 2 ../../node_modules/.bin/elm-make Explorer.elm --yes
+  - cd $TRAVIS_BUILD_DIR/examples/design-system/ && $TRAVIS_BUILD_DIR/sysconfcpus/bin/sysconfcpus -n 2 ../../node_modules/.bin/elm-make src/App.elm --yes
+  - cd $TRAVIS_BUILD_DIR/examples/music-player/ && $TRAVIS_BUILD_DIR/sysconfcpus/bin/sysconfcpus -n 2 ../../node_modules/.bin/elm-make src/Main.elm --yes
+  - cd $TRAVIS_BUILD_DIR/examples/music-player/explorer/ && $TRAVIS_BUILD_DIR/sysconfcpus/bin/sysconfcpus -n 2 ../../../node_modules/.bin/elm-make src/App.elm --yes
