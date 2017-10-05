@@ -24,14 +24,6 @@ viewStoriesWrapper model =
 
 
 
-{--Displays the list of stories --}
-
-
-viewStories config =
-    renderStories config viewStoriesWrapper stories
-
-
-
 {--Runs the UIExplorer App with a given UI collection--}
 
 
@@ -40,7 +32,7 @@ main =
         [ ( "Default"
           , [ { id = "dropdown"
               , description = "A dropdown Menu"
-              , viewStories = viewStories
+              , viewStories = renderStories viewStoriesWrapper stories
               }
             ]
           )

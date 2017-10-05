@@ -9,5 +9,5 @@ stories =
     [ ( "Default", { label = "The quick brown fox jumps over the lazy dog" } ) ]
 
 
-viewStories config =
-    renderStories config view stories
+viewStories =
+    renderStories view stories

@@ -33,5 +33,5 @@ wrapper children =
     div [] [ children ]
 
 
-viewStories config =
-    renderStories config trackListView stories
+viewStories =
+    renderStories trackListView stories
