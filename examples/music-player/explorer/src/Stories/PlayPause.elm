@@ -32,5 +32,5 @@ wrapper children =
     div [] [ children ]
 
 
-viewStories config =
-    renderStories config playPauseView stories
+viewStories =
+    renderStories playPauseView stories

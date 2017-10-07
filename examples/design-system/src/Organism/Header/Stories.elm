@@ -18,5 +18,5 @@ nav model =
     div [ style [ ( "width", "80%" ) ] ] [ view model ]
 
 
-viewStories config =
-    renderStories config nav stories
+viewStories =
+    renderStories nav stories

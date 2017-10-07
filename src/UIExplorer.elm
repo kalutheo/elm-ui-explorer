@@ -2,8 +2,8 @@ module UIExplorer exposing (app, renderStories, UI, UICategory)
 
 {-|
 
-Component Explorers and Style Guides have been around for a while now.
-We don't build pages anymore but components that are assembled together to build Systems.
+[Component Explorers](https://blog.hichroma.com/the-crucial-tool-for-modern-frontend-engineers-fb849b06187a) and [Style Guides](http://styleguides.io/) have been around for a while now.
+We don't build pages anymore but components that are assembled together to build systems.
 
 In the ELM world, components are just called views, and are defined as pure functions.
 ELM UI Explorer takes advantage of the composability and the purity of ELM and offers a way to showcase
@@ -14,6 +14,9 @@ Inspired by [React Storybook](https://storybook.js.org/)
 # UIExplorer
 @docs app
 @docs renderStories
+
+# Models
+
 @docs UI
 @docs UICategory
 
@@ -50,7 +53,8 @@ type alias UI =
     }
 
 
-{-| Represents a familly of related views. For example using Atomic Design, we can have the following categories (Atoms, Molecules etc..)
+{-| Represents a familly of related views.
+For example using [Atomic Design](http://bradfrost.com/blog/post/atomic-web-design/), we can have the following categories : Atoms, Molecules etc..
 -}
 type alias UICategory =
     ( String, List UI )
@@ -181,12 +185,6 @@ sizes =
     , categoryPadding = 10
     , categoryHeight = 40
     , categoryLineHeight = 38
-    }
-
-
-colors : { neutral : String }
-colors =
-    { neutral = "#333"
     }
 
 
@@ -387,8 +385,8 @@ renderStory index { selectedStoryId } ( id, state ) =
 {-| Renders Stories of a given UI.
 A story represents a state of a view such as (Loading, Error, Success, NoNetwork ...)
 -}
-renderStories : UIViewConfig -> (a -> Html msg) -> List ( String, a ) -> Html Msg
-renderStories config storyView stories =
+renderStories : (a -> Html msg) -> List ( String, a ) -> UIViewConfig -> Html Msg
+renderStories storyView stories config =
     let
         { selectedStoryId } =
             config

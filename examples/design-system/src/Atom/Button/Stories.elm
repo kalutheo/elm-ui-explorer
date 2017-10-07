@@ -13,5 +13,5 @@ stories =
     ]
 
 
-viewStories config =
-    renderStories config customButton stories
+viewStories =
+    renderStories customButton stories

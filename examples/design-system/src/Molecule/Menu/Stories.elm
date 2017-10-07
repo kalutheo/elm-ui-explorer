@@ -12,5 +12,5 @@ stories =
     ]
 
 
-viewStories config =
-    renderStories config view stories
+viewStories =
+    renderStories view stories

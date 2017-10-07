@@ -18,5 +18,5 @@ grid model =
     div [ style [ ( "width", "80%" ) ] ] [ view model ]
 
 
-viewStories config =
-    renderStories config grid stories
+viewStories =
+    renderStories grid stories

@@ -18,5 +18,5 @@ card model =
     div [ style [ ( "width", "400px" ) ] ] [ view model ]
 
 
-viewStories config =
-    renderStories config card stories
+viewStories =
+    renderStories card stories
