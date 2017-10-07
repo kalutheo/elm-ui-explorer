@@ -56,7 +56,11 @@ type alias UI =
 {-| Represents a familly of related views.
 For example using [Atomic Design](http://bradfrost.com/blog/post/atomic-web-design/), we can have the following categories : Atoms, Molecules etc..
 -}
-type alias UICategory =
+type UICategory
+    = UICategoryType InternalUICategory
+
+
+type alias InternalUICategory =
     ( String, List UI )
 
 
@@ -303,7 +307,7 @@ viewMenuItem category selectedUIId ui =
 
 
 viewMenuCategory : UIViewConfig -> UICategory -> Html Msg
-viewMenuCategory { selectedUIId, selectedStoryId } ( title, categories ) =
+viewMenuCategory { selectedUIId, selectedStoryId } (UICategoryType ( title, categories )) =
     div []
         [ a
             [ class "menu-label", styles.sidebarItemCategory ]
