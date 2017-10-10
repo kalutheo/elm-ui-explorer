@@ -49,11 +49,12 @@ type Msg
 
 {-| A UI represents a view and lists a set of stories
 -}
-type alias UI =
-    { id : String
-    , description : String
-    , viewStories : UIViewConfig -> Html Msg
-    }
+type UI
+    = UIType
+        { id : String
+        , description : String
+        , viewStories : UIViewConfig -> Html Msg
+        }
 
 
 {-| Represents a familly of related views.
@@ -292,7 +293,7 @@ viewHeader =
 
 
 viewMenuItem : String -> Maybe String -> UI -> Html Msg
-viewMenuItem category selectedUIId ui =
+viewMenuItem category selectedUIId (UIType ui) =
     let
         isSelected =
             case selectedUIId of
@@ -336,7 +337,7 @@ viewMenu categories config =
 
 
 filterSelectedUI : UI -> Model -> Bool
-filterSelectedUI ui model =
+filterSelectedUI (UIType ui) model =
     Maybe.map (\id -> ui.id == id) model.selectedUIId
         |> Maybe.withDefault False
 
@@ -362,7 +363,7 @@ viewContent model =
     in
         div []
             [ filteredUIs
-                |> List.map (\s -> s.viewStories viewConfig)
+                |> List.map (\(UIType s) -> s.viewStories viewConfig)
                 |> List.head
                 |> Maybe.withDefault
                     (div [ styles.welcome ]
@@ -372,7 +373,7 @@ viewContent model =
                     )
             , article []
                 (filteredUIs
-                    |> List.map (\s -> div [ styles.description ] [ text s.description ])
+                    |> List.map (\(UIType s) -> div [ styles.description ] [ text s.description ])
                 )
             ]
 
