@@ -1,6 +1,6 @@
 module Explorer exposing (..)
 
-import UIExplorer exposing (app, renderStories)
+import UIExplorer exposing (app, renderStories, toCategories)
 import Html.Attributes exposing (style)
 import Main exposing (view, Model)
 import Html exposing (div)
@@ -29,11 +29,13 @@ viewStoriesWrapper model =
 
 main =
     app
-        [ ( "Default"
-          , [ { id = "dropdown"
-              , description = "A dropdown Menu"
-              , viewStories = renderStories viewStoriesWrapper stories
-              }
-            ]
-          )
-        ]
+        ([ ( "Default"
+           , [ { id = "dropdown"
+               , description = "A dropdown Menu"
+               , viewStories = renderStories viewStoriesWrapper stories
+               }
+             ]
+           )
+         ]
+            |> toCategories
+        )
