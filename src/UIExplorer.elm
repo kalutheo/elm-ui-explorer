@@ -1,4 +1,4 @@
-module UIExplorer exposing (app, renderStories, UI, UICategory)
+module UIExplorer exposing (app, renderStories, UI, UICategory, toCategories)
 
 {-|
 
@@ -19,6 +19,9 @@ Inspired by [React Storybook](https://storybook.js.org/)
 
 @docs UI
 @docs UICategory
+
+# Utils
+@docs toCategories
 
 -}
 
@@ -150,7 +153,16 @@ update msg model =
             ( model, Navigation.newUrl "#" )
 
 
+{-|
+   Converts a list to a list of categories
+-}
+toCategories : List InternalUICategory -> List UICategory
+toCategories list =
+    List.map UICategoryType list
+
+
 {-| Launches a UIExplorer Applicaton given a list of categories
+UICategoryType ( title, categories )
 -}
 app : List UICategory -> Program Never Model Msg
 app categories =
@@ -329,12 +341,17 @@ filterSelectedUI ui model =
         |> Maybe.withDefault False
 
 
+getUIListFromCategories : UICategory -> List UI
+getUIListFromCategories (UICategoryType ( title, categories )) =
+    categories
+
+
 viewContent : Model -> Html Msg
 viewContent model =
     let
         filteredUIs =
             model.categories
-                |> List.map Tuple.second
+                |> List.map getUIListFromCategories
                 |> List.foldr (++) []
                 |> List.filter (\ui -> filterSelectedUI ui model)
 
