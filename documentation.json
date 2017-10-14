@@ -1,27 +1,15 @@
 [
   {
     "name": "UIExplorer",
-<<<<<<< HEAD
-    "comment": "\n\n[Component Explorers](https://blog.hichroma.com/the-crucial-tool-for-modern-frontend-engineers-fb849b06187a) and [Style Guides](http://styleguides.io/) have been around for a while now.\nWe don't build pages anymore but components that are assembled together to build systems.\n\nIn the ELM world, components are just called views, and are defined as pure functions.\nELM UI Explorer takes advantage of the composability and the purity of ELM and offers a way to showcase\nyour views and their states in a single tool.\n\nInspired by [React Storybook](https://storybook.js.org/)\n\n# UIExplorer\n@docs app\n@docs renderStories\n\n# Models\n\n@docs UI\n@docs UICategory\n\n# Utils\n@docs emptyUICategories\n@docs addUICategory\n",
+    "comment": "\n\n[Component Explorers](https://blog.hichroma.com/the-crucial-tool-for-modern-frontend-engineers-fb849b06187a) and [Style Guides](http://styleguides.io/) have been around for a while now.\nWe don't build pages anymore but components that are assembled together to build systems.\n\nIn the ELM world, components are just called views, and are defined as pure functions.\nELM UI Explorer takes advantage of the composability and the purity of ELM and offers a way to showcase\nyour views and their states in a single tool.\n\nInspired by [React Storybook](https://storybook.js.org/)\n\n# UIExplorer\n@docs app\n@docs renderStories\n\n# Models\n\n@docs UI\n@docs UICategory\n\n# Utils\n@docs addUICategory\n@docs emptyUICategories\n@docs createUI\n",
     "aliases": [],
     "types": [
-=======
-    "comment": "\n\n[Component Explorers](https://blog.hichroma.com/the-crucial-tool-for-modern-frontend-engineers-fb849b06187a) and [Style Guides](http://styleguides.io/) have been around for a while now.\nWe don't build pages anymore but components that are assembled together to build systems.\n\nIn the ELM world, components are just called views, and are defined as pure functions.\nELM UI Explorer takes advantage of the composability and the purity of ELM and offers a way to showcase\nyour views and their states in a single tool.\n\nInspired by [React Storybook](https://storybook.js.org/)\n\n# UIExplorer\n@docs app\n@docs renderStories\n\n# Models\n\n@docs UI\n@docs UICategory\n\n# Utils\n@docs categoriesFromList\n\n",
-    "aliases": [
->>>>>>> origin/opaque-type
       {
         "name": "UI",
         "comment": " A UI represents a view and lists a set of stories\n",
         "args": [],
-<<<<<<< HEAD
         "cases": []
       },
-=======
-        "type": "{ id : String , description : String , viewStories : UIExplorer.UIViewConfig -> Html.Html UIExplorer.Msg }"
-      }
-    ],
-    "types": [
->>>>>>> origin/opaque-type
       {
         "name": "UICategory",
         "comment": " Represents a familly of related views.\nFor example using [Atomic Design](http://bradfrost.com/blog/post/atomic-web-design/), we can have the following categories : Atoms, Molecules etc..\n",
@@ -33,7 +21,7 @@
       {
         "name": "addUICategory",
         "comment": "\n   Add Category to a list of categories\n",
-        "type": "String -> String -> String -> (UIExplorer.UIViewConfig -> Html.Html UIExplorer.Msg) -> List UIExplorer.UICategory -> List UIExplorer.UICategory"
+        "type": "String -> List UIExplorer.UI -> List UIExplorer.UICategory -> List UIExplorer.UICategory"
       },
       {
         "name": "app",
@@ -41,15 +29,14 @@
         "type": "List UIExplorer.UICategory -> Platform.Program Basics.Never UIExplorer.Model UIExplorer.Msg"
       },
       {
-<<<<<<< HEAD
+        "name": "createUI",
+        "comment": "\n   Create a Ui\n",
+        "type": "String -> String -> (UIExplorer.UIViewConfig -> Html.Html UIExplorer.Msg) -> UIExplorer.UI"
+      },
+      {
         "name": "emptyUICategories",
         "comment": "\n   Create empty list of categories\n",
         "type": "List UIExplorer.UICategory"
-=======
-        "name": "categoriesFromList",
-        "comment": "\n   Converts a list to a list of categories\n",
-        "type": "List UIExplorer.InternalUICategory -> List UIExplorer.UICategory"
->>>>>>> origin/opaque-type
       },
       {
         "name": "renderStories",

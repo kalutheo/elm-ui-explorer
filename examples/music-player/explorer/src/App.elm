@@ -1,6 +1,6 @@
 module App exposing (..)
 
-import UIExplorer exposing (app)
+import UIExplorer exposing (app, addUICategory, emptyUICategories, createUI)
 import Stories.PlayPause as PlayPause
 import Stories.Controls as Controls
 import Stories.TrackList as TrackList
@@ -8,19 +8,20 @@ import Stories.TrackList as TrackList
 
 main =
     app
-        [ ( "Default"
-          , [ { id = "PlayPause"
-              , description = "A simple play/pause button"
-              , viewStories = PlayPause.viewStories
-              }
-            , { id = "Controls"
-              , description = "Music player controls"
-              , viewStories = Controls.viewStories
-              }
-            , { id = "TrackList"
-              , description = "List of tracks"
-              , viewStories = TrackList.viewStories
-              }
-            ]
-          )
-        ]
+        (emptyUICategories
+            |> addUICategory
+                "Default"
+                [ createUI
+                    "PlayPause"
+                    "A simple play/pause button"
+                    PlayPause.viewStories
+                , createUI
+                    "Controls"
+                    "Music player controls"
+                    Controls.viewStories
+                , createUI
+                    "TrackList"
+                    "List of tracks"
+                    TrackList.viewStories
+                ]
+        )

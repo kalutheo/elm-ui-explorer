@@ -3,7 +3,7 @@ module Explorer exposing (..)
 import Html.Attributes exposing (style)
 import Main exposing (view, Model)
 import Html exposing (div)
-import UIExplorer exposing (app, addUICategory, emptyUICategories, renderStories)
+import UIExplorer exposing (app, addUICategory, emptyUICategories, renderStories, createUI)
 
 
 {--A list of stories that represent all available states of the UI--}
@@ -42,7 +42,9 @@ main =
         (emptyUICategories
             |> addUICategory
                 "Default"
-                "dropdown"
-                "A dropdown Menu"
-                (renderStories viewStoriesWrapper stories)
+                [ createUI
+                    "dropdown"
+                    "A dropdown Menu"
+                    (renderStories viewStoriesWrapper stories)
+                ]
         )

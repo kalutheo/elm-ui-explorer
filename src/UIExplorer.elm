@@ -1,4 +1,4 @@
-module UIExplorer exposing (app, renderStories, UI, UICategory, addUICategory, emptyUICategories)
+module UIExplorer exposing (app, renderStories, UI, UICategory, addUICategory, emptyUICategories, createUI)
 
 {-|
 
@@ -23,6 +23,7 @@ Inspired by [React Storybook](https://storybook.js.org/)
 # Utils
 @docs addUICategory
 @docs emptyUICategories
+@docs createUI
 -}
 
 import Html exposing (Html)
@@ -167,6 +168,9 @@ emptyUICategories =
     []
 
 
+{-|
+   Create a Ui
+-}
 createUI : String -> String -> (UIViewConfig -> Html Msg) -> UI
 createUI id description viewStories =
     UIType
@@ -179,14 +183,13 @@ createUI id description viewStories =
 {-|
    Add Category to a list of categories
 -}
-addUICategory : String -> String -> String -> (UIViewConfig -> Html Msg) -> List UICategory -> List UICategory
-addUICategory title id description viewStories categories =
+addUICategory : String -> List UI -> List UICategory -> List UICategory
+addUICategory title uiList categories =
     let
         category =
             UICategoryType
                 ( title
-                , [ createUI id description viewStories
-                  ]
+                , uiList
                 )
     in
         category :: categories
