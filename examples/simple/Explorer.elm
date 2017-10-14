@@ -1,9 +1,9 @@
 module Explorer exposing (..)
 
-import UIExplorer exposing (app, renderStories, addUICategory, emptyUICategories)
 import Html.Attributes exposing (style)
 import Main exposing (view, Model)
 import Html exposing (div)
+import UIExplorer exposing (app, addUICategory, emptyUICategories, renderStories)
 
 
 {--A list of stories that represent all available states of the UI--}

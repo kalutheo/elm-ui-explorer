@@ -1,4 +1,4 @@
-module UIExplorer exposing (app, renderStories, UI, UICategory, emptyUICategories, addUICategory)
+module UIExplorer exposing (app, renderStories, UI, UICategory, addUICategory, emptyUICategories)
 
 {-|
 
@@ -21,8 +21,8 @@ Inspired by [React Storybook](https://storybook.js.org/)
 @docs UICategory
 
 # Utils
-@docs emptyUICategories
 @docs addUICategory
+@docs emptyUICategories
 -}
 
 import Html exposing (Html)
