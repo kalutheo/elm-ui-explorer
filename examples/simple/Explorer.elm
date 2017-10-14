@@ -23,20 +23,6 @@ viewStoriesWrapper model =
     div [ style [ ( "height", "100px" ) ] ] [ view model ]
 
 
-
-{--Runs the UIExplorer App with a given UI collection--}
-{--
-[ ( "Default"
-   , [ { id = "dropdown"
-       , description = "A dropdown Menu"
-       , viewStories = renderStories viewStoriesWrapper stories
-       }
-     ]
-   )
- ]
---}
-
-
 main =
     app
         (emptyUICategories
