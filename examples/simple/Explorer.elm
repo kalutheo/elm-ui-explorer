@@ -40,9 +40,9 @@ viewStoriesWrapper model =
 main =
     app
         (emptyUICategories
-            |> addUICategory "Default"
-                { id = "dropdown"
-                , description = "A dropdown Menu"
-                , viewStories = renderStories viewStoriesWrapper stories
-                }
+            |> addUICategory
+                "Default"
+                "dropdown"
+                "A dropdown Menu"
+                (renderStories viewStoriesWrapper stories)
         )

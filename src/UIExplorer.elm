@@ -167,12 +167,29 @@ emptyUICategories =
     []
 
 
+createUI : String -> String -> (UIViewConfig -> Html Msg) -> UI
+createUI id description viewStories =
+    UIType
+        { id = id
+        , description = description
+        , viewStories = viewStories
+        }
+
+
 {-|
    Add Category to a list of categories
 -}
-addUICategory : String -> UICategory -> List UICategory -> List UICategory
-addUICategory title (UICategoryType category) categories =
-    categories
+addUICategory : String -> String -> String -> (UIViewConfig -> Html Msg) -> List UICategory -> List UICategory
+addUICategory title id description viewStories categories =
+    let
+        category =
+            UICategoryType
+                ( title
+                , [ createUI id description viewStories
+                  ]
+                )
+    in
+        category :: categories
 
 
 {-| Launches a UIExplorer Applicaton given a list of categories
