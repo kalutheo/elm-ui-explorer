@@ -13,15 +13,12 @@ main =
                 "Default"
                 [ createUI
                     "PlayPause"
-                    "A simple play/pause button"
                     PlayPause.viewStories
                 , createUI
                     "Controls"
-                    "Music player controls"
                     Controls.viewStories
                 , createUI
                     "TrackList"
-                    "List of tracks"
                     TrackList.viewStories
                 ]
         )

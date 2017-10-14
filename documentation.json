@@ -1,7 +1,7 @@
 [
   {
     "name": "UIExplorer",
-    "comment": "\n\n[Component Explorers](https://blog.hichroma.com/the-crucial-tool-for-modern-frontend-engineers-fb849b06187a) and [Style Guides](http://styleguides.io/) have been around for a while now.\nWe don't build pages anymore but components that are assembled together to build systems.\n\nIn the ELM world, components are just called views, and are defined as pure functions.\nELM UI Explorer takes advantage of the composability and the purity of ELM and offers a way to showcase\nyour views and their states in a single tool.\n\nInspired by [React Storybook](https://storybook.js.org/)\n\n# UIExplorer\n@docs app\n@docs renderStories\n\n# Models\n\n@docs UI\n@docs UICategory\n\n# Utils\n@docs addUICategory\n@docs emptyUICategories\n@docs createUI\n",
+    "comment": "\n\n[Component Explorers](https://blog.hichroma.com/the-crucial-tool-for-modern-frontend-engineers-fb849b06187a) and [Style Guides](http://styleguides.io/) have been around for a while now.\nWe don't build pages anymore but components that are assembled together to build systems.\n\nIn the ELM world, components are just called views, and are defined as pure functions.\nELM UI Explorer takes advantage of the composability and the purity of ELM and offers a way to showcase\nyour views and their states in a single tool.\n\nInspired by [React Storybook](https://storybook.js.org/)\n\n# UIExplorer\n@docs app\n@docs renderStories\n\n# Models\n\n@docs UI\n@docs UICategory\n\n# Utils\n@docs addUICategory\n@docs emptyUICategories\n@docs createUI\n@docs createUIWithDescription\n@docs fromUIList\n\n",
     "aliases": [],
     "types": [
       {
@@ -31,12 +31,22 @@
       {
         "name": "createUI",
         "comment": "\n   Create a Ui\n",
+        "type": "String -> (UIExplorer.UIViewConfig -> Html.Html UIExplorer.Msg) -> UIExplorer.UI"
+      },
+      {
+        "name": "createUIWithDescription",
+        "comment": "\n   Create a Ui with description\n",
         "type": "String -> String -> (UIExplorer.UIViewConfig -> Html.Html UIExplorer.Msg) -> UIExplorer.UI"
       },
       {
         "name": "emptyUICategories",
         "comment": "\n   Create empty list of categories\n",
         "type": "List UIExplorer.UICategory"
+      },
+      {
+        "name": "fromUIList",
+        "comment": "\n   Create UICategories from a list of UI\n   Add them in a Default Category\n",
+        "type": "List UIExplorer.UI -> List UIExplorer.UICategory"
       },
       {
         "name": "renderStories",

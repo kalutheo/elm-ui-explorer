@@ -1,4 +1,4 @@
-module UIExplorer exposing (app, renderStories, UI, UICategory, addUICategory, emptyUICategories, createUI)
+module UIExplorer exposing (app, renderStories, UI, UICategory, addUICategory, emptyUICategories, createUI, createUIWithDescription, fromUIList)
 
 {-|
 
@@ -24,6 +24,9 @@ Inspired by [React Storybook](https://storybook.js.org/)
 @docs addUICategory
 @docs emptyUICategories
 @docs createUI
+@docs createUIWithDescription
+@docs fromUIList
+
 -}
 
 import Html exposing (Html)
@@ -171,13 +174,30 @@ emptyUICategories =
 {-|
    Create a Ui
 -}
-createUI : String -> String -> (UIViewConfig -> Html Msg) -> UI
-createUI id description viewStories =
+createUI : String -> (UIViewConfig -> Html Msg) -> UI
+createUI id viewStories =
+    createUIWithDescription id "" viewStories
+
+
+{-|
+   Create a Ui with description
+-}
+createUIWithDescription : String -> String -> (UIViewConfig -> Html Msg) -> UI
+createUIWithDescription id description viewStories =
     UIType
         { id = id
         , description = description
         , viewStories = viewStories
         }
+
+
+{-|
+   Create UICategories from a list of UI
+   Add them in a Default Category
+-}
+fromUIList : List UI -> List UICategory
+fromUIList uiList =
+    emptyUICategories |> List.append [ (UICategoryType ( "Default", uiList )) ]
 
 
 {-|
@@ -192,7 +212,7 @@ addUICategory title uiList categories =
                 , uiList
                 )
     in
-        category :: categories
+        List.append categories [ category ]
 
 
 {-| Launches a UIExplorer Applicaton given a list of categories
