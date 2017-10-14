@@ -1,6 +1,6 @@
 module Explorer exposing (..)
 
-import UIExplorer exposing (app, renderStories, toCategories)
+import UIExplorer exposing (app, renderStories, addUICategory, emptyUICategories)
 import Html.Attributes exposing (style)
 import Main exposing (view, Model)
 import Html exposing (div)
@@ -25,17 +25,24 @@ viewStoriesWrapper model =
 
 
 {--Runs the UIExplorer App with a given UI collection--}
+{--
+[ ( "Default"
+   , [ { id = "dropdown"
+       , description = "A dropdown Menu"
+       , viewStories = renderStories viewStoriesWrapper stories
+       }
+     ]
+   )
+ ]
+--}
 
 
 main =
     app
-        ([ ( "Default"
-           , [ { id = "dropdown"
-               , description = "A dropdown Menu"
-               , viewStories = renderStories viewStoriesWrapper stories
-               }
-             ]
-           )
-         ]
-            |> toCategories
+        (emptyUICategories
+            |> addUICategory "Default"
+                { id = "dropdown"
+                , description = "A dropdown Menu"
+                , viewStories = renderStories viewStoriesWrapper stories
+                }
         )

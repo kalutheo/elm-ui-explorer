@@ -1,4 +1,4 @@
-module UIExplorer exposing (app, renderStories, UI, UICategory, toCategories)
+module UIExplorer exposing (app, renderStories, UI, UICategory, emptyUICategories, addUICategory)
 
 {-|
 
@@ -21,8 +21,8 @@ Inspired by [React Storybook](https://storybook.js.org/)
 @docs UICategory
 
 # Utils
-@docs toCategories
-
+@docs emptyUICategories
+@docs addUICategory
 -}
 
 import Html exposing (Html)
@@ -154,12 +154,25 @@ update msg model =
             ( model, Navigation.newUrl "#" )
 
 
-{-|
-   Converts a list to a list of categories
--}
 toCategories : List InternalUICategory -> List UICategory
 toCategories list =
     List.map UICategoryType list
+
+
+{-|
+   Create empty list of categories
+-}
+emptyUICategories : List UICategory
+emptyUICategories =
+    []
+
+
+{-|
+   Add Category to a list of categories
+-}
+addUICategory : String -> UICategory -> List UICategory -> List UICategory
+addUICategory title (UICategoryType category) categories =
+    categories
 
 
 {-| Launches a UIExplorer Applicaton given a list of categories
