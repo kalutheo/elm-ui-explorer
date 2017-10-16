@@ -1,6 +1,6 @@
 ## Music Player
 
-This is a simple Music Player in ELM.
+This is a simple music player in Elm.
 - It uses ports with the HTML5 Audio API.
 - Sound tracks are mocked from Spotify API.
 
@@ -17,9 +17,9 @@ The UI Explorer showcases how each view works in isolation.
 ### Structure
 
 - public : Contains static assets such as html and css
-- src : Source of the Music Player application
+- src : Source of the music player application
 - explorer : Contains the UI Explorer
-- elm-package : Describes ELM packages dependencies
+- elm-package : Describes Elm packages dependencies
 - package.json : Describes Node packages dependencies
 
 
