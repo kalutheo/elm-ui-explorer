@@ -1,7 +1,7 @@
 ## Simple Example
 
 
-The simplest integration of a view in the UIExplorer. The example shows a Dropdown Menu with two states (Default & Opened)
+The simplest integration of a view in the Elm UI Explorer. The example shows a dropdown menu with two states (Default & Opened)
 
 
 <center>
