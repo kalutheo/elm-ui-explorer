@@ -26,7 +26,7 @@ The UI Explorer showcases how each view works in isolation.
 ### How to run
 #### The App
 - run ```npm i``` to install node packages
-- run ```npm start``` to run the Music Player
+- run ```npm start``` to run the music player
 
 #### The UI Explorer
 - run ```cd explorer```
