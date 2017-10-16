@@ -17,7 +17,7 @@ Inspired by [React Storybook](https://storybook.js.org/)
 - Music Player [source](/examples/music-player) | [explorer demo](https://kalutheo.github.io/elm-ui-explorer/examples/music-player/explorer/) | [app demo](https://kalutheo.github.io/elm-ui-explorer/examples/music-player/app/index.html)
 - Design system [source](/examples/design-system) | [explorer demo](https://kalutheo.github.io/elm-ui-explorer/examples/design-system/explorer/)
 
-## Main Features
+### Main Features
 
 - **Deep linking :** You can easily share your views and their states by copying and pasting the url  ( You can even attach them to your JIRA tickets or Pull Request to give context to other team members )
 
@@ -26,7 +26,7 @@ Inspired by [React Storybook](https://storybook.js.org/)
 - **Descriptions :** A short paragraph can be added to describe how a view works and behaves.
 
 
-## Best Practices
+### Best Practices
 
 - In order to avoid CSS conflicts with built in UI Explorer Styles, consider using CSS Namespacing if using [elm-css](https://github.com/rtfeldman/elm-css) or any technic that prevents styles collisions.  
 
