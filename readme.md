@@ -16,3 +16,28 @@ Inspired by [React Storybook](https://storybook.js.org/)
 - Simple Example [source](/examples/simple)| [explorer demo](https://kalutheo.github.io/elm-ui-explorer/examples/simples/explorer.html) | [app demo](https://kalutheo.github.io/elm-ui-explorer/examples/simples/index.html)
 - Music Player [source](/examples/music-player) | [explorer demo](https://kalutheo.github.io/elm-ui-explorer/examples/music-player/explorer/) | [app demo](https://kalutheo.github.io/elm-ui-explorer/examples/music-player/app/index.html)
 - Design system [source](/examples/design-system) | [explorer demo](https://kalutheo.github.io/elm-ui-explorer/examples/design-system/explorer/)
+
+## Main Features
+
+- Deep linking : You can easily share your views and their states by copying and pasting the url  ( You can even attach them to your JIRA tickets or Pull Request to give context to other team members )
+
+- Categories : Your UI Explorer can be divided into categories. Convenient if you have many views and you want to group them by family.
+
+- Descriptions : A short paragraph can be added to describe how a view works and behaves.
+
+
+## Best Practices
+
+- In order to avoid CSS conflicts with built in UI Explorer Styles, consider using CSS Namespacing if using [elm-css](https://github.com/rtfeldman/elm-css) or any technic that prevents styles collisions.  
+
+- Always name your UI Categories and UI Elements in CamelCase without spaces or special characters
+
+- UI Categories and Element ids  should be unique and be written in CamelCase without spaces or special characters (ex:  DropDownMenu, Loading, Loaded etc... )
+
+- For Hot Reloading, it's recommended to use "Create React App"
+
+- Try to adopt [SSD (StoryBook Driven Development)](https://medium.com/nulogy/storybook-driven-development-a3c517276c07), creating UI this way can be very efficient.
+
+- Use Atomic Design paradigm. This will help you build a scalable Design System.
+
+
