@@ -19,25 +19,23 @@ Inspired by [React Storybook](https://storybook.js.org/)
 
 ## Main Features
 
-- Deep linking : You can easily share your views and their states by copying and pasting the url  ( You can even attach them to your JIRA tickets or Pull Request to give context to other team members )
+- **Deep linking :** You can easily share your views and their states by copying and pasting the url  ( You can even attach them to your JIRA tickets or Pull Request to give context to other team members )
 
-- Categories : Your UI Explorer can be divided into categories. Convenient if you have many views and you want to group them by family.
+- **Categories :** Your UI Explorer can be divided into categories. Convenient if you have many views and you want to group them by family.
 
-- Descriptions : A short paragraph can be added to describe how a view works and behaves.
+- **Descriptions :** A short paragraph can be added to describe how a view works and behaves.
 
 
 ## Best Practices
 
 - In order to avoid CSS conflicts with built in UI Explorer Styles, consider using CSS Namespacing if using [elm-css](https://github.com/rtfeldman/elm-css) or any technic that prevents styles collisions.  
 
-- Always name your UI Categories and UI Elements in CamelCase without spaces or special characters
-
-- UI Categories and Element ids  should be unique and be written in CamelCase without spaces or special characters (ex:  DropDownMenu, Loading, Loaded etc... )
+- UI Categories and Element ids should be unique and be written in CamelCase without spaces or special characters (ex:  DropDownMenu, Loading, Loaded etc... )
 
 - For Hot Reloading, it's recommended to use "Create React App"
 
 - Try to adopt [SSD (StoryBook Driven Development)](https://medium.com/nulogy/storybook-driven-development-a3c517276c07), creating UI this way can be very efficient.
 
-- Use Atomic Design paradigm. This will help you build a scalable Design System.
+- Use [Atomic Design](http://bradfrost.com/blog/post/atomic-web-design/) paradigm. This will help you build a scalable Design System.
 
 
