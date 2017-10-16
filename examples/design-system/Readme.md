@@ -1,7 +1,7 @@
 ## Design System
 
 A [Design System](https://airbnb.design/building-a-visual-language/) can help frontend developers and designers to define a unified set of UX & Design rules.
-UI Explorer makes building such system in ELM a breeze :
+Elm UI Explorer makes building such system in Elm a breeze :
 
 
 <center>
@@ -15,7 +15,7 @@ UI Explorer makes building such system in ELM a breeze :
 
 - public : Contains static assets such as html and css
 - src : Source of the Design System
-- elm-package : Describes ELM packages dependencies
+- elm-package : Describes Elm packages dependencies
 - package.json : Describes Node packages dependencies
 
 
