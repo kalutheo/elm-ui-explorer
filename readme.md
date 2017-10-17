@@ -19,7 +19,7 @@ Inspired by [React Storybook](https://storybook.js.org/)
 
 ### Main Features
 
-- **Deep linking :** You can easily share your views and their states by copying and pasting the url  ( You can even attach them to your JIRA tickets or Pull Request to give context to other team members )
+- **Deep linking :** You can easily share UI Explorer states by copying and pasting the url ( ex:  attach them to your JIRA tickets, Pull Request etc... )
 
 - **Categories :** Your UI Explorer can be divided into categories. Convenient if you have many views and you want to group them by family.
 
@@ -30,9 +30,9 @@ Inspired by [React Storybook](https://storybook.js.org/)
 
 - In order to avoid CSS conflicts with built in UI Explorer Styles, consider using CSS Namespacing if using [elm-css](https://github.com/rtfeldman/elm-css) or any technic that prevents styles collisions.  
 
-- UI Categories and Element ids should be unique and be written in CamelCase without spaces or special characters (ex:  DropDownMenu, Loading, Loaded etc... )
+- All ids should be unique and be written in CamelCase without spaces or special characters (ex:  DropDownMenu, Loading, Loaded etc... )
 
-- For Hot Reloading, it's recommended to use "Create React App"
+- For Hot Reloading, it's recommended to use [Create Elm App](https://github.com/halfzebra/create-elm-app)
 
 - Try to adopt [SSD (StoryBook Driven Development)](https://medium.com/nulogy/storybook-driven-development-a3c517276c07), creating UI this way can be very efficient.
 
