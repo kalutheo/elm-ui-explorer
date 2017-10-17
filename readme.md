@@ -34,7 +34,7 @@ Inspired by [React Storybook](https://storybook.js.org/)
 
 - For Hot Reloading, it's recommended to use [Create Elm App](https://github.com/halfzebra/create-elm-app)
 
-- Try to adopt [SSD (StoryBook Driven Development)](https://medium.com/nulogy/storybook-driven-development-a3c517276c07), creating UI this way can be very efficient.
+- Try to adopt [SDD (StoryBook Driven Development)](https://medium.com/nulogy/storybook-driven-development-a3c517276c07), creating UI this way can be very efficient.
 
 - Use [Atomic Design](http://bradfrost.com/blog/post/atomic-web-design/) paradigm. This will help you build a scalable Design System.
 
