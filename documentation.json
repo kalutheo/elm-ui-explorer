@@ -6,7 +6,7 @@
     "types": [
       {
         "name": "UI",
-        "comment": " A UI represents a view and lists a set of stories\n",
+        "comment": " A UI represents a view and lists a set of stories.\nFor Example : A Button with following stories (Loading, Disabled)\n",
         "args": [],
         "cases": []
       },
@@ -20,37 +20,37 @@
     "values": [
       {
         "name": "addUICategory",
-        "comment": "\n   Add Category to a list of categories\n",
+        "comment": "\n   Add Category to a list of categories\n```\n   emptyUICategories\n       |> addUICategory\n           \"A Great Category\"\n           [ createUI\n               \"My View\"\n               MyView.viewStories\n           ]\n```\n",
         "type": "String -> List UIExplorer.UI -> List UIExplorer.UICategory -> List UIExplorer.UICategory"
       },
       {
         "name": "app",
-        "comment": " Launches a UIExplorer Applicaton given a list of categories\nUICategoryType ( title, categories )\n",
+        "comment": " Launches a UIExplorer Applicaton given a list of categories\n\n```\nmain =\n    app\n        (emptyUICategories\n            |> addUICategory\n                \"Atoms\"\n                [ createUIWithDescription\n                    \"Colors\"\n                    \"Global Color Schemes\"\n                    Colors.viewStories\n                ]\n            |> addUICategory\n                \"Molecules\"\n                [ createUI\n                    \"Card\"\n                    Card.viewStories\n                ]\n        )\n```\n\n",
         "type": "List UIExplorer.UICategory -> Platform.Program Basics.Never UIExplorer.Model UIExplorer.Msg"
       },
       {
         "name": "createUI",
-        "comment": "\n   Create a Ui\n",
+        "comment": "\n   Create a UI given an ID and Story Views\n```\nstories : List ( String, ButtonModel )\nstories =\n    [ ( \"LargePrimary\", { label = \"Primary\", isLarge = True, isPrimary = True } )\n    , ( \"TinyPrimary\", { label = \"Primary\", isLarge = False, isPrimary = True } )\n    , ( \"LargeSecondary\", { label = \"Secondary\", isLarge = True, isPrimary = False } )\n    , ( \"TinySecondary\", { label = \"Secondary\", isLarge = False, isPrimary = False } )\n    ]\n\n\nviewStories =\n    renderStories customButton stories\n\ncreateUI \"Button\" viewStories\n```\n\n",
         "type": "String -> (UIExplorer.UIViewConfig -> Html.Html UIExplorer.Msg) -> UIExplorer.UI"
       },
       {
         "name": "createUIWithDescription",
-        "comment": "\n   Create a Ui with description\n",
+        "comment": "\n   Create a UI with a description\n   ```\n   createUI \"Button\" \"A Simple Button :-)\" viewStories\n\n   ```\n",
         "type": "String -> String -> (UIExplorer.UIViewConfig -> Html.Html UIExplorer.Msg) -> UIExplorer.UI"
       },
       {
         "name": "emptyUICategories",
-        "comment": "\n   Create empty list of categories\n",
+        "comment": "\n   Creates an empty list of UI Categories\n",
         "type": "List UIExplorer.UICategory"
       },
       {
         "name": "fromUIList",
-        "comment": "\n   Create UICategories from a list of UI\n   Add them in a Default Category\n",
+        "comment": "\n   Create UICategories from a list of UI and Add them in a Default Category.\n   This is the simplest way to initialize the UI Explorer app.\n   ```\n   main =\n       app\n           (fromUIList\n               [ createUI\n                   \"PlayPause\"\n                   PlayPause.viewStories\n               , createUI\n                   \"Controls\"\n                   Controls.viewStories\n               , createUI\n                   \"TrackList\"\n                   TrackList.viewStories\n               ]\n           )\n   ```\n",
         "type": "List UIExplorer.UI -> List UIExplorer.UICategory"
       },
       {
         "name": "renderStories",
-        "comment": " Renders Stories of a given UI.\nA story represents a state of a view such as (Loading, Error, Success, NoNetwork ...)\n",
+        "comment": " Renders Stories of a given UI.\nA story represents a state of a view such as (Loading, Error, Success, NoNetwork ...)\n```\nstories : List ( String, Model )\nstories =\n    [ ( \"Loading\", { isLoading = True } ), ( \"Loading\", { isLoading = False } ) ]\n\nviewStories = renderStories (view model) stories\n```\n",
         "type": "(a -> Html.Html msg) -> List ( String, a ) -> UIExplorer.UIViewConfig -> Html.Html UIExplorer.Msg"
       }
     ],

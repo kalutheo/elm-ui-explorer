@@ -51,7 +51,8 @@ type Msg
 {--Model --}
 
 
-{-| A UI represents a view and lists a set of stories
+{-| A UI represents a view and lists a set of stories.
+For Example : A Button with following stories (Loading, Disabled)
 -}
 type UI
     = UIType
@@ -164,7 +165,7 @@ toCategories list =
 
 
 {-|
-   Create empty list of categories
+   Creates an empty list of UI Categories
 -}
 emptyUICategories : List UICategory
 emptyUICategories =
@@ -172,7 +173,23 @@ emptyUICategories =
 
 
 {-|
-   Create a Ui
+   Create a UI given an ID and Story Views
+```
+stories : List ( String, ButtonModel )
+stories =
+    [ ( "LargePrimary", { label = "Primary", isLarge = True, isPrimary = True } )
+    , ( "TinyPrimary", { label = "Primary", isLarge = False, isPrimary = True } )
+    , ( "LargeSecondary", { label = "Secondary", isLarge = True, isPrimary = False } )
+    , ( "TinySecondary", { label = "Secondary", isLarge = False, isPrimary = False } )
+    ]
+
+
+viewStories =
+    renderStories customButton stories
+
+createUI "Button" viewStories
+```
+
 -}
 createUI : String -> (UIViewConfig -> Html Msg) -> UI
 createUI id viewStories =
@@ -180,7 +197,11 @@ createUI id viewStories =
 
 
 {-|
-   Create a Ui with description
+   Create a UI with a description
+   ```
+   createUI "Button" "A Simple Button :-)" viewStories
+
+   ```
 -}
 createUIWithDescription : String -> String -> (UIViewConfig -> Html Msg) -> UI
 createUIWithDescription id description viewStories =
@@ -192,8 +213,24 @@ createUIWithDescription id description viewStories =
 
 
 {-|
-   Create UICategories from a list of UI
-   Add them in a Default Category
+   Create UICategories from a list of UI and Add them in a Default Category.
+   This is the simplest way to initialize the UI Explorer app.
+   ```
+   main =
+       app
+           (fromUIList
+               [ createUI
+                   "PlayPause"
+                   PlayPause.viewStories
+               , createUI
+                   "Controls"
+                   Controls.viewStories
+               , createUI
+                   "TrackList"
+                   TrackList.viewStories
+               ]
+           )
+   ```
 -}
 fromUIList : List UI -> List UICategory
 fromUIList uiList =
@@ -202,6 +239,15 @@ fromUIList uiList =
 
 {-|
    Add Category to a list of categories
+```
+   emptyUICategories
+       |> addUICategory
+           "A Great Category"
+           [ createUI
+               "My View"
+               MyView.viewStories
+           ]
+```
 -}
 addUICategory : String -> List UI -> List UICategory -> List UICategory
 addUICategory title uiList categories =
@@ -216,7 +262,27 @@ addUICategory title uiList categories =
 
 
 {-| Launches a UIExplorer Applicaton given a list of categories
-UICategoryType ( title, categories )
+
+```
+main =
+    app
+        (emptyUICategories
+            |> addUICategory
+                "Atoms"
+                [ createUIWithDescription
+                    "Colors"
+                    "Global Color Schemes"
+                    Colors.viewStories
+                ]
+            |> addUICategory
+                "Molecules"
+                [ createUI
+                    "Card"
+                    Card.viewStories
+                ]
+        )
+```
+
 -}
 app : List UICategory -> Program Never Model Msg
 app categories =
@@ -459,6 +525,13 @@ renderStory index { selectedStoryId } ( id, state ) =
 
 {-| Renders Stories of a given UI.
 A story represents a state of a view such as (Loading, Error, Success, NoNetwork ...)
+```
+stories : List ( String, Model )
+stories =
+    [ ( "Loading", { isLoading = True } ), ( "Loading", { isLoading = False } ) ]
+
+viewStories = renderStories (view model) stories
+```
 -}
 renderStories : (a -> Html msg) -> List ( String, a ) -> UIViewConfig -> Html Msg
 renderStories storyView stories config =
