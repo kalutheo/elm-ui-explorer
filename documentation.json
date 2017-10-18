@@ -1,7 +1,7 @@
 [
   {
     "name": "UIExplorer",
-    "comment": "\n\n[Component Explorers](https://blog.hichroma.com/the-crucial-tool-for-modern-frontend-engineers-fb849b06187a) and [Style Guides](http://styleguides.io/) have been around for a while now.\nWe don't build pages anymore but components that are assembled together to build systems.\n\nIn the ELM world, components are just called views, and are defined as pure functions.\nELM UI Explorer takes advantage of the composability and the purity of ELM and offers a way to showcase\nyour views and their states in a single tool.\n\nInspired by [React Storybook](https://storybook.js.org/)\n\n# UIExplorer\n@docs app\n@docs renderStories\n\n# Models\n\n@docs UI\n@docs UICategory\n\n# Utils\n@docs addUICategory\n@docs emptyUICategories\n@docs createUI\n@docs createUIWithDescription\n@docs fromUIList\n\n",
+    "comment": "\n\n[Component Explorers](https://blog.hichroma.com/the-crucial-tool-for-modern-frontend-engineers-fb849b06187a) and [Style Guides](http://styleguides.io/) have been around for a while now.\nWe don't build pages anymore but components that are assembled together to build systems.\n\nIn the Elm world, components are just called views, and are defined as pure functions.\nElm UI Explorer takes advantage of the composability and the purity of Elm and offers a way to showcase\nyour views and their states in a single tool.\n\nThis project is inspired by [React Storybook](https://storybook.js.org/) and styled with [Bulma](https://bulma.io/).\n\n\n# Anatomy of the UI Explorer\n\n- The Explorer is devided into a list of [UICategory](#UICategory) (ex: Buttons)\n- Each Category contains some [UI](#UI) items (ex: ToggleButton, ButtonWithImage, SubmitButton etc...)\n- Each [UI](#UI) item defines states (ex: Loaded, Disabled etc..) that we usually call [stories](https://storybook.js.org/basics/writing-stories/)\n\n\n\n# Main API\n@docs app\n@docs renderStories\n\n# Models\n\n@docs UI\n@docs UICategory\n\n# Helpers\n@docs addUICategory\n@docs emptyUICategories\n@docs createUI\n@docs createUIWithDescription\n@docs fromUIList\n\n",
     "aliases": [],
     "types": [
       {
@@ -20,12 +20,12 @@
     "values": [
       {
         "name": "addUICategory",
-        "comment": "\n   Add Category to a list of categories\n```\n   emptyUICategories\n       |> addUICategory\n           \"A Great Category\"\n           [ createUI\n               \"My View\"\n               MyView.viewStories\n           ]\n```\n",
+        "comment": "\n   Adds a UI Category to a list of categories\n   Convenient for running a UI Explorer devided into categories\n```\n   emptyUICategories\n       |> addUICategory\n           \"A Great Category\"\n           [ createUI\n               \"My View\"\n               MyView.viewStories\n           ]\n```\n",
         "type": "String -> List UIExplorer.UI -> List UIExplorer.UICategory -> List UIExplorer.UICategory"
       },
       {
         "name": "app",
-        "comment": " Launches a UIExplorer Applicaton given a list of categories\n\n```\nmain =\n    app\n        (emptyUICategories\n            |> addUICategory\n                \"Atoms\"\n                [ createUIWithDescription\n                    \"Colors\"\n                    \"Global Color Schemes\"\n                    Colors.viewStories\n                ]\n            |> addUICategory\n                \"Molecules\"\n                [ createUI\n                    \"Card\"\n                    Card.viewStories\n                ]\n        )\n```\n\n",
+        "comment": " Launches a UI Explorer Applicaton given a list of UI Categories\n\n```\nmain =\n    app\n        (emptyUICategories\n            |> addUICategory\n                \"Atoms\"\n                [ createUIWithDescription\n                    \"Colors\"\n                    \"Global Color Schemes\"\n                    Colors.viewStories\n                ]\n            |> addUICategory\n                \"Molecules\"\n                [ createUI\n                    \"Card\"\n                    Card.viewStories\n                ]\n        )\n```\n\n",
         "type": "List UIExplorer.UICategory -> Platform.Program Basics.Never UIExplorer.Model UIExplorer.Msg"
       },
       {
@@ -45,7 +45,7 @@
       },
       {
         "name": "fromUIList",
-        "comment": "\n   Create UICategories from a list of UI and Add them in a Default Category.\n   This is the simplest way to initialize the UI Explorer app.\n   ```\n   main =\n       app\n           (fromUIList\n               [ createUI\n                   \"PlayPause\"\n                   PlayPause.viewStories\n               , createUI\n                   \"Controls\"\n                   Controls.viewStories\n               , createUI\n                   \"TrackList\"\n                   TrackList.viewStories\n               ]\n           )\n   ```\n",
+        "comment": "\n   Create a list of [UICategories](#UICategories) from a list of [UI](#UI) and Add them in a Default Category.\n   This is the simplest way to initialize the UI Explorer app.\n   ```\n   main =\n       app\n           (fromUIList\n               [ createUI\n                   \"PlayPause\"\n                   PlayPause.viewStories\n               , createUI\n                   \"Controls\"\n                   Controls.viewStories\n               , createUI\n                   \"TrackList\"\n                   TrackList.viewStories\n               ]\n           )\n   ```\n",
         "type": "List UIExplorer.UI -> List UIExplorer.UICategory"
       },
       {

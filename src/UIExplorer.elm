@@ -5,13 +5,22 @@ module UIExplorer exposing (app, renderStories, UI, UICategory, addUICategory, e
 [Component Explorers](https://blog.hichroma.com/the-crucial-tool-for-modern-frontend-engineers-fb849b06187a) and [Style Guides](http://styleguides.io/) have been around for a while now.
 We don't build pages anymore but components that are assembled together to build systems.
 
-In the ELM world, components are just called views, and are defined as pure functions.
-ELM UI Explorer takes advantage of the composability and the purity of ELM and offers a way to showcase
+In the Elm world, components are just called views, and are defined as pure functions.
+Elm UI Explorer takes advantage of the composability and the purity of Elm and offers a way to showcase
 your views and their states in a single tool.
 
-Inspired by [React Storybook](https://storybook.js.org/)
+This project is inspired by [React Storybook](https://storybook.js.org/) and styled with [Bulma](https://bulma.io/).
 
-# UIExplorer
+
+# Anatomy of the UI Explorer
+
+- The Explorer is devided into a list of [UICategory](#UICategory) (ex: Buttons)
+- Each Category contains some [UI](#UI) items (ex: ToggleButton, ButtonWithImage, SubmitButton etc...)
+- Each [UI](#UI) item defines states (ex: Loaded, Disabled etc..) that we usually call [stories](https://storybook.js.org/basics/writing-stories/)
+
+
+
+# Main API
 @docs app
 @docs renderStories
 
@@ -20,7 +29,7 @@ Inspired by [React Storybook](https://storybook.js.org/)
 @docs UI
 @docs UICategory
 
-# Utils
+# Helpers
 @docs addUICategory
 @docs emptyUICategories
 @docs createUI
@@ -213,7 +222,7 @@ createUIWithDescription id description viewStories =
 
 
 {-|
-   Create UICategories from a list of UI and Add them in a Default Category.
+   Create a list of [UICategories](#UICategories) from a list of [UI](#UI) and Add them in a Default Category.
    This is the simplest way to initialize the UI Explorer app.
    ```
    main =
@@ -238,7 +247,8 @@ fromUIList uiList =
 
 
 {-|
-   Add Category to a list of categories
+   Adds a UI Category to a list of categories
+   Convenient for running a UI Explorer devided into categories
 ```
    emptyUICategories
        |> addUICategory
@@ -261,7 +271,7 @@ addUICategory title uiList categories =
         List.append categories [ category ]
 
 
-{-| Launches a UIExplorer Applicaton given a list of categories
+{-| Launches a UI Explorer Applicaton given a list of UI Categories
 
 ```
 main =
