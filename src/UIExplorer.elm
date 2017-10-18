@@ -2,16 +2,6 @@ module UIExplorer exposing (app, renderStories, UI, UICategory, addUICategory, e
 
 {-|
 
-[Component Explorers](https://blog.hichroma.com/the-crucial-tool-for-modern-frontend-engineers-fb849b06187a) and [Style Guides](http://styleguides.io/) have been around for a while now.
-We don't build pages anymore but components that are assembled together to build systems.
-
-In the Elm world, components are just called views, and are defined as pure functions.
-Elm UI Explorer takes advantage of the composability and the purity of Elm and offers a way to showcase
-your views and their states in a single tool.
-
-This project is inspired by [React Storybook](https://storybook.js.org/) and styled with [Bulma](https://bulma.io/).
-
-
 # Anatomy of the UI Explorer
 
 - The Explorer is devided into a list of [UICategory](#UICategory) (ex: Buttons)

@@ -7,7 +7,7 @@ We don't build pages anymore but components that are assembled together to build
 In the Elm world, components are just called views, and are defined as [pure functions](https://en.wikipedia.org/wiki/Pure_function).
 Elm UI Explorer takes advantage of the composability and the purity of Elm and offers a way to showcase
 your views and their states in a single tool.
-Inspired by [React Storybook](https://storybook.js.org/)
+This project is inspired by [React Storybook](https://storybook.js.org/) and styled with [Bulma](https://bulma.io/)
 
 
 <img src="intro.gif"/>
@@ -37,5 +37,3 @@ Inspired by [React Storybook](https://storybook.js.org/)
 - Try to adopt [SDD (StoryBook Driven Development)](https://medium.com/nulogy/storybook-driven-development-a3c517276c07), creating UI this way can be very efficient.
 
 - Use [Atomic Design](http://bradfrost.com/blog/post/atomic-web-design/) paradigm. This will help you build a scalable Design System.
-
-
