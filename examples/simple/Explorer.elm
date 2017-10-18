@@ -1,9 +1,9 @@
 module Explorer exposing (..)
 
-import UIExplorer exposing (app, renderStories)
 import Html.Attributes exposing (style)
 import Main exposing (view, Model)
 import Html exposing (div)
+import UIExplorer exposing (app, renderStories, createUI, fromUIList)
 
 
 {--A list of stories that represent all available states of the UI--}
@@ -23,17 +23,11 @@ viewStoriesWrapper model =
     div [ style [ ( "height", "100px" ) ] ] [ view model ]
 
 
-
-{--Runs the UIExplorer App with a given UI collection--}
-
-
 main =
     app
-        [ ( "Default"
-          , [ { id = "dropdown"
-              , description = "A dropdown Menu"
-              , viewStories = renderStories viewStoriesWrapper stories
-              }
+        (fromUIList
+            [ createUI
+                "dropdown"
+                (renderStories viewStoriesWrapper stories)
             ]
-          )
-        ]
+        )

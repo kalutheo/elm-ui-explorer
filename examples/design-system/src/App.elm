@@ -1,6 +1,6 @@
 module App exposing (..)
 
-import UIExplorer exposing (app)
+import UIExplorer exposing (app, addUICategory, emptyUICategories, createUI, createUIWithDescription)
 import Atom.Button.Stories as Button
 import Atom.Toast.Stories as Toast
 import Atom.Logo.Stories as Logo
@@ -17,64 +17,57 @@ import Page.Contacts.Stories as Contacts
 
 main =
     app
-        [ ( "Atoms"
-          , [ { id = "Colors"
-              , description = "Global Color Schemes"
-              , viewStories = Colors.viewStories
-              }
-            , { id = "Button"
-              , description = ""
-              , viewStories = Button.viewStories
-              }
-            , { id = "Logo"
-              , description = ""
-              , viewStories = Logo.viewStories
-              }
-            , { id = "Typography"
-              , description = "List of fonts with sizes"
-              , viewStories = Typography.viewStories
-              }
-            ]
-          )
-        , ( "Molecules"
-          , [ { id = "Card"
-              , description = ""
-              , viewStories = Card.viewStories
-              }
-            , { id = "Toast"
-              , description = ""
-              , viewStories = Toast.viewStories
-              }
-            , { id = "Menu"
-              , description = "The main navigation menu"
-              , viewStories = Menu.viewStories
-              }
-            ]
-          )
-        , ( "Organisms"
-          , [ { id = "CardGrid"
-              , description = "A grid of cards"
-              , viewStories = CardGrid.viewStories
-              }
-            , { id = "Header"
-              , description = ""
-              , viewStories = Header.viewStories
-              }
-            , { id = "Hero"
-              , description = ""
-              , viewStories = Hero.viewStories
-              }
-            ]
-          )
-        , ( "Pages"
-          , [ { id = "Home"
-              , description = "Welcome page"
-              , viewStories = Home.viewStories
-              }
-            , { id = "Contacts"
-              , description = "Lists your contacts"
-              , viewStories = Contacts.viewStories
-              }
-            ]
-          )
-        ]
+        (emptyUICategories
+            |> addUICategory
+                "Atoms"
+                [ createUIWithDescription
+                    "Colors"
+                    "Global Color Schemes"
+                    Colors.viewStories
+                , createUI
+                    "Button"
+                    Button.viewStories
+                , createUI
+                    "Logo"
+                    Logo.viewStories
+                , createUIWithDescription
+                    "Typography"
+                    "List of fonts with sizes"
+                    Typography.viewStories
+                ]
+            |> addUICategory
+                "Molecules"
+                [ createUI
+                    "Card"
+                    Card.viewStories
+                , createUI
+                    "Toast"
+                    Toast.viewStories
+                , createUI
+                    "Menu"
+                    Menu.viewStories
+                ]
+            |> addUICategory
+                "Organisms"
+                [ createUI
+                    "CardGrid"
+                    CardGrid.viewStories
+                , createUI
+                    "Header"
+                    Header.viewStories
+                , createUI
+                    "Hero"
+                    Hero.viewStories
+                ]
+            |> addUICategory
+                "Pages"
+                [ createUIWithDescription
+                    "Home"
+                    "Welcome page"
+                    Home.viewStories
+                , createUIWithDescription
+                    "Contacts"
+                    "Lists your contacts"
+                    Contacts.viewStories
+                ]
+        )

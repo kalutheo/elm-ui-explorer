@@ -1,4 +1,4 @@
-module UIExplorer exposing (app, renderStories, UI, UICategory)
+module UIExplorer exposing (app, renderStories, UI, UICategory, addUICategory, emptyUICategories, createUI, createUIWithDescription, fromUIList)
 
 {-|
 
@@ -19,6 +19,13 @@ Inspired by [React Storybook](https://storybook.js.org/)
 
 @docs UI
 @docs UICategory
+
+# Utils
+@docs addUICategory
+@docs emptyUICategories
+@docs createUI
+@docs createUIWithDescription
+@docs fromUIList
 
 -}
 
@@ -44,19 +51,25 @@ type Msg
 {--Model --}
 
 
-{-| A UI represents a view and lists a set of stories
+{-| A UI represents a view and lists a set of stories.
+For Example : A Button with following stories (Loading, Disabled)
 -}
-type alias UI =
-    { id : String
-    , description : String
-    , viewStories : UIViewConfig -> Html Msg
-    }
+type UI
+    = UIType
+        { id : String
+        , description : String
+        , viewStories : UIViewConfig -> Html Msg
+        }
 
 
 {-| Represents a familly of related views.
 For example using [Atomic Design](http://bradfrost.com/blog/post/atomic-web-design/), we can have the following categories : Atoms, Molecules etc..
 -}
-type alias UICategory =
+type UICategory
+    = UICategoryType InternalUICategory
+
+
+type alias InternalUICategory =
     ( String, List UI )
 
 
@@ -146,7 +159,130 @@ update msg model =
             ( model, Navigation.newUrl "#" )
 
 
+toCategories : List InternalUICategory -> List UICategory
+toCategories list =
+    List.map UICategoryType list
+
+
+{-|
+   Creates an empty list of UI Categories
+-}
+emptyUICategories : List UICategory
+emptyUICategories =
+    []
+
+
+{-|
+   Create a UI given an ID and Story Views
+```
+stories : List ( String, ButtonModel )
+stories =
+    [ ( "LargePrimary", { label = "Primary", isLarge = True, isPrimary = True } )
+    , ( "TinyPrimary", { label = "Primary", isLarge = False, isPrimary = True } )
+    , ( "LargeSecondary", { label = "Secondary", isLarge = True, isPrimary = False } )
+    , ( "TinySecondary", { label = "Secondary", isLarge = False, isPrimary = False } )
+    ]
+
+
+viewStories =
+    renderStories customButton stories
+
+createUI "Button" viewStories
+```
+
+-}
+createUI : String -> (UIViewConfig -> Html Msg) -> UI
+createUI id viewStories =
+    createUIWithDescription id "" viewStories
+
+
+{-|
+   Create a UI with a description
+   ```
+   createUI "Button" "A Simple Button :-)" viewStories
+
+   ```
+-}
+createUIWithDescription : String -> String -> (UIViewConfig -> Html Msg) -> UI
+createUIWithDescription id description viewStories =
+    UIType
+        { id = id
+        , description = description
+        , viewStories = viewStories
+        }
+
+
+{-|
+   Create UICategories from a list of UI and Add them in a Default Category.
+   This is the simplest way to initialize the UI Explorer app.
+   ```
+   main =
+       app
+           (fromUIList
+               [ createUI
+                   "PlayPause"
+                   PlayPause.viewStories
+               , createUI
+                   "Controls"
+                   Controls.viewStories
+               , createUI
+                   "TrackList"
+                   TrackList.viewStories
+               ]
+           )
+   ```
+-}
+fromUIList : List UI -> List UICategory
+fromUIList uiList =
+    emptyUICategories |> List.append [ (UICategoryType ( "Default", uiList )) ]
+
+
+{-|
+   Add Category to a list of categories
+```
+   emptyUICategories
+       |> addUICategory
+           "A Great Category"
+           [ createUI
+               "My View"
+               MyView.viewStories
+           ]
+```
+-}
+addUICategory : String -> List UI -> List UICategory -> List UICategory
+addUICategory title uiList categories =
+    let
+        category =
+            UICategoryType
+                ( title
+                , uiList
+                )
+    in
+        List.append categories [ category ]
+
+
 {-| Launches a UIExplorer Applicaton given a list of categories
+
+```
+main =
+    app
+        (emptyUICategories
+            |> addUICategory
+                "Atoms"
+                [ createUIWithDescription
+                    "Colors"
+                    "Global Color Schemes"
+                    Colors.viewStories
+                ]
+            |> addUICategory
+                "Molecules"
+                [ createUI
+                    "Card"
+                    Card.viewStories
+                ]
+        )
+```
+
 -}
 app : List UICategory -> Program Never Model Msg
 app categories =
@@ -276,7 +412,7 @@ viewHeader =
 
 
 viewMenuItem : String -> Maybe String -> UI -> Html Msg
-viewMenuItem category selectedUIId ui =
+viewMenuItem category selectedUIId (UIType ui) =
     let
         isSelected =
             case selectedUIId of
@@ -303,7 +439,7 @@ viewMenuItem category selectedUIId ui =
 
 
 viewMenuCategory : UIViewConfig -> UICategory -> Html Msg
-viewMenuCategory { selectedUIId, selectedStoryId } ( title, categories ) =
+viewMenuCategory { selectedUIId, selectedStoryId } (UICategoryType ( title, categories )) =
     div []
         [ a
             [ class "menu-label", styles.sidebarItemCategory ]
@@ -320,9 +456,14 @@ viewMenu categories config =
 
 
 filterSelectedUI : UI -> Model -> Bool
-filterSelectedUI ui model =
+filterSelectedUI (UIType ui) model =
     Maybe.map (\id -> ui.id == id) model.selectedUIId
         |> Maybe.withDefault False
+
+
+getUIListFromCategories : UICategory -> List UI
+getUIListFromCategories (UICategoryType ( title, categories )) =
+    categories
 
 
 viewContent : Model -> Html Msg
@@ -330,7 +471,7 @@ viewContent model =
     let
         filteredUIs =
             model.categories
-                |> List.map Tuple.second
+                |> List.map getUIListFromCategories
                 |> List.foldr (++) []
                 |> List.filter (\ui -> filterSelectedUI ui model)
 
@@ -341,7 +482,7 @@ viewContent model =
     in
         div []
             [ filteredUIs
-                |> List.map (\s -> s.viewStories viewConfig)
+                |> List.map (\(UIType s) -> s.viewStories viewConfig)
                 |> List.head
                 |> Maybe.withDefault
                     (div [ styles.welcome ]
@@ -351,7 +492,7 @@ viewContent model =
                     )
             , article []
                 (filteredUIs
-                    |> List.map (\s -> div [ styles.description ] [ text s.description ])
+                    |> List.map (\(UIType s) -> div [ styles.description ] [ text s.description ])
                 )
             ]
 
@@ -384,6 +525,13 @@ renderStory index { selectedStoryId } ( id, state ) =
 
 {-| Renders Stories of a given UI.
 A story represents a state of a view such as (Loading, Error, Success, NoNetwork ...)
+```
+stories : List ( String, Model )
+stories =
+    [ ( "Loading", { isLoading = True } ), ( "Loading", { isLoading = False } ) ]
+
+viewStories = renderStories (view model) stories
+```
 -}
 renderStories : (a -> Html msg) -> List ( String, a ) -> UIViewConfig -> Html Msg
 renderStories storyView stories config =
