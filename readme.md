@@ -10,12 +10,12 @@ your views and their states in a single tool.
 This project is inspired by [React Storybook](https://storybook.js.org/) and styled with [Bulma](https://bulma.io/)
 
 
-<img src="intro.gif"/>
+<img src="https://kalutheo.github.io/elm-ui-explorer/intro.gif"/>
 
-[Examples](/examples)
-- Simple Example [source](/examples/simple)| [explorer demo](https://kalutheo.github.io/elm-ui-explorer/examples/simples/explorer.html) | [app demo](https://kalutheo.github.io/elm-ui-explorer/examples/simples/index.html)
-- Music Player [source](/examples/music-player) | [explorer demo](https://kalutheo.github.io/elm-ui-explorer/examples/music-player/explorer/) | [app demo](https://kalutheo.github.io/elm-ui-explorer/examples/music-player/app/index.html)
-- Design system [source](/examples/design-system) | [explorer demo](https://kalutheo.github.io/elm-ui-explorer/examples/design-system/explorer/)
+[Examples](https://github.com/kalutheo/elm-ui-explorer/tree/master/examples)
+- Simple Example [source](https://github.com/kalutheo/elm-ui-explorer/tree/master/examples/simple)| [explorer demo](https://kalutheo.github.io/elm-ui-explorer/examples/simples/explorer.html) | [app demo](https://kalutheo.github.io/elm-ui-explorer/examples/simples/index.html)
+- Music Player [source](https://github.com/kalutheo/elm-ui-explorer/tree/master/examples/music-player) | [explorer demo](https://kalutheo.github.io/elm-ui-explorer/examples/music-player/explorer/) | [app demo](https://kalutheo.github.io/elm-ui-explorer/examples/music-player/app/index.html)
+- Design system [source](https://github.com/kalutheo/elm-ui-explorer/tree/master/examples/design-system) | [explorer demo](https://kalutheo.github.io/elm-ui-explorer/examples/design-system/explorer/)
 
 ### Main Features
 
