@@ -10,7 +10,7 @@ your views and their states in a single tool.
 This project is inspired by [React Storybook](https://storybook.js.org/) and styled with [Bulma](https://bulma.io/)
 
 
-<img src="https://kalutheo.github.io/elm-ui-explorer/intro.gif"/>
+<img src="https://kalutheo.github.io/elm-ui-explorer/intro.gif" width="900"/>
 
 [Examples](https://github.com/kalutheo/elm-ui-explorer/tree/master/examples)
 - Simple Example [source](https://github.com/kalutheo/elm-ui-explorer/tree/master/examples/simple)| [explorer demo](https://kalutheo.github.io/elm-ui-explorer/examples/simples/explorer.html) | [app demo](https://kalutheo.github.io/elm-ui-explorer/examples/simples/index.html)

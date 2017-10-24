@@ -403,7 +403,7 @@ viewHeader =
         [ div [ onClick NavigateToHome ]
             [ div [ styles.logo ]
                 [ h1 [ class "title" ]
-                    [ text "ELM" ]
+                    [ text "Elm" ]
                 , h2 [ class "subtitle" ]
                     [ text "UI Explorer" ]
                 ]
@@ -528,7 +528,7 @@ A story represents a state of a view such as (Loading, Error, Success, NoNetwork
 ```
 stories : List ( String, Model )
 stories =
-    [ ( "Loading", { isLoading = True } ), ( "Loading", { isLoading = False } ) ]
+    [ ( "Loading", { isLoading = True } ), ( "Loaded", { isLoading = False } ) ]
 
 viewStories = renderStories (view model) stories
 ```
