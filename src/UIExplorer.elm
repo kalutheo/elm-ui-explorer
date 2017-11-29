@@ -331,13 +331,19 @@ colors =
 toClassName list =
     class
         (list
-            |> List.map (\c -> "uie-" ++ c)
+            |> List.map
+                (\c ->
+                    if (c |> String.contains "hover") then
+                        c
+                    else
+                        "uie-" ++ c
+                )
             |> String.join " "
         )
 
 
 hover className =
-    T.hover ++ ":" ++ className
+    T.hover ++ ":uie-" ++ className
 
 
 viewSidebar : Model -> Html Msg
