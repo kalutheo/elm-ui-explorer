@@ -768,8 +768,8 @@ module.exports = {
   */
 
   options: {
-    prefix: '',
-    important: false,
+    prefix: 'uie-',
+    important: true,
   },
 
 }

@@ -329,7 +329,15 @@ colors =
 
 
 toClassName list =
-    class (list |> String.join " ")
+    class
+        (list
+            |> List.map (\c -> "uie-" ++ c)
+            |> String.join " "
+        )
+
+
+hover className =
+    T.hover ++ ":" ++ className
 
 
 viewSidebar : Model -> Html Msg
@@ -343,7 +351,7 @@ viewSidebar model =
         viewMenu model.categories viewConfig
 
 
-headerStyle =
+styleHeader =
     { logo =
         [ T.cursor_pointer ]
     , header =
@@ -365,48 +373,50 @@ headerStyle =
     }
 
 
-renderHeader styles =
+viewHeader : Html Msg
+viewHeader =
     section
-        [ toClassName styles.header ]
-        [ div [ onClick NavigateToHome ]
-            [ img [ src "logo.png", toClassName [ T.w_48 ] ] []
+        [ toClassName styleHeader.header ]
+        [ div
+            [ toClassName [ T.bg_cover, T.cursor_pointer, "logo" ]
+            , onClick NavigateToHome
             ]
+            []
         ]
 
 
-viewHeader : Html Msg
-viewHeader =
-    renderHeader headerStyle
-
-
-viewMenuItem : String -> Maybe String -> UI -> Html Msg
-viewMenuItem category selectedUIId (UIType ui) =
+styleMenuItem isSelected =
     let
-        isSelected =
-            case selectedUIId of
-                Just id ->
-                    id == ui.id
-
-                Nothing ->
-                    False
-
         defaultClass =
             [ T.w_full
             , T.flex
             , T.pl_6
             , T.pt_2
             , T.pb_2
+            , hover T.bg_purple_darker
+            , hover T.text_white
             ]
+    in
+        if isSelected then
+            defaultClass
+                |> List.append
+                    [ colors.bg.primary, T.text_white ]
+        else
+            defaultClass
+                |> List.append
+                    [ T.text_grey_darker ]
+
+
+viewMenuItem : String -> Maybe String -> UI -> Html Msg
+viewMenuItem category selectedUIId (UIType ui) =
+    let
+        isSelected =
+            selectedUIId
+                |> Maybe.map ((==) ui.id)
+                |> Maybe.withDefault False
 
         linkClass =
-            if isSelected then
-                defaultClass
-                    |> List.append
-                        [ colors.bg.primary, T.text_white ]
-            else
-                defaultClass
-                    |> List.append
-                        [ T.text_grey_darker ]
+            styleMenuItem isSelected
     in
         li [ toClassName [] ]
             [ a
@@ -417,23 +427,26 @@ viewMenuItem category selectedUIId (UIType ui) =
             ]
 
 
+styleMenuCategoryLink =
+    [ T.text_grey_darkest
+    , T.uppercase
+    , T.border_b
+    , T.border_grey_light
+    , T.w_full
+    , T.flex
+    , T.cursor_default
+    , T.pl_4
+    , T.pb_2
+    , T.pt_2
+    , T.text_sm
+    ]
+
+
 viewMenuCategory : UIViewConfig -> UICategory -> Html Msg
 viewMenuCategory { selectedUIId, selectedStoryId } (UICategoryType ( title, categories )) =
     div [ toClassName [ T.flex_col ] ]
         [ a
-            [ toClassName
-                [ T.text_grey_darkest
-                , T.uppercase
-                , T.border_b
-                , T.border_grey_light
-                , T.w_full
-                , T.flex
-                , T.cursor_default
-                , T.pl_4
-                , T.pb_2
-                , T.pt_2
-                , T.text_sm
-                ]
+            [ toClassName styleMenuCategoryLink
             ]
             [ text ("> " ++ title) ]
         , ul [ toClassName [ T.list_reset ] ]
@@ -505,7 +518,7 @@ oneQuarter =
 
 view : Model -> Html Msg
 view model =
-    div [ toClassName [ T.bg_red, T.h_screen ] ]
+    div [ toClassName [ T.h_screen ] ]
         [ viewHeader
         , div [ toClassName [ T.flex ] ]
             [ div
@@ -559,6 +572,8 @@ renderStory index { selectedStoryId } ( id, state ) =
                 , T.border_grey_light
                 , T.bg_white
                 , T.cursor_pointer
+                , hover T.bg_purple_darker
+                , hover T.text_white
                 ]
                     |> List.append defaultLiClass
     in

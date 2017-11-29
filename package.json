@@ -12,7 +12,7 @@
   },
   "devDependencies": {},
   "scripts": {
-    "build:assets": "tailwind build src/styles.css -o assets/styles.css"
+    "build:assets": "tailwind build -c tailwind.js src/styles.css -o assets/styles.css"
   },
   "repository": {
     "type": "git",
