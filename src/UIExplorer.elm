@@ -39,14 +39,12 @@ module UIExplorer
 
 -}
 
-import Html exposing (Html)
-import Html exposing (Html, aside, ul, li, a, span, text, div, section, h1, h2, node, article, img)
-import Html.Attributes exposing (class, rel, href, classList, style, src)
+import Array
+import Html exposing (Html, a, article, aside, div, h1, h2, img, li, node, section, span, text, ul)
+import Html.Attributes exposing (class, classList, href, rel, src, style)
 import Html.Events exposing (onClick)
 import Navigation
-import Array
 import Tailwind.Classes as T
-import String
 
 
 {--Messages --}
@@ -362,7 +360,8 @@ styleHeader =
         [ T.cursor_pointer ]
     , header =
         [ colors.bg.primary
-        , T.p_2
+        , T.p_0
+        , T.pb_2
         , T.text_white
         , T.shadow_md
         ]
@@ -428,6 +427,7 @@ viewMenuItem category selectedUIId (UIType ui) =
             [ a
                 [ toClassName linkClass
                 , href ("#" ++ category ++ "/" ++ ui.id)
+                , style [ ( "text-decoration", "none" ) ]
                 ]
                 [ text ui.id ]
             ]
@@ -454,7 +454,7 @@ viewMenuCategory { selectedUIId, selectedStoryId } (UICategoryType ( title, cate
         [ a
             [ toClassName styleMenuCategoryLink
             ]
-            [ text ("> " ++ title) ]
+            [ span [ toClassName [ T.font_bold, T.text_grey_darker ] ] [ text ("> " ++ title) ] ]
         , ul [ toClassName [ T.list_reset ] ]
             (List.map (viewMenuItem title selectedUIId) categories)
         ]
@@ -501,7 +501,7 @@ viewContent model =
                 |> List.head
                 |> Maybe.withDefault
                     (div [ toClassName [ T.m_6 ] ]
-                        [ span [ toClassName [ T.text_2xl, T.flex, T.mb_1 ] ] [ text "We’re not designing pages, we’re designing systems of components." ]
+                        [ span [ toClassName [ T.text_grey_darkest, T.text_xl, T.flex, T.mb_1 ] ] [ text "We’re not designing pages, we’re designing systems of components." ]
                         , span
                             [ toClassName [ T.text_lg, T.flex, T.text_grey_darker ] ]
                             [ text "-Stephen Hay" ]
@@ -608,7 +608,7 @@ renderStories storyView stories config =
             config
 
         menu =
-            ul [ toClassName [ T.flex, T.mb_4 ] ] (List.indexedMap (\index -> renderStory index config) stories)
+            ul [ toClassName [ T.list_reset, T.flex, T.mb_4 ] ] (List.indexedMap (\index -> renderStory index config) stories)
 
         currentStories =
             case selectedStoryId of
