@@ -1,4 +1,15 @@
-module UIExplorer exposing (app, renderStories, UI, UICategory, addUICategory, emptyUICategories, createUI, createUIWithDescription, fromUIList)
+module UIExplorer
+    exposing
+        ( app
+        , renderStories
+        , UI
+        , UICategory
+        , addUICategory
+        , emptyUICategories
+        , createUI
+        , createUIWithDescription
+        , fromUIList
+        )
 
 {-|
 
@@ -28,12 +39,12 @@ module UIExplorer exposing (app, renderStories, UI, UICategory, addUICategory, e
 
 -}
 
-import Html exposing (Html)
-import Html exposing (Html, aside, ul, li, a, span, text, div, section, h1, h2, node, article)
-import Html.Attributes exposing (class, rel, href, classList, style)
+import Array
+import Html exposing (Html, a, article, aside, div, h1, h2, img, li, node, section, span, text, ul)
+import Html.Attributes exposing (class, classList, href, rel, src, style)
 import Html.Events exposing (onClick)
 import Navigation
-import Array
+import Tailwind.Classes as T
 
 
 {--Messages --}
@@ -308,74 +319,29 @@ app categories =
 {--VIEW --}
 
 
-sizes =
-    { commonMargin = 40
-    , headerHeight = 100
-    , headerMargin = 20
-    , stateNavigationMargin = 20
-    , stateButtonsMargin = 10
-    , sidebarWidth = 200
-    , storyContentPadding = 10
-    , storyContentWidth = 370
-    , categoryPaddingLeft = 40
-    , categoryPadding = 10
-    , categoryHeight = 40
-    , categoryLineHeight = 38
+colors =
+    { bg =
+        { primary = T.bg_purple_dark
+        }
     }
 
 
-toPx : Int -> String
-toPx prop =
-    (prop |> toString) ++ "px"
+toClassName list =
+    class
+        (list
+            |> List.map
+                (\c ->
+                    if (c |> String.contains "hover") then
+                        c
+                    else
+                        "uie-" ++ c
+                )
+            |> String.join " "
+        )
 
 
-styles =
-    { logo = style [ ( "paddingLeft", sizes.commonMargin |> toPx ) ]
-    , sidebarItem = style [ ( "width", sizes.sidebarWidth |> toPx ) ]
-    , sidebarItemCategory =
-        style
-            [ ( "width", sizes.sidebarWidth |> toPx )
-            , ( "borderBottom", "1px solid #999" )
-            , ( "color", "#222" )
-            , ( "width", sizes.sidebarWidth |> toPx )
-            , ( "displayFlex", "" )
-            , ( "height", sizes.categoryHeight |> toPx )
-            , ( "lineHeight", sizes.categoryLineHeight |> toPx )
-            , ( "marginBottom", 0 |> toPx )
-            , ( "padding", sizes.categoryPadding |> toPx )
-            , ( "paddingLeft", sizes.categoryPaddingLeft |> toPx )
-            ]
-    , sidebarItemLink =
-        style
-            [ ( "paddingLeft", sizes.commonMargin + 10 |> toPx )
-            , ( "color", "#666" )
-            ]
-    , stateNavigation =
-        style
-            [ ( "margin", sizes.stateNavigationMargin |> toPx )
-            , ( "marginLeft", sizes.stateButtonsMargin |> toPx )
-            ]
-    , stateButton = style [ ( "marginRight", sizes.stateButtonsMargin |> toPx ) ]
-    , storyContent = style [ ( "paddingLeft", sizes.storyContentPadding |> toPx ) ]
-    , description =
-        style
-            [ ( "margin", sizes.storyContentPadding |> toPx )
-            , ( "paddingTop", sizes.storyContentPadding |> toPx )
-            , ( "marginTop", (sizes.storyContentPadding * 4) |> toPx )
-            , ( "borderTop", "1px solid #999" )
-            ]
-    , header =
-        style
-            [ ( "height", sizes.headerHeight |> toPx )
-            , ( "paddingTop", sizes.headerMargin |> toPx )
-            , ( "borderBottom", "1px solid #FFFFFF" )
-            ]
-    , welcome =
-        style
-            [ ( "margin", sizes.storyContentPadding |> toPx )
-            , ( "width", sizes.storyContentWidth |> toPx )
-            ]
-    }
+hover className =
+    T.hover ++ ":uie-" ++ className
 
 
 viewSidebar : Model -> Html Msg
@@ -386,72 +352,121 @@ viewSidebar model =
             , selectedUIId = model.selectedUIId
             }
     in
-        div [ class "column" ]
-            [ div
-                []
-                []
-            , viewMenu model.categories viewConfig
-            ]
+        viewMenu model.categories viewConfig
+
+
+styleHeader =
+    { logo =
+        [ T.cursor_pointer ]
+    , header =
+        [ colors.bg.primary
+        , T.p_0
+        , T.pb_2
+        , T.text_white
+        , T.shadow_md
+        ]
+    , title =
+        [ T.font_normal
+        , T.text_3xl
+        , T.text_black
+        ]
+    , subTitle =
+        [ T.font_normal
+        , T.text_3xl
+        , T.text_grey
+        ]
+    }
 
 
 viewHeader : Html Msg
 viewHeader =
     section
-        [ class "hero is-primary"
-        , styles.header
-        ]
-        [ div [ onClick NavigateToHome ]
-            [ div [ styles.logo ]
-                [ h1 [ class "title" ]
-                    [ text "Elm" ]
-                , h2 [ class "subtitle" ]
-                    [ text "UI Explorer" ]
-                ]
+        [ toClassName styleHeader.header ]
+        [ div
+            [ toClassName [ T.bg_cover, T.cursor_pointer, "logo" ]
+            , onClick NavigateToHome
             ]
+            []
         ]
+
+
+styleMenuItem isSelected =
+    let
+        defaultClass =
+            [ T.w_full
+            , T.flex
+            , T.pl_6
+            , T.pt_2
+            , T.pb_2
+            , hover T.bg_purple_darker
+            , hover T.text_white
+            ]
+    in
+        if isSelected then
+            defaultClass
+                |> List.append
+                    [ colors.bg.primary, T.text_white ]
+        else
+            defaultClass
+                |> List.append
+                    [ T.text_grey_darker ]
 
 
 viewMenuItem : String -> Maybe String -> UI -> Html Msg
 viewMenuItem category selectedUIId (UIType ui) =
     let
         isSelected =
-            case selectedUIId of
-                Just id ->
-                    id == ui.id
-
-                Nothing ->
-                    False
+            selectedUIId
+                |> Maybe.map ((==) ui.id)
+                |> Maybe.withDefault False
 
         linkClass =
-            if isSelected then
-                "is-active"
-            else
-                ""
+            styleMenuItem isSelected
     in
-        li [ styles.sidebarItem ]
+        li [ toClassName [] ]
             [ a
-                [ class linkClass
+                [ toClassName linkClass
                 , href ("#" ++ category ++ "/" ++ ui.id)
-                , styles.sidebarItemLink
+                , style [ ( "text-decoration", "none" ) ]
                 ]
                 [ text ui.id ]
             ]
 
 
+styleMenuCategoryLink =
+    [ T.text_grey_darkest
+    , T.uppercase
+    , T.border_b
+    , T.border_grey_light
+    , T.w_full
+    , T.flex
+    , T.cursor_default
+    , T.pl_4
+    , T.pb_2
+    , T.pt_2
+    , T.text_sm
+    ]
+
+
 viewMenuCategory : UIViewConfig -> UICategory -> Html Msg
 viewMenuCategory { selectedUIId, selectedStoryId } (UICategoryType ( title, categories )) =
-    div []
+    div [ toClassName [ T.flex_col ] ]
         [ a
-            [ class "menu-label", styles.sidebarItemCategory ]
-            [ text ("> " ++ title) ]
-        , ul [ class "menu-list" ]
+            [ toClassName styleMenuCategoryLink
+            ]
+            [ span [ toClassName [ T.font_bold, T.text_grey_darker ] ] [ text ("> " ++ title) ] ]
+        , ul [ toClassName [ T.list_reset ] ]
             (List.map (viewMenuItem title selectedUIId) categories)
         ]
 
 
 viewMenu : List UICategory -> UIViewConfig -> Html Msg
 viewMenu categories config =
-    aside [ class "menu", style [ ( "marginTop", 0 |> toPx ) ] ]
+    aside
+        [ toClassName
+            [ T.mt_8
+            ]
+        ]
         (List.map (viewMenuCategory config) categories)
 
 
@@ -480,32 +495,55 @@ viewContent model =
             , selectedUIId = model.selectedUIId
             }
     in
-        div []
+        div [ toClassName [ T.m_6 ] ]
             [ filteredUIs
                 |> List.map (\(UIType s) -> s.viewStories viewConfig)
                 |> List.head
                 |> Maybe.withDefault
-                    (div [ styles.welcome ]
-                        [ span [ class "subtitle is-4 has-text-grey" ] [ text "We’re not designing pages, we’re designing systems of components." ]
-                        , span [ class "subtitle is-5" ] [ text "—Stephen Hay" ]
+                    (div [ toClassName [ T.m_6 ] ]
+                        [ span [ toClassName [ T.text_grey_darkest, T.text_xl, T.flex, T.mb_1 ] ] [ text "We’re not designing pages, we’re designing systems of components." ]
+                        , span
+                            [ toClassName [ T.text_lg, T.flex, T.text_grey_darker ] ]
+                            [ text "-Stephen Hay" ]
                         ]
                     )
             , article []
                 (filteredUIs
-                    |> List.map (\(UIType s) -> div [ styles.description ] [ text s.description ])
+                    |> List.map (\(UIType s) -> div [] [ text s.description ])
                 )
             ]
 
 
+oneThird =
+    T.w_1 ++ "/3"
+
+
+oneQuarter =
+    T.w_1 ++ "/4"
+
+
 view : Model -> Html Msg
 view model =
-    div []
+    div [ toClassName [ T.h_screen ] ]
         [ viewHeader
-        , div [ class "columns is-mobile" ]
-            [ viewSidebar model
-            , div [ class "column is-three-quarters" ]
-                [ viewContent model
+        , div [ toClassName [ T.flex ] ]
+            [ div
+                [ toClassName
+                    [ oneQuarter
+                    , T.bg_white
+                    , T.h_screen
+                    ]
                 ]
+                [ viewSidebar model ]
+            , div
+                [ toClassName
+                    [ T.p_4
+                    , T.bg_white
+                    , T.w_screen
+                    , T.h_screen
+                    ]
+                ]
+                [ viewContent model ]
             ]
         ]
 
@@ -518,9 +556,39 @@ renderStory index { selectedStoryId } ( id, state ) =
                 |> Maybe.withDefault (index == 0)
 
         buttonClass =
-            classList [ ( "button", True ), ( "is-primary", isActive ) ]
+            classList [ ( "", True ), ( "", isActive ) ]
+
+        defaultLiClass =
+            [ T.mr_2
+            , T.mb_2
+            , T.rounded
+            , T.p_2
+            , T.text_sm
+            ]
+
+        liClass =
+            if isActive then
+                [ colors.bg.primary
+                , T.text_white
+                , T.cursor_default
+                ]
+                    |> List.append defaultLiClass
+            else
+                [ T.border
+                , T.border_grey_light
+                , T.bg_white
+                , T.cursor_pointer
+                , hover T.bg_purple_darker
+                , hover T.text_white
+                ]
+                    |> List.append defaultLiClass
     in
-        li [ styles.stateButton, onClick <| SelectStory id, buttonClass ] [ text id ]
+        li
+            [ toClassName liClass
+            , onClick <| SelectStory id
+            , buttonClass
+            ]
+            [ text id ]
 
 
 {-| Renders Stories of a given UI.
@@ -540,7 +608,7 @@ renderStories storyView stories config =
             config
 
         menu =
-            ul [ styles.stateNavigation ] (List.indexedMap (\index -> renderStory index config) stories)
+            ul [ toClassName [ T.list_reset, T.flex, T.mb_4 ] ] (List.indexedMap (\index -> renderStory index config) stories)
 
         currentStories =
             case selectedStoryId of
@@ -560,5 +628,5 @@ renderStories storyView stories config =
     in
         div []
             [ menu
-            , div [ styles.storyContent ] [ content ]
+            , div [] [ content ]
             ]

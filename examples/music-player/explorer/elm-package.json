@@ -11,7 +11,7 @@
     ],
     "exposed-modules": [],
     "dependencies": {
-        "elm-bodybuilder/elegant": "4.1.0 <= v < 5.0.0",
+        "splodingsocks/elm-tailwind": "1.1.1 <= v < 2.0.0",
         "elm-community/string-extra": "1.1.1 <= v < 2.0.0",
         "elm-lang/core": "5.0.0 <= v < 6.0.0",
         "elm-lang/html": "2.0.0 <= v < 3.0.0",
