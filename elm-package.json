@@ -1,5 +1,5 @@
 {
-    "version": "1.0.4",
+    "version": "1.0.3",
     "summary": "A simple UI Explorer for ELM inspired by React-Storybook",
     "repository": "https://github.com/kalutheo/elm-ui-explorer.git",
     "license": "BSD3",
