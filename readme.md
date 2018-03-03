@@ -1,6 +1,6 @@
 # Elm UI Explorer
 
-<img src="/explorer-logo.png" height="100" />
+<img src="https://rawgit.com/kalutheo/elm-ui-explorer/tailwindcss/explorer-logo.png" height="100" />
 
 [![Build Status](https://travis-ci.org/kalutheo/elm-ui-explorer.svg?branch=master)](https://travis-ci.org/kalutheo/elm-ui-explorer)
 
