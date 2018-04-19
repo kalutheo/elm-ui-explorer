@@ -1,7 +1,7 @@
 module Atom.Button.Stories exposing (..)
 
+import Atom.Button.Index exposing (ButtonModel, customButton)
 import UIExplorer exposing (renderStories)
-import Atom.Button.Index exposing (customButton, ButtonModel)
 
 
 stories : List ( String, ButtonModel )
@@ -15,3 +15,7 @@ stories =
 
 viewStories =
     renderStories customButton stories
+
+
+viewSnapshot =
+    UIExplorer.viewSnapshot stories customButton

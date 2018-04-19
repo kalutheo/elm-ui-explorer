@@ -1,7 +1,7 @@
 module Atom.Logo.Index exposing (..)
 
 import Html exposing (img)
-import Html.Attributes exposing (src, alt, width, height)
+import Html.Attributes exposing (alt, height, src, width)
 
 
 view model =

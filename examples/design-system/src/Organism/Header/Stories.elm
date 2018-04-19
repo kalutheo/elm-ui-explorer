@@ -1,9 +1,9 @@
 module Organism.Header.Stories exposing (..)
 
-import Organism.Header.Index exposing (view)
-import UIExplorer exposing (renderStories)
 import Html exposing (div)
 import Html.Attributes exposing (style)
+import Organism.Header.Index exposing (view)
+import UIExplorer exposing (renderStories)
 
 
 stories : List ( String, {} )
@@ -20,3 +20,7 @@ nav model =
 
 viewStories =
     renderStories nav stories
+
+
+viewSnapshot =
+    UIExplorer.viewSnapshot stories view

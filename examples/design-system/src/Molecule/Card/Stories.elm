@@ -1,9 +1,9 @@
 module Molecule.Card.Stories exposing (..)
 
-import Molecule.Card.Index exposing (view)
-import UIExplorer exposing (renderStories)
 import Html exposing (div)
 import Html.Attributes exposing (style)
+import Molecule.Card.Index exposing (view)
+import UIExplorer exposing (renderStories)
 
 
 stories : List ( String, {} )
@@ -20,3 +20,7 @@ card model =
 
 viewStories =
     renderStories card stories
+
+
+viewSnapshot =
+    UIExplorer.viewSnapshot stories view

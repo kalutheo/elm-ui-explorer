@@ -1,6 +1,6 @@
 module Organism.Hero.Stories exposing (..)
 
-import Organism.Hero.Index exposing (view, Model)
+import Organism.Hero.Index exposing (Model, view)
 import UIExplorer exposing (renderStories)
 
 
@@ -13,6 +13,10 @@ stories =
         }
       )
     ]
+
+
+viewSnapshot =
+    UIExplorer.viewSnapshot stories view
 
 
 viewStories =

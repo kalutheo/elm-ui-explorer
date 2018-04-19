@@ -14,3 +14,7 @@ stories =
 
 viewStories =
     renderStories toast stories
+
+
+viewSnapshot =
+    UIExplorer.viewSnapshot stories toast

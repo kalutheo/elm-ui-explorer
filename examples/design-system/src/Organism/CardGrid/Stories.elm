@@ -1,9 +1,9 @@
 module Organism.CardGrid.Stories exposing (..)
 
-import Organism.CardGrid.Index exposing (view)
-import UIExplorer exposing (renderStories)
 import Html exposing (div)
 import Html.Attributes exposing (style)
+import Organism.CardGrid.Index exposing (view)
+import UIExplorer exposing (renderStories)
 
 
 stories : List ( String, {} )
@@ -20,3 +20,7 @@ grid model =
 
 viewStories =
     renderStories grid stories
+
+
+viewSnapshot =
+    UIExplorer.viewSnapshot stories view

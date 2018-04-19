@@ -1,3 +1,6 @@
 elm-stuff
 node_modules
 .vscode/settings.json
+
+examples/design-system/.elm-static-html/
+examples/design-system/snapshot-tests/*.test.js

@@ -34,3 +34,7 @@ stories =
 
 viewStories =
     renderStories view stories
+
+
+viewSnapshot =
+    UIExplorer.viewSnapshot stories view
