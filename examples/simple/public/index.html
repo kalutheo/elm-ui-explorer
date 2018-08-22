@@ -1,19 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>ELM UI Explorer - Simple Dropdown</title>
-    <script type="text/javascript" src="/_compile/Main.elm"></script>
-    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.5.1/css/bulma.css">
+  <meta charset="UTF-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <title>ELM UI Explorer - Simple Dropdown</title>
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.5.1/css/bulma.css">
+  <link rel="stylesheet" type="text/css" href="https://rawgit.com/kalutheo/elm-ui-explorer/master/assets/styles.css">
 </head>
-<body>
+
+<body class="overflow-hidden">
   <div id="root"></div>
+  <script src="app.js"></script>
   <script type="text/javascript">
-  while (document.body.firstChild) {
-	document.body.removeChild(document.body.firstChild);
-}
-runElmProgram();
-</script>
+    var app = Elm.Main.init({
+      node: document.getElementById('root')
+    });
+  </script>
 </body>
+
 </html>

@@ -1,7 +1,8 @@
-module Main exposing (..)
+module Main exposing (Model, Msg(..), initialModel, main, update, view)
 
-import Html exposing (Html, button, div, div, text, a, span, i)
-import Html.Attributes exposing (class, classList, attribute, href, id)
+import Browser
+import Html exposing (Html, a, button, div, i, span, text)
+import Html.Attributes exposing (attribute, class, classList, href, id)
 import Html.Events exposing (onClick)
 
 
@@ -10,8 +11,8 @@ type alias Model =
     }
 
 
-model : Model
-model =
+initialModel : Model
+initialModel =
     { isOpen = False }
 
 
@@ -27,6 +28,7 @@ update msg model =
                 | isOpen =
                     if model.isOpen then
                         False
+
                     else
                         True
             }
@@ -77,6 +79,6 @@ view model =
         ]
 
 
-main : Program Never Model Msg
+main : Program () Model Msg
 main =
-    Html.beginnerProgram { model = model, view = view, update = update }
+    Browser.sandbox { init = initialModel, view = view, update = update }

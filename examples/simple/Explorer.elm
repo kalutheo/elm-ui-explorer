@@ -1,9 +1,10 @@
-module Explorer exposing (..)
+module Explorer exposing (main, stories, viewStoriesWrapper)
 
-import Html.Attributes exposing (style)
-import Main exposing (view, Model)
 import Html exposing (div)
-import UIExplorer exposing (app, renderStories, createUI, fromUIList)
+import Html.Attributes exposing (style)
+import Main exposing (Model, view)
+import UIExplorer exposing (app, createUI, fromUIList, renderStories)
+
 
 
 {--A list of stories that represent all available states of the UI--}
@@ -20,7 +21,7 @@ stories =
 
 viewStoriesWrapper : Model -> Html.Html Main.Msg
 viewStoriesWrapper model =
-    div [ style [ ( "height", "100px" ) ] ] [ view model ]
+    div [] [ view model ]
 
 
 main =
