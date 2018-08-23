@@ -102,7 +102,8 @@ type alias Model =
     , selectedUIId : Maybe String
     , selectedStoryId : Maybe String
     , selectedCategory : Maybe String
-    , history : Url.Url
+    , url : Url.Url
+    , key : Navigation.Key
     }
 
 
@@ -148,8 +149,12 @@ update msg model =
                     ( model, Cmd.none )
 
         UrlChange location ->
+            let
+                _ =
+                    Debug.log "UrlChange" location
+            in
             ( { model
-                | history = location
+                | url = location
                 , selectedUIId = getSelectedUIfromPath location
                 , selectedStoryId = getSelectedStoryfromPath location
                 , selectedCategory = getSelectedCategoryfromPath location
@@ -160,8 +165,13 @@ update msg model =
         NavigateToHome ->
             ( model, Cmd.none )
 
-        LinkClicked _ ->
-            ( model, Cmd.none )
+        LinkClicked urlRequest ->
+            case urlRequest of
+                Browser.Internal url ->
+                    ( model, Navigation.pushUrl model.key (Url.toString url) )
+
+                Browser.External href ->
+                    ( model, Navigation.load href )
 
 
 toCategories : List InternalUICategory -> List UICategory
@@ -262,11 +272,16 @@ addUICategory title uiList categories =
 
 init : List UICategory -> () -> Url.Url -> Navigation.Key -> ( Model, Cmd Msg )
 init categories flags url key =
+    let
+        _ =
+            Debug.log "init" (Debug.toString key)
+    in
     ( { categories = categories
       , selectedUIId = getSelectedUIfromPath url
       , selectedStoryId = getSelectedStoryfromPath url
       , selectedCategory = getSelectedCategoryfromPath url
-      , history = url
+      , url = url
+      , key = key
       }
     , Cmd.none
     )
