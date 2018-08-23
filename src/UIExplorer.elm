@@ -42,7 +42,7 @@ module UIExplorer exposing
 
 -}
 
-import Array
+import Array exposing (Array)
 import Browser
 import Browser.Navigation as Navigation
 import Html exposing (Html, a, article, aside, div, h1, h2, img, li, node, section, span, text, ul)
@@ -107,19 +107,31 @@ type alias Model =
     }
 
 
+fragmentToArray : String -> Array String
+fragmentToArray fragment =
+    fragment
+        |> String.split "/"
+        |> Array.fromList
+
+
+getFragmentSegmentByIndex : Maybe String -> Int -> Maybe String
+getFragmentSegmentByIndex fragment index =
+    fragment |> Maybe.withDefault "" |> fragmentToArray |> Array.get index
+
+
 getSelectedCategoryfromPath : Url.Url -> Maybe String
-getSelectedCategoryfromPath location =
-    Nothing
+getSelectedCategoryfromPath { fragment } =
+    getFragmentSegmentByIndex fragment 0
 
 
 getSelectedUIfromPath : Url.Url -> Maybe String
-getSelectedUIfromPath location =
-    Nothing
+getSelectedUIfromPath { fragment } =
+    getFragmentSegmentByIndex fragment 1
 
 
 getSelectedStoryfromPath : Url.Url -> Maybe String
-getSelectedStoryfromPath location =
-    Nothing
+getSelectedStoryfromPath { fragment } =
+    getFragmentSegmentByIndex fragment 2
 
 
 makeStoryUrl : Model -> String -> Maybe String
@@ -435,6 +447,7 @@ viewMenuCategory { selectedUIId, selectedStoryId } (UICategoryType ( title, cate
     div [ toClassName [] ]
         [ a
             [ toClassName styleMenuCategoryLink
+            , href "#"
             ]
             [ span [ toClassName [] ] [ text ("> " ++ title) ] ]
         , ul [ toClassName [] ]
