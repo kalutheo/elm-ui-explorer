@@ -155,7 +155,7 @@ update msg model =
         SelectStory storyId ->
             case makeStoryUrl model storyId of
                 Just url ->
-                    ( model, Cmd.none )
+                    ( model, Navigation.pushUrl model.key url )
 
                 Nothing ->
                     ( model, Cmd.none )
@@ -343,7 +343,7 @@ app categories =
 
 colors =
     { bg =
-        { primary = ""
+        { primary = "bg-purple-dark"
         }
     }
 
@@ -364,7 +364,7 @@ toClassName list =
 
 
 hover className =
-    ":uie-" ++ className
+    "hover:uie-" ++ className
 
 
 viewSidebar : Model -> Html Msg
@@ -380,13 +380,13 @@ viewSidebar model =
 
 styleHeader =
     { logo =
-        []
+        [ "cursor-pointer" ]
     , header =
-        []
+        [ colors.bg.primary, "p-0", "pb-2", "text-white", "shadow-md" ]
     , title =
-        []
+        [ "font-normal", "text-3xl", "text-black" ]
     , subTitle =
-        []
+        [ "font-normal", "text-3xl", "text-grey" ]
     }
 
 
@@ -395,7 +395,7 @@ viewHeader =
     section
         [ toClassName styleHeader.header ]
         [ div
-            [ toClassName [ "logo" ]
+            [ toClassName [ "bg-cover", "cursor-pointer", "logo" ]
             , onClick NavigateToHome
             ]
             []
@@ -405,17 +405,24 @@ viewHeader =
 styleMenuItem isSelected =
     let
         defaultClass =
-            []
+            [ "w-full"
+            , "flex"
+            , "pl-6"
+            , "pt-2"
+            , "pb-2"
+            , hover "bg-purple-darker"
+            , hover "text-white"
+            ]
     in
     if isSelected then
         defaultClass
             |> List.append
-                [ colors.bg.primary ]
+                [ colors.bg.primary, "text-white" ]
 
     else
         defaultClass
             |> List.append
-                []
+                [ "text-grey-darker" ]
 
 
 viewMenuItem : String -> Maybe String -> UI -> Html Msg
@@ -439,7 +446,18 @@ viewMenuItem category selectedUIId (UIType ui) =
 
 
 styleMenuCategoryLink =
-    []
+    [ "text-grey-darkest"
+    , "uppercase"
+    , "border-b"
+    , "border-grey-light"
+    , "w-full"
+    , "flex"
+    , "cursor-default"
+    , "pl-4"
+    , "pb-2"
+    , "pt-2"
+    , "text-sm"
+    ]
 
 
 viewMenuCategory : UIViewConfig -> UICategory -> Html Msg
@@ -449,8 +467,8 @@ viewMenuCategory { selectedUIId, selectedStoryId } (UICategoryType ( title, cate
             [ toClassName styleMenuCategoryLink
             , href "#"
             ]
-            [ span [ toClassName [] ] [ text ("> " ++ title) ] ]
-        , ul [ toClassName [] ]
+            [ span [ toClassName [ "font-bold", "text-grey-darker" ] ] [ text ("> " ++ title) ] ]
+        , ul [ toClassName [ "list-reset" ] ]
             (List.map (viewMenuItem title selectedUIId) categories)
         ]
 
@@ -459,7 +477,7 @@ viewMenu : List UICategory -> UIViewConfig -> Html Msg
 viewMenu categories config =
     aside
         [ toClassName
-            []
+            [ "mt-8" ]
         ]
         (List.map (viewMenuCategory config) categories)
 
@@ -489,15 +507,28 @@ viewContent model =
             , selectedUIId = model.selectedUIId
             }
     in
-    div [ toClassName [] ]
+    div [ toClassName [ "m-6" ] ]
         [ filteredUIs
             |> List.map (\(UIType s) -> s.viewStories viewConfig)
             |> List.head
             |> Maybe.withDefault
                 (div [ toClassName [] ]
-                    [ span [ toClassName [] ] [ text "We’re not designing pages, we’re designing systems of components." ]
+                    [ span
+                        [ toClassName
+                            [ "text-grey-darkest"
+                            , "text-xl"
+                            , "flex"
+                            , "mb-1"
+                            ]
+                        ]
+                        [ text "We’re not designing pages, we’re designing systems of components." ]
                     , span
-                        [ toClassName [] ]
+                        [ toClassName
+                            [ "text-lg"
+                            , "flex"
+                            , "text-grey-darker"
+                            ]
+                        ]
                         [ text "-Stephen Hay" ]
                     ]
                 )
@@ -509,27 +540,33 @@ viewContent model =
 
 
 oneThird =
-    "/3"
+    "w-1/3"
 
 
 oneQuarter =
-    "/4"
+    "w-1/4"
 
 
 view : Model -> Html Msg
 view model =
-    div [ toClassName [] ]
+    div [ toClassName [ "h-screen" ] ]
         [ viewHeader
-        , div [ toClassName [] ]
+        , div [ toClassName [ "flex" ] ]
             [ div
                 [ toClassName
                     [ oneQuarter
+                    , "bg-white"
+                    , "h-screen"
                     ]
                 ]
                 [ viewSidebar model ]
             , div
                 [ toClassName
-                    []
+                    [ "p-4"
+                    , "bg-white"
+                    , "w-screen"
+                    , "h-screen"
+                    ]
                 ]
                 [ viewContent model ]
             ]
@@ -547,16 +584,29 @@ renderStory index { selectedStoryId } ( id, state ) =
             classList [ ( "", True ), ( "", isActive ) ]
 
         defaultLiClass =
-            []
+            [ "mr-2"
+            , "mb-2"
+            , "rounded"
+            , "p-2"
+            , "text-sm"
+            ]
 
         liClass =
             if isActive then
                 [ colors.bg.primary
+                , "text-white"
+                , "cursor-default"
                 ]
                     |> List.append defaultLiClass
 
             else
-                []
+                [ "border"
+                , "border-grey-light"
+                , "bg-white"
+                , "cursor-pointer"
+                , hover "bg-purple-darker"
+                , hover "text-white"
+                ]
                     |> List.append defaultLiClass
     in
     li
@@ -585,7 +635,7 @@ renderStories storyView stories config =
             config
 
         menu =
-            ul [ toClassName [] ] (List.indexedMap (\index -> renderStory index config) stories)
+            ul [ toClassName [ "list-reset", "flex", "mb-4" ] ] (List.indexedMap (\index -> renderStory index config) stories)
 
         currentStories =
             case selectedStoryId of

@@ -1,0 +1,13 @@
+{
+  "name": "simple",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {},
+  "devDependencies": {},
+  "scripts": {
+    "build:explorer": "elm make Explorer.elm --output public/explorer.js"
+  },
+  "author": "",
+  "license": "ISC"
+}
