@@ -1,16 +1,15 @@
-port module Main exposing (..)
+port module Main exposing (main, subscriptions)
 
-import View exposing (view)
-import Html as App
-import Update exposing (init, update)
-import Msg exposing (..)
+import Browser
 import Model exposing (..)
+import Msg exposing (..)
 import Ports exposing (playNext)
+import Update exposing (init, update)
+import View exposing (view)
 
 
-main : Program Never Model Msg
 main =
-    App.program
+    Browser.element
         { init = init
         , view = view
         , update = update

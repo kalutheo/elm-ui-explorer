@@ -1,26 +1,26 @@
-module Update exposing (..)
+module Update exposing (init, update)
 
+import Array
 import Model exposing (Model, model)
 import Msg exposing (..)
-import Ports exposing (play, load, loadAndPlay, pause)
-import Array
+import Ports exposing (load, loadAndPlay, pause, play)
 import Utils exposing (nextTrack, previousTrack)
 
 
-init : ( Model, Cmd Msg )
-init =
+init : () -> ( Model, Cmd Msg )
+init _ =
     let
         firstTrack =
             model.album.playlist
                 |> Array.fromList
                 |> Array.get 0
     in
-        case firstTrack of
-            Nothing ->
-                ( model, Cmd.none )
+    case firstTrack of
+        Nothing ->
+            ( model, Cmd.none )
 
-            Just track ->
-                ( { model | selectedTrack = Just track }, load track )
+        Just track ->
+            ( { model | selectedTrack = Just track }, load track )
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )

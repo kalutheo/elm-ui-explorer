@@ -1,7 +1,7 @@
-module Utils exposing (..)
+module Utils exposing (addLeadingZero, findIndex, getCurrentTrackIndex, msToTime, nextTrack, oneOf, previousTrack)
 
-import Model exposing (..)
 import Array
+import Model exposing (..)
 
 
 oneOf : List (Maybe a) -> Maybe a
@@ -39,12 +39,12 @@ nextTrack selectedTrack playlist =
         albums =
             Array.fromList playlist
     in
-        case getCurrentTrackIndex selectedTrack playlist of
-            Nothing ->
-                Nothing
+    case getCurrentTrackIndex selectedTrack playlist of
+        Nothing ->
+            Nothing
 
-            Just index ->
-                oneOf [ Array.get (index + 1) albums, Array.get (0) albums ]
+        Just index ->
+            oneOf [ Array.get (index + 1) albums, Array.get 0 albums ]
 
 
 previousTrack : Maybe Track -> PlayList -> Maybe Track
@@ -53,12 +53,12 @@ previousTrack selectedTrack playlist =
         albums =
             Array.fromList playlist
     in
-        case getCurrentTrackIndex selectedTrack playlist of
-            Nothing ->
-                Nothing
+    case getCurrentTrackIndex selectedTrack playlist of
+        Nothing ->
+            Nothing
 
-            Just index ->
-                oneOf [ Array.get (index - 1) albums, Array.get (List.length playlist - 1) albums ]
+        Just index ->
+            oneOf [ Array.get (index - 1) albums, Array.get (List.length playlist - 1) albums ]
 
 
 findIndex pred arr =
@@ -69,28 +69,30 @@ findIndex pred arr =
                     (\elem ->
                         if pred elem then
                             Just i
+
                         else
                             findIndexStartingAt (i + 1)
                     )
     in
-        findIndexStartingAt 0
+    findIndexStartingAt 0
 
 
 addLeadingZero : Int -> String
 addLeadingZero value =
     if value < 10 then
-        "0" ++ (value |> toString)
+        "0" ++ (value |> String.fromInt)
+
     else
-        value |> toString
+        value |> String.fromInt
 
 
 msToTime : Float -> String
 msToTime duration =
     let
         seconds =
-            (duration / 1000 |> round) % 60
+            (duration / 1000 |> round) |> remainderBy 60
 
         minutes =
-            (duration / (1000 * 60) |> round) % 60
+            (duration / (1000 * 60) |> round) |> remainderBy 60
     in
-        addLeadingZero minutes ++ ":" ++ addLeadingZero seconds
+    addLeadingZero minutes ++ ":" ++ addLeadingZero seconds
