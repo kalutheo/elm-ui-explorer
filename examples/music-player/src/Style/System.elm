@@ -1,23 +1,37 @@
-module Style.System exposing (..)
+module Style.System exposing (grey, neutral, orange, purple)
 
-import Css exposing (..)
+import Element exposing (..)
+import Element.Background as Background
+import Element.Border as Border
+import Element.Font as Font
+import Hex
 
 
-size =
-    { artworkSize = (px 280)
-    , playerHeight = (px 400)
+grey =
+    { darkest = "#3D4852"
+    , darker = "#606F7B"
+    , dark = "#8795A1"
+    , base = "#B8C2CC"
     }
 
 
-colors =
-    { primary = "#291720" |> hex
-    , secondary = "#4a293a" |> hex
-    , light = "#f0edee" |> hex
-    , selected = "#39202d" |> hex
-    , warm = "#d90368" |> hex
+purple =
+    { darkest = "#21183C"
+    , darker = "#382B5F"
+    , dark = "#794ACF"
+    , base = "#9561E2"
     }
 
 
-fonts =
-    { primary = [ "Lato" ]
+orange =
+    { darkest = "#462A16"
+    , darker = "#613B1F"
+    , dark = "#DE751F"
+    , base = "#F6993F"
+    }
+
+
+neutral =
+    { white = "#FFFFFF"
+    , black = "#FFFFFF"
     }
