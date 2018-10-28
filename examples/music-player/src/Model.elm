@@ -1,4 +1,4 @@
-module Model exposing (..)
+module Model exposing (Album, Model, PlayList, Track, mockAlbum, model)
 
 
 type alias Model =

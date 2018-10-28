@@ -1,4 +1,4 @@
-module Style.System exposing (grey, neutral, orange, purple)
+module Style.System exposing (grey, neutral, orange, pink, purple, font)
 
 import Element exposing (..)
 import Element.Background as Background
@@ -12,6 +12,20 @@ grey =
     , darker = "#606F7B"
     , dark = "#8795A1"
     , base = "#B8C2CC"
+    , light = "#DAE1E7"
+    , lighter = "#F1F5F8"
+    , lightest = "#F8FAFC"
+    }
+
+
+pink =
+    { darkest = "#451225"
+    , darker = "#6F213F"
+    , dark = "#EB5286"
+    , base = "#F66D9B"
+    , light = "#FA7EA8"
+    , lighter = "#FFBBCA"
+    , lightest = "#FFEBEF"
     }
 
 
@@ -34,4 +48,12 @@ orange =
 neutral =
     { white = "#FFFFFF"
     , black = "#FFFFFF"
+    }
+
+
+font =
+    { primary =
+        [ Font.typeface "Lato"
+        , Font.sansSerif
+        ]
     }

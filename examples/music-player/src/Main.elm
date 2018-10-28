@@ -13,7 +13,7 @@ main =
         { init = init
         , view = view
         , update = update
-        , subscriptions = always <| playNext (\str -> Next)
+        , subscriptions = always <| playNext (\_ -> Next)
         }
 
 
