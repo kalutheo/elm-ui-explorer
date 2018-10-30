@@ -8,6 +8,7 @@ module UIExplorer exposing
     , createUI
     , createUIWithDescription
     , fromUIList
+    , Msg, initModelFromUrl, view
     )
 
 {-|
@@ -280,6 +281,13 @@ addUICategory title uiList categories =
                 )
     in
     List.append categories [ category ]
+
+
+initModelFromUrl url =
+    { selectedUIId = getSelectedUIfromPath url
+    , selectedStoryId = getSelectedStoryfromPath url
+    , selectedCategory = getSelectedCategoryfromPath url
+    }
 
 
 init : List UICategory -> () -> Url.Url -> Navigation.Key -> ( Model, Cmd Msg )
