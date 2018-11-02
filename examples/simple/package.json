@@ -6,7 +6,9 @@
   "dependencies": {},
   "devDependencies": {},
   "scripts": {
-    "build:explorer": "elm make Explorer.elm --output public/explorer.js"
+    "build:explorer": "elm make Explorer.elm --output public/explorer.js",
+    "dev": "elm-live src/Main.elm --open --dir=public --start-page=index.html -- --output=public/main.js --debug ",
+    "dev:explorer": "elm-live Explorer.elm --open --dir=public/explorer --start-page=index.html -- --output=public/explorer/explorer.js --debug"
   },
   "author": "",
   "license": "ISC"

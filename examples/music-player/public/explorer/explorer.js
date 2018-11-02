@@ -11191,6 +11191,17 @@ var author$project$UIExplorer$init = F4(
 			},
 			elm$core$Platform$Cmd$none);
 	});
+var author$project$UIExplorer$changeUrl = F2(
+	function (model, location) {
+		return _Utils_update(
+			model,
+			{
+				selectedCategory: author$project$UIExplorer$getSelectedCategoryfromPath(location),
+				selectedStoryId: author$project$UIExplorer$getSelectedStoryfromPath(location),
+				selectedUIId: author$project$UIExplorer$getSelectedUIfromPath(location),
+				url: location
+			});
+	});
 var elm$core$Maybe$map2 = F3(
 	function (func, ma, mb) {
 		if (ma.$ === 'Nothing') {
@@ -11501,19 +11512,13 @@ var author$project$UIExplorer$update = F2(
 				}
 			case 'UrlChange':
 				var location = msg.a;
-				var _n2 = A2(elm$core$Debug$log, 'UrlChange', location);
 				return _Utils_Tuple2(
-					_Utils_update(
-						model,
-						{
-							selectedCategory: author$project$UIExplorer$getSelectedCategoryfromPath(location),
-							selectedStoryId: author$project$UIExplorer$getSelectedStoryfromPath(location),
-							selectedUIId: author$project$UIExplorer$getSelectedUIfromPath(location),
-							url: location
-						}),
+					A2(author$project$UIExplorer$changeUrl, model, location),
 					elm$core$Platform$Cmd$none);
 			case 'NavigateToHome':
-				return _Utils_Tuple2(model, elm$core$Platform$Cmd$none);
+				return _Utils_Tuple2(
+					model,
+					A2(elm$browser$Browser$Navigation$pushUrl, model.key, '/'));
 			default:
 				var urlRequest = msg.a;
 				if (urlRequest.$ === 'Internal') {

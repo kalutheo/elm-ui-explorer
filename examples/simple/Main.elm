@@ -8,12 +8,13 @@ import Html.Events exposing (onClick)
 
 type alias Model =
     { isOpen : Bool
+    , entries : List String
     }
 
 
 initialModel : Model
 initialModel =
-    { isOpen = False }
+    { isOpen = False, entries = [ "Contact Us", "Yeah" ] }
 
 
 type Msg
@@ -68,13 +69,14 @@ view model =
             ]
             [ div
                 [ class "dropdown-content" ]
-                [ a
-                    [ href "#", class "dropdown-item" ]
-                    [ text "Contact" ]
-                , a
-                    [ href "#", class "dropdown-item" ]
-                    [ text "About Us" ]
-                ]
+                (model.entries
+                    |> List.map
+                        (\label ->
+                            a
+                                [ href "#", class "dropdown-item" ]
+                                [ text label ]
+                        )
+                )
             ]
         ]
 

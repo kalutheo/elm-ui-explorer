@@ -5,17 +5,14 @@ import Browser.Navigation as Navigation
 import Html exposing (div)
 import Html.Attributes exposing (style)
 import Main
-import UIExplorer exposing (Msg, UICategory, app, createUI, fromUIList, renderStories, view)
+import UIExplorer exposing (Msg(..), UICategory, app, createUI, fromUIList, renderStories, view)
 import Url
 
 
 type alias Model =
-    { categories : List UICategory
-    , selectedUIId : Maybe String
-    , selectedStoryId : Maybe String
-    , selectedCategory : Maybe String
-    , url : Url.Url
+    { url : Url.Url
     , key : Navigation.Key
+    , explorer : UIExplorer.Model
     }
 
 
@@ -25,15 +22,24 @@ type alias Model =
 
 stories : List ( String, Main.Model )
 stories =
-    [ ( "Default", { isOpen = False } ), ( "Opened", { isOpen = True } ) ]
+    [ ( "Default", { isOpen = False, entries = [ "titi", "toto" ] } ), ( "Opened", { isOpen = True, entries = [ "yo", "ya" ] } ) ]
 
 
 
 {--A simple wrapper to prevent description to be hidden by the dropdown --}
 
 
+viewStoriesWrapper : Main.Model -> Html.Html Main.Msg
+viewStoriesWrapper model =
+    div [ style "height" "100px" ] [ Main.view model ]
+
+
 categories =
-    []
+    fromUIList
+        [ createUI
+            "dropdown"
+            (renderStories viewStoriesWrapper stories)
+        ]
 
 
 type Msg
@@ -42,17 +48,11 @@ type Msg
     | ExlporerMsg UIExplorer.Msg
 
 
+init : () -> Url.Url -> Navigation.Key -> ( Model, Cmd Msg )
 init flags url key =
-    let
-        { selectedUIId, selectedStoryId, selectedCategory } =
-            UIExplorer.initModelFromUrl url
-    in
-    ( { categories = categories
-      , selectedUIId = selectedUIId
-      , selectedStoryId = selectedStoryId
-      , selectedCategory = selectedCategory
-      , url = url
+    ( { url = url
       , key = key
+      , explorer = UIExplorer.initModelFromUrl categories url key
       }
     , Cmd.none
     )
@@ -62,15 +62,9 @@ update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
         UrlChange location ->
-            let
-                { selectedUIId, selectedStoryId, selectedCategory } =
-                    UIExplorer.initModelFromUrl location
-            in
             ( { model
                 | url = location
-                , selectedUIId = selectedUIId
-                , selectedStoryId = selectedStoryId
-                , selectedCategory = selectedCategory
+                , explorer = UIExplorer.changeUrl model.explorer location
               }
             , Cmd.none
             )
@@ -84,18 +78,22 @@ update msg model =
                     ( model, Navigation.load href )
 
         ExlporerMsg subMsg ->
-            ( model, Cmd.none )
+            let
+                ( updatedExplorerModel, explorerCmd ) =
+                    UIExplorer.update subMsg model.explorer
+            in
+            ( { model | explorer = updatedExplorerModel }, Cmd.map ExlporerMsg explorerCmd )
 
 
-main : Program {} Model Msg
+main : Program () Model Msg
 main =
     Browser.application
         { init = init
         , view =
             \model ->
-                { title = "Storybook Elm"
+                { title = "My Storybook Elm :-)"
                 , body =
-                    [ Html.map ExlporerMsg (view model)
+                    [ Html.map ExlporerMsg (view model.explorer)
                     ]
                 }
         , update = update

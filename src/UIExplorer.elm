@@ -8,7 +8,7 @@ module UIExplorer exposing
     , createUI
     , createUIWithDescription
     , fromUIList
-    , Msg, initModelFromUrl, view
+    , Model, Msg, changeUrl, initModelFromUrl, makeStoryUrl, update, view
     )
 
 {-|
@@ -147,6 +147,15 @@ makeStoryUrl model storyId =
         model.selectedUIId
 
 
+changeUrl model location =
+    { model
+        | url = location
+        , selectedUIId = getSelectedUIfromPath location
+        , selectedStoryId = getSelectedStoryfromPath location
+        , selectedCategory = getSelectedCategoryfromPath location
+    }
+
+
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
@@ -162,21 +171,12 @@ update msg model =
                     ( model, Cmd.none )
 
         UrlChange location ->
-            let
-                _ =
-                    Debug.log "UrlChange" location
-            in
-            ( { model
-                | url = location
-                , selectedUIId = getSelectedUIfromPath location
-                , selectedStoryId = getSelectedStoryfromPath location
-                , selectedCategory = getSelectedCategoryfromPath location
-              }
+            ( changeUrl model location
             , Cmd.none
             )
 
         NavigateToHome ->
-            ( model, Cmd.none )
+            ( model, Navigation.pushUrl model.key "/" )
 
         LinkClicked urlRequest ->
             case urlRequest of
@@ -283,10 +283,13 @@ addUICategory title uiList categories =
     List.append categories [ category ]
 
 
-initModelFromUrl url =
-    { selectedUIId = getSelectedUIfromPath url
+initModelFromUrl categories url key =
+    { categories = categories
+    , selectedUIId = getSelectedUIfromPath url
     , selectedStoryId = getSelectedStoryfromPath url
     , selectedCategory = getSelectedCategoryfromPath url
+    , url = url
+    , key = key
     }
 
 
