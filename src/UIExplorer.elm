@@ -4,6 +4,8 @@ module UIExplorer
         , renderStories
         , UI
         , UICategory
+        , Model
+        , Msg
         , addUICategory
         , emptyUICategories
         , createUI
