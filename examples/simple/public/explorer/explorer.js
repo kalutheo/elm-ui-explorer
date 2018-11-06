@@ -232,6 +232,87 @@ var _JsArray_appendN = F3(function(n, dest, source)
 
 
 
+var _List_Nil_UNUSED = { $: 0 };
+var _List_Nil = { $: '[]' };
+
+function _List_Cons_UNUSED(hd, tl) { return { $: 1, a: hd, b: tl }; }
+function _List_Cons(hd, tl) { return { $: '::', a: hd, b: tl }; }
+
+
+var _List_cons = F2(_List_Cons);
+
+function _List_fromArray(arr)
+{
+	var out = _List_Nil;
+	for (var i = arr.length; i--; )
+	{
+		out = _List_Cons(arr[i], out);
+	}
+	return out;
+}
+
+function _List_toArray(xs)
+{
+	for (var out = []; xs.b; xs = xs.b) // WHILE_CONS
+	{
+		out.push(xs.a);
+	}
+	return out;
+}
+
+var _List_map2 = F3(function(f, xs, ys)
+{
+	for (var arr = []; xs.b && ys.b; xs = xs.b, ys = ys.b) // WHILE_CONSES
+	{
+		arr.push(A2(f, xs.a, ys.a));
+	}
+	return _List_fromArray(arr);
+});
+
+var _List_map3 = F4(function(f, xs, ys, zs)
+{
+	for (var arr = []; xs.b && ys.b && zs.b; xs = xs.b, ys = ys.b, zs = zs.b) // WHILE_CONSES
+	{
+		arr.push(A3(f, xs.a, ys.a, zs.a));
+	}
+	return _List_fromArray(arr);
+});
+
+var _List_map4 = F5(function(f, ws, xs, ys, zs)
+{
+	for (var arr = []; ws.b && xs.b && ys.b && zs.b; ws = ws.b, xs = xs.b, ys = ys.b, zs = zs.b) // WHILE_CONSES
+	{
+		arr.push(A4(f, ws.a, xs.a, ys.a, zs.a));
+	}
+	return _List_fromArray(arr);
+});
+
+var _List_map5 = F6(function(f, vs, ws, xs, ys, zs)
+{
+	for (var arr = []; vs.b && ws.b && xs.b && ys.b && zs.b; vs = vs.b, ws = ws.b, xs = xs.b, ys = ys.b, zs = zs.b) // WHILE_CONSES
+	{
+		arr.push(A5(f, vs.a, ws.a, xs.a, ys.a, zs.a));
+	}
+	return _List_fromArray(arr);
+});
+
+var _List_sortBy = F2(function(f, xs)
+{
+	return _List_fromArray(_List_toArray(xs).sort(function(a, b) {
+		return _Utils_cmp(f(a), f(b));
+	}));
+});
+
+var _List_sortWith = F2(function(f, xs)
+{
+	return _List_fromArray(_List_toArray(xs).sort(function(a, b) {
+		var ord = A2(f, a, b);
+		return ord === elm$core$Basics$EQ ? 0 : ord === elm$core$Basics$LT ? -1 : 1;
+	}));
+});
+
+
+
 // LOG
 
 var _Debug_log_UNUSED = F2(function(tag, value)
@@ -695,87 +776,6 @@ function _Utils_ap(xs, ys)
 	}
 	return root;
 }
-
-
-
-var _List_Nil_UNUSED = { $: 0 };
-var _List_Nil = { $: '[]' };
-
-function _List_Cons_UNUSED(hd, tl) { return { $: 1, a: hd, b: tl }; }
-function _List_Cons(hd, tl) { return { $: '::', a: hd, b: tl }; }
-
-
-var _List_cons = F2(_List_Cons);
-
-function _List_fromArray(arr)
-{
-	var out = _List_Nil;
-	for (var i = arr.length; i--; )
-	{
-		out = _List_Cons(arr[i], out);
-	}
-	return out;
-}
-
-function _List_toArray(xs)
-{
-	for (var out = []; xs.b; xs = xs.b) // WHILE_CONS
-	{
-		out.push(xs.a);
-	}
-	return out;
-}
-
-var _List_map2 = F3(function(f, xs, ys)
-{
-	for (var arr = []; xs.b && ys.b; xs = xs.b, ys = ys.b) // WHILE_CONSES
-	{
-		arr.push(A2(f, xs.a, ys.a));
-	}
-	return _List_fromArray(arr);
-});
-
-var _List_map3 = F4(function(f, xs, ys, zs)
-{
-	for (var arr = []; xs.b && ys.b && zs.b; xs = xs.b, ys = ys.b, zs = zs.b) // WHILE_CONSES
-	{
-		arr.push(A3(f, xs.a, ys.a, zs.a));
-	}
-	return _List_fromArray(arr);
-});
-
-var _List_map4 = F5(function(f, ws, xs, ys, zs)
-{
-	for (var arr = []; ws.b && xs.b && ys.b && zs.b; ws = ws.b, xs = xs.b, ys = ys.b, zs = zs.b) // WHILE_CONSES
-	{
-		arr.push(A4(f, ws.a, xs.a, ys.a, zs.a));
-	}
-	return _List_fromArray(arr);
-});
-
-var _List_map5 = F6(function(f, vs, ws, xs, ys, zs)
-{
-	for (var arr = []; vs.b && ws.b && xs.b && ys.b && zs.b; vs = vs.b, ws = ws.b, xs = xs.b, ys = ys.b, zs = zs.b) // WHILE_CONSES
-	{
-		arr.push(A5(f, vs.a, ws.a, xs.a, ys.a, zs.a));
-	}
-	return _List_fromArray(arr);
-});
-
-var _List_sortBy = F2(function(f, xs)
-{
-	return _List_fromArray(_List_toArray(xs).sort(function(a, b) {
-		return _Utils_cmp(f(a), f(b));
-	}));
-});
-
-var _List_sortWith = F2(function(f, xs)
-{
-	return _List_fromArray(_List_toArray(xs).sort(function(a, b) {
-		var ord = A2(f, a, b);
-		return ord === elm$core$Basics$EQ ? 0 : ord === elm$core$Basics$LT ? -1 : 1;
-	}));
-});
 
 
 
@@ -4845,19 +4845,24 @@ function _Browser_load(url)
 		}
 	}));
 }
+var author$project$Explorer$ChangeLang = function (a) {
+	return {$: 'ChangeLang', a: a};
+};
+var author$project$Explorer$En = {$: 'En'};
 var author$project$Explorer$ExlporerMsg = function (a) {
 	return {$: 'ExlporerMsg', a: a};
 };
+var author$project$Explorer$Fr = {$: 'Fr'};
 var author$project$Explorer$LinkClicked = function (a) {
 	return {$: 'LinkClicked', a: a};
 };
 var author$project$Explorer$UrlChange = function (a) {
 	return {$: 'UrlChange', a: a};
 };
-var elm$core$Basics$False = {$: 'False'};
-var elm$core$Basics$True = {$: 'True'};
-var elm$core$Basics$EQ = {$: 'EQ'};
-var elm$core$Basics$LT = {$: 'LT'};
+var elm$core$Basics$apR = F2(
+	function (x, f) {
+		return f(x);
+	});
 var elm$core$Elm$JsArray$foldr = _JsArray_foldr;
 var elm$core$Array$foldr = F3(
 	function (func, baseCase, _n0) {
@@ -4879,6 +4884,8 @@ var elm$core$Array$foldr = F3(
 			A3(elm$core$Elm$JsArray$foldr, func, baseCase, tail),
 			tree);
 	});
+var elm$core$Basics$EQ = {$: 'EQ'};
+var elm$core$Basics$LT = {$: 'LT'};
 var elm$core$List$cons = _List_cons;
 var elm$core$Array$toList = function (array) {
 	return A3(elm$core$Array$foldr, elm$core$List$cons, _List_Nil, array);
@@ -4936,28 +4943,78 @@ var elm$core$Set$toList = function (_n0) {
 	var dict = _n0.a;
 	return elm$core$Dict$keys(dict);
 };
-var author$project$Explorer$stories = _List_fromArray(
-	[
-		_Utils_Tuple2(
-		'Default',
-		{
-			entries: _List_fromArray(
-				['titi', 'toto']),
-			isOpen: false
-		}),
-		_Utils_Tuple2(
-		'Opened',
-		{
-			entries: _List_fromArray(
-				['yo', 'ya']),
-			isOpen: true
-		})
-	]);
-var author$project$Main$Toggle = {$: 'Toggle'};
-var elm$core$Basics$apR = F2(
-	function (x, f) {
-		return f(x);
+var elm$core$Basics$compare = _Utils_compare;
+var elm$core$Maybe$Just = function (a) {
+	return {$: 'Just', a: a};
+};
+var elm$core$Maybe$Nothing = {$: 'Nothing'};
+var elm$core$Dict$get = F2(
+	function (targetKey, dict) {
+		get:
+		while (true) {
+			if (dict.$ === 'RBEmpty_elm_builtin') {
+				return elm$core$Maybe$Nothing;
+			} else {
+				var key = dict.b;
+				var value = dict.c;
+				var left = dict.d;
+				var right = dict.e;
+				var _n1 = A2(elm$core$Basics$compare, targetKey, key);
+				switch (_n1.$) {
+					case 'LT':
+						var $temp$targetKey = targetKey,
+							$temp$dict = left;
+						targetKey = $temp$targetKey;
+						dict = $temp$dict;
+						continue get;
+					case 'EQ':
+						return elm$core$Maybe$Just(value);
+					default:
+						var $temp$targetKey = targetKey,
+							$temp$dict = right;
+						targetKey = $temp$targetKey;
+						dict = $temp$dict;
+						continue get;
+				}
+			}
+		}
 	});
+var elm$core$Maybe$withDefault = F2(
+	function (_default, maybe) {
+		if (maybe.$ === 'Just') {
+			var value = maybe.a;
+			return value;
+		} else {
+			return _default;
+		}
+	});
+var ChristophP$elm_i18next$I18Next$t = F2(
+	function (_n0, key) {
+		var translations = _n0.a;
+		return A2(
+			elm$core$Maybe$withDefault,
+			key,
+			A2(elm$core$Dict$get, key, translations));
+	});
+var elm$core$Basics$False = {$: 'False'};
+var elm$core$Basics$True = {$: 'True'};
+var author$project$Explorer$stories = function (translations) {
+	var entries = _List_fromArray(
+		[
+			A2(ChristophP$elm_i18next$I18Next$t, translations, 'menu.home'),
+			A2(ChristophP$elm_i18next$I18Next$t, translations, 'menu.about')
+		]);
+	return _List_fromArray(
+		[
+			_Utils_Tuple2(
+			'Default',
+			{entries: entries, isOpen: false}),
+			_Utils_Tuple2(
+			'Opened',
+			{entries: entries, isOpen: true})
+		]);
+};
+var author$project$Main$Toggle = {$: 'Toggle'};
 var elm$core$Basics$add = _Basics_add;
 var elm$core$Basics$gt = _Utils_gt;
 var elm$core$List$foldl = F3(
@@ -5204,10 +5261,6 @@ var elm$core$Array$initialize = F2(
 			return A5(elm$core$Array$initializeHelp, fn, initialFromIndex, len, _List_Nil, tail);
 		}
 	});
-var elm$core$Maybe$Just = function (a) {
-	return {$: 'Just', a: a};
-};
-var elm$core$Maybe$Nothing = {$: 'Nothing'};
 var elm$core$Result$Err = function (a) {
 	return {$: 'Err', a: a};
 };
@@ -5682,15 +5735,6 @@ var elm$core$Maybe$map = F2(
 			return elm$core$Maybe$Nothing;
 		}
 	});
-var elm$core$Maybe$withDefault = F2(
-	function (_default, maybe) {
-		if (maybe.$ === 'Just') {
-			var value = maybe.a;
-			return value;
-		} else {
-			return _default;
-		}
-	});
 var elm$html$Html$li = _VirtualDom_node('li');
 var author$project$UIExplorer$renderStory = F3(
 	function (index, _n0, _n1) {
@@ -5818,14 +5862,293 @@ var author$project$UIExplorer$renderStories = F3(
 						[content]))
 				]));
 	});
-var author$project$Explorer$categories = author$project$UIExplorer$fromUIList(
-	_List_fromArray(
-		[
-			A2(
-			author$project$UIExplorer$createUI,
-			'dropdown',
-			A2(author$project$UIExplorer$renderStories, author$project$Explorer$viewStoriesWrapper, author$project$Explorer$stories))
-		]));
+var author$project$Explorer$categories = function (translations) {
+	return author$project$UIExplorer$fromUIList(
+		_List_fromArray(
+			[
+				A2(
+				author$project$UIExplorer$createUI,
+				'dropdown',
+				A2(
+					author$project$UIExplorer$renderStories,
+					author$project$Explorer$viewStoriesWrapper,
+					author$project$Explorer$stories(translations)))
+			]));
+};
+var ChristophP$elm_i18next$I18Next$Translations = function (a) {
+	return {$: 'Translations', a: a};
+};
+var elm$core$Dict$RBEmpty_elm_builtin = {$: 'RBEmpty_elm_builtin'};
+var elm$core$Dict$empty = elm$core$Dict$RBEmpty_elm_builtin;
+var ChristophP$elm_i18next$I18Next$initialTranslations = ChristophP$elm_i18next$I18Next$Translations(elm$core$Dict$empty);
+var elm$core$Dict$foldl = F3(
+	function (func, acc, dict) {
+		foldl:
+		while (true) {
+			if (dict.$ === 'RBEmpty_elm_builtin') {
+				return acc;
+			} else {
+				var key = dict.b;
+				var value = dict.c;
+				var left = dict.d;
+				var right = dict.e;
+				var $temp$func = func,
+					$temp$acc = A3(
+					func,
+					key,
+					value,
+					A3(elm$core$Dict$foldl, func, acc, left)),
+					$temp$dict = right;
+				func = $temp$func;
+				acc = $temp$acc;
+				dict = $temp$dict;
+				continue foldl;
+			}
+		}
+	});
+var elm$core$Dict$Black = {$: 'Black'};
+var elm$core$Dict$RBNode_elm_builtin = F5(
+	function (a, b, c, d, e) {
+		return {$: 'RBNode_elm_builtin', a: a, b: b, c: c, d: d, e: e};
+	});
+var elm$core$Dict$Red = {$: 'Red'};
+var elm$core$Dict$balance = F5(
+	function (color, key, value, left, right) {
+		if ((right.$ === 'RBNode_elm_builtin') && (right.a.$ === 'Red')) {
+			var _n1 = right.a;
+			var rK = right.b;
+			var rV = right.c;
+			var rLeft = right.d;
+			var rRight = right.e;
+			if ((left.$ === 'RBNode_elm_builtin') && (left.a.$ === 'Red')) {
+				var _n3 = left.a;
+				var lK = left.b;
+				var lV = left.c;
+				var lLeft = left.d;
+				var lRight = left.e;
+				return A5(
+					elm$core$Dict$RBNode_elm_builtin,
+					elm$core$Dict$Red,
+					key,
+					value,
+					A5(elm$core$Dict$RBNode_elm_builtin, elm$core$Dict$Black, lK, lV, lLeft, lRight),
+					A5(elm$core$Dict$RBNode_elm_builtin, elm$core$Dict$Black, rK, rV, rLeft, rRight));
+			} else {
+				return A5(
+					elm$core$Dict$RBNode_elm_builtin,
+					color,
+					rK,
+					rV,
+					A5(elm$core$Dict$RBNode_elm_builtin, elm$core$Dict$Red, key, value, left, rLeft),
+					rRight);
+			}
+		} else {
+			if ((((left.$ === 'RBNode_elm_builtin') && (left.a.$ === 'Red')) && (left.d.$ === 'RBNode_elm_builtin')) && (left.d.a.$ === 'Red')) {
+				var _n5 = left.a;
+				var lK = left.b;
+				var lV = left.c;
+				var _n6 = left.d;
+				var _n7 = _n6.a;
+				var llK = _n6.b;
+				var llV = _n6.c;
+				var llLeft = _n6.d;
+				var llRight = _n6.e;
+				var lRight = left.e;
+				return A5(
+					elm$core$Dict$RBNode_elm_builtin,
+					elm$core$Dict$Red,
+					lK,
+					lV,
+					A5(elm$core$Dict$RBNode_elm_builtin, elm$core$Dict$Black, llK, llV, llLeft, llRight),
+					A5(elm$core$Dict$RBNode_elm_builtin, elm$core$Dict$Black, key, value, lRight, right));
+			} else {
+				return A5(elm$core$Dict$RBNode_elm_builtin, color, key, value, left, right);
+			}
+		}
+	});
+var elm$core$Dict$insertHelp = F3(
+	function (key, value, dict) {
+		if (dict.$ === 'RBEmpty_elm_builtin') {
+			return A5(elm$core$Dict$RBNode_elm_builtin, elm$core$Dict$Red, key, value, elm$core$Dict$RBEmpty_elm_builtin, elm$core$Dict$RBEmpty_elm_builtin);
+		} else {
+			var nColor = dict.a;
+			var nKey = dict.b;
+			var nValue = dict.c;
+			var nLeft = dict.d;
+			var nRight = dict.e;
+			var _n1 = A2(elm$core$Basics$compare, key, nKey);
+			switch (_n1.$) {
+				case 'LT':
+					return A5(
+						elm$core$Dict$balance,
+						nColor,
+						nKey,
+						nValue,
+						A3(elm$core$Dict$insertHelp, key, value, nLeft),
+						nRight);
+				case 'EQ':
+					return A5(elm$core$Dict$RBNode_elm_builtin, nColor, nKey, value, nLeft, nRight);
+				default:
+					return A5(
+						elm$core$Dict$balance,
+						nColor,
+						nKey,
+						nValue,
+						nLeft,
+						A3(elm$core$Dict$insertHelp, key, value, nRight));
+			}
+		}
+	});
+var elm$core$Dict$insert = F3(
+	function (key, value, dict) {
+		var _n0 = A3(elm$core$Dict$insertHelp, key, value, dict);
+		if ((_n0.$ === 'RBNode_elm_builtin') && (_n0.a.$ === 'Red')) {
+			var _n1 = _n0.a;
+			var k = _n0.b;
+			var v = _n0.c;
+			var l = _n0.d;
+			var r = _n0.e;
+			return A5(elm$core$Dict$RBNode_elm_builtin, elm$core$Dict$Black, k, v, l, r);
+		} else {
+			var x = _n0;
+			return x;
+		}
+	});
+var elm$core$String$isEmpty = function (string) {
+	return string === '';
+};
+var ChristophP$elm_i18next$I18Next$foldTree = F3(
+	function (initialValue, dict, namespace) {
+		return A3(
+			elm$core$Dict$foldl,
+			F3(
+				function (key, val, acc) {
+					var newNamespace = function (currentKey) {
+						return elm$core$String$isEmpty(namespace) ? currentKey : (namespace + ('.' + currentKey));
+					};
+					if (val.$ === 'Leaf') {
+						var str = val.a;
+						return A3(
+							elm$core$Dict$insert,
+							newNamespace(key),
+							str,
+							acc);
+					} else {
+						var children = val.a;
+						return A3(
+							ChristophP$elm_i18next$I18Next$foldTree,
+							acc,
+							children,
+							newNamespace(key));
+					}
+				}),
+			initialValue,
+			dict);
+	});
+var ChristophP$elm_i18next$I18Next$mapTreeToDict = function (tree) {
+	if (tree.$ === 'Branch') {
+		var dict = tree.a;
+		return ChristophP$elm_i18next$I18Next$Translations(
+			A3(ChristophP$elm_i18next$I18Next$foldTree, elm$core$Dict$empty, dict, ''));
+	} else {
+		return ChristophP$elm_i18next$I18Next$initialTranslations;
+	}
+};
+var ChristophP$elm_i18next$I18Next$Branch = function (a) {
+	return {$: 'Branch', a: a};
+};
+var ChristophP$elm_i18next$I18Next$Leaf = function (a) {
+	return {$: 'Leaf', a: a};
+};
+var elm$core$Dict$fromList = function (assocs) {
+	return A3(
+		elm$core$List$foldl,
+		F2(
+			function (_n0, dict) {
+				var key = _n0.a;
+				var value = _n0.b;
+				return A3(elm$core$Dict$insert, key, value, dict);
+			}),
+		elm$core$Dict$empty,
+		assocs);
+};
+var elm$json$Json$Decode$keyValuePairs = _Json_decodeKeyValuePairs;
+var elm$json$Json$Decode$dict = function (decoder) {
+	return A2(
+		elm$json$Json$Decode$map,
+		elm$core$Dict$fromList,
+		elm$json$Json$Decode$keyValuePairs(decoder));
+};
+var elm$json$Json$Decode$andThen = _Json_andThen;
+var elm$json$Json$Decode$lazy = function (thunk) {
+	return A2(
+		elm$json$Json$Decode$andThen,
+		thunk,
+		elm$json$Json$Decode$succeed(_Utils_Tuple0));
+};
+var elm$json$Json$Decode$oneOf = _Json_oneOf;
+var elm$json$Json$Decode$string = _Json_decodeString;
+function ChristophP$elm_i18next$I18Next$cyclic$treeDecoder() {
+	return elm$json$Json$Decode$oneOf(
+		_List_fromArray(
+			[
+				A2(elm$json$Json$Decode$map, ChristophP$elm_i18next$I18Next$Leaf, elm$json$Json$Decode$string),
+				elm$json$Json$Decode$lazy(
+				function (_n0) {
+					return A2(
+						elm$json$Json$Decode$map,
+						ChristophP$elm_i18next$I18Next$Branch,
+						elm$json$Json$Decode$dict(
+							ChristophP$elm_i18next$I18Next$cyclic$treeDecoder()));
+				})
+			]));
+}
+try {
+	var ChristophP$elm_i18next$I18Next$treeDecoder = ChristophP$elm_i18next$I18Next$cyclic$treeDecoder();
+	ChristophP$elm_i18next$I18Next$cyclic$treeDecoder = function () {
+		return ChristophP$elm_i18next$I18Next$treeDecoder;
+	};
+} catch ($) {
+throw 'Some top-level definitions from `I18Next` are causing infinite recursion:\n\n  ┌─────┐\n  │    treeDecoder\n  └─────┘\n\nThese errors are very tricky, so read https://elm-lang.org/0.19.0/halting-problem to learn how to fix it!';}
+var ChristophP$elm_i18next$I18Next$translationsDecoder = A2(elm$json$Json$Decode$map, ChristophP$elm_i18next$I18Next$mapTreeToDict, ChristophP$elm_i18next$I18Next$treeDecoder);
+var author$project$Explorer$englishLabels = '\n        {\n            "labels": {\n            "click-me": "Click Me"\n            },\n            "menu" : {\n                "home": "Home",\n                "about": "About us"\n            }\n        }\n    ';
+var author$project$Explorer$frenchLabels = '\n        {\n            "labels": {\n            "click-me": "Cliquez moi"\n            },\n            "menu" : {\n                "home": "Accueil",\n                "about": "A propos de nous"\n            }\n        }\n    ';
+var elm$core$Result$map = F2(
+	function (func, ra) {
+		if (ra.$ === 'Ok') {
+			var a = ra.a;
+			return elm$core$Result$Ok(
+				func(a));
+		} else {
+			var e = ra.a;
+			return elm$core$Result$Err(e);
+		}
+	});
+var elm$core$Result$withDefault = F2(
+	function (def, result) {
+		if (result.$ === 'Ok') {
+			var a = result.a;
+			return a;
+		} else {
+			return def;
+		}
+	});
+var elm$json$Json$Decode$decodeString = _Json_runOnString;
+var author$project$Explorer$getTranslationsFromLang = function (lang) {
+	return A2(
+		elm$core$Result$withDefault,
+		ChristophP$elm_i18next$I18Next$initialTranslations,
+		A2(
+			elm$core$Result$map,
+			elm$core$Basics$identity,
+			function () {
+				if (lang.$ === 'En') {
+					return A2(elm$json$Json$Decode$decodeString, ChristophP$elm_i18next$I18Next$translationsDecoder, author$project$Explorer$englishLabels);
+				} else {
+					return A2(elm$json$Json$Decode$decodeString, ChristophP$elm_i18next$I18Next$translationsDecoder, author$project$Explorer$frenchLabels);
+				}
+			}()));
+};
 var elm$core$Array$fromListHelp = F3(
 	function (list, nodeList, nodeListSize) {
 		fromListHelp:
@@ -5942,10 +6265,18 @@ var elm$core$Platform$Cmd$batch = _Platform_batch;
 var elm$core$Platform$Cmd$none = elm$core$Platform$Cmd$batch(_List_Nil);
 var author$project$Explorer$init = F3(
 	function (flags, url, key) {
+		var defaultLang = author$project$Explorer$En;
+		var translations = author$project$Explorer$getTranslationsFromLang(defaultLang);
 		return _Utils_Tuple2(
 			{
-				explorer: A3(author$project$UIExplorer$initModelFromUrl, author$project$Explorer$categories, url, key),
+				currentLang: defaultLang,
+				explorer: A3(
+					author$project$UIExplorer$initModelFromUrl,
+					author$project$Explorer$categories(translations),
+					url,
+					key),
 				key: key,
+				translations: translations,
 				url: url
 			},
 			elm$core$Platform$Cmd$none);
@@ -7777,11 +8108,6 @@ var elm$browser$Debugger$Main$toBlockerType = function (model) {
 		elm$browser$Debugger$Main$isPaused(model.state),
 		model.overlay);
 };
-var elm$core$Dict$RBEmpty_elm_builtin = {$: 'RBEmpty_elm_builtin'};
-var elm$core$Dict$RBNode_elm_builtin = F5(
-	function (a, b, c, d, e) {
-		return {$: 'RBNode_elm_builtin', a: a, b: b, c: c, d: d, e: e};
-	});
 var elm$core$Dict$map = F2(
 	function (func, dict) {
 		if (dict.$ === 'RBEmpty_elm_builtin') {
@@ -7925,7 +8251,6 @@ var elm$browser$Debugger$Metadata$Alias = F2(
 	});
 var elm$json$Json$Decode$field = _Json_decodeField;
 var elm$json$Json$Decode$list = _Json_decodeList;
-var elm$json$Json$Decode$string = _Json_decodeString;
 var elm$browser$Debugger$Metadata$decodeAlias = A3(
 	elm$json$Json$Decode$map2,
 	elm$browser$Debugger$Metadata$Alias,
@@ -7938,131 +8263,6 @@ var elm$browser$Debugger$Metadata$Union = F2(
 	function (args, tags) {
 		return {args: args, tags: tags};
 	});
-var elm$core$Dict$empty = elm$core$Dict$RBEmpty_elm_builtin;
-var elm$core$Dict$Black = {$: 'Black'};
-var elm$core$Basics$compare = _Utils_compare;
-var elm$core$Dict$Red = {$: 'Red'};
-var elm$core$Dict$balance = F5(
-	function (color, key, value, left, right) {
-		if ((right.$ === 'RBNode_elm_builtin') && (right.a.$ === 'Red')) {
-			var _n1 = right.a;
-			var rK = right.b;
-			var rV = right.c;
-			var rLeft = right.d;
-			var rRight = right.e;
-			if ((left.$ === 'RBNode_elm_builtin') && (left.a.$ === 'Red')) {
-				var _n3 = left.a;
-				var lK = left.b;
-				var lV = left.c;
-				var lLeft = left.d;
-				var lRight = left.e;
-				return A5(
-					elm$core$Dict$RBNode_elm_builtin,
-					elm$core$Dict$Red,
-					key,
-					value,
-					A5(elm$core$Dict$RBNode_elm_builtin, elm$core$Dict$Black, lK, lV, lLeft, lRight),
-					A5(elm$core$Dict$RBNode_elm_builtin, elm$core$Dict$Black, rK, rV, rLeft, rRight));
-			} else {
-				return A5(
-					elm$core$Dict$RBNode_elm_builtin,
-					color,
-					rK,
-					rV,
-					A5(elm$core$Dict$RBNode_elm_builtin, elm$core$Dict$Red, key, value, left, rLeft),
-					rRight);
-			}
-		} else {
-			if ((((left.$ === 'RBNode_elm_builtin') && (left.a.$ === 'Red')) && (left.d.$ === 'RBNode_elm_builtin')) && (left.d.a.$ === 'Red')) {
-				var _n5 = left.a;
-				var lK = left.b;
-				var lV = left.c;
-				var _n6 = left.d;
-				var _n7 = _n6.a;
-				var llK = _n6.b;
-				var llV = _n6.c;
-				var llLeft = _n6.d;
-				var llRight = _n6.e;
-				var lRight = left.e;
-				return A5(
-					elm$core$Dict$RBNode_elm_builtin,
-					elm$core$Dict$Red,
-					lK,
-					lV,
-					A5(elm$core$Dict$RBNode_elm_builtin, elm$core$Dict$Black, llK, llV, llLeft, llRight),
-					A5(elm$core$Dict$RBNode_elm_builtin, elm$core$Dict$Black, key, value, lRight, right));
-			} else {
-				return A5(elm$core$Dict$RBNode_elm_builtin, color, key, value, left, right);
-			}
-		}
-	});
-var elm$core$Dict$insertHelp = F3(
-	function (key, value, dict) {
-		if (dict.$ === 'RBEmpty_elm_builtin') {
-			return A5(elm$core$Dict$RBNode_elm_builtin, elm$core$Dict$Red, key, value, elm$core$Dict$RBEmpty_elm_builtin, elm$core$Dict$RBEmpty_elm_builtin);
-		} else {
-			var nColor = dict.a;
-			var nKey = dict.b;
-			var nValue = dict.c;
-			var nLeft = dict.d;
-			var nRight = dict.e;
-			var _n1 = A2(elm$core$Basics$compare, key, nKey);
-			switch (_n1.$) {
-				case 'LT':
-					return A5(
-						elm$core$Dict$balance,
-						nColor,
-						nKey,
-						nValue,
-						A3(elm$core$Dict$insertHelp, key, value, nLeft),
-						nRight);
-				case 'EQ':
-					return A5(elm$core$Dict$RBNode_elm_builtin, nColor, nKey, value, nLeft, nRight);
-				default:
-					return A5(
-						elm$core$Dict$balance,
-						nColor,
-						nKey,
-						nValue,
-						nLeft,
-						A3(elm$core$Dict$insertHelp, key, value, nRight));
-			}
-		}
-	});
-var elm$core$Dict$insert = F3(
-	function (key, value, dict) {
-		var _n0 = A3(elm$core$Dict$insertHelp, key, value, dict);
-		if ((_n0.$ === 'RBNode_elm_builtin') && (_n0.a.$ === 'Red')) {
-			var _n1 = _n0.a;
-			var k = _n0.b;
-			var v = _n0.c;
-			var l = _n0.d;
-			var r = _n0.e;
-			return A5(elm$core$Dict$RBNode_elm_builtin, elm$core$Dict$Black, k, v, l, r);
-		} else {
-			var x = _n0;
-			return x;
-		}
-	});
-var elm$core$Dict$fromList = function (assocs) {
-	return A3(
-		elm$core$List$foldl,
-		F2(
-			function (_n0, dict) {
-				var key = _n0.a;
-				var value = _n0.b;
-				return A3(elm$core$Dict$insert, key, value, dict);
-			}),
-		elm$core$Dict$empty,
-		assocs);
-};
-var elm$json$Json$Decode$keyValuePairs = _Json_decodeKeyValuePairs;
-var elm$json$Json$Decode$dict = function (decoder) {
-	return A2(
-		elm$json$Json$Decode$map,
-		elm$core$Dict$fromList,
-		elm$json$Json$Decode$keyValuePairs(decoder));
-};
 var elm$browser$Debugger$Metadata$decodeUnion = A3(
 	elm$json$Json$Decode$map2,
 	elm$browser$Debugger$Metadata$Union,
@@ -8204,31 +8404,6 @@ var elm$browser$Debugger$Metadata$collectBadUnions = F3(
 				list);
 		}
 	});
-var elm$core$Dict$foldl = F3(
-	function (func, acc, dict) {
-		foldl:
-		while (true) {
-			if (dict.$ === 'RBEmpty_elm_builtin') {
-				return acc;
-			} else {
-				var key = dict.b;
-				var value = dict.c;
-				var left = dict.d;
-				var right = dict.e;
-				var $temp$func = func,
-					$temp$acc = A3(
-					func,
-					key,
-					value,
-					A3(elm$core$Dict$foldl, func, acc, left)),
-					$temp$dict = right;
-				func = $temp$func;
-				acc = $temp$acc;
-				dict = $temp$dict;
-				continue foldl;
-			}
-		}
-	});
 var elm$browser$Debugger$Metadata$isPortable = function (_n0) {
 	var types = _n0.types;
 	var badAliases = A3(elm$core$Dict$foldl, elm$browser$Debugger$Metadata$collectBadAliases, _List_Nil, types.aliases);
@@ -8294,37 +8469,6 @@ var elm$browser$Debugger$Main$wrapSubs = F2(
 			elm$browser$Debugger$Main$UserMsg,
 			subscriptions(
 				elm$browser$Debugger$Main$getLatestModel(model.state)));
-	});
-var elm$core$Dict$get = F2(
-	function (targetKey, dict) {
-		get:
-		while (true) {
-			if (dict.$ === 'RBEmpty_elm_builtin') {
-				return elm$core$Maybe$Nothing;
-			} else {
-				var key = dict.b;
-				var value = dict.c;
-				var left = dict.d;
-				var right = dict.e;
-				var _n1 = A2(elm$core$Basics$compare, targetKey, key);
-				switch (_n1.$) {
-					case 'LT':
-						var $temp$targetKey = targetKey,
-							$temp$dict = left;
-						targetKey = $temp$targetKey;
-						dict = $temp$dict;
-						continue get;
-					case 'EQ':
-						return elm$core$Maybe$Just(value);
-					default:
-						var $temp$targetKey = targetKey,
-							$temp$dict = right;
-						targetKey = $temp$targetKey;
-						dict = $temp$dict;
-						continue get;
-				}
-			}
-		}
 	});
 var elm$browser$Debugger$Expando$mergeDictHelp = F3(
 	function (oldDict, key, value) {
@@ -9671,7 +9815,6 @@ var elm$browser$Debugger$Report$evaluate = function (report) {
 				A2(elm$core$List$map, elm$browser$Debugger$Report$evaluateChange, changes));
 	}
 };
-var elm$json$Json$Decode$decodeString = _Json_runOnString;
 var elm$browser$Debugger$Overlay$assessImport = F2(
 	function (metadata, jsonString) {
 		var _n0 = A2(elm$json$Json$Decode$decodeString, elm$browser$Debugger$Overlay$uploadDecoder, jsonString);
@@ -9929,9 +10072,6 @@ var elm$core$String$startsWith = _String_startsWith;
 var elm$url$Url$Http = {$: 'Http'};
 var elm$url$Url$Https = {$: 'Https'};
 var elm$core$String$indexes = _String_indexes;
-var elm$core$String$isEmpty = function (string) {
-	return string === '';
-};
 var elm$core$String$toInt = _String_toInt;
 var elm$url$Url$Url = F6(
 	function (protocol, host, port_, path, query, fragment) {
@@ -10157,7 +10297,7 @@ var author$project$Explorer$update = F2(
 						model,
 						elm$browser$Browser$Navigation$load(href));
 				}
-			default:
+			case 'ExlporerMsg':
 				var subMsg = msg.a;
 				var _n2 = A2(author$project$UIExplorer$update, subMsg, model.explorer);
 				var updatedExplorerModel = _n2.a;
@@ -10167,6 +10307,22 @@ var author$project$Explorer$update = F2(
 						model,
 						{explorer: updatedExplorerModel}),
 					A2(elm$core$Platform$Cmd$map, author$project$Explorer$ExlporerMsg, explorerCmd));
+			default:
+				var lang = msg.a;
+				var translations = author$project$Explorer$getTranslationsFromLang(lang);
+				return _Utils_Tuple2(
+					_Utils_update(
+						model,
+						{
+							currentLang: lang,
+							explorer: A3(
+								author$project$UIExplorer$initModelFromUrl,
+								author$project$Explorer$categories(translations),
+								model.url,
+								model.key),
+							translations: translations
+						}),
+					elm$core$Platform$Cmd$none);
 		}
 	});
 var author$project$UIExplorer$oneQuarter = 'w-1/4';
@@ -10498,11 +10654,33 @@ var author$project$Explorer$main = elm$browser$Browser$application(
 						A2(
 						elm$html$Html$map,
 						author$project$Explorer$ExlporerMsg,
-						author$project$UIExplorer$view(model.explorer))
+						author$project$UIExplorer$view(model.explorer)),
+						A2(
+						elm$html$Html$button,
+						_List_fromArray(
+							[
+								elm$html$Html$Events$onClick(
+								author$project$Explorer$ChangeLang(author$project$Explorer$Fr))
+							]),
+						_List_fromArray(
+							[
+								elm$html$Html$text('French')
+							])),
+						A2(
+						elm$html$Html$button,
+						_List_fromArray(
+							[
+								elm$html$Html$Events$onClick(
+								author$project$Explorer$ChangeLang(author$project$Explorer$En))
+							]),
+						_List_fromArray(
+							[
+								elm$html$Html$text('English')
+							]))
 					]),
 				title: 'My Storybook Elm :-)'
 			};
 		}
 	});
 _Platform_export({'Explorer':{'init':author$project$Explorer$main(
-	elm$json$Json$Decode$succeed(_Utils_Tuple0))({"versions":{"elm":"0.19.0"},"types":{"message":"Explorer.Msg","aliases":{"Url.Url":{"args":[],"type":"{ protocol : Url.Protocol, host : String.String, port_ : Maybe.Maybe Basics.Int, path : String.String, query : Maybe.Maybe String.String, fragment : Maybe.Maybe String.String }"}},"unions":{"Explorer.Msg":{"args":[],"tags":{"UrlChange":["Url.Url"],"LinkClicked":["Browser.UrlRequest"],"ExlporerMsg":["UIExplorer.Msg"]}},"UIExplorer.Msg":{"args":[],"tags":{"Noop":[],"SelectStory":["String.String"],"UrlChange":["Url.Url"],"NavigateToHome":[],"LinkClicked":["Browser.UrlRequest"]}},"Browser.UrlRequest":{"args":[],"tags":{"Internal":["Url.Url"],"External":["String.String"]}},"Basics.Int":{"args":[],"tags":{"Int":[]}},"Maybe.Maybe":{"args":["a"],"tags":{"Just":["a"],"Nothing":[]}},"String.String":{"args":[],"tags":{"String":[]}},"Url.Protocol":{"args":[],"tags":{"Http":[],"Https":[]}}}}})}});}(this));
+	elm$json$Json$Decode$succeed(_Utils_Tuple0))({"versions":{"elm":"0.19.0"},"types":{"message":"Explorer.Msg","aliases":{"Url.Url":{"args":[],"type":"{ protocol : Url.Protocol, host : String.String, port_ : Maybe.Maybe Basics.Int, path : String.String, query : Maybe.Maybe String.String, fragment : Maybe.Maybe String.String }"}},"unions":{"Explorer.Msg":{"args":[],"tags":{"UrlChange":["Url.Url"],"LinkClicked":["Browser.UrlRequest"],"ExlporerMsg":["UIExplorer.Msg"],"ChangeLang":["Explorer.Lang"]}},"Explorer.Lang":{"args":[],"tags":{"En":[],"Fr":[]}},"UIExplorer.Msg":{"args":[],"tags":{"Noop":[],"SelectStory":["String.String"],"UrlChange":["Url.Url"],"NavigateToHome":[],"LinkClicked":["Browser.UrlRequest"]}},"Browser.UrlRequest":{"args":[],"tags":{"Internal":["Url.Url"],"External":["String.String"]}},"Basics.Int":{"args":[],"tags":{"Int":[]}},"Maybe.Maybe":{"args":["a"],"tags":{"Just":["a"],"Nothing":[]}},"String.String":{"args":[],"tags":{"String":[]}},"Url.Protocol":{"args":[],"tags":{"Http":[],"Https":[]}}}}})}});}(this));
