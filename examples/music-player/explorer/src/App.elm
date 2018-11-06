@@ -1,11 +1,12 @@
-module App exposing (..)
+module App exposing (main)
 
-import UIExplorer exposing (app, fromUIList, createUI)
-import Stories.PlayPause as PlayPause
 import Stories.Controls as Controls
+import Stories.PlayPause as PlayPause
 import Stories.TrackList as TrackList
+import UIExplorer exposing (app, createUI, fromUIList)
 
 
+main : Program Never UIExplorer.Model UIExplorer.Msg
 main =
     app
         (fromUIList

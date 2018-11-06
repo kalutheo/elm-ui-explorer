@@ -15,6 +15,7 @@ import Page.Home.Stories as Home
 import Page.Contacts.Stories as Contacts
 
 
+main : Program Never UIExplorer.Model UIExplorer.Msg
 main =
     app
         (emptyUICategories

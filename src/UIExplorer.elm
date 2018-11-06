@@ -1,41 +1,52 @@
-module UIExplorer
-    exposing
-        ( app
-        , renderStories
-        , UI
-        , UICategory
-        , addUICategory
-        , emptyUICategories
-        , createUI
-        , createUIWithDescription
-        , fromUIList
-        )
+module UIExplorer exposing
+    ( app
+    , renderStories
+    , UI
+    , UICategory
+    , addUICategory
+    , emptyUICategories
+    , createUI
+    , createUIWithDescription
+    , fromUIList
+    , Model
+    , Msg
+    )
 
 {-|
 
+
 # Anatomy of the UI Explorer
 
-- The Explorer is devided into a list of [UICategory](#UICategory) (ex: Buttons)
-- Each Category contains some [UI](#UI) items (ex: ToggleButton, ButtonWithImage, SubmitButton etc...)
-- Each [UI](#UI) item defines states (ex: Loaded, Disabled etc..) that we usually call [stories](https://storybook.js.org/basics/writing-stories/)
-
+  - The Explorer is devided into a list of [UICategory](#UICategory) (ex: Buttons)
+  - Each Category contains some [UI](#UI) items (ex: ToggleButton, ButtonWithImage, SubmitButton etc...)
+  - Each [UI](#UI) item defines states (ex: Loaded, Disabled etc..) that we usually call [stories](https://storybook.js.org/basics/writing-stories/)
 
 
 # Main API
+
 @docs app
 @docs renderStories
+
 
 # Models
 
 @docs UI
 @docs UICategory
 
+
 # Helpers
+
 @docs addUICategory
 @docs emptyUICategories
 @docs createUI
 @docs createUIWithDescription
 @docs fromUIList
+
+
+# Types
+
+@docs Model
+@docs Msg
 
 -}
 
@@ -47,18 +58,13 @@ import Navigation
 import Tailwind.Classes as T
 
 
-{--Messages --}
-
-
+{-| Messages of the UIExplorer
+-}
 type Msg
     = Noop
     | SelectStory String
     | UrlChange Navigation.Location
     | NavigateToHome
-
-
-
-{--Model --}
 
 
 {-| A UI represents a view and lists a set of stories.
@@ -106,11 +112,11 @@ getSelectedCategoryfromPath location =
         removeHash =
             List.map (\s -> s |> String.slice 1 (s |> String.length))
     in
-        location.hash
-            |> String.split "/"
-            |> removeHash
-            |> Array.fromList
-            |> Array.get (0)
+    location.hash
+        |> String.split "/"
+        |> removeHash
+        |> Array.fromList
+        |> Array.get 0
 
 
 getSelectedUIfromPath : Navigation.Location -> Maybe String
@@ -118,7 +124,7 @@ getSelectedUIfromPath location =
     location.hash
         |> String.split "/"
         |> Array.fromList
-        |> Array.get (1)
+        |> Array.get 1
 
 
 getSelectedStoryfromPath : Navigation.Location -> Maybe String
@@ -126,7 +132,7 @@ getSelectedStoryfromPath location =
     location.hash
         |> String.split "/"
         |> Array.fromList
-        |> Array.get (2)
+        |> Array.get 2
 
 
 makeStoryUrl : Model -> String -> Maybe String
@@ -174,31 +180,28 @@ toCategories list =
     List.map UICategoryType list
 
 
-{-|
-   Creates an empty list of UI Categories
+{-| Creates an empty list of UI Categories
 -}
 emptyUICategories : List UICategory
 emptyUICategories =
     []
 
 
-{-|
-   Create a UI given an ID and Story Views
-```
-stories : List ( String, ButtonModel )
-stories =
-    [ ( "LargePrimary", { label = "Primary", isLarge = True, isPrimary = True } )
-    , ( "TinyPrimary", { label = "Primary", isLarge = False, isPrimary = True } )
-    , ( "LargeSecondary", { label = "Secondary", isLarge = True, isPrimary = False } )
-    , ( "TinySecondary", { label = "Secondary", isLarge = False, isPrimary = False } )
-    ]
+{-| Create a UI given an ID and Story Views
+
+    stories : List ( String, ButtonModel )
+    stories =
+        [ ( "LargePrimary", { label = "Primary", isLarge = True, isPrimary = True } )
+        , ( "TinyPrimary", { label = "Primary", isLarge = False, isPrimary = True } )
+        , ( "LargeSecondary", { label = "Secondary", isLarge = True, isPrimary = False } )
+        , ( "TinySecondary", { label = "Secondary", isLarge = False, isPrimary = False } )
+        ]
 
 
-viewStories =
-    renderStories customButton stories
+    viewStories =
+        renderStories customButton stories
 
-createUI "Button" viewStories
-```
+    createUI "Button" viewStories
 
 -}
 createUI : String -> (UIViewConfig -> Html Msg) -> UI
@@ -206,12 +209,10 @@ createUI id viewStories =
     createUIWithDescription id "" viewStories
 
 
-{-|
-   Create a UI with a description
-   ```
-   createUI "Button" "A Simple Button :-)" viewStories
+{-| Create a UI with a description
 
-   ```
+    createUI "Button" "A Simple Button :-)" viewStories
+
 -}
 createUIWithDescription : String -> String -> (UIViewConfig -> Html Msg) -> UI
 createUIWithDescription id description viewStories =
@@ -222,43 +223,41 @@ createUIWithDescription id description viewStories =
         }
 
 
-{-|
-   Create a list of [UICategories](#UICategories) from a list of [UI](#UI) and Add them in a Default Category.
-   This is the simplest way to initialize the UI Explorer app.
-   ```
-   main =
-       app
-           (fromUIList
-               [ createUI
-                   "PlayPause"
-                   PlayPause.viewStories
-               , createUI
-                   "Controls"
-                   Controls.viewStories
-               , createUI
-                   "TrackList"
-                   TrackList.viewStories
-               ]
-           )
-   ```
+{-| Create a list of [UICategories](#UICategories) from a list of [UI](#UI) and Add them in a Default Category.
+This is the simplest way to initialize the UI Explorer app.
+
+    main =
+        app
+            (fromUIList
+                [ createUI
+                    "PlayPause"
+                    PlayPause.viewStories
+                , createUI
+                    "Controls"
+                    Controls.viewStories
+                , createUI
+                    "TrackList"
+                    TrackList.viewStories
+                ]
+            )
+
 -}
 fromUIList : List UI -> List UICategory
 fromUIList uiList =
-    emptyUICategories |> List.append [ (UICategoryType ( "Default", uiList )) ]
+    emptyUICategories |> List.append [ UICategoryType ( "Default", uiList ) ]
 
 
-{-|
-   Adds a UI Category to a list of categories
-   Convenient for running a UI Explorer devided into categories
-```
-   emptyUICategories
-       |> addUICategory
-           "A Great Category"
-           [ createUI
-               "My View"
-               MyView.viewStories
-           ]
-```
+{-| Adds a UI Category to a list of categories
+Convenient for running a UI Explorer devided into categories
+
+       emptyUICategories
+           |> addUICategory
+               "A Great Category"
+               [ createUI
+                   "My View"
+                   MyView.viewStories
+               ]
+
 -}
 addUICategory : String -> List UI -> List UICategory -> List UICategory
 addUICategory title uiList categories =
@@ -269,37 +268,35 @@ addUICategory title uiList categories =
                 , uiList
                 )
     in
-        List.append categories [ category ]
+    List.append categories [ category ]
 
 
 {-| Launches a UI Explorer Applicaton given a list of UI Categories
 
-```
-main =
-    app
-        (emptyUICategories
-            |> addUICategory
-                "Atoms"
-                [ createUIWithDescription
-                    "Colors"
-                    "Global Color Schemes"
-                    Colors.viewStories
-                ]
-            |> addUICategory
-                "Molecules"
-                [ createUI
-                    "Card"
-                    Card.viewStories
-                ]
-        )
-```
+    main =
+        app
+            (emptyUICategories
+                |> addUICategory
+                    "Atoms"
+                    [ createUIWithDescription
+                        "Colors"
+                        "Global Color Schemes"
+                        Colors.viewStories
+                    ]
+                |> addUICategory
+                    "Molecules"
+                    [ createUI
+                        "Card"
+                        Card.viewStories
+                    ]
+            )
 
 -}
 app : List UICategory -> Program Never Model Msg
 app categories =
     Navigation.program UrlChange
         { init =
-            (\location ->
+            \location ->
                 ( { categories = categories
                   , selectedUIId = getSelectedUIfromPath location
                   , selectedStoryId = getSelectedStoryfromPath location
@@ -308,10 +305,9 @@ app categories =
                   }
                 , Cmd.none
                 )
-            )
         , view = view
         , update = update
-        , subscriptions = (\_ -> Sub.none)
+        , subscriptions = \_ -> Sub.none
         }
 
 
@@ -331,8 +327,9 @@ toClassName list =
         (list
             |> List.map
                 (\c ->
-                    if (c |> String.contains "hover") then
+                    if c |> String.contains "hover" then
                         c
+
                     else
                         "uie-" ++ c
                 )
@@ -352,7 +349,7 @@ viewSidebar model =
             , selectedUIId = model.selectedUIId
             }
     in
-        viewMenu model.categories viewConfig
+    viewMenu model.categories viewConfig
 
 
 styleHeader =
@@ -402,14 +399,15 @@ styleMenuItem isSelected =
             , hover T.text_white
             ]
     in
-        if isSelected then
-            defaultClass
-                |> List.append
-                    [ colors.bg.primary, T.text_white ]
-        else
-            defaultClass
-                |> List.append
-                    [ T.text_grey_darker ]
+    if isSelected then
+        defaultClass
+            |> List.append
+                [ colors.bg.primary, T.text_white ]
+
+    else
+        defaultClass
+            |> List.append
+                [ T.text_grey_darker ]
 
 
 viewMenuItem : String -> Maybe String -> UI -> Html Msg
@@ -423,14 +421,14 @@ viewMenuItem category selectedUIId (UIType ui) =
         linkClass =
             styleMenuItem isSelected
     in
-        li [ toClassName [] ]
-            [ a
-                [ toClassName linkClass
-                , href ("#" ++ category ++ "/" ++ ui.id)
-                , style [ ( "text-decoration", "none" ) ]
-                ]
-                [ text ui.id ]
+    li [ toClassName [] ]
+        [ a
+            [ toClassName linkClass
+            , href ("#" ++ category ++ "/" ++ ui.id)
+            , style [ ( "text-decoration", "none" ) ]
             ]
+            [ text ui.id ]
+        ]
 
 
 styleMenuCategoryLink =
@@ -495,23 +493,23 @@ viewContent model =
             , selectedUIId = model.selectedUIId
             }
     in
-        div [ toClassName [ T.m_6 ] ]
-            [ filteredUIs
-                |> List.map (\(UIType s) -> s.viewStories viewConfig)
-                |> List.head
-                |> Maybe.withDefault
-                    (div [ toClassName [ T.m_6 ] ]
-                        [ span [ toClassName [ T.text_grey_darkest, T.text_xl, T.flex, T.mb_1 ] ] [ text "We’re not designing pages, we’re designing systems of components." ]
-                        , span
-                            [ toClassName [ T.text_lg, T.flex, T.text_grey_darker ] ]
-                            [ text "-Stephen Hay" ]
-                        ]
-                    )
-            , article []
-                (filteredUIs
-                    |> List.map (\(UIType s) -> div [] [ text s.description ])
+    div [ toClassName [ T.m_6 ] ]
+        [ filteredUIs
+            |> List.map (\(UIType s) -> s.viewStories viewConfig)
+            |> List.head
+            |> Maybe.withDefault
+                (div [ toClassName [ T.m_6 ] ]
+                    [ span [ toClassName [ T.text_grey_darkest, T.text_xl, T.flex, T.mb_1 ] ] [ text "We’re not designing pages, we’re designing systems of components." ]
+                    , span
+                        [ toClassName [ T.text_lg, T.flex, T.text_grey_darker ] ]
+                        [ text "-Stephen Hay" ]
+                    ]
                 )
-            ]
+        , article []
+            (filteredUIs
+                |> List.map (\(UIType s) -> div [] [ text s.description ])
+            )
+        ]
 
 
 oneThird =
@@ -573,6 +571,7 @@ renderStory index { selectedStoryId } ( id, state ) =
                 , T.cursor_default
                 ]
                     |> List.append defaultLiClass
+
             else
                 [ T.border
                 , T.border_grey_light
@@ -583,23 +582,24 @@ renderStory index { selectedStoryId } ( id, state ) =
                 ]
                     |> List.append defaultLiClass
     in
-        li
-            [ toClassName liClass
-            , onClick <| SelectStory id
-            , buttonClass
-            ]
-            [ text id ]
+    li
+        [ toClassName liClass
+        , onClick <| SelectStory id
+        , buttonClass
+        ]
+        [ text id ]
 
 
 {-| Renders Stories of a given UI.
 A story represents a state of a view such as (Loading, Error, Success, NoNetwork ...)
-```
-stories : List ( String, Model )
-stories =
-    [ ( "Loading", { isLoading = True } ), ( "Loaded", { isLoading = False } ) ]
 
-viewStories = renderStories (view model) stories
-```
+    stories : List ( String, Model )
+    stories =
+        [ ( "Loading", { isLoading = True } ), ( "Loaded", { isLoading = False } ) ]
+
+    viewStories =
+        renderStories (view model) stories
+
 -}
 renderStories : (a -> Html msg) -> List ( String, a ) -> UIViewConfig -> Html Msg
 renderStories storyView stories config =
@@ -626,7 +626,7 @@ renderStories storyView stories config =
                 Nothing ->
                     text "Include somes states in your story..."
     in
-        div []
-            [ menu
-            , div [] [ content ]
-            ]
+    div []
+        [ menu
+        , div [] [ content ]
+        ]
