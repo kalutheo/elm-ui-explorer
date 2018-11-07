@@ -2,7 +2,7 @@
     "type": "application",
     "source-directories": [
         ".",
-        "../../src"
+        "../../../src"
     ],
     "elm-version": "0.19.0",
     "dependencies": {
@@ -12,7 +12,8 @@
             "elm/core": "1.0.0",
             "elm/html": "1.0.0",
             "elm/json": "1.0.0",
-            "elm/url": "1.0.0"
+            "elm/url": "1.0.0",
+            "truqu/elm-dictset": "2.0.0"
         },
         "indirect": {
             "elm/http": "1.0.0",

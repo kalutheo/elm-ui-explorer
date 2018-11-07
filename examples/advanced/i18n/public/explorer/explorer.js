@@ -839,55 +839,6 @@ var _Basics_xor = F2(function(a, b) { return a !== b; });
 
 
 
-function _Char_toCode(char)
-{
-	var code = char.charCodeAt(0);
-	if (0xD800 <= code && code <= 0xDBFF)
-	{
-		return (code - 0xD800) * 0x400 + char.charCodeAt(1) - 0xDC00 + 0x10000
-	}
-	return code;
-}
-
-function _Char_fromCode(code)
-{
-	return _Utils_chr(
-		(code < 0 || 0x10FFFF < code)
-			? '\uFFFD'
-			:
-		(code <= 0xFFFF)
-			? String.fromCharCode(code)
-			:
-		(code -= 0x10000,
-			String.fromCharCode(Math.floor(code / 0x400) + 0xD800)
-			+
-			String.fromCharCode(code % 0x400 + 0xDC00)
-		)
-	);
-}
-
-function _Char_toUpper(char)
-{
-	return _Utils_chr(char.toUpperCase());
-}
-
-function _Char_toLower(char)
-{
-	return _Utils_chr(char.toLowerCase());
-}
-
-function _Char_toLocaleUpper(char)
-{
-	return _Utils_chr(char.toLocaleUpperCase());
-}
-
-function _Char_toLocaleLower(char)
-{
-	return _Utils_chr(char.toLocaleLowerCase());
-}
-
-
-
 var _String_cons = F2(function(chr, str)
 {
 	return chr + str;
@@ -1197,6 +1148,55 @@ function _String_fromList(chars)
 	return _List_toArray(chars).join('');
 }
 
+
+
+
+function _Char_toCode(char)
+{
+	var code = char.charCodeAt(0);
+	if (0xD800 <= code && code <= 0xDBFF)
+	{
+		return (code - 0xD800) * 0x400 + char.charCodeAt(1) - 0xDC00 + 0x10000
+	}
+	return code;
+}
+
+function _Char_fromCode(code)
+{
+	return _Utils_chr(
+		(code < 0 || 0x10FFFF < code)
+			? '\uFFFD'
+			:
+		(code <= 0xFFFF)
+			? String.fromCharCode(code)
+			:
+		(code -= 0x10000,
+			String.fromCharCode(Math.floor(code / 0x400) + 0xD800)
+			+
+			String.fromCharCode(code % 0x400 + 0xDC00)
+		)
+	);
+}
+
+function _Char_toUpper(char)
+{
+	return _Utils_chr(char.toUpperCase());
+}
+
+function _Char_toLower(char)
+{
+	return _Utils_chr(char.toLowerCase());
+}
+
+function _Char_toLocaleUpper(char)
+{
+	return _Utils_chr(char.toLocaleUpperCase());
+}
+
+function _Char_toLocaleLower(char)
+{
+	return _Utils_chr(char.toLocaleLowerCase());
+}
 
 
 
@@ -4845,19 +4845,17 @@ function _Browser_load(url)
 		}
 	}));
 }
-var author$project$Explorer$ChangeLang = function (a) {
-	return {$: 'ChangeLang', a: a};
-};
-var author$project$Explorer$En = {$: 'En'};
 var author$project$Explorer$ExlporerMsg = function (a) {
 	return {$: 'ExlporerMsg', a: a};
 };
-var author$project$Explorer$Fr = {$: 'Fr'};
 var author$project$Explorer$LinkClicked = function (a) {
 	return {$: 'LinkClicked', a: a};
 };
 var author$project$Explorer$UrlChange = function (a) {
 	return {$: 'UrlChange', a: a};
+};
+var author$project$Explorer$Lang = function (a) {
+	return {$: 'Lang', a: a};
 };
 var elm$core$Basics$apR = F2(
 	function (x, f) {
@@ -4999,6 +4997,7 @@ var ChristophP$elm_i18next$I18Next$t = F2(
 var elm$core$Basics$False = {$: 'False'};
 var elm$core$Basics$True = {$: 'True'};
 var author$project$Explorer$stories = function (translations) {
+	var title = A2(ChristophP$elm_i18next$I18Next$t, translations, 'labels.click-me');
 	var entries = _List_fromArray(
 		[
 			A2(ChristophP$elm_i18next$I18Next$t, translations, 'menu.home'),
@@ -5008,10 +5007,10 @@ var author$project$Explorer$stories = function (translations) {
 		[
 			_Utils_Tuple2(
 			'Default',
-			{entries: entries, isOpen: false}),
+			{entries: entries, isOpen: false, title: title}),
 			_Utils_Tuple2(
 			'Opened',
-			{entries: entries, isOpen: true})
+			{entries: entries, isOpen: true, title: title})
 		]);
 };
 var author$project$Main$Toggle = {$: 'Toggle'};
@@ -5108,6 +5107,7 @@ var elm$core$List$map = F2(
 			_List_Nil,
 			xs);
 	});
+var elm$core$String$toUpper = _String_toUpper;
 var elm$core$Basics$identity = function (x) {
 	return x;
 };
@@ -5598,7 +5598,8 @@ var author$project$Main$view = function (model) {
 								_List_Nil,
 								_List_fromArray(
 									[
-										elm$html$Html$text('MENU')
+										elm$html$Html$text(
+										elm$core$String$toUpper(model.title))
 									])),
 								A2(
 								elm$html$Html$span,
@@ -6111,8 +6112,18 @@ try {
 } catch ($) {
 throw 'Some top-level definitions from `I18Next` are causing infinite recursion:\n\n  ┌─────┐\n  │    treeDecoder\n  └─────┘\n\nThese errors are very tricky, so read https://elm-lang.org/0.19.0/halting-problem to learn how to fix it!';}
 var ChristophP$elm_i18next$I18Next$translationsDecoder = A2(elm$json$Json$Decode$map, ChristophP$elm_i18next$I18Next$mapTreeToDict, ChristophP$elm_i18next$I18Next$treeDecoder);
-var author$project$Explorer$englishLabels = '\n        {\n            "labels": {\n            "click-me": "Click Me"\n            },\n            "menu" : {\n                "home": "Home",\n                "about": "About us"\n            }\n        }\n    ';
-var author$project$Explorer$frenchLabels = '\n        {\n            "labels": {\n            "click-me": "Cliquez moi"\n            },\n            "menu" : {\n                "home": "Accueil",\n                "about": "A propos de nous"\n            }\n        }\n    ';
+var author$project$Explorer$translationLabels = elm$core$Dict$fromList(
+	_List_fromArray(
+		[
+			_Utils_Tuple2('En', '\n        {\n            "lang": "English",\n            "labels": {\n            "click-me": "Click Me"\n            },\n            "menu" : {\n                "home": "Home",\n                "about": "About us"\n            }\n        }\n    '),
+			_Utils_Tuple2('Fr', '\n        {\n            "lang": "Français",\n            "labels": {\n            "click-me": "Cliquez moi"\n            },\n            "menu" : {\n                "home": "Accueil",\n                "about": "A propos de nous"\n            }\n        }\n    '),
+			_Utils_Tuple2('De', '\n        {\n            "lang": "Deutsch",\n            "labels": {\n            "click-me": "Klick mich"\n            },\n            "menu" : {\n                "home": "Anmeldefensters",\n                "about": "Über uns"\n            }\n        }\n    ')
+		]));
+var elm$core$Basics$composeR = F3(
+	function (f, g, x) {
+		return g(
+			f(x));
+	});
 var elm$core$Result$map = F2(
 	function (func, ra) {
 		if (ra.$ === 'Ok') {
@@ -6134,20 +6145,21 @@ var elm$core$Result$withDefault = F2(
 		}
 	});
 var elm$json$Json$Decode$decodeString = _Json_runOnString;
-var author$project$Explorer$getTranslationsFromLang = function (lang) {
+var author$project$Explorer$getTranslationsFromLang = function (_n0) {
+	var lang = _n0.a;
 	return A2(
-		elm$core$Result$withDefault,
+		elm$core$Maybe$withDefault,
 		ChristophP$elm_i18next$I18Next$initialTranslations,
 		A2(
-			elm$core$Result$map,
-			elm$core$Basics$identity,
-			function () {
-				if (lang.$ === 'En') {
-					return A2(elm$json$Json$Decode$decodeString, ChristophP$elm_i18next$I18Next$translationsDecoder, author$project$Explorer$englishLabels);
-				} else {
-					return A2(elm$json$Json$Decode$decodeString, ChristophP$elm_i18next$I18Next$translationsDecoder, author$project$Explorer$frenchLabels);
-				}
-			}()));
+			elm$core$Maybe$map,
+			A2(
+				elm$core$Basics$composeR,
+				elm$json$Json$Decode$decodeString(ChristophP$elm_i18next$I18Next$translationsDecoder),
+				A2(
+					elm$core$Basics$composeR,
+					elm$core$Result$map(elm$core$Basics$identity),
+					elm$core$Result$withDefault(ChristophP$elm_i18next$I18Next$initialTranslations))),
+			A2(elm$core$Dict$get, lang, author$project$Explorer$translationLabels)));
 };
 var elm$core$Array$fromListHelp = F3(
 	function (list, nodeList, nodeListSize) {
@@ -6265,7 +6277,7 @@ var elm$core$Platform$Cmd$batch = _Platform_batch;
 var elm$core$Platform$Cmd$none = elm$core$Platform$Cmd$batch(_List_Nil);
 var author$project$Explorer$init = F3(
 	function (flags, url, key) {
-		var defaultLang = author$project$Explorer$En;
+		var defaultLang = author$project$Explorer$Lang('En');
 		var translations = author$project$Explorer$getTranslationsFromLang(defaultLang);
 		return _Utils_Tuple2(
 			{
@@ -6281,6 +6293,96 @@ var author$project$Explorer$init = F3(
 			},
 			elm$core$Platform$Cmd$none);
 	});
+var author$project$Explorer$ChangeLang = function (a) {
+	return {$: 'ChangeLang', a: a};
+};
+var elm$json$Json$Decode$field = _Json_decodeField;
+var author$project$Explorer$languageButton = F2(
+	function (isSelected, _n0) {
+		var key = _n0.a;
+		var value = _n0.b;
+		var title = A2(
+			elm$core$Result$withDefault,
+			value,
+			A2(
+				elm$core$Result$map,
+				elm$core$Basics$identity,
+				A2(
+					elm$json$Json$Decode$decodeString,
+					A2(elm$json$Json$Decode$field, 'lang', elm$json$Json$Decode$string),
+					value)));
+		var textClass = isSelected ? 'uie-text-purple-dark' : 'uie-text-grey-dark';
+		return A2(
+			elm$html$Html$li,
+			_List_fromArray(
+				[
+					elm$html$Html$Attributes$class('uie-text-xs ')
+				]),
+			_List_fromArray(
+				[
+					A2(
+					elm$html$Html$button,
+					_List_fromArray(
+						[
+							A2(elm$html$Html$Attributes$style, 'outline', 'none'),
+							elm$html$Html$Attributes$class(textClass + ' uie-outline-none'),
+							elm$html$Html$Events$onClick(
+							author$project$Explorer$ChangeLang(
+								author$project$Explorer$Lang(key)))
+						]),
+					_List_fromArray(
+						[
+							elm$html$Html$text(title)
+						]))
+				]));
+	});
+var author$project$Explorer$languageSelector = function (_n0) {
+	var currentLang = _n0.a;
+	var languages = elm$core$Dict$toList(author$project$Explorer$translationLabels);
+	return A2(
+		elm$html$Html$div,
+		_List_Nil,
+		_List_fromArray(
+			[
+				A2(
+				elm$html$Html$span,
+				_List_fromArray(
+					[
+						elm$html$Html$Attributes$class('uie-mb-2 uie-pb-1 uie-block uie-border-grey-light uie-border-b uie-text-grey-darker')
+					]),
+				_List_fromArray(
+					[
+						elm$html$Html$text('Choose language')
+					])),
+				A2(
+				elm$html$Html$ul,
+				_List_Nil,
+				A2(
+					elm$core$List$map,
+					function (l) {
+						return A2(
+							author$project$Explorer$languageButton,
+							_Utils_eq(currentLang, l.a),
+							l);
+					},
+					languages))
+			]));
+};
+var elm$html$Html$aside = _VirtualDom_node('aside');
+var author$project$Explorer$pluginPanel = function (model) {
+	return A2(
+		elm$html$Html$aside,
+		_List_fromArray(
+			[
+				elm$html$Html$Attributes$class('uie-bg-grey-lighter uie-p-8 uie-h-full uie-absolute uie-pin-t uie-pin-r'),
+				A2(elm$html$Html$Attributes$style, 'margin-top', '95px'),
+				A2(elm$html$Html$Attributes$style, 'width', '220px')
+			]),
+		_List_fromArray(
+			[
+				author$project$Explorer$languageSelector(model.currentLang)
+			]));
+};
 var author$project$UIExplorer$changeUrl = F2(
 	function (model, location) {
 		return _Utils_update(
@@ -8249,7 +8351,6 @@ var elm$browser$Debugger$Metadata$Alias = F2(
 	function (args, tipe) {
 		return {args: args, tipe: tipe};
 	});
-var elm$json$Json$Decode$field = _Json_decodeField;
 var elm$json$Json$Decode$list = _Json_decodeList;
 var elm$browser$Debugger$Metadata$decodeAlias = A3(
 	elm$json$Json$Decode$map2,
@@ -10566,7 +10667,6 @@ var author$project$UIExplorer$viewMenuCategory = F2(
 						categories))
 				]));
 	});
-var elm$html$Html$aside = _VirtualDom_node('aside');
 var author$project$UIExplorer$viewMenu = F2(
 	function (categories, config) {
 		return A2(
@@ -10655,32 +10755,11 @@ var author$project$Explorer$main = elm$browser$Browser$application(
 						elm$html$Html$map,
 						author$project$Explorer$ExlporerMsg,
 						author$project$UIExplorer$view(model.explorer)),
-						A2(
-						elm$html$Html$button,
-						_List_fromArray(
-							[
-								elm$html$Html$Events$onClick(
-								author$project$Explorer$ChangeLang(author$project$Explorer$Fr))
-							]),
-						_List_fromArray(
-							[
-								elm$html$Html$text('French')
-							])),
-						A2(
-						elm$html$Html$button,
-						_List_fromArray(
-							[
-								elm$html$Html$Events$onClick(
-								author$project$Explorer$ChangeLang(author$project$Explorer$En))
-							]),
-						_List_fromArray(
-							[
-								elm$html$Html$text('English')
-							]))
+						author$project$Explorer$pluginPanel(model)
 					]),
 				title: 'My Storybook Elm :-)'
 			};
 		}
 	});
 _Platform_export({'Explorer':{'init':author$project$Explorer$main(
-	elm$json$Json$Decode$succeed(_Utils_Tuple0))({"versions":{"elm":"0.19.0"},"types":{"message":"Explorer.Msg","aliases":{"Url.Url":{"args":[],"type":"{ protocol : Url.Protocol, host : String.String, port_ : Maybe.Maybe Basics.Int, path : String.String, query : Maybe.Maybe String.String, fragment : Maybe.Maybe String.String }"}},"unions":{"Explorer.Msg":{"args":[],"tags":{"UrlChange":["Url.Url"],"LinkClicked":["Browser.UrlRequest"],"ExlporerMsg":["UIExplorer.Msg"],"ChangeLang":["Explorer.Lang"]}},"Explorer.Lang":{"args":[],"tags":{"En":[],"Fr":[]}},"UIExplorer.Msg":{"args":[],"tags":{"Noop":[],"SelectStory":["String.String"],"UrlChange":["Url.Url"],"NavigateToHome":[],"LinkClicked":["Browser.UrlRequest"]}},"Browser.UrlRequest":{"args":[],"tags":{"Internal":["Url.Url"],"External":["String.String"]}},"Basics.Int":{"args":[],"tags":{"Int":[]}},"Maybe.Maybe":{"args":["a"],"tags":{"Just":["a"],"Nothing":[]}},"String.String":{"args":[],"tags":{"String":[]}},"Url.Protocol":{"args":[],"tags":{"Http":[],"Https":[]}}}}})}});}(this));
+	elm$json$Json$Decode$succeed(_Utils_Tuple0))({"versions":{"elm":"0.19.0"},"types":{"message":"Explorer.Msg","aliases":{"Url.Url":{"args":[],"type":"{ protocol : Url.Protocol, host : String.String, port_ : Maybe.Maybe Basics.Int, path : String.String, query : Maybe.Maybe String.String, fragment : Maybe.Maybe String.String }"}},"unions":{"Explorer.Msg":{"args":[],"tags":{"UrlChange":["Url.Url"],"LinkClicked":["Browser.UrlRequest"],"ExlporerMsg":["UIExplorer.Msg"],"ChangeLang":["Explorer.Lang"]}},"Explorer.Lang":{"args":[],"tags":{"Lang":["String.String"]}},"UIExplorer.Msg":{"args":[],"tags":{"Noop":[],"SelectStory":["String.String"],"UrlChange":["Url.Url"],"NavigateToHome":[],"LinkClicked":["Browser.UrlRequest"]}},"Browser.UrlRequest":{"args":[],"tags":{"Internal":["Url.Url"],"External":["String.String"]}},"Basics.Int":{"args":[],"tags":{"Int":[]}},"Maybe.Maybe":{"args":["a"],"tags":{"Just":["a"],"Nothing":[]}},"String.String":{"args":[],"tags":{"String":[]}},"Url.Protocol":{"args":[],"tags":{"Http":[],"Https":[]}}}}})}});}(this));

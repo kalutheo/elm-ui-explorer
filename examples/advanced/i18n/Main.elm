@@ -9,12 +9,13 @@ import Html.Events exposing (onClick)
 type alias Model =
     { isOpen : Bool
     , entries : List String
+    , title : String
     }
 
 
 initialModel : Model
 initialModel =
-    { isOpen = False, entries = [ "Contact Us", "Yeah" ] }
+    { isOpen = False, entries = [ "Contact Us", "Yeah" ], title = "Menu" }
 
 
 type Msg
@@ -51,7 +52,7 @@ view model =
                 , attribute "aria-haspopup" "true"
                 , attribute "aria-controls" "dropdown-menu"
                 ]
-                [ span [] [ text "MENU" ]
+                [ span [] [ text (model.title |> String.toUpper) ]
                 , span
                     [ class "icon is-small" ]
                     [ i

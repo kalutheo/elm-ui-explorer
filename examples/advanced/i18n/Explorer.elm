@@ -2,8 +2,10 @@ module Explorer exposing (main, stories)
 
 import Browser
 import Browser.Navigation as Navigation
-import Html exposing (button, div, text)
-import Html.Attributes exposing (style)
+import Dict
+import DictSet
+import Html exposing (Html, aside, button, div, li, span, text, ul)
+import Html.Attributes exposing (class, style)
 import Html.Events exposing (onClick)
 import I18Next exposing (Translations, initialTranslations, t, translationsDecoder)
 import Json.Decode
@@ -12,9 +14,10 @@ import UIExplorer exposing (Msg(..), UICategory, app, createUI, fromUIList, rend
 import Url
 
 
-englishLabels =
-    """
+translationLabels =
+    [ ( "En", """
         {
+            "lang": "English",
             "labels": {
             "click-me": "Click Me"
             },
@@ -23,12 +26,10 @@ englishLabels =
                 "about": "About us"
             }
         }
-    """
-
-
-frenchLabels =
-    """
+    """ )
+    , ( "Fr", """
         {
+            "lang": "Français",
             "labels": {
             "click-me": "Cliquez moi"
             },
@@ -37,12 +38,25 @@ frenchLabels =
                 "about": "A propos de nous"
             }
         }
-    """
+    """ )
+    , ( "De", """
+        {
+            "lang": "Deutsch",
+            "labels": {
+            "click-me": "Klick mich"
+            },
+            "menu" : {
+                "home": "Anmeldefensters",
+                "about": "Über uns"
+            }
+        }
+    """ )
+    ]
+        |> Dict.fromList
 
 
 type Lang
-    = En
-    | Fr
+    = Lang String
 
 
 type alias Model =
@@ -65,13 +79,17 @@ stories translations =
             [ t translations "menu.home"
             , t translations "menu.about"
             ]
+
+        title =
+            t translations "labels.click-me"
     in
     [ ( "Default"
       , { isOpen = False
         , entries = entries
+        , title = title
         }
       )
-    , ( "Opened", { isOpen = True, entries = entries } )
+    , ( "Opened", { isOpen = True, entries = entries, title = title } )
     ]
 
 
@@ -100,23 +118,21 @@ type Msg
 
 
 getTranslationsFromLang : Lang -> Translations
-getTranslationsFromLang lang =
-    (case lang of
-        En ->
-            Json.Decode.decodeString translationsDecoder englishLabels
-
-        Fr ->
-            Json.Decode.decodeString translationsDecoder frenchLabels
-    )
-        |> Result.map identity
-        |> Result.withDefault initialTranslations
+getTranslationsFromLang (Lang lang) =
+    Dict.get lang translationLabels
+        |> Maybe.map
+            (Json.Decode.decodeString translationsDecoder
+                >> Result.map identity
+                >> Result.withDefault initialTranslations
+            )
+        |> Maybe.withDefault initialTranslations
 
 
 init : () -> Url.Url -> Navigation.Key -> ( Model, Cmd Msg )
 init flags url key =
     let
         defaultLang =
-            En
+            Lang "En"
 
         translations =
             getTranslationsFromLang defaultLang
@@ -171,6 +187,48 @@ update msg model =
             )
 
 
+languageButton : Bool -> ( String, String ) -> Html Msg
+languageButton isSelected ( key, value ) =
+    let
+        title =
+            Json.Decode.decodeString (Json.Decode.field "lang" Json.Decode.string) value
+                |> Result.map identity
+                |> Result.withDefault value
+
+        textClass =
+            if isSelected then
+                "uie-text-purple-dark"
+
+            else
+                "uie-text-grey-dark"
+    in
+    li [ class "uie-text-xs " ]
+        [ button [ style "outline" "none", class <| textClass ++ " uie-outline-none", onClick <| ChangeLang (Lang key) ] [ text title ]
+        ]
+
+
+languageSelector : Lang -> Html Msg
+languageSelector (Lang currentLang) =
+    let
+        languages =
+            translationLabels |> Dict.toList
+    in
+    div []
+        [ span [ class "uie-mb-2 uie-pb-1 uie-block uie-border-grey-light uie-border-b uie-text-grey-darker" ] [ text "Choose language" ]
+        , ul []
+            (languages |> List.map (\l -> languageButton (currentLang == Tuple.first l) l))
+        ]
+
+
+pluginPanel model =
+    aside
+        [ class "uie-bg-grey-lighter uie-p-8 uie-h-full uie-absolute uie-pin-t uie-pin-r"
+        , style "margin-top" "95px"
+        , style "width" "220px"
+        ]
+        [ languageSelector model.currentLang ]
+
+
 main : Program () Model Msg
 main =
     Browser.application
@@ -180,8 +238,7 @@ main =
                 { title = "My Storybook Elm :-)"
                 , body =
                     [ Html.map ExlporerMsg (view model.explorer)
-                    , button [ onClick <| ChangeLang Fr ] [ text "French" ]
-                    , button [ onClick <| ChangeLang En ] [ text "English" ]
+                    , pluginPanel model
                     ]
                 }
         , update = update
