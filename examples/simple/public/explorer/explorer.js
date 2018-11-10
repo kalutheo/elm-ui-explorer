@@ -1,13 +1,3 @@
-<!DOCTYPE HTML>
-<html>
-<head>
-  <meta charset="UTF-8">
-  <title>Explorer</title>
-</head>
-
-<body>
-<div id="elm-f0111bc4e658d0f98db96260c16f7e49"></div>
-<script>
 (function(scope){
 'use strict';
 
@@ -5080,15 +5070,6 @@ var author$project$Main$view = function (model) {
 					]))
 			]));
 };
-var author$project$Explorer$viewStoriesWrapper = function (model) {
-	return A2(
-		elm$html$Html$div,
-		_List_Nil,
-		_List_fromArray(
-			[
-				author$project$Main$view(model)
-			]));
-};
 var author$project$UIExplorer$LinkClicked = function (a) {
 	return {$: 'LinkClicked', a: a};
 };
@@ -5538,7 +5519,9 @@ var author$project$UIExplorer$update = F2(
 				var _n1 = A2(author$project$UIExplorer$makeStoryUrl, model, storyId);
 				if (_n1.$ === 'Just') {
 					var url = _n1.a;
-					return _Utils_Tuple2(model, elm$core$Platform$Cmd$none);
+					return _Utils_Tuple2(
+						model,
+						A2(elm$browser$Browser$Navigation$pushUrl, model.key, url));
 				} else {
 					return _Utils_Tuple2(model, elm$core$Platform$Cmd$none);
 				}
@@ -5575,7 +5558,7 @@ var author$project$UIExplorer$update = F2(
 				}
 		}
 	});
-var author$project$UIExplorer$oneQuarter = '/4';
+var author$project$UIExplorer$oneQuarter = 'w-1/4';
 var author$project$UIExplorer$toClassName = function (list) {
 	return elm$html$Html$Attributes$class(
 		A2(
@@ -5643,7 +5626,9 @@ var author$project$UIExplorer$viewContent = function (model) {
 		elm$html$Html$div,
 		_List_fromArray(
 			[
-				author$project$UIExplorer$toClassName(_List_Nil)
+				author$project$UIExplorer$toClassName(
+				_List_fromArray(
+					['m-6']))
 			]),
 		_List_fromArray(
 			[
@@ -5661,7 +5646,9 @@ var author$project$UIExplorer$viewContent = function (model) {
 							elm$html$Html$span,
 							_List_fromArray(
 								[
-									author$project$UIExplorer$toClassName(_List_Nil)
+									author$project$UIExplorer$toClassName(
+									_List_fromArray(
+										['text-grey-darkest', 'text-xl', 'flex', 'mb-1']))
 								]),
 							_List_fromArray(
 								[
@@ -5671,7 +5658,9 @@ var author$project$UIExplorer$viewContent = function (model) {
 							elm$html$Html$span,
 							_List_fromArray(
 								[
-									author$project$UIExplorer$toClassName(_List_Nil)
+									author$project$UIExplorer$toClassName(
+									_List_fromArray(
+										['text-lg', 'flex', 'text-grey-darker']))
 								]),
 							_List_fromArray(
 								[
@@ -5705,7 +5694,19 @@ var author$project$UIExplorer$viewContent = function (model) {
 			]));
 };
 var author$project$UIExplorer$NavigateToHome = {$: 'NavigateToHome'};
-var author$project$UIExplorer$styleHeader = {header: _List_Nil, logo: _List_Nil, subTitle: _List_Nil, title: _List_Nil};
+var author$project$UIExplorer$colors = {
+	bg: {primary: 'bg-purple-dark'}
+};
+var author$project$UIExplorer$styleHeader = {
+	header: _List_fromArray(
+		[author$project$UIExplorer$colors.bg.primary, 'p-0', 'pb-2', 'text-white', 'shadow-md']),
+	logo: _List_fromArray(
+		['cursor-pointer']),
+	subTitle: _List_fromArray(
+		['font-normal', 'text-3xl', 'text-grey']),
+	title: _List_fromArray(
+		['font-normal', 'text-3xl', 'text-black'])
+};
 var elm$html$Html$section = _VirtualDom_node('section');
 var author$project$UIExplorer$viewHeader = A2(
 	elm$html$Html$section,
@@ -5721,14 +5722,15 @@ var author$project$UIExplorer$viewHeader = A2(
 				[
 					author$project$UIExplorer$toClassName(
 					_List_fromArray(
-						['logo'])),
+						['bg-cover', 'cursor-pointer', 'logo'])),
 					elm$html$Html$Events$onClick(author$project$UIExplorer$NavigateToHome)
 				]),
 			_List_Nil)
 		]));
-var author$project$UIExplorer$styleMenuCategoryLink = _List_Nil;
-var author$project$UIExplorer$colors = {
-	bg: {primary: 'bg-purple-dark'}
+var author$project$UIExplorer$styleMenuCategoryLink = _List_fromArray(
+	['text-grey-darkest', 'uppercase', 'border-b', 'border-grey-light', 'w-full', 'flex', 'cursor-default', 'pl-4', 'pb-2', 'pt-2', 'text-sm']);
+var author$project$UIExplorer$hover = function (className) {
+	return 'hover:uie-' + className;
 };
 var elm$core$List$append = F2(
 	function (xs, ys) {
@@ -5739,12 +5741,25 @@ var elm$core$List$append = F2(
 		}
 	});
 var author$project$UIExplorer$styleMenuItem = function (isSelected) {
-	var defaultClass = _List_Nil;
+	var defaultClass = _List_fromArray(
+		[
+			'w-full',
+			'flex',
+			'pl-6',
+			'pt-2',
+			'pb-2',
+			author$project$UIExplorer$hover('bg-purple-darker'),
+			author$project$UIExplorer$hover('text-white')
+		]);
 	return isSelected ? A2(
 		elm$core$List$append,
 		_List_fromArray(
-			[author$project$UIExplorer$colors.bg.primary]),
-		defaultClass) : A2(elm$core$List$append, _List_Nil, defaultClass);
+			[author$project$UIExplorer$colors.bg.primary, 'text-white']),
+		defaultClass) : A2(
+		elm$core$List$append,
+		_List_fromArray(
+			['text-grey-darker']),
+		defaultClass);
 };
 var elm$html$Html$li = _VirtualDom_node('li');
 var author$project$UIExplorer$viewMenuItem = F3(
@@ -5808,7 +5823,9 @@ var author$project$UIExplorer$viewMenuCategory = F2(
 							elm$html$Html$span,
 							_List_fromArray(
 								[
-									author$project$UIExplorer$toClassName(_List_Nil)
+									author$project$UIExplorer$toClassName(
+									_List_fromArray(
+										['font-bold', 'text-grey-darker']))
 								]),
 							_List_fromArray(
 								[
@@ -5819,7 +5836,9 @@ var author$project$UIExplorer$viewMenuCategory = F2(
 					elm$html$Html$ul,
 					_List_fromArray(
 						[
-							author$project$UIExplorer$toClassName(_List_Nil)
+							author$project$UIExplorer$toClassName(
+							_List_fromArray(
+								['list-reset']))
 						]),
 					A2(
 						elm$core$List$map,
@@ -5834,7 +5853,9 @@ var author$project$UIExplorer$viewMenu = F2(
 			elm$html$Html$aside,
 			_List_fromArray(
 				[
-					author$project$UIExplorer$toClassName(_List_Nil)
+					author$project$UIExplorer$toClassName(
+					_List_fromArray(
+						['mt-8']))
 				]),
 			A2(
 				elm$core$List$map,
@@ -5850,7 +5871,9 @@ var author$project$UIExplorer$view = function (model) {
 		elm$html$Html$div,
 		_List_fromArray(
 			[
-				author$project$UIExplorer$toClassName(_List_Nil)
+				author$project$UIExplorer$toClassName(
+				_List_fromArray(
+					['h-screen']))
 			]),
 		_List_fromArray(
 			[
@@ -5859,7 +5882,9 @@ var author$project$UIExplorer$view = function (model) {
 				elm$html$Html$div,
 				_List_fromArray(
 					[
-						author$project$UIExplorer$toClassName(_List_Nil)
+						author$project$UIExplorer$toClassName(
+						_List_fromArray(
+							['flex']))
 					]),
 				_List_fromArray(
 					[
@@ -5869,7 +5894,7 @@ var author$project$UIExplorer$view = function (model) {
 							[
 								author$project$UIExplorer$toClassName(
 								_List_fromArray(
-									[author$project$UIExplorer$oneQuarter]))
+									[author$project$UIExplorer$oneQuarter, 'bg-white', 'h-screen']))
 							]),
 						_List_fromArray(
 							[
@@ -5879,7 +5904,9 @@ var author$project$UIExplorer$view = function (model) {
 						elm$html$Html$div,
 						_List_fromArray(
 							[
-								author$project$UIExplorer$toClassName(_List_Nil)
+								author$project$UIExplorer$toClassName(
+								_List_fromArray(
+									['p-4', 'bg-white', 'w-screen', 'h-screen']))
 							]),
 						_List_fromArray(
 							[
@@ -5956,12 +5983,24 @@ var author$project$UIExplorer$renderStory = F3(
 					return _Utils_eq(id, theId);
 				},
 				selectedStoryId));
-		var defaultLiClass = _List_Nil;
+		var defaultLiClass = _List_fromArray(
+			['mr-2', 'mb-2', 'rounded', 'p-2', 'text-sm']);
 		var liClass = isActive ? A2(
 			elm$core$List$append,
 			defaultLiClass,
 			_List_fromArray(
-				[author$project$UIExplorer$colors.bg.primary])) : A2(elm$core$List$append, defaultLiClass, _List_Nil);
+				[author$project$UIExplorer$colors.bg.primary, 'text-white', 'cursor-default'])) : A2(
+			elm$core$List$append,
+			defaultLiClass,
+			_List_fromArray(
+				[
+					'border',
+					'border-grey-light',
+					'bg-white',
+					'cursor-pointer',
+					author$project$UIExplorer$hover('bg-purple-darker'),
+					author$project$UIExplorer$hover('text-white')
+				]));
 		var buttonClass = elm$html$Html$Attributes$classList(
 			_List_fromArray(
 				[
@@ -5990,7 +6029,9 @@ var author$project$UIExplorer$renderStories = F3(
 			elm$html$Html$ul,
 			_List_fromArray(
 				[
-					author$project$UIExplorer$toClassName(_List_Nil)
+					author$project$UIExplorer$toClassName(
+					_List_fromArray(
+						['list-reset', 'flex', 'mb-4']))
 				]),
 			A2(
 				elm$core$List$indexedMap,
@@ -6051,16 +6092,7 @@ var author$project$Explorer$main = author$project$UIExplorer$app(
 				A2(
 				author$project$UIExplorer$createUI,
 				'dropdown',
-				A2(author$project$UIExplorer$renderStories, author$project$Explorer$viewStoriesWrapper, author$project$Explorer$stories))
+				A2(author$project$UIExplorer$renderStories, author$project$Main$view, author$project$Explorer$stories))
 			])));
 _Platform_export({'Explorer':{'init':author$project$Explorer$main(
 	elm$json$Json$Decode$succeed(_Utils_Tuple0))(0)}});}(this));
-
-var app = Elm.Explorer.init({ node: document.getElementById("elm-f0111bc4e658d0f98db96260c16f7e49") });
-if (document.getElementById("elm-f0111bc4e658d0f98db96260c16f7e49"))
-{
-  document.getElementById("elm-f0111bc4e658d0f98db96260c16f7e49").innerText = 'This is a headless program, meaning there is nothing to show here.\n\nI started the program anyway though, and you can access it as `app` in the developer console.';
-}
-</script>
-</body>
-</html>

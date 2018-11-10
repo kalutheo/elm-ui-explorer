@@ -1,4 +1,4 @@
-module Explorer exposing (main, stories, viewStoriesWrapper)
+module Explorer exposing (main, stories)
 
 import Html exposing (div)
 import Html.Attributes exposing (style)
@@ -15,20 +15,11 @@ stories =
     [ ( "Default", { isOpen = False } ), ( "Opened", { isOpen = True } ) ]
 
 
-
-{--A simple wrapper to prevent description to be hidden by the dropdown --}
-
-
-viewStoriesWrapper : Model -> Html.Html Main.Msg
-viewStoriesWrapper model =
-    div [] [ view model ]
-
-
 main =
     app
         (fromUIList
             [ createUI
                 "dropdown"
-                (renderStories viewStoriesWrapper stories)
+                (renderStories view stories)
             ]
         )
