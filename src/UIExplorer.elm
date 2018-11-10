@@ -8,7 +8,7 @@ module UIExplorer exposing
     , createUI
     , createUIWithDescription
     , fromUIList
-    , Model, Msg, changeUrl, initModelFromUrl, makeStoryUrl, update, view
+    , Model, Msg, changeUrl, initModelFromUrl, makeStoryUrl, update, view, viewPluginPanel
     )
 
 {-|
@@ -667,4 +667,12 @@ renderStories storyView stories config =
     div []
         [ menu
         , div [] [ content ]
+        ]
+
+
+viewPluginPanel =
+    aside
+        [ class "uie-bg-grey-lighter uie-p-8 uie-h-full uie-absolute uie-pin-t uie-pin-r"
+        , style "margin-top" "95px"
+        , style "width" "220px"
         ]

@@ -8,12 +8,29 @@ import Html exposing (Html, aside, button, div, li, span, text, ul)
 import Html.Attributes exposing (class, style)
 import Html.Events exposing (onClick)
 import I18Next exposing (Translations, initialTranslations, t, translationsDecoder)
+import I18nPlugin exposing (Lang, TranslationLabels)
 import Json.Decode
 import Main
-import UIExplorer exposing (Msg(..), UICategory, app, createUI, fromUIList, renderStories, view)
+import UIExplorer exposing (Msg(..), UICategory, app, createUI, fromUIList, renderStories, view, viewPluginPanel)
 import Url
 
 
+type alias Model =
+    { url : Url.Url
+    , key : Navigation.Key
+    , explorer : UIExplorer.Model
+    , i18n : I18nPlugin.State
+    }
+
+
+type Msg
+    = UrlChange Url.Url
+    | LinkClicked Browser.UrlRequest
+    | ExlporerMsg UIExplorer.Msg
+    | I18nMsg I18nPlugin.Msg
+
+
+translationLabels : TranslationLabels
 translationLabels =
     [ ( "En", """
         {
@@ -55,19 +72,6 @@ translationLabels =
         |> Dict.fromList
 
 
-type Lang
-    = Lang String
-
-
-type alias Model =
-    { url : Url.Url
-    , key : Navigation.Key
-    , explorer : UIExplorer.Model
-    , translations : Translations
-    , currentLang : Lang
-    }
-
-
 
 {--A list of stories that represent all available states of the UI--}
 
@@ -93,55 +97,24 @@ stories translations =
     ]
 
 
-
-{--A simple wrapper to prevent description to be hidden by the dropdown --}
-
-
-viewStoriesWrapper : Main.Model -> Html.Html Main.Msg
-viewStoriesWrapper model =
-    div [ style "height" "100px" ] [ Main.view model ]
-
-
 categories translations =
     fromUIList
         [ createUI
             "dropdown"
-            (renderStories viewStoriesWrapper (stories translations))
+            (renderStories Main.view (stories translations))
         ]
-
-
-type Msg
-    = UrlChange Url.Url
-    | LinkClicked Browser.UrlRequest
-    | ExlporerMsg UIExplorer.Msg
-    | ChangeLang Lang
-
-
-getTranslationsFromLang : Lang -> Translations
-getTranslationsFromLang (Lang lang) =
-    Dict.get lang translationLabels
-        |> Maybe.map
-            (Json.Decode.decodeString translationsDecoder
-                >> Result.map identity
-                >> Result.withDefault initialTranslations
-            )
-        |> Maybe.withDefault initialTranslations
 
 
 init : () -> Url.Url -> Navigation.Key -> ( Model, Cmd Msg )
 init flags url key =
     let
-        defaultLang =
-            Lang "En"
-
-        translations =
-            getTranslationsFromLang defaultLang
+        i18nState =
+            I18nPlugin.init translationLabels
     in
     ( { url = url
       , key = key
-      , explorer = UIExplorer.initModelFromUrl (categories translations) url key
-      , translations = translations
-      , currentLang = defaultLang
+      , explorer = UIExplorer.initModelFromUrl (categories i18nState.translations) url key
+      , i18n = i18nState
       }
     , Cmd.none
     )
@@ -173,60 +146,17 @@ update msg model =
             in
             ( { model | explorer = updatedExplorerModel }, Cmd.map ExlporerMsg explorerCmd )
 
-        ChangeLang lang ->
+        I18nMsg submsg ->
             let
-                translations =
-                    getTranslationsFromLang lang
+                i18nState =
+                    I18nPlugin.update translationLabels submsg model.i18n
             in
             ( { model
-                | currentLang = lang
-                , explorer = UIExplorer.initModelFromUrl (categories translations) model.url model.key
-                , translations = translations
+                | i18n = i18nState
+                , explorer = UIExplorer.initModelFromUrl (categories i18nState.translations) model.url model.key
               }
             , Cmd.none
             )
-
-
-languageButton : Bool -> ( String, String ) -> Html Msg
-languageButton isSelected ( key, value ) =
-    let
-        title =
-            Json.Decode.decodeString (Json.Decode.field "lang" Json.Decode.string) value
-                |> Result.map identity
-                |> Result.withDefault value
-
-        textClass =
-            if isSelected then
-                "uie-text-purple-dark"
-
-            else
-                "uie-text-grey-dark"
-    in
-    li [ class "uie-text-xs " ]
-        [ button [ style "outline" "none", class <| textClass ++ " uie-outline-none", onClick <| ChangeLang (Lang key) ] [ text title ]
-        ]
-
-
-languageSelector : Lang -> Html Msg
-languageSelector (Lang currentLang) =
-    let
-        languages =
-            translationLabels |> Dict.toList
-    in
-    div []
-        [ span [ class "uie-mb-2 uie-pb-1 uie-block uie-border-grey-light uie-border-b uie-text-grey-darker" ] [ text "Choose language" ]
-        , ul []
-            (languages |> List.map (\l -> languageButton (currentLang == Tuple.first l) l))
-        ]
-
-
-pluginPanel model =
-    aside
-        [ class "uie-bg-grey-lighter uie-p-8 uie-h-full uie-absolute uie-pin-t uie-pin-r"
-        , style "margin-top" "95px"
-        , style "width" "220px"
-        ]
-        [ languageSelector model.currentLang ]
 
 
 main : Program () Model Msg
@@ -235,10 +165,10 @@ main =
         { init = init
         , view =
             \model ->
-                { title = "My Storybook Elm :-)"
+                { title = "Elm UI Explorer - i18n"
                 , body =
                     [ Html.map ExlporerMsg (view model.explorer)
-                    , pluginPanel model
+                    , viewPluginPanel [ Html.map I18nMsg (I18nPlugin.languageSelector translationLabels model.i18n.currentLang) ]
                     ]
                 }
         , update = update
