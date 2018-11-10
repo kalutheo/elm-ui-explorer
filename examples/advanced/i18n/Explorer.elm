@@ -11,14 +11,14 @@ import I18Next exposing (Translations, initialTranslations, t, translationsDecod
 import I18nPlugin exposing (Lang, TranslationLabels)
 import Json.Decode
 import Main
-import UIExplorer exposing (Msg(..), UICategory, app, createUI, fromUIList, renderStories, view, viewPluginPanel)
+import UIExplorer exposing (Msg(..), UICategory, app, createUI, createUIWithSnapshots, fromUIList, renderStories, view, viewPluginPanel)
 import Url
 
 
 type alias Model =
     { url : Url.Url
     , key : Navigation.Key
-    , explorer : UIExplorer.Model
+    , explorer : UIExplorer.Model Main.Model
     , i18n : I18nPlugin.State
     }
 
@@ -99,9 +99,11 @@ stories translations =
 
 categories translations =
     fromUIList
-        [ createUI
+        [ createUIWithSnapshots
             "dropdown"
-            (renderStories Main.view (stories translations))
+            ""
+            Main.view
+            (stories translations)
         ]
 
 

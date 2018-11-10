@@ -8,7 +8,7 @@ module UIExplorer exposing
     , createUI
     , createUIWithDescription
     , fromUIList
-    , Model, Msg, changeUrl, initModelFromUrl, makeStoryUrl, update, view, viewPluginPanel
+    , Model, Msg, changeUrl, createUIWithSnapshots, initModelFromUrl, makeStoryUrl, update, view, viewPluginPanel
     )
 
 {-|
@@ -71,23 +71,24 @@ type Msg
 {-| A UI represents a view and lists a set of stories.
 For Example : A Button with following stories (Loading, Disabled)
 -}
-type UI
+type UI a
     = UIType
         { id : String
         , description : String
         , viewStories : UIViewConfig -> Html Msg
+        , viewSnapshots : List ( String, a )
         }
 
 
 {-| Represents a familly of related views.
 For example using [Atomic Design](http://bradfrost.com/blog/post/atomic-web-design/), we can have the following categories : Atoms, Molecules etc..
 -}
-type UICategory
-    = UICategoryType InternalUICategory
+type UICategory a
+    = UICategoryType (InternalUICategory a)
 
 
-type alias InternalUICategory =
-    ( String, List UI )
+type alias InternalUICategory a =
+    ( String, List (UI a) )
 
 
 type alias UIViewConfig =
@@ -98,8 +99,8 @@ type alias UIViewConfig =
 
 {-| Model of the UI Explorer
 -}
-type alias Model =
-    { categories : List UICategory
+type alias Model a =
+    { categories : List (UICategory a)
     , selectedUIId : Maybe String
     , selectedStoryId : Maybe String
     , selectedCategory : Maybe String
@@ -135,7 +136,7 @@ getSelectedStoryfromPath { fragment } =
     getFragmentSegmentByIndex fragment 2
 
 
-makeStoryUrl : Model -> String -> Maybe String
+makeStoryUrl : Model a -> String -> Maybe String
 makeStoryUrl model storyId =
     Maybe.map2
         (\selectedCategory selectedUIId ->
@@ -156,7 +157,7 @@ changeUrl model location =
     }
 
 
-update : Msg -> Model -> ( Model, Cmd Msg )
+update : Msg -> Model a -> ( Model a, Cmd Msg )
 update msg model =
     case msg of
         Noop ->
@@ -187,14 +188,14 @@ update msg model =
                     ( model, Navigation.load href )
 
 
-toCategories : List InternalUICategory -> List UICategory
+toCategories : List (InternalUICategory a) -> List (UICategory a)
 toCategories list =
     List.map UICategoryType list
 
 
 {-| Creates an empty list of UI Categories
 -}
-emptyUICategories : List UICategory
+emptyUICategories : List (UICategory a)
 emptyUICategories =
     []
 
@@ -216,7 +217,7 @@ emptyUICategories =
     createUI "Button" viewStories
 
 -}
-createUI : String -> (UIViewConfig -> Html Msg) -> UI
+createUI : String -> (UIViewConfig -> Html Msg) -> UI a
 createUI id viewStories =
     createUIWithDescription id "" viewStories
 
@@ -226,12 +227,23 @@ createUI id viewStories =
     createUI "Button" "A Simple Button :-)" viewStories
 
 -}
-createUIWithDescription : String -> String -> (UIViewConfig -> Html Msg) -> UI
+createUIWithDescription : String -> String -> (UIViewConfig -> Html Msg) -> UI a
 createUIWithDescription id description viewStories =
     UIType
         { id = id
         , description = description
         , viewStories = viewStories
+        , viewSnapshots = []
+        }
+
+
+createUIWithSnapshots : String -> String -> (a -> Html msg) -> List ( String, a ) -> UI a
+createUIWithSnapshots id description viewUI stories =
+    UIType
+        { id = id
+        , description = description
+        , viewStories = renderStories viewUI stories
+        , viewSnapshots = stories
         }
 
 
@@ -254,7 +266,7 @@ This is the simplest way to initialize the UI Explorer app.
             )
 
 -}
-fromUIList : List UI -> List UICategory
+fromUIList : List (UI a) -> List (UICategory a)
 fromUIList uiList =
     emptyUICategories |> List.append [ UICategoryType ( "Default", uiList ) ]
 
@@ -271,7 +283,7 @@ Convenient for running a UI Explorer devided into categories
                ]
 
 -}
-addUICategory : String -> List UI -> List UICategory -> List UICategory
+addUICategory : String -> List (UI a) -> List (UICategory a) -> List (UICategory a)
 addUICategory title uiList categories =
     let
         category =
@@ -293,7 +305,7 @@ initModelFromUrl categories url key =
     }
 
 
-init : List UICategory -> () -> Url.Url -> Navigation.Key -> ( Model, Cmd Msg )
+init : List (UICategory a) -> () -> Url.Url -> Navigation.Key -> ( Model a, Cmd Msg )
 init categories flags url key =
     let
         _ =
@@ -378,7 +390,7 @@ hover className =
     "hover:uie-" ++ className
 
 
-viewSidebar : Model -> Html Msg
+viewSidebar : Model a -> Html Msg
 viewSidebar model =
     let
         viewConfig =
@@ -436,7 +448,7 @@ styleMenuItem isSelected =
                 [ "text-grey-darker" ]
 
 
-viewMenuItem : String -> Maybe String -> UI -> Html Msg
+viewMenuItem : String -> Maybe String -> UI a -> Html Msg
 viewMenuItem category selectedUIId (UIType ui) =
     let
         isSelected =
@@ -471,7 +483,7 @@ styleMenuCategoryLink =
     ]
 
 
-viewMenuCategory : UIViewConfig -> UICategory -> Html Msg
+viewMenuCategory : UIViewConfig -> UICategory a -> Html Msg
 viewMenuCategory { selectedUIId, selectedStoryId } (UICategoryType ( title, categories )) =
     div [ toClassName [] ]
         [ a
@@ -484,7 +496,7 @@ viewMenuCategory { selectedUIId, selectedStoryId } (UICategoryType ( title, cate
         ]
 
 
-viewMenu : List UICategory -> UIViewConfig -> Html Msg
+viewMenu : List (UICategory a) -> UIViewConfig -> Html Msg
 viewMenu categories config =
     aside
         [ toClassName
@@ -493,18 +505,18 @@ viewMenu categories config =
         (List.map (viewMenuCategory config) categories)
 
 
-filterSelectedUI : UI -> Model -> Bool
+filterSelectedUI : UI a -> Model a -> Bool
 filterSelectedUI (UIType ui) model =
     Maybe.map (\id -> ui.id == id) model.selectedUIId
         |> Maybe.withDefault False
 
 
-getUIListFromCategories : UICategory -> List UI
+getUIListFromCategories : UICategory a -> List (UI a)
 getUIListFromCategories (UICategoryType ( title, categories )) =
     categories
 
 
-viewContent : Model -> Html Msg
+viewContent : Model a -> Html Msg
 viewContent model =
     let
         filteredUIs =
@@ -558,7 +570,7 @@ oneQuarter =
     "w-1/4"
 
 
-view : Model -> Html Msg
+view : Model a -> Html Msg
 view model =
     div [ toClassName [ "h-screen" ] ]
         [ viewHeader
