@@ -1,80 +1,52 @@
 module Main exposing (Model, Msg(..), initialModel, main, update, view)
 
 import Browser
-import Html exposing (Html, a, button, div, i, span, text)
-import Html.Attributes exposing (attribute, class, classList, href, id)
+import Button exposing (..)
+import Html exposing (Html, a, button, div, i, input, span, text)
+import Html.Attributes exposing (attribute, class, classList, href, id, placeholder, type_)
 import Html.Events exposing (onClick)
 
 
 type alias Model =
-    { isOpen : Bool
-    }
+    {}
 
 
 initialModel : Model
 initialModel =
-    { isOpen = False }
+    {}
 
 
 type Msg
-    = Toggle
+    = NoOp
 
 
 update : Msg -> Model -> Model
 update msg model =
     case msg of
-        Toggle ->
-            { model
-                | isOpen =
-                    if model.isOpen then
-                        False
-
-                    else
-                        True
-            }
+        NoOp ->
+            model
 
 
 view : Model -> Html Msg
 view model =
     div
-        [ classList
-            [ ( "dropdown", True )
-            , ( "is-active", model.isOpen )
-            ]
-        ]
-        [ div
-            [ class "dropdown-trigger" ]
-            [ button
-                [ onClick Toggle
-                , class "button is-info"
-                , attribute "aria-haspopup" "true"
-                , attribute "aria-controls" "dropdown-menu"
+        [ class "m-10" ]
+        [ div [ class "flex flex-col" ]
+            [ div [] [ input [ type_ "text", placeholder "login", class "border border-grey rounded-lg p-2 mb-2 w-full" ] [] ]
+            , div [] [ input [ type_ "password", placeholder "password", class "border border-grey rounded-lg p-2 mb-2 w-full" ] [] ]
+            , div []
+                [ Button.view "Forgot password"
+                    { defaultConfig | size = L, class = "text-left w-full", appearance = Secondary, kind = Link }
+                    NoOp
+                , Button.view "Submit"
+                    { defaultConfig | size = S, class = "ml-2 float-right" }
+                    NoOp
+                , Button.view "Cancel"
+                    { defaultConfig | size = S, class = "float-right", appearance = Secondary }
+                    NoOp
                 ]
-                [ span [] [ text "MENU" ]
-                , span
-                    [ class "icon is-small" ]
-                    [ i
-                        [ class "fa fa-angle-down"
-                        , attribute "aria-hidden" "true"
-                        ]
-                        []
-                    ]
-                ]
-            ]
-        , div
-            [ class "dropdown-menu"
-            , id "dropdown-menu"
-            , attribute "role" "menu"
-            ]
-            [ div
-                [ class "dropdown-content" ]
-                [ a
-                    [ href "#", class "dropdown-item" ]
-                    [ text "Contact" ]
-                , a
-                    [ href "#", class "dropdown-item" ]
-                    [ text "About Us" ]
-                ]
+            , div []
+                []
             ]
         ]
 

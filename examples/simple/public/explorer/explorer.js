@@ -8361,18 +8361,47 @@ var rtfeldman$elm_css$VirtualDom$Styled$toUnstyled = function (vdom) {
 	}
 };
 var rtfeldman$elm_css$Html$Styled$toUnstyled = rtfeldman$elm_css$VirtualDom$Styled$toUnstyled;
-var author$project$Button$view = F2(
-	function (label, config) {
+var elm$virtual_dom$VirtualDom$Normal = function (a) {
+	return {$: 'Normal', a: a};
+};
+var elm$virtual_dom$VirtualDom$on = _VirtualDom_on;
+var rtfeldman$elm_css$VirtualDom$Styled$on = F2(
+	function (eventName, handler) {
+		return A3(
+			rtfeldman$elm_css$VirtualDom$Styled$Attribute,
+			A2(elm$virtual_dom$VirtualDom$on, eventName, handler),
+			_List_Nil,
+			'');
+	});
+var rtfeldman$elm_css$Html$Styled$Events$on = F2(
+	function (event, decoder) {
+		return A2(
+			rtfeldman$elm_css$VirtualDom$Styled$on,
+			event,
+			elm$virtual_dom$VirtualDom$Normal(decoder));
+	});
+var rtfeldman$elm_css$Html$Styled$Events$onClick = function (msg) {
+	return A2(
+		rtfeldman$elm_css$Html$Styled$Events$on,
+		'click',
+		elm$json$Json$Decode$succeed(msg));
+};
+var author$project$Button$view = F3(
+	function (label, config, clickMsg) {
 		return rtfeldman$elm_css$Html$Styled$toUnstyled(
 			A3(
 				author$project$Button$styledButton,
 				config,
-				_List_Nil,
+				_List_fromArray(
+					[
+						rtfeldman$elm_css$Html$Styled$Events$onClick(clickMsg)
+					]),
 				_List_fromArray(
 					[
 						rtfeldman$elm_css$Html$Styled$text(label)
 					])));
 	});
+var author$project$Explorer$MockMsg = {$: 'MockMsg'};
 var author$project$UIExplorer$LinkClicked = function (a) {
 	return {$: 'LinkClicked', a: a};
 };
@@ -8824,10 +8853,6 @@ var elm$html$Html$button = _VirtualDom_node('button');
 var elm$html$Html$div = _VirtualDom_node('div');
 var elm$virtual_dom$VirtualDom$style = _VirtualDom_style;
 var elm$html$Html$Attributes$style = elm$virtual_dom$VirtualDom$style;
-var elm$virtual_dom$VirtualDom$Normal = function (a) {
-	return {$: 'Normal', a: a};
-};
-var elm$virtual_dom$VirtualDom$on = _VirtualDom_on;
 var elm$html$Html$Events$on = F2(
 	function (event, decoder) {
 		return A2(
@@ -13087,47 +13112,51 @@ var author$project$Explorer$main = author$project$UIExplorer$app(
 						_Utils_Tuple2(
 						'Default',
 						function (_n0) {
-							return A2(author$project$Button$view, 'Submit', author$project$Button$defaultConfig);
+							return A3(author$project$Button$view, 'Submit', author$project$Button$defaultConfig, author$project$Explorer$MockMsg);
 						}),
 						_Utils_Tuple2(
 						'Small',
 						function (_n1) {
-							return A2(
+							return A3(
 								author$project$Button$view,
 								'Submit',
 								_Utils_update(
 									author$project$Button$defaultConfig,
-									{size: author$project$Button$S}));
+									{size: author$project$Button$S}),
+								author$project$Explorer$MockMsg);
 						}),
 						_Utils_Tuple2(
 						'Large',
 						function (_n2) {
-							return A2(
+							return A3(
 								author$project$Button$view,
 								'Submit',
 								_Utils_update(
 									author$project$Button$defaultConfig,
-									{size: author$project$Button$L}));
+									{size: author$project$Button$L}),
+								author$project$Explorer$MockMsg);
 						}),
 						_Utils_Tuple2(
 						'Secondary',
 						function (_n3) {
-							return A2(
+							return A3(
 								author$project$Button$view,
 								'Submit',
 								_Utils_update(
 									author$project$Button$defaultConfig,
-									{appearance: author$project$Button$Secondary}));
+									{appearance: author$project$Button$Secondary}),
+								author$project$Explorer$MockMsg);
 						}),
 						_Utils_Tuple2(
 						'Link',
 						function (_n4) {
-							return A2(
+							return A3(
 								author$project$Button$view,
 								'Submit',
 								_Utils_update(
 									author$project$Button$defaultConfig,
-									{appearance: author$project$Button$Secondary, kind: author$project$Button$Link}));
+									{appearance: author$project$Button$Secondary, kind: author$project$Button$Link}),
+								author$project$Explorer$MockMsg);
 						})
 					]))
 			])));

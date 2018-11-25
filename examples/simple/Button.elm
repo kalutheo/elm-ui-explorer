@@ -3,12 +3,15 @@ module Button exposing (Appearance(..), Kind(..), Size(..), defaultConfig, view)
 import Css exposing (..)
 import Html
 import Html.Styled exposing (..)
+import Html.Styled.Attributes exposing (class)
+import Html.Styled.Events exposing (onClick)
 
 
 type alias Config =
     { appearance : Appearance
     , size : Size
     , kind : Kind
+    , class : String
     }
 
 
@@ -29,11 +32,12 @@ type Kind
     | Phantom
 
 
-defaultConfig : { appearance : Appearance, kind : Kind, size : Size }
+defaultConfig : Config
 defaultConfig =
     { appearance = Primary
     , size = M
     , kind = Filled
+    , class = ""
     }
 
 
@@ -103,15 +107,16 @@ styledButton { appearance, size, kind } =
     styled button <|
         [ backgroundColor (bgColor appearance kind)
         , color (textColor appearance kind)
-        , padding (Css.em 0.5)
+        , padding (Css.em 0)
         , fontSize (Css.em 0.9)
         , width (widthFromSize size)
         , height (Css.em 3)
         , borderRadius (Css.em 0.5)
+        , important (outline none)
         ]
             ++ decoration kind
 
 
-view : String -> Config -> Html.Html msg
-view label config =
-    styledButton config [] [ text label ] |> toUnstyled
+view : String -> Config -> msg -> Html.Html msg
+view label config clickMsg =
+    styledButton config [ onClick clickMsg, class config.class ] [ text label ] |> toUnstyled
