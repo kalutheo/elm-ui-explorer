@@ -1,25 +1,23 @@
-module Explorer exposing (main, stories)
+module Explorer exposing (main)
 
-import Html exposing (div)
+import Button exposing (..)
+import Html exposing (Html, div)
 import Html.Attributes exposing (style)
-import Main exposing (Model, view)
-import UIExplorer exposing (app, createUI, fromUIList, renderStories)
+import Main exposing (Msg, view)
+import UIExplorer exposing (app, createUI, explore)
 
 
-
-{--A list of stories that represent all available states of the UI--}
-
-
-stories : List ( String, Model )
-stories =
-    [ ( "Default", { isOpen = False } ), ( "Opened", { isOpen = True } ) ]
-
-
+main : Program () UIExplorer.Model UIExplorer.Msg
 main =
     app
-        (fromUIList
+        (explore
             [ createUI
-                "dropdown"
-                (renderStories view stories)
+                "Button"
+                [ ( "Default", \_ -> Button.view "Submit" defaultConfig )
+                , ( "Small", \_ -> Button.view "Submit" { defaultConfig | size = S } )
+                , ( "Large", \_ -> Button.view "Submit" { defaultConfig | size = L } )
+                , ( "Secondary", \_ -> Button.view "Submit" { defaultConfig | appearance = Secondary } )
+                , ( "Link", \_ -> Button.view "Submit" { defaultConfig | kind = Link, appearance = Secondary } )
+                ]
             ]
         )

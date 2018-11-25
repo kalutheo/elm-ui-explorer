@@ -7,7 +7,8 @@ module UIExplorer exposing
     , emptyUICategories
     , createUI
     , createUIWithDescription
-    , fromUIList
+    , explore
+    , Model, Msg
     )
 
 {-|
@@ -38,7 +39,7 @@ module UIExplorer exposing
 @docs emptyUICategories
 @docs createUI
 @docs createUIWithDescription
-@docs fromUIList
+@docs explore
 
 -}
 
@@ -215,9 +216,9 @@ emptyUICategories =
     createUI "Button" viewStories
 
 -}
-createUI : String -> (UIViewConfig -> Html Msg) -> UI
-createUI id viewStories =
-    createUIWithDescription id "" viewStories
+createUI : String -> List ( String, () -> Html msg ) -> UI
+createUI id stories =
+    createUIWithDescription id "" stories
 
 
 {-| Create a UI with a description
@@ -225,12 +226,12 @@ createUI id viewStories =
     createUI "Button" "A Simple Button :-)" viewStories
 
 -}
-createUIWithDescription : String -> String -> (UIViewConfig -> Html Msg) -> UI
-createUIWithDescription id description viewStories =
+createUIWithDescription : String -> String -> List ( String, () -> Html msg ) -> UI
+createUIWithDescription id description stories =
     UIType
         { id = id
         , description = description
-        , viewStories = viewStories
+        , viewStories = renderStories stories
         }
 
 
@@ -239,7 +240,7 @@ This is the simplest way to initialize the UI Explorer app.
 
     main =
         app
-            (fromUIList
+            (explore
                 [ createUI
                     "PlayPause"
                     PlayPause.viewStories
@@ -253,8 +254,8 @@ This is the simplest way to initialize the UI Explorer app.
             )
 
 -}
-fromUIList : List UI -> List UICategory
-fromUIList uiList =
+explore : List UI -> List UICategory
+explore uiList =
     emptyUICategories |> List.append [ UICategoryType ( "Default", uiList ) ]
 
 
@@ -343,7 +344,7 @@ app categories =
 
 colors =
     { bg =
-        { primary = "bg-purple-dark"
+        { primary = "bg-black"
         }
     }
 
@@ -410,14 +411,14 @@ styleMenuItem isSelected =
             , "pl-6"
             , "pt-2"
             , "pb-2"
-            , hover "bg-purple-darker"
-            , hover "text-white"
+            , hover "bg-grey-lighter"
+            , hover "text-black"
             ]
     in
     if isSelected then
         defaultClass
             |> List.append
-                [ colors.bg.primary, "text-white" ]
+                [ "text-black", "bg-grey-light" ]
 
     else
         defaultClass
@@ -593,19 +594,20 @@ renderStory index { selectedStoryId } ( id, state ) =
 
         liClass =
             if isActive then
-                [ colors.bg.primary
-                , "text-white"
+                [ "border"
+                , "border-black"
+                , "text-black"
                 , "cursor-default"
                 ]
                     |> List.append defaultLiClass
 
             else
                 [ "border"
-                , "border-grey-light"
+                , "border-grey"
                 , "bg-white"
+                , "text-grey"
                 , "cursor-pointer"
-                , hover "bg-purple-darker"
-                , hover "text-white"
+                , hover "bg-grey-lighter"
                 ]
                     |> List.append defaultLiClass
     in
@@ -617,19 +619,8 @@ renderStory index { selectedStoryId } ( id, state ) =
         [ text id ]
 
 
-{-| Renders Stories of a given UI.
-A story represents a state of a view such as (Loading, Error, Success, NoNetwork ...)
-
-    stories : List ( String, Model )
-    stories =
-        [ ( "Loading", { isLoading = True } ), ( "Loaded", { isLoading = False } ) ]
-
-    viewStories =
-        renderStories (view model) stories
-
--}
-renderStories : (a -> Html msg) -> List ( String, a ) -> UIViewConfig -> Html Msg
-renderStories storyView stories config =
+renderStories : List ( String, () -> Html msg ) -> UIViewConfig -> Html Msg
+renderStories stories config =
     let
         { selectedStoryId } =
             config
@@ -648,7 +639,7 @@ renderStories storyView stories config =
         content =
             case currentStories |> List.head of
                 Just ( id, story ) ->
-                    storyView story |> Html.map (\_ -> Noop)
+                    story () |> Html.map (\_ -> Noop)
 
                 Nothing ->
                     text "Include somes states in your story..."
