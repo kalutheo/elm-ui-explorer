@@ -3,12 +3,8 @@ module Explorer exposing (main)
 import Button exposing (..)
 import Html exposing (Html, div)
 import Html.Attributes exposing (style)
-import Main exposing (Msg, view)
+import Main exposing (Msg(..), view)
 import UIExplorer exposing (app, createUI, explore)
-
-
-type MockMsg
-    = MockMsg
 
 
 main : Program () UIExplorer.Model UIExplorer.Msg
@@ -17,11 +13,13 @@ main =
         (explore
             [ createUI
                 "Button"
-                [ ( "Default", \_ -> Button.view "Submit" defaultConfig MockMsg )
-                , ( "Small", \_ -> Button.view "Submit" { defaultConfig | size = S } MockMsg )
-                , ( "Large", \_ -> Button.view "Submit" { defaultConfig | size = L } MockMsg )
-                , ( "Secondary", \_ -> Button.view "Submit" { defaultConfig | appearance = Secondary } MockMsg )
-                , ( "Link", \_ -> Button.view "Submit" { defaultConfig | kind = Link, appearance = Secondary } MockMsg )
+                [ ( "Primary", \_ -> Button.view "Submit" defaultConfig NoOp )
+                , ( "Secondary", \_ -> Button.view "Submit" { defaultConfig | appearance = Secondary } NoOp )
+                , ( "Small", \_ -> Button.view "Submit" { defaultConfig | size = S } NoOp )
+                , ( "Large", \_ -> Button.view "Submit" { defaultConfig | size = L } NoOp )
+                , ( "Link", \_ -> Button.view "Submit" { defaultConfig | kind = Link, appearance = Secondary } NoOp )
+                , ( "GhostPrimary", \_ -> Button.view "Submit" { defaultConfig | kind = Ghost } NoOp )
+                , ( "GhostSecondary", \_ -> Button.view "Submit" { defaultConfig | appearance = Secondary, kind = Ghost } NoOp )
                 ]
             ]
         )

@@ -29,7 +29,7 @@ type Size
 type Kind
     = Link
     | Filled
-    | Phantom
+    | Ghost
 
 
 defaultConfig : Config
@@ -56,16 +56,11 @@ widthFromSize size =
 
 bgColor : Appearance -> Kind -> Css.Color
 bgColor appearance kind =
-    if kind == Link then
+    if kind == Link || kind == Ghost then
         rgba 0 0 0 0
 
     else
-        case appearance of
-            Primary ->
-                hex "00d1b2"
-
-            Secondary ->
-                hex "333333"
+        colorFromAppearance appearance
 
 
 decoration : Kind -> List Style
@@ -79,33 +74,46 @@ decoration shape =
             [ textDecoration none
             ]
 
-        Phantom ->
+        Ghost ->
             [ textDecoration none
             ]
+
+
+colorFromAppearance : Appearance -> Css.Color
+colorFromAppearance appearance =
+    case appearance of
+        Primary ->
+            hex "00d1b2"
+
+        Secondary ->
+            hex "333333"
 
 
 textColor : Appearance -> Kind -> Css.Color
 textColor appearance kind =
     case kind of
         Link ->
-            case appearance of
-                Primary ->
-                    hex "00d1b2"
-
-                Secondary ->
-                    hex "333333"
+            colorFromAppearance appearance
 
         Filled ->
             hex "FFFFFF"
 
-        Phantom ->
-            bgColor appearance kind
+        Ghost ->
+            colorFromAppearance appearance
 
 
 styledButton : Config -> List (Attribute msg) -> List (Html msg) -> Html msg
 styledButton { appearance, size, kind } =
     styled button <|
         [ backgroundColor (bgColor appearance kind)
+        , border <|
+            if kind == Ghost then
+                px 1
+
+            else
+                px 0
+        , borderStyle solid
+        , borderColor (colorFromAppearance appearance)
         , color (textColor appearance kind)
         , padding (Css.em 0)
         , fontSize (Css.em 0.9)

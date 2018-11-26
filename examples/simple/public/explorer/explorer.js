@@ -4845,6 +4845,7 @@ function _Browser_load(url)
 		}
 	}));
 }
+var author$project$Button$Ghost = {$: 'Ghost'};
 var author$project$Button$L = {$: 'L'};
 var author$project$Button$Link = {$: 'Link'};
 var author$project$Button$S = {$: 'S'};
@@ -4852,7 +4853,7 @@ var author$project$Button$Secondary = {$: 'Secondary'};
 var author$project$Button$Filled = {$: 'Filled'};
 var author$project$Button$M = {$: 'M'};
 var author$project$Button$Primary = {$: 'Primary'};
-var author$project$Button$defaultConfig = {appearance: author$project$Button$Primary, kind: author$project$Button$Filled, size: author$project$Button$M};
+var author$project$Button$defaultConfig = {appearance: author$project$Button$Primary, _class: '', kind: author$project$Button$Filled, size: author$project$Button$M};
 var elm$core$Elm$JsArray$foldr = _JsArray_foldr;
 var elm$core$Array$foldr = F3(
 	function (func, baseCase, _n0) {
@@ -4933,7 +4934,6 @@ var elm$core$Set$toList = function (_n0) {
 	var dict = _n0.a;
 	return elm$core$Dict$keys(dict);
 };
-var elm$core$Basics$eq = _Utils_equal;
 var elm$core$Basics$lt = _Utils_lt;
 var elm$core$Maybe$Just = function (a) {
 	return {$: 'Just', a: a};
@@ -5066,6 +5066,7 @@ var elm$core$Result$mapError = F2(
 				f(e));
 		}
 	});
+var elm$core$Basics$eq = _Utils_equal;
 var elm$core$String$isEmpty = function (string) {
 	return string === '';
 };
@@ -5411,6 +5412,14 @@ var rtfeldman$elm_css$Css$hex = function (str) {
 	}
 	return rtfeldman$elm_css$Css$erroneousHex(str);
 };
+var author$project$Button$colorFromAppearance = function (appearance) {
+	if (appearance.$ === 'Primary') {
+		return rtfeldman$elm_css$Css$hex('00d1b2');
+	} else {
+		return rtfeldman$elm_css$Css$hex('333333');
+	}
+};
+var elm$core$Basics$or = _Basics_or;
 var elm$core$Basics$gt = _Utils_gt;
 var elm$core$List$reverse = function (list) {
 	return A3(elm$core$List$foldl, elm$core$List$cons, _List_Nil, list);
@@ -5515,15 +5524,7 @@ var rtfeldman$elm_css$Css$rgba = F4(
 	});
 var author$project$Button$bgColor = F2(
 	function (appearance, kind) {
-		if (_Utils_eq(kind, author$project$Button$Link)) {
-			return A4(rtfeldman$elm_css$Css$rgba, 0, 0, 0, 0);
-		} else {
-			if (appearance.$ === 'Primary') {
-				return rtfeldman$elm_css$Css$hex('00d1b2');
-			} else {
-				return rtfeldman$elm_css$Css$hex('333333');
-			}
-		}
+		return (_Utils_eq(kind, author$project$Button$Link) || _Utils_eq(kind, author$project$Button$Ghost)) ? A4(rtfeldman$elm_css$Css$rgba, 0, 0, 0, 0) : author$project$Button$colorFromAppearance(appearance);
 	});
 var rtfeldman$elm_css$Css$none = {backgroundImage: rtfeldman$elm_css$Css$Structure$Compatible, blockAxisOverflow: rtfeldman$elm_css$Css$Structure$Compatible, borderStyle: rtfeldman$elm_css$Css$Structure$Compatible, cursor: rtfeldman$elm_css$Css$Structure$Compatible, display: rtfeldman$elm_css$Css$Structure$Compatible, hoverCapability: rtfeldman$elm_css$Css$Structure$Compatible, inlineAxisOverflow: rtfeldman$elm_css$Css$Structure$Compatible, keyframes: rtfeldman$elm_css$Css$Structure$Compatible, lengthOrNone: rtfeldman$elm_css$Css$Structure$Compatible, lengthOrNoneOrMinMaxDimension: rtfeldman$elm_css$Css$Structure$Compatible, lengthOrNumberOrAutoOrNoneOrContent: rtfeldman$elm_css$Css$Structure$Compatible, listStyleType: rtfeldman$elm_css$Css$Structure$Compatible, listStyleTypeOrPositionOrImage: rtfeldman$elm_css$Css$Structure$Compatible, none: rtfeldman$elm_css$Css$Structure$Compatible, outline: rtfeldman$elm_css$Css$Structure$Compatible, pointerDevice: rtfeldman$elm_css$Css$Structure$Compatible, pointerEvents: rtfeldman$elm_css$Css$Structure$Compatible, resize: rtfeldman$elm_css$Css$Structure$Compatible, scriptingSupport: rtfeldman$elm_css$Css$Structure$Compatible, textDecorationLine: rtfeldman$elm_css$Css$Structure$Compatible, textTransform: rtfeldman$elm_css$Css$Structure$Compatible, touchAction: rtfeldman$elm_css$Css$Structure$Compatible, transform: rtfeldman$elm_css$Css$Structure$Compatible, updateFrequency: rtfeldman$elm_css$Css$Structure$Compatible, value: 'none'};
 var rtfeldman$elm_css$Css$Preprocess$AppendProperty = function (a) {
@@ -5562,15 +5563,11 @@ var author$project$Button$textColor = F2(
 	function (appearance, kind) {
 		switch (kind.$) {
 			case 'Link':
-				if (appearance.$ === 'Primary') {
-					return rtfeldman$elm_css$Css$hex('00d1b2');
-				} else {
-					return rtfeldman$elm_css$Css$hex('333333');
-				}
+				return author$project$Button$colorFromAppearance(appearance);
 			case 'Filled':
 				return rtfeldman$elm_css$Css$hex('FFFFFF');
 			default:
-				return A2(author$project$Button$bgColor, appearance, kind);
+				return author$project$Button$colorFromAppearance(appearance);
 		}
 	});
 var rtfeldman$elm_css$Css$EmUnits = {$: 'EmUnits'};
@@ -5616,13 +5613,110 @@ var elm$core$Basics$apL = F2(
 var rtfeldman$elm_css$Css$backgroundColor = function (c) {
 	return A2(rtfeldman$elm_css$Css$property, 'background-color', c.value);
 };
+var rtfeldman$elm_css$Css$border = rtfeldman$elm_css$Css$prop1('border');
+var rtfeldman$elm_css$Css$borderColor = function (c) {
+	return A2(rtfeldman$elm_css$Css$property, 'border-color', c.value);
+};
 var rtfeldman$elm_css$Css$borderRadius = rtfeldman$elm_css$Css$prop1('border-radius');
+var rtfeldman$elm_css$Css$borderStyle = rtfeldman$elm_css$Css$prop1('border-style');
 var rtfeldman$elm_css$Css$color = function (c) {
 	return A2(rtfeldman$elm_css$Css$property, 'color', c.value);
 };
 var rtfeldman$elm_css$Css$fontSize = rtfeldman$elm_css$Css$prop1('font-size');
 var rtfeldman$elm_css$Css$height = rtfeldman$elm_css$Css$prop1('height');
+var elm$core$String$endsWith = _String_endsWith;
+var rtfeldman$elm_css$Css$makeImportant = function (str) {
+	return A2(
+		elm$core$String$endsWith,
+		' !important',
+		elm$core$String$toLower(str)) ? str : (str + ' !important');
+};
+var rtfeldman$elm_css$Css$Preprocess$ApplyStyles = function (a) {
+	return {$: 'ApplyStyles', a: a};
+};
+var rtfeldman$elm_css$Css$Preprocess$ExtendSelector = F2(
+	function (a, b) {
+		return {$: 'ExtendSelector', a: a, b: b};
+	});
+var rtfeldman$elm_css$Css$Structure$mapLast = F2(
+	function (update, list) {
+		if (!list.b) {
+			return list;
+		} else {
+			if (!list.b.b) {
+				var only = list.a;
+				return _List_fromArray(
+					[
+						update(only)
+					]);
+			} else {
+				var first = list.a;
+				var rest = list.b;
+				return A2(
+					elm$core$List$cons,
+					first,
+					A2(rtfeldman$elm_css$Css$Structure$mapLast, update, rest));
+			}
+		}
+	});
+var rtfeldman$elm_css$Css$Preprocess$mapAllLastProperty = F2(
+	function (update, styles) {
+		if (!styles.b) {
+			return styles;
+		} else {
+			if (!styles.b.b) {
+				var only = styles.a;
+				return _List_fromArray(
+					[
+						A2(rtfeldman$elm_css$Css$Preprocess$mapLastProperty, update, only)
+					]);
+			} else {
+				var first = styles.a;
+				var rest = styles.b;
+				return A2(
+					elm$core$List$cons,
+					first,
+					A2(rtfeldman$elm_css$Css$Preprocess$mapAllLastProperty, update, rest));
+			}
+		}
+	});
+var rtfeldman$elm_css$Css$Preprocess$mapLastProperty = F2(
+	function (update, style) {
+		switch (style.$) {
+			case 'AppendProperty':
+				var property = style.a;
+				return rtfeldman$elm_css$Css$Preprocess$AppendProperty(
+					update(property));
+			case 'ExtendSelector':
+				var selector = style.a;
+				var styles = style.b;
+				return A2(
+					rtfeldman$elm_css$Css$Preprocess$ExtendSelector,
+					selector,
+					A2(rtfeldman$elm_css$Css$Preprocess$mapAllLastProperty, update, styles));
+			case 'NestSnippet':
+				return style;
+			case 'WithPseudoElement':
+				return style;
+			case 'WithMedia':
+				return style;
+			case 'WithKeyframes':
+				return style;
+			default:
+				var otherStyles = style.a;
+				return rtfeldman$elm_css$Css$Preprocess$ApplyStyles(
+					A2(
+						rtfeldman$elm_css$Css$Structure$mapLast,
+						rtfeldman$elm_css$Css$Preprocess$mapLastProperty(update),
+						otherStyles));
+		}
+	});
+var rtfeldman$elm_css$Css$important = rtfeldman$elm_css$Css$Preprocess$mapLastProperty(rtfeldman$elm_css$Css$makeImportant);
+var rtfeldman$elm_css$Css$outline = rtfeldman$elm_css$Css$prop1('outline');
 var rtfeldman$elm_css$Css$padding = rtfeldman$elm_css$Css$prop1('padding');
+var rtfeldman$elm_css$Css$PxUnits = {$: 'PxUnits'};
+var rtfeldman$elm_css$Css$px = A2(rtfeldman$elm_css$Css$Internal$lengthConverter, rtfeldman$elm_css$Css$PxUnits, 'px');
+var rtfeldman$elm_css$Css$solid = {borderStyle: rtfeldman$elm_css$Css$Structure$Compatible, textDecorationStyle: rtfeldman$elm_css$Css$Structure$Compatible, value: 'solid'};
 var rtfeldman$elm_css$Css$width = rtfeldman$elm_css$Css$prop1('width');
 var rtfeldman$elm_css$VirtualDom$Styled$Node = F3(
 	function (a, b, c) {
@@ -5789,7 +5883,6 @@ var elm$json$Json$Decode$OneOf = function (a) {
 	return {$: 'OneOf', a: a};
 };
 var elm$core$Basics$and = _Basics_and;
-var elm$core$Basics$or = _Basics_or;
 var elm$core$Char$toCode = _Char_toCode;
 var elm$core$Char$isLower = function (_char) {
 	var code = elm$core$Char$toCode(_char);
@@ -6439,27 +6532,6 @@ var rtfeldman$elm_css$Css$Structure$StyleBlockDeclaration = function (a) {
 var rtfeldman$elm_css$Css$Structure$Viewport = function (a) {
 	return {$: 'Viewport', a: a};
 };
-var rtfeldman$elm_css$Css$Structure$mapLast = F2(
-	function (update, list) {
-		if (!list.b) {
-			return list;
-		} else {
-			if (!list.b.b) {
-				var only = list.a;
-				return _List_fromArray(
-					[
-						update(only)
-					]);
-			} else {
-				var first = list.a;
-				var rest = list.b;
-				return A2(
-					elm$core$List$cons,
-					first,
-					A2(rtfeldman$elm_css$Css$Structure$mapLast, update, rest));
-			}
-		}
-	});
 var rtfeldman$elm_css$Css$Structure$withPropertyAppended = F2(
 	function (property, _n0) {
 		var firstSelector = _n0.a;
@@ -7856,10 +7928,15 @@ var author$project$Button$styledButton = function (_n0) {
 				[
 					rtfeldman$elm_css$Css$backgroundColor(
 					A2(author$project$Button$bgColor, appearance, kind)),
+					rtfeldman$elm_css$Css$border(
+					_Utils_eq(kind, author$project$Button$Ghost) ? rtfeldman$elm_css$Css$px(1) : rtfeldman$elm_css$Css$px(0)),
+					rtfeldman$elm_css$Css$borderStyle(rtfeldman$elm_css$Css$solid),
+					rtfeldman$elm_css$Css$borderColor(
+					author$project$Button$colorFromAppearance(appearance)),
 					rtfeldman$elm_css$Css$color(
 					A2(author$project$Button$textColor, appearance, kind)),
 					rtfeldman$elm_css$Css$padding(
-					rtfeldman$elm_css$Css$em(0.5)),
+					rtfeldman$elm_css$Css$em(0)),
 					rtfeldman$elm_css$Css$fontSize(
 					rtfeldman$elm_css$Css$em(0.9)),
 					rtfeldman$elm_css$Css$width(
@@ -7867,7 +7944,9 @@ var author$project$Button$styledButton = function (_n0) {
 					rtfeldman$elm_css$Css$height(
 					rtfeldman$elm_css$Css$em(3)),
 					rtfeldman$elm_css$Css$borderRadius(
-					rtfeldman$elm_css$Css$em(0.5))
+					rtfeldman$elm_css$Css$em(0.5)),
+					rtfeldman$elm_css$Css$important(
+					rtfeldman$elm_css$Css$outline(rtfeldman$elm_css$Css$none))
 				]),
 			author$project$Button$decoration(kind)));
 };
@@ -8361,6 +8440,22 @@ var rtfeldman$elm_css$VirtualDom$Styled$toUnstyled = function (vdom) {
 	}
 };
 var rtfeldman$elm_css$Html$Styled$toUnstyled = rtfeldman$elm_css$VirtualDom$Styled$toUnstyled;
+var rtfeldman$elm_css$VirtualDom$Styled$property = F2(
+	function (key, value) {
+		return A3(
+			rtfeldman$elm_css$VirtualDom$Styled$Attribute,
+			A2(elm$virtual_dom$VirtualDom$property, key, value),
+			_List_Nil,
+			'');
+	});
+var rtfeldman$elm_css$Html$Styled$Attributes$stringProperty = F2(
+	function (key, string) {
+		return A2(
+			rtfeldman$elm_css$VirtualDom$Styled$property,
+			key,
+			elm$json$Json$Encode$string(string));
+	});
+var rtfeldman$elm_css$Html$Styled$Attributes$class = rtfeldman$elm_css$Html$Styled$Attributes$stringProperty('className');
 var elm$virtual_dom$VirtualDom$Normal = function (a) {
 	return {$: 'Normal', a: a};
 };
@@ -8394,14 +8489,15 @@ var author$project$Button$view = F3(
 				config,
 				_List_fromArray(
 					[
-						rtfeldman$elm_css$Html$Styled$Events$onClick(clickMsg)
+						rtfeldman$elm_css$Html$Styled$Events$onClick(clickMsg),
+						rtfeldman$elm_css$Html$Styled$Attributes$class(config._class)
 					]),
 				_List_fromArray(
 					[
 						rtfeldman$elm_css$Html$Styled$text(label)
 					])));
 	});
-var author$project$Explorer$MockMsg = {$: 'MockMsg'};
+var author$project$Main$NoOp = {$: 'NoOp'};
 var author$project$UIExplorer$LinkClicked = function (a) {
 	return {$: 'LinkClicked', a: a};
 };
@@ -13110,42 +13206,42 @@ var author$project$Explorer$main = author$project$UIExplorer$app(
 				_List_fromArray(
 					[
 						_Utils_Tuple2(
-						'Default',
+						'Primary',
 						function (_n0) {
-							return A3(author$project$Button$view, 'Submit', author$project$Button$defaultConfig, author$project$Explorer$MockMsg);
+							return A3(author$project$Button$view, 'Submit', author$project$Button$defaultConfig, author$project$Main$NoOp);
 						}),
 						_Utils_Tuple2(
-						'Small',
+						'Secondary',
 						function (_n1) {
 							return A3(
 								author$project$Button$view,
 								'Submit',
 								_Utils_update(
 									author$project$Button$defaultConfig,
-									{size: author$project$Button$S}),
-								author$project$Explorer$MockMsg);
+									{appearance: author$project$Button$Secondary}),
+								author$project$Main$NoOp);
 						}),
 						_Utils_Tuple2(
-						'Large',
+						'Small',
 						function (_n2) {
 							return A3(
 								author$project$Button$view,
 								'Submit',
 								_Utils_update(
 									author$project$Button$defaultConfig,
-									{size: author$project$Button$L}),
-								author$project$Explorer$MockMsg);
+									{size: author$project$Button$S}),
+								author$project$Main$NoOp);
 						}),
 						_Utils_Tuple2(
-						'Secondary',
+						'Large',
 						function (_n3) {
 							return A3(
 								author$project$Button$view,
 								'Submit',
 								_Utils_update(
 									author$project$Button$defaultConfig,
-									{appearance: author$project$Button$Secondary}),
-								author$project$Explorer$MockMsg);
+									{size: author$project$Button$L}),
+								author$project$Main$NoOp);
 						}),
 						_Utils_Tuple2(
 						'Link',
@@ -13156,7 +13252,29 @@ var author$project$Explorer$main = author$project$UIExplorer$app(
 								_Utils_update(
 									author$project$Button$defaultConfig,
 									{appearance: author$project$Button$Secondary, kind: author$project$Button$Link}),
-								author$project$Explorer$MockMsg);
+								author$project$Main$NoOp);
+						}),
+						_Utils_Tuple2(
+						'GhostPrimary',
+						function (_n5) {
+							return A3(
+								author$project$Button$view,
+								'Submit',
+								_Utils_update(
+									author$project$Button$defaultConfig,
+									{kind: author$project$Button$Ghost}),
+								author$project$Main$NoOp);
+						}),
+						_Utils_Tuple2(
+						'GhostSecondary',
+						function (_n6) {
+							return A3(
+								author$project$Button$view,
+								'Submit',
+								_Utils_update(
+									author$project$Button$defaultConfig,
+									{appearance: author$project$Button$Secondary, kind: author$project$Button$Ghost}),
+								author$project$Main$NoOp);
 						})
 					]))
 			])));
