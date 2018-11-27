@@ -9,19 +9,22 @@ import UIExplorer exposing (Msg(..), UIViewConfig, app, createUI, explore)
 
 
 type Msg
-    = MyCustomMsg
+    = ChangeOpacity
 
 
 type alias ExplorerModel =
-    UIExplorer.Model {}
+    UIExplorer.Model {} Msg
 
 
 type alias ExplorerMsg =
-    UIExplorer.Msg
+    UIExplorer.Msg Msg
 
 
 viewEnhancer stories =
-    div [] [ Html.span [ onClick ExternalMsg ] [ Html.text "houra" ], stories ]
+    div []
+        [ stories
+        , div [] [ Html.span [ onClick (ExternalMsg ChangeOpacity) ] [ Html.text "houra" ] ]
+        ]
 
 
 main : Program () ExplorerModel ExplorerMsg
@@ -30,14 +33,18 @@ main =
         (explore
             [ createUI
                 "Button"
-                [ ( "Primary", \_ -> Button.view "Submit" defaultConfig NoOp )
-                , ( "Secondary", \_ -> Button.view "Submit" { defaultConfig | appearance = Secondary } NoOp )
-                , ( "Small", \_ -> Button.view "Submit" { defaultConfig | size = S } NoOp )
-                , ( "Large", \_ -> Button.view "Submit" { defaultConfig | size = L } NoOp )
-                , ( "Link", \_ -> Button.view "Submit" { defaultConfig | kind = Link, appearance = Secondary } NoOp )
-                , ( "GhostPrimary", \_ -> Button.view "Submit" { defaultConfig | kind = Ghost } NoOp )
-                , ( "GhostSecondary", \_ -> Button.view "Submit" { defaultConfig | appearance = Secondary, kind = Ghost } NoOp )
+                [ ( "Primary", \_ -> Button.view "Submit" defaultConfig () )
+                , ( "Secondary", \_ -> Button.view "Submit" { defaultConfig | appearance = Secondary } () )
+                , ( "Small", \_ -> Button.view "Submit" { defaultConfig | size = S } () )
+                , ( "Large", \_ -> Button.view "Submit" { defaultConfig | size = L } () )
+                , ( "Link", \_ -> Button.view "Submit" { defaultConfig | kind = Link, appearance = Secondary } () )
+                , ( "GhostPrimary", \_ -> Button.view "Submit" { defaultConfig | kind = Ghost } () )
+                , ( "GhostSecondary", \_ -> Button.view "Submit" { defaultConfig | appearance = Secondary, kind = Ghost } () )
                 ]
             ]
         )
-        { customModel = {}, toMsg = MyCustomMsg, update = \m -> m, viewEnhancer = viewEnhancer }
+        { customModel = {}
+        , update =
+            \msg m -> m
+        , viewEnhancer = viewEnhancer
+        }

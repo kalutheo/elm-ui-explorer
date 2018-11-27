@@ -8497,8 +8497,10 @@ var author$project$Button$view = F3(
 						rtfeldman$elm_css$Html$Styled$text(label)
 					])));
 	});
-var author$project$Explorer$MyCustomMsg = {$: 'MyCustomMsg'};
-var author$project$UIExplorer$ExternalMsg = {$: 'ExternalMsg'};
+var author$project$Explorer$ChangeOpacity = {$: 'ChangeOpacity'};
+var author$project$UIExplorer$ExternalMsg = function (a) {
+	return {$: 'ExternalMsg', a: a};
+};
 var elm$html$Html$div = _VirtualDom_node('div');
 var elm$html$Html$span = _VirtualDom_node('span');
 var elm$html$Html$text = elm$virtual_dom$VirtualDom$text;
@@ -8515,26 +8517,33 @@ var elm$html$Html$Events$onClick = function (msg) {
 		'click',
 		elm$json$Json$Decode$succeed(msg));
 };
-var author$project$Explorer$viewEnhancer = function (stories) {
-	return A2(
-		elm$html$Html$div,
-		_List_Nil,
-		_List_fromArray(
-			[
-				A2(
-				elm$html$Html$span,
-				_List_fromArray(
-					[
-						elm$html$Html$Events$onClick(author$project$UIExplorer$ExternalMsg)
-					]),
-				_List_fromArray(
-					[
-						elm$html$Html$text('houra')
-					])),
-				stories
-			]));
-};
-var author$project$Main$NoOp = {$: 'NoOp'};
+var author$project$Explorer$viewEnhancer = F2(
+	function (model, stories) {
+		return A2(
+			elm$html$Html$div,
+			_List_Nil,
+			_List_fromArray(
+				[
+					stories,
+					A2(
+					elm$html$Html$div,
+					_List_Nil,
+					_List_fromArray(
+						[
+							A2(
+							elm$html$Html$span,
+							_List_fromArray(
+								[
+									elm$html$Html$Events$onClick(
+									author$project$UIExplorer$ExternalMsg(author$project$Explorer$ChangeOpacity))
+								]),
+							_List_fromArray(
+								[
+									elm$html$Html$text('houra')
+								]))
+						]))
+				]));
+	});
 var author$project$UIExplorer$LinkClicked = function (a) {
 	return {$: 'LinkClicked', a: a};
 };
@@ -8639,16 +8648,10 @@ var author$project$UIExplorer$getSelectedUIfromPath = function (_n0) {
 	var fragment = _n0.fragment;
 	return A2(author$project$UIExplorer$getFragmentSegmentByIndex, fragment, 1);
 };
-var elm$core$Debug$log = _Debug_log;
-var elm$core$Debug$toString = _Debug_toString;
 var elm$core$Platform$Cmd$batch = _Platform_batch;
 var elm$core$Platform$Cmd$none = elm$core$Platform$Cmd$batch(_List_Nil);
 var author$project$UIExplorer$init = F5(
 	function (customModel, categories, flags, url, key) {
-		var _n0 = A2(
-			elm$core$Debug$log,
-			'init',
-			elm$core$Debug$toString(key));
 		return _Utils_Tuple2(
 			{
 				categories: categories,
@@ -12662,8 +12665,11 @@ var elm$url$Url$toString = function (url) {
 var author$project$UIExplorer$update = F3(
 	function (config, msg, model) {
 		switch (msg.$) {
+			case 'NoOp':
+				return _Utils_Tuple2(model, elm$core$Platform$Cmd$none);
 			case 'ExternalMsg':
-				var newModel = config.update(model);
+				var subMsg = msg.a;
+				var newModel = A2(config.update, subMsg, model);
 				return _Utils_Tuple2(newModel, elm$core$Platform$Cmd$none);
 			case 'SelectStory':
 				var storyId = msg.a;
@@ -12678,7 +12684,6 @@ var author$project$UIExplorer$update = F3(
 				}
 			case 'UrlChange':
 				var location = msg.a;
-				var _n2 = A2(elm$core$Debug$log, 'UrlChange', location);
 				return _Utils_Tuple2(
 					_Utils_update(
 						model,
@@ -12805,7 +12810,9 @@ var author$project$UIExplorer$viewContent = F2(
 							elm$core$List$map,
 							function (_n0) {
 								var s = _n0.a;
-								return config.viewEnhancer(
+								return A2(
+									config.viewEnhancer,
+									model,
 									s.viewStories(viewConfig));
 							},
 							filteredUIs))),
@@ -13068,6 +13075,7 @@ var author$project$UIExplorer$app = F2(
 var author$project$UIExplorer$UIType = function (a) {
 	return {$: 'UIType', a: a};
 };
+var author$project$UIExplorer$NoOp = {$: 'NoOp'};
 var author$project$UIExplorer$SelectStory = function (a) {
 	return {$: 'SelectStory', a: a};
 };
@@ -13175,7 +13183,7 @@ var author$project$UIExplorer$renderStories = F2(
 				return A2(
 					elm$html$Html$map,
 					function (_n3) {
-						return author$project$UIExplorer$ExternalMsg;
+						return author$project$UIExplorer$NoOp;
 					},
 					story(_Utils_Tuple0));
 			} else {
@@ -13195,18 +13203,14 @@ var author$project$UIExplorer$renderStories = F2(
 						[content]))
 				]));
 	});
-var author$project$UIExplorer$createUIWithDescription = F3(
-	function (id, description, stories) {
+var author$project$UIExplorer$createUI = F2(
+	function (id, stories) {
 		return author$project$UIExplorer$UIType(
 			{
-				description: description,
+				description: '',
 				id: id,
 				viewStories: author$project$UIExplorer$renderStories(stories)
 			});
-	});
-var author$project$UIExplorer$createUI = F2(
-	function (id, stories) {
-		return A3(author$project$UIExplorer$createUIWithDescription, id, '', stories);
 	});
 var author$project$UIExplorer$UICategoryType = function (a) {
 	return {$: 'UICategoryType', a: a};
@@ -13235,7 +13239,7 @@ var author$project$Explorer$main = A2(
 						_Utils_Tuple2(
 						'Primary',
 						function (_n0) {
-							return A3(author$project$Button$view, 'Submit', author$project$Button$defaultConfig, author$project$Main$NoOp);
+							return A3(author$project$Button$view, 'Submit', author$project$Button$defaultConfig, _Utils_Tuple0);
 						}),
 						_Utils_Tuple2(
 						'Secondary',
@@ -13246,7 +13250,7 @@ var author$project$Explorer$main = A2(
 								_Utils_update(
 									author$project$Button$defaultConfig,
 									{appearance: author$project$Button$Secondary}),
-								author$project$Main$NoOp);
+								_Utils_Tuple0);
 						}),
 						_Utils_Tuple2(
 						'Small',
@@ -13257,7 +13261,7 @@ var author$project$Explorer$main = A2(
 								_Utils_update(
 									author$project$Button$defaultConfig,
 									{size: author$project$Button$S}),
-								author$project$Main$NoOp);
+								_Utils_Tuple0);
 						}),
 						_Utils_Tuple2(
 						'Large',
@@ -13268,7 +13272,7 @@ var author$project$Explorer$main = A2(
 								_Utils_update(
 									author$project$Button$defaultConfig,
 									{size: author$project$Button$L}),
-								author$project$Main$NoOp);
+								_Utils_Tuple0);
 						}),
 						_Utils_Tuple2(
 						'Link',
@@ -13279,7 +13283,7 @@ var author$project$Explorer$main = A2(
 								_Utils_update(
 									author$project$Button$defaultConfig,
 									{appearance: author$project$Button$Secondary, kind: author$project$Button$Link}),
-								author$project$Main$NoOp);
+								_Utils_Tuple0);
 						}),
 						_Utils_Tuple2(
 						'GhostPrimary',
@@ -13290,7 +13294,7 @@ var author$project$Explorer$main = A2(
 								_Utils_update(
 									author$project$Button$defaultConfig,
 									{kind: author$project$Button$Ghost}),
-								author$project$Main$NoOp);
+								_Utils_Tuple0);
 						}),
 						_Utils_Tuple2(
 						'GhostSecondary',
@@ -13301,17 +13305,24 @@ var author$project$Explorer$main = A2(
 								_Utils_update(
 									author$project$Button$defaultConfig,
 									{appearance: author$project$Button$Secondary, kind: author$project$Button$Ghost}),
-								author$project$Main$NoOp);
+								_Utils_Tuple0);
 						})
 					]))
 			])),
 	{
-		customModel: {},
-		toMsg: author$project$Explorer$MyCustomMsg,
-		update: function (m) {
-			return m;
-		},
+		customModel: {opacity: 0},
+		update: F2(
+			function (msg, m) {
+				var newOpacity = (m.customModel.opacity === 1) ? 0 : 1;
+				var customModel = m.customModel;
+				var newCustomModel = _Utils_update(
+					customModel,
+					{opacity: newOpacity});
+				return _Utils_update(
+					m,
+					{customModel: newCustomModel});
+			}),
 		viewEnhancer: author$project$Explorer$viewEnhancer
 	});
 _Platform_export({'Explorer':{'init':author$project$Explorer$main(
-	elm$json$Json$Decode$succeed(_Utils_Tuple0))({"versions":{"elm":"0.19.0"},"types":{"message":"UIExplorer.Msg","aliases":{"Url.Url":{"args":[],"type":"{ protocol : Url.Protocol, host : String.String, port_ : Maybe.Maybe Basics.Int, path : String.String, query : Maybe.Maybe String.String, fragment : Maybe.Maybe String.String }"}},"unions":{"UIExplorer.Msg":{"args":[],"tags":{"ExternalMsg":[],"SelectStory":["String.String"],"UrlChange":["Url.Url"],"NavigateToHome":[],"LinkClicked":["Browser.UrlRequest"]}},"Browser.UrlRequest":{"args":[],"tags":{"Internal":["Url.Url"],"External":["String.String"]}},"Basics.Int":{"args":[],"tags":{"Int":[]}},"Maybe.Maybe":{"args":["a"],"tags":{"Just":["a"],"Nothing":[]}},"String.String":{"args":[],"tags":{"String":[]}},"Url.Protocol":{"args":[],"tags":{"Http":[],"Https":[]}}}}})}});}(this));
+	elm$json$Json$Decode$succeed(_Utils_Tuple0))({"versions":{"elm":"0.19.0"},"types":{"message":"UIExplorer.Msg Explorer.Msg","aliases":{"Url.Url":{"args":[],"type":"{ protocol : Url.Protocol, host : String.String, port_ : Maybe.Maybe Basics.Int, path : String.String, query : Maybe.Maybe String.String, fragment : Maybe.Maybe String.String }"}},"unions":{"Explorer.Msg":{"args":[],"tags":{"ChangeOpacity":[]}},"UIExplorer.Msg":{"args":["a"],"tags":{"ExternalMsg":["a"],"SelectStory":["String.String"],"UrlChange":["Url.Url"],"NavigateToHome":[],"LinkClicked":["Browser.UrlRequest"],"NoOp":[]}},"Browser.UrlRequest":{"args":[],"tags":{"Internal":["Url.Url"],"External":["String.String"]}},"Basics.Int":{"args":[],"tags":{"Int":[]}},"Maybe.Maybe":{"args":["a"],"tags":{"Just":["a"],"Nothing":[]}},"String.String":{"args":[],"tags":{"String":[]}},"Url.Protocol":{"args":[],"tags":{"Http":[],"Https":[]}}}}})}});}(this));
