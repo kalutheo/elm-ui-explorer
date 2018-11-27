@@ -8,7 +8,7 @@ module UIExplorer exposing
     , createUI
     , createUIWithDescription
     , explore
-    , Model, Msg
+    , Model, Msg(..), UIViewConfig
     )
 
 {-|
@@ -57,7 +57,7 @@ import Url
 
 
 type Msg
-    = Noop
+    = ExternalMsg
     | SelectStory String
     | UrlChange Url.Url
     | NavigateToHome
@@ -98,13 +98,22 @@ type alias UIViewConfig =
 
 {-| Model of the UI Explorer
 -}
-type alias Model =
+type alias Model a =
     { categories : List UICategory
     , selectedUIId : Maybe String
     , selectedStoryId : Maybe String
     , selectedCategory : Maybe String
     , url : Url.Url
     , key : Navigation.Key
+    , customModel : a
+    }
+
+
+type alias Config a msg =
+    { customModel : a
+    , toMsg : msg
+    , update : Model a -> Model a
+    , viewEnhancer : Html Msg -> Html Msg
     }
 
 
@@ -135,7 +144,7 @@ getSelectedStoryfromPath { fragment } =
     getFragmentSegmentByIndex fragment 2
 
 
-makeStoryUrl : Model -> String -> Maybe String
+makeStoryUrl : Model a -> String -> Maybe String
 makeStoryUrl model storyId =
     Maybe.map2
         (\selectedCategory selectedUIId ->
@@ -147,11 +156,15 @@ makeStoryUrl model storyId =
         model.selectedUIId
 
 
-update : Msg -> Model -> ( Model, Cmd Msg )
-update msg model =
+update : Config a msg -> Msg -> Model a -> ( Model a, Cmd Msg )
+update config msg model =
     case msg of
-        Noop ->
-            ( model, Cmd.none )
+        ExternalMsg ->
+            let
+                newModel =
+                    config.update model
+            in
+            ( newModel, Cmd.none )
 
         SelectStory storyId ->
             case makeStoryUrl model storyId of
@@ -283,8 +296,8 @@ addUICategory title uiList categories =
     List.append categories [ category ]
 
 
-init : List UICategory -> () -> Url.Url -> Navigation.Key -> ( Model, Cmd Msg )
-init categories flags url key =
+init : a -> List UICategory -> () -> Url.Url -> Navigation.Key -> ( Model a, Cmd Msg )
+init customModel categories flags url key =
     let
         _ =
             Debug.log "init" (Debug.toString key)
@@ -295,6 +308,7 @@ init categories flags url key =
       , selectedCategory = getSelectedCategoryfromPath url
       , url = url
       , key = key
+      , customModel = customModel
       }
     , Cmd.none
     )
@@ -321,17 +335,17 @@ init categories flags url key =
             )
 
 -}
-app categories =
+app categories config =
     Browser.application
-        { init = init categories
+        { init = init config.customModel categories
         , view =
             \model ->
                 { title = "Storybook Elm"
                 , body =
-                    [ view model
+                    [ view config model
                     ]
                 }
-        , update = update
+        , update = update config
         , onUrlChange = UrlChange
         , onUrlRequest = LinkClicked
         , subscriptions = \_ -> Sub.none
@@ -368,7 +382,7 @@ hover className =
     "hover:uie-" ++ className
 
 
-viewSidebar : Model -> Html Msg
+viewSidebar : Model a -> Html Msg
 viewSidebar model =
     let
         viewConfig =
@@ -483,7 +497,7 @@ viewMenu categories config =
         (List.map (viewMenuCategory config) categories)
 
 
-filterSelectedUI : UI -> Model -> Bool
+filterSelectedUI : UI -> Model a -> Bool
 filterSelectedUI (UIType ui) model =
     Maybe.map (\id -> ui.id == id) model.selectedUIId
         |> Maybe.withDefault False
@@ -494,8 +508,8 @@ getUIListFromCategories (UICategoryType ( title, categories )) =
     categories
 
 
-viewContent : Model -> Html Msg
-viewContent model =
+viewContent : Config a msg -> Model a -> Html Msg
+viewContent config model =
     let
         filteredUIs =
             model.categories
@@ -510,7 +524,7 @@ viewContent model =
     in
     div [ toClassName [ "m-6" ] ]
         [ filteredUIs
-            |> List.map (\(UIType s) -> s.viewStories viewConfig)
+            |> List.map (\(UIType s) -> config.viewEnhancer (s.viewStories viewConfig))
             |> List.head
             |> Maybe.withDefault
                 (div [ toClassName [] ]
@@ -548,8 +562,8 @@ oneQuarter =
     "w-1/4"
 
 
-view : Model -> Html Msg
-view model =
+view : Config a msg -> Model a -> Html Msg
+view config model =
     div [ toClassName [ "h-screen" ] ]
         [ viewHeader
         , div [ toClassName [ "flex" ] ]
@@ -569,7 +583,7 @@ view model =
                     , "h-screen"
                     ]
                 ]
-                [ viewContent model ]
+                [ viewContent config model ]
             ]
         ]
 
@@ -639,7 +653,7 @@ renderStories stories config =
         content =
             case currentStories |> List.head of
                 Just ( id, story ) ->
-                    story () |> Html.map (\_ -> Noop)
+                    story () |> Html.map (\_ -> ExternalMsg)
 
                 Nothing ->
                     text "Include somes states in your story..."

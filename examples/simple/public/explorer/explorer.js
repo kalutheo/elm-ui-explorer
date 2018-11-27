@@ -8497,6 +8497,43 @@ var author$project$Button$view = F3(
 						rtfeldman$elm_css$Html$Styled$text(label)
 					])));
 	});
+var author$project$Explorer$MyCustomMsg = {$: 'MyCustomMsg'};
+var author$project$UIExplorer$ExternalMsg = {$: 'ExternalMsg'};
+var elm$html$Html$div = _VirtualDom_node('div');
+var elm$html$Html$span = _VirtualDom_node('span');
+var elm$html$Html$text = elm$virtual_dom$VirtualDom$text;
+var elm$html$Html$Events$on = F2(
+	function (event, decoder) {
+		return A2(
+			elm$virtual_dom$VirtualDom$on,
+			event,
+			elm$virtual_dom$VirtualDom$Normal(decoder));
+	});
+var elm$html$Html$Events$onClick = function (msg) {
+	return A2(
+		elm$html$Html$Events$on,
+		'click',
+		elm$json$Json$Decode$succeed(msg));
+};
+var author$project$Explorer$viewEnhancer = function (stories) {
+	return A2(
+		elm$html$Html$div,
+		_List_Nil,
+		_List_fromArray(
+			[
+				A2(
+				elm$html$Html$span,
+				_List_fromArray(
+					[
+						elm$html$Html$Events$onClick(author$project$UIExplorer$ExternalMsg)
+					]),
+				_List_fromArray(
+					[
+						elm$html$Html$text('houra')
+					])),
+				stories
+			]));
+};
 var author$project$Main$NoOp = {$: 'NoOp'};
 var author$project$UIExplorer$LinkClicked = function (a) {
 	return {$: 'LinkClicked', a: a};
@@ -8606,8 +8643,8 @@ var elm$core$Debug$log = _Debug_log;
 var elm$core$Debug$toString = _Debug_toString;
 var elm$core$Platform$Cmd$batch = _Platform_batch;
 var elm$core$Platform$Cmd$none = elm$core$Platform$Cmd$batch(_List_Nil);
-var author$project$UIExplorer$init = F4(
-	function (categories, flags, url, key) {
+var author$project$UIExplorer$init = F5(
+	function (customModel, categories, flags, url, key) {
 		var _n0 = A2(
 			elm$core$Debug$log,
 			'init',
@@ -8615,6 +8652,7 @@ var author$project$UIExplorer$init = F4(
 		return _Utils_Tuple2(
 			{
 				categories: categories,
+				customModel: customModel,
 				key: key,
 				selectedCategory: author$project$UIExplorer$getSelectedCategoryfromPath(url),
 				selectedStoryId: author$project$UIExplorer$getSelectedStoryfromPath(url),
@@ -8808,7 +8846,6 @@ var elm$browser$Debugger$Overlay$Choose = F2(
 var elm$browser$Debugger$Overlay$goodNews1 = '\nThe good news is that having values like this in your message type is not\nso great in the long run. You are better off using simpler data, like\n';
 var elm$browser$Debugger$Overlay$goodNews2 = '\nfunction can pattern match on that data and call whatever functions, JSON\ndecoders, etc. you need. This makes the code much more explicit and easy to\nfollow for other readers (or you in a few months!)\n';
 var elm$html$Html$code = _VirtualDom_node('code');
-var elm$html$Html$text = elm$virtual_dom$VirtualDom$text;
 var elm$browser$Debugger$Overlay$viewCode = function (name) {
 	return A2(
 		elm$html$Html$code,
@@ -8946,22 +8983,8 @@ var elm$browser$Debugger$Overlay$viewBadMetadata = function (_n0) {
 var elm$browser$Debugger$Overlay$Cancel = {$: 'Cancel'};
 var elm$browser$Debugger$Overlay$Proceed = {$: 'Proceed'};
 var elm$html$Html$button = _VirtualDom_node('button');
-var elm$html$Html$div = _VirtualDom_node('div');
 var elm$virtual_dom$VirtualDom$style = _VirtualDom_style;
 var elm$html$Html$Attributes$style = elm$virtual_dom$VirtualDom$style;
-var elm$html$Html$Events$on = F2(
-	function (event, decoder) {
-		return A2(
-			elm$virtual_dom$VirtualDom$on,
-			event,
-			elm$virtual_dom$VirtualDom$Normal(decoder));
-	});
-var elm$html$Html$Events$onClick = function (msg) {
-	return A2(
-		elm$html$Html$Events$on,
-		'click',
-		elm$json$Json$Decode$succeed(msg));
-};
 var elm$browser$Debugger$Overlay$viewButtons = function (buttons) {
 	var btn = F2(
 		function (msg, string) {
@@ -9074,7 +9097,6 @@ var elm$browser$Debugger$Overlay$viewMessage = F4(
 						]))
 				]));
 	});
-var elm$html$Html$span = _VirtualDom_node('span');
 var elm$browser$Debugger$Overlay$button = F2(
 	function (msg, label) {
 		return A2(
@@ -12637,11 +12659,12 @@ var elm$url$Url$toString = function (url) {
 					_Utils_ap(http, url.host)),
 				url.path)));
 };
-var author$project$UIExplorer$update = F2(
-	function (msg, model) {
+var author$project$UIExplorer$update = F3(
+	function (config, msg, model) {
 		switch (msg.$) {
-			case 'Noop':
-				return _Utils_Tuple2(model, elm$core$Platform$Cmd$none);
+			case 'ExternalMsg':
+				var newModel = config.update(model);
+				return _Utils_Tuple2(newModel, elm$core$Platform$Cmd$none);
 			case 'SelectStory':
 				var storyId = msg.a;
 				var _n1 = A2(author$project$UIExplorer$makeStoryUrl, model, storyId);
@@ -12719,89 +12742,91 @@ var author$project$UIExplorer$getUIListFromCategories = function (_n0) {
 	return categories;
 };
 var elm$html$Html$article = _VirtualDom_node('article');
-var author$project$UIExplorer$viewContent = function (model) {
-	var viewConfig = {selectedStoryId: model.selectedStoryId, selectedUIId: model.selectedUIId};
-	var filteredUIs = A2(
-		elm$core$List$filter,
-		function (ui) {
-			return A2(author$project$UIExplorer$filterSelectedUI, ui, model);
-		},
-		A3(
-			elm$core$List$foldr,
-			elm$core$Basics$append,
-			_List_Nil,
-			A2(elm$core$List$map, author$project$UIExplorer$getUIListFromCategories, model.categories)));
-	return A2(
-		elm$html$Html$div,
-		_List_fromArray(
-			[
-				author$project$UIExplorer$toClassName(
-				_List_fromArray(
-					['m-6']))
-			]),
-		_List_fromArray(
-			[
-				A2(
-				elm$core$Maybe$withDefault,
-				A2(
-					elm$html$Html$div,
+var author$project$UIExplorer$viewContent = F2(
+	function (config, model) {
+		var viewConfig = {selectedStoryId: model.selectedStoryId, selectedUIId: model.selectedUIId};
+		var filteredUIs = A2(
+			elm$core$List$filter,
+			function (ui) {
+				return A2(author$project$UIExplorer$filterSelectedUI, ui, model);
+			},
+			A3(
+				elm$core$List$foldr,
+				elm$core$Basics$append,
+				_List_Nil,
+				A2(elm$core$List$map, author$project$UIExplorer$getUIListFromCategories, model.categories)));
+		return A2(
+			elm$html$Html$div,
+			_List_fromArray(
+				[
+					author$project$UIExplorer$toClassName(
 					_List_fromArray(
-						[
-							author$project$UIExplorer$toClassName(_List_Nil)
-						]),
-					_List_fromArray(
-						[
-							A2(
-							elm$html$Html$span,
-							_List_fromArray(
-								[
-									author$project$UIExplorer$toClassName(
-									_List_fromArray(
-										['text-grey-darkest', 'text-xl', 'flex', 'mb-1']))
-								]),
-							_List_fromArray(
-								[
-									elm$html$Html$text('We’re not designing pages, we’re designing systems of components.')
-								])),
-							A2(
-							elm$html$Html$span,
-							_List_fromArray(
-								[
-									author$project$UIExplorer$toClassName(
-									_List_fromArray(
-										['text-lg', 'flex', 'text-grey-darker']))
-								]),
-							_List_fromArray(
-								[
-									elm$html$Html$text('-Stephen Hay')
-								]))
-						])),
-				elm$core$List$head(
+						['m-6']))
+				]),
+			_List_fromArray(
+				[
+					A2(
+					elm$core$Maybe$withDefault,
+					A2(
+						elm$html$Html$div,
+						_List_fromArray(
+							[
+								author$project$UIExplorer$toClassName(_List_Nil)
+							]),
+						_List_fromArray(
+							[
+								A2(
+								elm$html$Html$span,
+								_List_fromArray(
+									[
+										author$project$UIExplorer$toClassName(
+										_List_fromArray(
+											['text-grey-darkest', 'text-xl', 'flex', 'mb-1']))
+									]),
+								_List_fromArray(
+									[
+										elm$html$Html$text('We’re not designing pages, we’re designing systems of components.')
+									])),
+								A2(
+								elm$html$Html$span,
+								_List_fromArray(
+									[
+										author$project$UIExplorer$toClassName(
+										_List_fromArray(
+											['text-lg', 'flex', 'text-grey-darker']))
+									]),
+								_List_fromArray(
+									[
+										elm$html$Html$text('-Stephen Hay')
+									]))
+							])),
+					elm$core$List$head(
+						A2(
+							elm$core$List$map,
+							function (_n0) {
+								var s = _n0.a;
+								return config.viewEnhancer(
+									s.viewStories(viewConfig));
+							},
+							filteredUIs))),
+					A2(
+					elm$html$Html$article,
+					_List_Nil,
 					A2(
 						elm$core$List$map,
-						function (_n0) {
-							var s = _n0.a;
-							return s.viewStories(viewConfig);
+						function (_n1) {
+							var s = _n1.a;
+							return A2(
+								elm$html$Html$div,
+								_List_Nil,
+								_List_fromArray(
+									[
+										elm$html$Html$text(s.description)
+									]));
 						},
-						filteredUIs))),
-				A2(
-				elm$html$Html$article,
-				_List_Nil,
-				A2(
-					elm$core$List$map,
-					function (_n1) {
-						var s = _n1.a;
-						return A2(
-							elm$html$Html$div,
-							_List_Nil,
-							_List_fromArray(
-								[
-									elm$html$Html$text(s.description)
-								]));
-					},
-					filteredUIs))
-			]));
-};
+						filteredUIs))
+				]));
+	});
 var author$project$UIExplorer$NavigateToHome = {$: 'NavigateToHome'};
 var author$project$UIExplorer$colors = {
 	bg: {primary: 'bg-black'}
@@ -12965,83 +12990,84 @@ var author$project$UIExplorer$viewSidebar = function (model) {
 	var viewConfig = {selectedStoryId: model.selectedStoryId, selectedUIId: model.selectedUIId};
 	return A2(author$project$UIExplorer$viewMenu, model.categories, viewConfig);
 };
-var author$project$UIExplorer$view = function (model) {
-	return A2(
-		elm$html$Html$div,
-		_List_fromArray(
-			[
-				author$project$UIExplorer$toClassName(
-				_List_fromArray(
-					['h-screen']))
-			]),
-		_List_fromArray(
-			[
-				author$project$UIExplorer$viewHeader,
-				A2(
-				elm$html$Html$div,
-				_List_fromArray(
-					[
-						author$project$UIExplorer$toClassName(
-						_List_fromArray(
-							['flex']))
-					]),
-				_List_fromArray(
-					[
-						A2(
-						elm$html$Html$div,
-						_List_fromArray(
-							[
-								author$project$UIExplorer$toClassName(
-								_List_fromArray(
-									[author$project$UIExplorer$oneQuarter, 'bg-white', 'h-screen']))
-							]),
-						_List_fromArray(
-							[
-								author$project$UIExplorer$viewSidebar(model)
-							])),
-						A2(
-						elm$html$Html$div,
-						_List_fromArray(
-							[
-								author$project$UIExplorer$toClassName(
-								_List_fromArray(
-									['p-4', 'bg-white', 'w-screen', 'h-screen']))
-							]),
-						_List_fromArray(
-							[
-								author$project$UIExplorer$viewContent(model)
-							]))
-					]))
-			]));
-};
+var author$project$UIExplorer$view = F2(
+	function (config, model) {
+		return A2(
+			elm$html$Html$div,
+			_List_fromArray(
+				[
+					author$project$UIExplorer$toClassName(
+					_List_fromArray(
+						['h-screen']))
+				]),
+			_List_fromArray(
+				[
+					author$project$UIExplorer$viewHeader,
+					A2(
+					elm$html$Html$div,
+					_List_fromArray(
+						[
+							author$project$UIExplorer$toClassName(
+							_List_fromArray(
+								['flex']))
+						]),
+					_List_fromArray(
+						[
+							A2(
+							elm$html$Html$div,
+							_List_fromArray(
+								[
+									author$project$UIExplorer$toClassName(
+									_List_fromArray(
+										[author$project$UIExplorer$oneQuarter, 'bg-white', 'h-screen']))
+								]),
+							_List_fromArray(
+								[
+									author$project$UIExplorer$viewSidebar(model)
+								])),
+							A2(
+							elm$html$Html$div,
+							_List_fromArray(
+								[
+									author$project$UIExplorer$toClassName(
+									_List_fromArray(
+										['p-4', 'bg-white', 'w-screen', 'h-screen']))
+								]),
+							_List_fromArray(
+								[
+									A2(author$project$UIExplorer$viewContent, config, model)
+								]))
+						]))
+				]));
+	});
 var elm$browser$Browser$application = _Browser_application;
 var elm$core$Platform$Sub$batch = _Platform_batch;
 var elm$core$Platform$Sub$none = elm$core$Platform$Sub$batch(_List_Nil);
-var author$project$UIExplorer$app = function (categories) {
-	return elm$browser$Browser$application(
-		{
-			init: author$project$UIExplorer$init(categories),
-			onUrlChange: author$project$UIExplorer$UrlChange,
-			onUrlRequest: author$project$UIExplorer$LinkClicked,
-			subscriptions: function (_n0) {
-				return elm$core$Platform$Sub$none;
-			},
-			update: author$project$UIExplorer$update,
-			view: function (model) {
-				return {
-					body: _List_fromArray(
-						[
-							author$project$UIExplorer$view(model)
-						]),
-					title: 'Storybook Elm'
-				};
-			}
-		});
-};
+var author$project$UIExplorer$app = F2(
+	function (categories, config) {
+		return elm$browser$Browser$application(
+			{
+				init: A2(author$project$UIExplorer$init, config.customModel, categories),
+				onUrlChange: author$project$UIExplorer$UrlChange,
+				onUrlRequest: author$project$UIExplorer$LinkClicked,
+				subscriptions: function (_n0) {
+					return elm$core$Platform$Sub$none;
+				},
+				update: author$project$UIExplorer$update(config),
+				view: function (model) {
+					return {
+						body: _List_fromArray(
+							[
+								A2(author$project$UIExplorer$view, config, model)
+							]),
+						title: 'Storybook Elm'
+					};
+				}
+			});
+	});
 var author$project$UIExplorer$UIType = function (a) {
 	return {$: 'UIType', a: a};
 };
-var author$project$UIExplorer$Noop = {$: 'Noop'};
 var author$project$UIExplorer$SelectStory = function (a) {
 	return {$: 'SelectStory', a: a};
 };
@@ -13149,7 +13175,7 @@ var author$project$UIExplorer$renderStories = F2(
 				return A2(
 					elm$html$Html$map,
 					function (_n3) {
-						return author$project$UIExplorer$Noop;
+						return author$project$UIExplorer$ExternalMsg;
 					},
 					story(_Utils_Tuple0));
 			} else {
@@ -13196,7 +13222,8 @@ var author$project$UIExplorer$explore = function (uiList) {
 			]),
 		author$project$UIExplorer$emptyUICategories);
 };
-var author$project$Explorer$main = author$project$UIExplorer$app(
+var author$project$Explorer$main = A2(
+	author$project$UIExplorer$app,
 	author$project$UIExplorer$explore(
 		_List_fromArray(
 			[
@@ -13277,6 +13304,14 @@ var author$project$Explorer$main = author$project$UIExplorer$app(
 								author$project$Main$NoOp);
 						})
 					]))
-			])));
+			])),
+	{
+		customModel: {},
+		toMsg: author$project$Explorer$MyCustomMsg,
+		update: function (m) {
+			return m;
+		},
+		viewEnhancer: author$project$Explorer$viewEnhancer
+	});
 _Platform_export({'Explorer':{'init':author$project$Explorer$main(
-	elm$json$Json$Decode$succeed(_Utils_Tuple0))({"versions":{"elm":"0.19.0"},"types":{"message":"UIExplorer.Msg","aliases":{"Url.Url":{"args":[],"type":"{ protocol : Url.Protocol, host : String.String, port_ : Maybe.Maybe Basics.Int, path : String.String, query : Maybe.Maybe String.String, fragment : Maybe.Maybe String.String }"}},"unions":{"UIExplorer.Msg":{"args":[],"tags":{"Noop":[],"SelectStory":["String.String"],"UrlChange":["Url.Url"],"NavigateToHome":[],"LinkClicked":["Browser.UrlRequest"]}},"Browser.UrlRequest":{"args":[],"tags":{"Internal":["Url.Url"],"External":["String.String"]}},"Basics.Int":{"args":[],"tags":{"Int":[]}},"Maybe.Maybe":{"args":["a"],"tags":{"Just":["a"],"Nothing":[]}},"String.String":{"args":[],"tags":{"String":[]}},"Url.Protocol":{"args":[],"tags":{"Http":[],"Https":[]}}}}})}});}(this));
+	elm$json$Json$Decode$succeed(_Utils_Tuple0))({"versions":{"elm":"0.19.0"},"types":{"message":"UIExplorer.Msg","aliases":{"Url.Url":{"args":[],"type":"{ protocol : Url.Protocol, host : String.String, port_ : Maybe.Maybe Basics.Int, path : String.String, query : Maybe.Maybe String.String, fragment : Maybe.Maybe String.String }"}},"unions":{"UIExplorer.Msg":{"args":[],"tags":{"ExternalMsg":[],"SelectStory":["String.String"],"UrlChange":["Url.Url"],"NavigateToHome":[],"LinkClicked":["Browser.UrlRequest"]}},"Browser.UrlRequest":{"args":[],"tags":{"Internal":["Url.Url"],"External":["String.String"]}},"Basics.Int":{"args":[],"tags":{"Int":[]}},"Maybe.Maybe":{"args":["a"],"tags":{"Just":["a"],"Nothing":[]}},"String.String":{"args":[],"tags":{"String":[]}},"Url.Protocol":{"args":[],"tags":{"Http":[],"Https":[]}}}}})}});}(this));

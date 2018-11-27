@@ -3,11 +3,28 @@ module Explorer exposing (main)
 import Button exposing (..)
 import Html exposing (Html, div)
 import Html.Attributes exposing (style)
-import Main exposing (Msg(..), view)
-import UIExplorer exposing (app, createUI, explore)
+import Html.Events exposing (onClick)
+import Main exposing (Msg(..))
+import UIExplorer exposing (Msg(..), UIViewConfig, app, createUI, explore)
 
 
-main : Program () UIExplorer.Model UIExplorer.Msg
+type Msg
+    = MyCustomMsg
+
+
+type alias ExplorerModel =
+    UIExplorer.Model {}
+
+
+type alias ExplorerMsg =
+    UIExplorer.Msg
+
+
+viewEnhancer stories =
+    div [] [ Html.span [ onClick ExternalMsg ] [ Html.text "houra" ], stories ]
+
+
+main : Program () ExplorerModel ExplorerMsg
 main =
     app
         (explore
@@ -23,3 +40,4 @@ main =
                 ]
             ]
         )
+        { customModel = {}, toMsg = MyCustomMsg, update = \m -> m, viewEnhancer = viewEnhancer }
