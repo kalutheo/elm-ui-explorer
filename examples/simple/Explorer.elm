@@ -1,10 +1,6 @@
 module Explorer exposing (main)
 
 import Button exposing (..)
-import Html exposing (Html, div)
-import Html.Attributes exposing (style)
-import Html.Events exposing (onClick)
-import Main exposing (Msg(..))
 import UIExplorer exposing (ExplorerProgram, app, createUI, defaultConfig, explore)
 
 
