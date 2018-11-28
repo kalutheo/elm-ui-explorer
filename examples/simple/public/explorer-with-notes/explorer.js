@@ -8503,7 +8503,10 @@ var elm$html$Html$div = _VirtualDom_node('div');
 var elm$html$Html$text = elm$virtual_dom$VirtualDom$text;
 var author$project$ExplorerWithNotes$viewEnhancer = F2(
 	function (model, storiesView) {
-		var _n0 = A2(elm$core$Debug$log, 'model', model);
+		var _n0 = A2(
+			elm$core$Debug$log,
+			'model',
+			elm$core$List$head(model.categories));
 		return A2(
 			elm$html$Html$div,
 			_List_Nil,

@@ -52,8 +52,12 @@ import Html.Events exposing (onClick)
 import Url
 
 
-type alias ExplorerProgram a b =
-    Program () (Model a b) (Msg b)
+type alias ExplorerProgram a b c =
+    Program () (Model a b c) (Msg b)
+
+
+type alias Stories a b c =
+    List ( String, Model a b c -> Html b, c )
 
 
 
@@ -76,23 +80,23 @@ type Msg a
 {-| A UI represents a view and lists a set of stories.
 For Example : A Button with following stories (Loading, Disabled)
 -}
-type UI a b
+type UI a b c
     = UIType
         { id : String
         , description : String
-        , viewStories : List ( String, Model a b -> Html b )
+        , viewStories : Stories a b c
         }
 
 
 {-| Represents a familly of related views.
 For example using [Atomic Design](http://bradfrost.com/blog/post/atomic-web-design/), we can have the following categories : Atoms, Molecules etc..
 -}
-type UICategory a b
-    = UICategoryType (InternalUICategory a b)
+type UICategory a b c
+    = UICategoryType (InternalUICategory a b c)
 
 
-type alias InternalUICategory a b =
-    ( String, List (UI a b) )
+type alias InternalUICategory a b c =
+    ( String, List (UI a b c) )
 
 
 type alias UIViewConfig =
@@ -103,8 +107,8 @@ type alias UIViewConfig =
 
 {-| Model of the UI Explorer
 -}
-type alias Model a b =
-    { categories : List (UICategory a b)
+type alias Model a b c =
+    { categories : List (UICategory a b c)
     , selectedUIId : Maybe String
     , selectedStoryId : Maybe String
     , selectedCategory : Maybe String
@@ -114,10 +118,10 @@ type alias Model a b =
     }
 
 
-type alias Config a b =
+type alias Config a b c =
     { customModel : a
-    , update : b -> Model a b -> Model a b
-    , viewEnhancer : Html (Msg b) -> Html (Msg b)
+    , update : b -> Model a b c -> Model a b c
+    , viewEnhancer : Model a b c -> Html (Msg b) -> Html (Msg b)
     }
 
 
@@ -125,7 +129,7 @@ defaultConfig =
     { customModel = {}
     , update =
         \msg m -> m
-    , viewEnhancer = \stories -> stories
+    , viewEnhancer = \m stories -> stories
     }
 
 
@@ -156,7 +160,7 @@ getSelectedStoryfromPath { fragment } =
     getFragmentSegmentByIndex fragment 2
 
 
-makeStoryUrl : Model a b -> String -> Maybe String
+makeStoryUrl : Model a b c -> String -> Maybe String
 makeStoryUrl model storyId =
     Maybe.map2
         (\selectedCategory selectedUIId ->
@@ -168,7 +172,7 @@ makeStoryUrl model storyId =
         model.selectedUIId
 
 
-update : Config a b -> Msg b -> Model a b -> ( Model a b, Cmd (Msg b) )
+update : Config a b c -> Msg b -> Model a b c -> ( Model a b c, Cmd (Msg b) )
 update config msg model =
     case msg of
         NoOp ->
@@ -211,14 +215,14 @@ update config msg model =
                     ( model, Navigation.load href )
 
 
-toCategories : List (InternalUICategory a b) -> List (UICategory a b)
+toCategories : List (InternalUICategory a b c) -> List (UICategory a b c)
 toCategories list =
     List.map UICategoryType list
 
 
 {-| Creates an empty list of UI Categories
 -}
-emptyUICategories : List (UICategory a b)
+emptyUICategories : List (UICategory a b c)
 emptyUICategories =
     []
 
@@ -240,7 +244,7 @@ emptyUICategories =
     createUI "Button" viewStories
 
 -}
-createUI : String -> List ( String, Model a b -> Html b ) -> UI a b
+createUI : String -> Stories a b c -> UI a b c
 createUI id stories =
     UIType
         { id = id
@@ -254,7 +258,7 @@ createUI id stories =
     createUI "Button" "A Simple Button :-)" viewStories
 
 -}
-createUIWithDescription : String -> String -> List ( String, Model a b -> Html b ) -> UI a b
+createUIWithDescription : String -> String -> Stories a b c -> UI a b c
 createUIWithDescription id description stories =
     UIType
         { id = id
@@ -282,7 +286,7 @@ This is the simplest way to initialize the UI Explorer app.
             )
 
 -}
-explore : List (UI a b) -> List (UICategory a b)
+explore : List (UI a b c) -> List (UICategory a b c)
 explore uiList =
     emptyUICategories |> List.append [ UICategoryType ( "Default", uiList ) ]
 
@@ -299,7 +303,7 @@ Convenient for running a UI Explorer devided into categories
                ]
 
 -}
-addUICategory : String -> List (UI a b) -> List (UICategory a b) -> List (UICategory a b)
+addUICategory : String -> List (UI a b c) -> List (UICategory a b c) -> List (UICategory a b c)
 addUICategory title uiList categories =
     let
         category =
@@ -311,7 +315,7 @@ addUICategory title uiList categories =
     List.append categories [ category ]
 
 
-init : a -> List (UICategory a b) -> () -> Url.Url -> Navigation.Key -> ( Model a b, Cmd (Msg b) )
+init : a -> List (UICategory a b c) -> () -> Url.Url -> Navigation.Key -> ( Model a b c, Cmd (Msg b) )
 init customModel categories flags url key =
     ( { categories = categories
       , selectedUIId = getSelectedUIfromPath url
@@ -393,7 +397,7 @@ hover className =
     "hover:uie-" ++ className
 
 
-viewSidebar : Model a b -> Html (Msg b)
+viewSidebar : Model a b c -> Html (Msg b)
 viewSidebar model =
     let
         viewConfig =
@@ -451,7 +455,7 @@ styleMenuItem isSelected =
                 [ "text-grey-darker" ]
 
 
-viewMenuItem : String -> Maybe String -> UI a b -> Html (Msg b)
+viewMenuItem : String -> Maybe String -> UI a b c -> Html (Msg b)
 viewMenuItem category selectedUIId (UIType ui) =
     let
         isSelected =
@@ -486,7 +490,7 @@ styleMenuCategoryLink =
     ]
 
 
-viewMenuCategory : UIViewConfig -> UICategory a b -> Html (Msg b)
+viewMenuCategory : UIViewConfig -> UICategory a b c -> Html (Msg b)
 viewMenuCategory { selectedUIId, selectedStoryId } (UICategoryType ( title, categories )) =
     div [ toClassName [] ]
         [ a
@@ -499,7 +503,7 @@ viewMenuCategory { selectedUIId, selectedStoryId } (UICategoryType ( title, cate
         ]
 
 
-viewMenu : List (UICategory a b) -> UIViewConfig -> Html (Msg b)
+viewMenu : List (UICategory a b c) -> UIViewConfig -> Html (Msg b)
 viewMenu categories config =
     aside
         [ toClassName
@@ -508,18 +512,18 @@ viewMenu categories config =
         (List.map (viewMenuCategory config) categories)
 
 
-filterSelectedUI : UI a b -> Model a b -> Bool
+filterSelectedUI : UI a b c -> Model a b c -> Bool
 filterSelectedUI (UIType ui) model =
     Maybe.map (\id -> ui.id == id) model.selectedUIId
         |> Maybe.withDefault False
 
 
-getUIListFromCategories : UICategory a b -> List (UI a b)
+getUIListFromCategories : UICategory a b c -> List (UI a b c)
 getUIListFromCategories (UICategoryType ( title, categories )) =
     categories
 
 
-viewContent : Config a b -> Model a b -> Html (Msg b)
+viewContent : Config a b c -> Model a b c -> Html (Msg b)
 viewContent config model =
     let
         filteredUIs =
@@ -535,7 +539,7 @@ viewContent config model =
     in
     div [ toClassName [ "m-6" ] ]
         [ filteredUIs
-            |> List.map (\(UIType s) -> config.viewEnhancer (renderStories s.viewStories viewConfig model))
+            |> List.map (\(UIType s) -> config.viewEnhancer model (renderStories s.viewStories viewConfig model))
             |> List.head
             |> Maybe.withDefault
                 (div [ toClassName [] ]
@@ -573,7 +577,7 @@ oneQuarter =
     "w-1/4"
 
 
-view : Config a b -> Model a b -> Html (Msg b)
+view : Config a b c -> Model a b c -> Html (Msg b)
 view config model =
     div [ toClassName [ "h-screen" ] ]
         [ viewHeader
@@ -599,8 +603,8 @@ view config model =
         ]
 
 
-renderStory : Int -> UIViewConfig -> ( String, a ) -> Html (Msg b)
-renderStory index { selectedStoryId } ( id, state ) =
+renderStory : Int -> UIViewConfig -> ( String, a, c ) -> Html (Msg b)
+renderStory index { selectedStoryId } ( id, state, _ ) =
     let
         isActive =
             Maybe.map (\theId -> id == theId) selectedStoryId
@@ -644,7 +648,7 @@ renderStory index { selectedStoryId } ( id, state ) =
         [ text id ]
 
 
-renderStories : List ( String, Model a b -> Html msg ) -> UIViewConfig -> Model a b -> Html (Msg b)
+renderStories : Stories a b c -> UIViewConfig -> Model a b c -> Html (Msg b)
 renderStories stories config model =
     let
         { selectedStoryId } =
@@ -656,14 +660,14 @@ renderStories stories config model =
         currentStories =
             case selectedStoryId of
                 Just selectedId ->
-                    List.filter (\( id, state ) -> id == selectedId) stories
+                    List.filter (\( id, state, _ ) -> id == selectedId) stories
 
                 Nothing ->
                     stories
 
         content =
             case currentStories |> List.head of
-                Just ( id, story ) ->
+                Just ( id, story, _ ) ->
                     story model |> Html.map (\_ -> NoOp)
 
                 Nothing ->
