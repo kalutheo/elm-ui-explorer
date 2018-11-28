@@ -1,4 +1,4 @@
-module Button exposing (Appearance(..), Kind(..), Size(..), defaultConfig, view)
+module Button exposing (Appearance(..), Kind(..), Size(..), defaultButtonConfig, view)
 
 import Css exposing (..)
 import Html
@@ -32,8 +32,8 @@ type Kind
     | Ghost
 
 
-defaultConfig : Config
-defaultConfig =
+defaultButtonConfig : Config
+defaultButtonConfig =
     { appearance = Primary
     , size = M
     , kind = Filled

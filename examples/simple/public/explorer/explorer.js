@@ -4853,7 +4853,7 @@ var author$project$Button$Secondary = {$: 'Secondary'};
 var author$project$Button$Filled = {$: 'Filled'};
 var author$project$Button$M = {$: 'M'};
 var author$project$Button$Primary = {$: 'Primary'};
-var author$project$Button$defaultConfig = {appearance: author$project$Button$Primary, _class: '', kind: author$project$Button$Filled, size: author$project$Button$M};
+var author$project$Button$defaultButtonConfig = {appearance: author$project$Button$Primary, _class: '', kind: author$project$Button$Filled, size: author$project$Button$M};
 var elm$core$Elm$JsArray$foldr = _JsArray_foldr;
 var elm$core$Array$foldr = F3(
 	function (func, baseCase, _n0) {
@@ -8497,53 +8497,6 @@ var author$project$Button$view = F3(
 						rtfeldman$elm_css$Html$Styled$text(label)
 					])));
 	});
-var author$project$Explorer$ChangeOpacity = {$: 'ChangeOpacity'};
-var author$project$UIExplorer$ExternalMsg = function (a) {
-	return {$: 'ExternalMsg', a: a};
-};
-var elm$html$Html$div = _VirtualDom_node('div');
-var elm$html$Html$span = _VirtualDom_node('span');
-var elm$html$Html$text = elm$virtual_dom$VirtualDom$text;
-var elm$html$Html$Events$on = F2(
-	function (event, decoder) {
-		return A2(
-			elm$virtual_dom$VirtualDom$on,
-			event,
-			elm$virtual_dom$VirtualDom$Normal(decoder));
-	});
-var elm$html$Html$Events$onClick = function (msg) {
-	return A2(
-		elm$html$Html$Events$on,
-		'click',
-		elm$json$Json$Decode$succeed(msg));
-};
-var author$project$Explorer$viewEnhancer = F2(
-	function (model, stories) {
-		return A2(
-			elm$html$Html$div,
-			_List_Nil,
-			_List_fromArray(
-				[
-					stories,
-					A2(
-					elm$html$Html$div,
-					_List_Nil,
-					_List_fromArray(
-						[
-							A2(
-							elm$html$Html$span,
-							_List_fromArray(
-								[
-									elm$html$Html$Events$onClick(
-									author$project$UIExplorer$ExternalMsg(author$project$Explorer$ChangeOpacity))
-								]),
-							_List_fromArray(
-								[
-									elm$html$Html$text('houra')
-								]))
-						]))
-				]));
-	});
 var author$project$UIExplorer$LinkClicked = function (a) {
 	return {$: 'LinkClicked', a: a};
 };
@@ -8849,6 +8802,7 @@ var elm$browser$Debugger$Overlay$Choose = F2(
 var elm$browser$Debugger$Overlay$goodNews1 = '\nThe good news is that having values like this in your message type is not\nso great in the long run. You are better off using simpler data, like\n';
 var elm$browser$Debugger$Overlay$goodNews2 = '\nfunction can pattern match on that data and call whatever functions, JSON\ndecoders, etc. you need. This makes the code much more explicit and easy to\nfollow for other readers (or you in a few months!)\n';
 var elm$html$Html$code = _VirtualDom_node('code');
+var elm$html$Html$text = elm$virtual_dom$VirtualDom$text;
 var elm$browser$Debugger$Overlay$viewCode = function (name) {
 	return A2(
 		elm$html$Html$code,
@@ -8986,8 +8940,22 @@ var elm$browser$Debugger$Overlay$viewBadMetadata = function (_n0) {
 var elm$browser$Debugger$Overlay$Cancel = {$: 'Cancel'};
 var elm$browser$Debugger$Overlay$Proceed = {$: 'Proceed'};
 var elm$html$Html$button = _VirtualDom_node('button');
+var elm$html$Html$div = _VirtualDom_node('div');
 var elm$virtual_dom$VirtualDom$style = _VirtualDom_style;
 var elm$html$Html$Attributes$style = elm$virtual_dom$VirtualDom$style;
+var elm$html$Html$Events$on = F2(
+	function (event, decoder) {
+		return A2(
+			elm$virtual_dom$VirtualDom$on,
+			event,
+			elm$virtual_dom$VirtualDom$Normal(decoder));
+	});
+var elm$html$Html$Events$onClick = function (msg) {
+	return A2(
+		elm$html$Html$Events$on,
+		'click',
+		elm$json$Json$Decode$succeed(msg));
+};
 var elm$browser$Debugger$Overlay$viewButtons = function (buttons) {
 	var btn = F2(
 		function (msg, string) {
@@ -9100,6 +9068,7 @@ var elm$browser$Debugger$Overlay$viewMessage = F4(
 						]))
 				]));
 	});
+var elm$html$Html$span = _VirtualDom_node('span');
 var elm$browser$Debugger$Overlay$button = F2(
 	function (msg, label) {
 		return A2(
@@ -12746,6 +12715,137 @@ var author$project$UIExplorer$getUIListFromCategories = function (_n0) {
 	var categories = _n1.b;
 	return categories;
 };
+var author$project$UIExplorer$NoOp = {$: 'NoOp'};
+var author$project$UIExplorer$SelectStory = function (a) {
+	return {$: 'SelectStory', a: a};
+};
+var author$project$UIExplorer$hover = function (className) {
+	return 'hover:uie-' + className;
+};
+var elm$html$Html$Attributes$classList = function (classes) {
+	return elm$html$Html$Attributes$class(
+		A2(
+			elm$core$String$join,
+			' ',
+			A2(
+				elm$core$List$map,
+				elm$core$Tuple$first,
+				A2(elm$core$List$filter, elm$core$Tuple$second, classes))));
+};
+var author$project$UIExplorer$renderStory = F3(
+	function (index, _n0, _n1) {
+		var selectedStoryId = _n0.selectedStoryId;
+		var id = _n1.a;
+		var state = _n1.b;
+		var isActive = A2(
+			elm$core$Maybe$withDefault,
+			!index,
+			A2(
+				elm$core$Maybe$map,
+				function (theId) {
+					return _Utils_eq(id, theId);
+				},
+				selectedStoryId));
+		var defaultLiClass = _List_fromArray(
+			['mr-2', 'mb-2', 'rounded', 'p-2', 'text-sm']);
+		var liClass = isActive ? A2(
+			elm$core$List$append,
+			defaultLiClass,
+			_List_fromArray(
+				['border', 'border-black', 'text-black', 'cursor-default'])) : A2(
+			elm$core$List$append,
+			defaultLiClass,
+			_List_fromArray(
+				[
+					'border',
+					'border-grey',
+					'bg-white',
+					'text-grey',
+					'cursor-pointer',
+					author$project$UIExplorer$hover('bg-grey-lighter')
+				]));
+		var buttonClass = elm$html$Html$Attributes$classList(
+			_List_fromArray(
+				[
+					_Utils_Tuple2('', true),
+					_Utils_Tuple2('', isActive)
+				]));
+		return A2(
+			elm$html$Html$li,
+			_List_fromArray(
+				[
+					author$project$UIExplorer$toClassName(liClass),
+					elm$html$Html$Events$onClick(
+					author$project$UIExplorer$SelectStory(id)),
+					buttonClass
+				]),
+			_List_fromArray(
+				[
+					elm$html$Html$text(id)
+				]));
+	});
+var author$project$UIExplorer$renderStories = F3(
+	function (stories, config, model) {
+		var menu = A2(
+			elm$html$Html$ul,
+			_List_fromArray(
+				[
+					author$project$UIExplorer$toClassName(
+					_List_fromArray(
+						['list-reset', 'flex', 'mb-4']))
+				]),
+			A2(
+				elm$core$List$indexedMap,
+				function (index) {
+					return A2(author$project$UIExplorer$renderStory, index, config);
+				},
+				stories));
+		var _n0 = config;
+		var selectedStoryId = _n0.selectedStoryId;
+		var currentStories = function () {
+			if (selectedStoryId.$ === 'Just') {
+				var selectedId = selectedStoryId.a;
+				return A2(
+					elm$core$List$filter,
+					function (_n5) {
+						var id = _n5.a;
+						var state = _n5.b;
+						return _Utils_eq(id, selectedId);
+					},
+					stories);
+			} else {
+				return stories;
+			}
+		}();
+		var content = function () {
+			var _n1 = elm$core$List$head(currentStories);
+			if (_n1.$ === 'Just') {
+				var _n2 = _n1.a;
+				var id = _n2.a;
+				var story = _n2.b;
+				return A2(
+					elm$html$Html$map,
+					function (_n3) {
+						return author$project$UIExplorer$NoOp;
+					},
+					story(model));
+			} else {
+				return elm$html$Html$text('Include somes states in your story...');
+			}
+		}();
+		return A2(
+			elm$html$Html$div,
+			_List_Nil,
+			_List_fromArray(
+				[
+					menu,
+					A2(
+					elm$html$Html$div,
+					_List_Nil,
+					_List_fromArray(
+						[content]))
+				]));
+	});
 var elm$html$Html$article = _VirtualDom_node('article');
 var author$project$UIExplorer$viewContent = F2(
 	function (config, model) {
@@ -12810,10 +12910,8 @@ var author$project$UIExplorer$viewContent = F2(
 							elm$core$List$map,
 							function (_n0) {
 								var s = _n0.a;
-								return A2(
-									config.viewEnhancer,
-									model,
-									s.viewStories(viewConfig));
+								return config.viewEnhancer(
+									A3(author$project$UIExplorer$renderStories, s.viewStories, viewConfig, model));
 							},
 							filteredUIs))),
 					A2(
@@ -12870,9 +12968,6 @@ var author$project$UIExplorer$viewHeader = A2(
 		]));
 var author$project$UIExplorer$styleMenuCategoryLink = _List_fromArray(
 	['text-grey-darkest', 'uppercase', 'border-b', 'border-grey-light', 'w-full', 'flex', 'cursor-default', 'pl-4', 'pb-2', 'pt-2', 'text-sm']);
-var author$project$UIExplorer$hover = function (className) {
-	return 'hover:uie-' + className;
-};
 var author$project$UIExplorer$styleMenuItem = function (isSelected) {
 	var defaultClass = _List_fromArray(
 		[
@@ -13075,143 +13170,21 @@ var author$project$UIExplorer$app = F2(
 var author$project$UIExplorer$UIType = function (a) {
 	return {$: 'UIType', a: a};
 };
-var author$project$UIExplorer$NoOp = {$: 'NoOp'};
-var author$project$UIExplorer$SelectStory = function (a) {
-	return {$: 'SelectStory', a: a};
-};
-var elm$html$Html$Attributes$classList = function (classes) {
-	return elm$html$Html$Attributes$class(
-		A2(
-			elm$core$String$join,
-			' ',
-			A2(
-				elm$core$List$map,
-				elm$core$Tuple$first,
-				A2(elm$core$List$filter, elm$core$Tuple$second, classes))));
-};
-var author$project$UIExplorer$renderStory = F3(
-	function (index, _n0, _n1) {
-		var selectedStoryId = _n0.selectedStoryId;
-		var id = _n1.a;
-		var state = _n1.b;
-		var isActive = A2(
-			elm$core$Maybe$withDefault,
-			!index,
-			A2(
-				elm$core$Maybe$map,
-				function (theId) {
-					return _Utils_eq(id, theId);
-				},
-				selectedStoryId));
-		var defaultLiClass = _List_fromArray(
-			['mr-2', 'mb-2', 'rounded', 'p-2', 'text-sm']);
-		var liClass = isActive ? A2(
-			elm$core$List$append,
-			defaultLiClass,
-			_List_fromArray(
-				['border', 'border-black', 'text-black', 'cursor-default'])) : A2(
-			elm$core$List$append,
-			defaultLiClass,
-			_List_fromArray(
-				[
-					'border',
-					'border-grey',
-					'bg-white',
-					'text-grey',
-					'cursor-pointer',
-					author$project$UIExplorer$hover('bg-grey-lighter')
-				]));
-		var buttonClass = elm$html$Html$Attributes$classList(
-			_List_fromArray(
-				[
-					_Utils_Tuple2('', true),
-					_Utils_Tuple2('', isActive)
-				]));
-		return A2(
-			elm$html$Html$li,
-			_List_fromArray(
-				[
-					author$project$UIExplorer$toClassName(liClass),
-					elm$html$Html$Events$onClick(
-					author$project$UIExplorer$SelectStory(id)),
-					buttonClass
-				]),
-			_List_fromArray(
-				[
-					elm$html$Html$text(id)
-				]));
-	});
-var author$project$UIExplorer$renderStories = F2(
-	function (stories, config) {
-		var menu = A2(
-			elm$html$Html$ul,
-			_List_fromArray(
-				[
-					author$project$UIExplorer$toClassName(
-					_List_fromArray(
-						['list-reset', 'flex', 'mb-4']))
-				]),
-			A2(
-				elm$core$List$indexedMap,
-				function (index) {
-					return A2(author$project$UIExplorer$renderStory, index, config);
-				},
-				stories));
-		var _n0 = config;
-		var selectedStoryId = _n0.selectedStoryId;
-		var currentStories = function () {
-			if (selectedStoryId.$ === 'Just') {
-				var selectedId = selectedStoryId.a;
-				return A2(
-					elm$core$List$filter,
-					function (_n5) {
-						var id = _n5.a;
-						var state = _n5.b;
-						return _Utils_eq(id, selectedId);
-					},
-					stories);
-			} else {
-				return stories;
-			}
-		}();
-		var content = function () {
-			var _n1 = elm$core$List$head(currentStories);
-			if (_n1.$ === 'Just') {
-				var _n2 = _n1.a;
-				var id = _n2.a;
-				var story = _n2.b;
-				return A2(
-					elm$html$Html$map,
-					function (_n3) {
-						return author$project$UIExplorer$NoOp;
-					},
-					story(_Utils_Tuple0));
-			} else {
-				return elm$html$Html$text('Include somes states in your story...');
-			}
-		}();
-		return A2(
-			elm$html$Html$div,
-			_List_Nil,
-			_List_fromArray(
-				[
-					menu,
-					A2(
-					elm$html$Html$div,
-					_List_Nil,
-					_List_fromArray(
-						[content]))
-				]));
-	});
 var author$project$UIExplorer$createUI = F2(
 	function (id, stories) {
 		return author$project$UIExplorer$UIType(
-			{
-				description: '',
-				id: id,
-				viewStories: author$project$UIExplorer$renderStories(stories)
-			});
+			{description: '', id: id, viewStories: stories});
 	});
+var author$project$UIExplorer$defaultConfig = {
+	customModel: {},
+	update: F2(
+		function (msg, m) {
+			return m;
+		}),
+	viewEnhancer: function (stories) {
+		return stories;
+	}
+};
 var author$project$UIExplorer$UICategoryType = function (a) {
 	return {$: 'UICategoryType', a: a};
 };
@@ -13239,7 +13212,7 @@ var author$project$Explorer$main = A2(
 						_Utils_Tuple2(
 						'Primary',
 						function (_n0) {
-							return A3(author$project$Button$view, 'Submit', author$project$Button$defaultConfig, _Utils_Tuple0);
+							return A3(author$project$Button$view, 'Submit', author$project$Button$defaultButtonConfig, _Utils_Tuple0);
 						}),
 						_Utils_Tuple2(
 						'Secondary',
@@ -13248,7 +13221,7 @@ var author$project$Explorer$main = A2(
 								author$project$Button$view,
 								'Submit',
 								_Utils_update(
-									author$project$Button$defaultConfig,
+									author$project$Button$defaultButtonConfig,
 									{appearance: author$project$Button$Secondary}),
 								_Utils_Tuple0);
 						}),
@@ -13259,7 +13232,7 @@ var author$project$Explorer$main = A2(
 								author$project$Button$view,
 								'Submit',
 								_Utils_update(
-									author$project$Button$defaultConfig,
+									author$project$Button$defaultButtonConfig,
 									{size: author$project$Button$S}),
 								_Utils_Tuple0);
 						}),
@@ -13270,7 +13243,7 @@ var author$project$Explorer$main = A2(
 								author$project$Button$view,
 								'Submit',
 								_Utils_update(
-									author$project$Button$defaultConfig,
+									author$project$Button$defaultButtonConfig,
 									{size: author$project$Button$L}),
 								_Utils_Tuple0);
 						}),
@@ -13281,7 +13254,7 @@ var author$project$Explorer$main = A2(
 								author$project$Button$view,
 								'Submit',
 								_Utils_update(
-									author$project$Button$defaultConfig,
+									author$project$Button$defaultButtonConfig,
 									{appearance: author$project$Button$Secondary, kind: author$project$Button$Link}),
 								_Utils_Tuple0);
 						}),
@@ -13292,7 +13265,7 @@ var author$project$Explorer$main = A2(
 								author$project$Button$view,
 								'Submit',
 								_Utils_update(
-									author$project$Button$defaultConfig,
+									author$project$Button$defaultButtonConfig,
 									{kind: author$project$Button$Ghost}),
 								_Utils_Tuple0);
 						}),
@@ -13303,26 +13276,12 @@ var author$project$Explorer$main = A2(
 								author$project$Button$view,
 								'Submit',
 								_Utils_update(
-									author$project$Button$defaultConfig,
+									author$project$Button$defaultButtonConfig,
 									{appearance: author$project$Button$Secondary, kind: author$project$Button$Ghost}),
 								_Utils_Tuple0);
 						})
 					]))
 			])),
-	{
-		customModel: {opacity: 0},
-		update: F2(
-			function (msg, m) {
-				var newOpacity = (m.customModel.opacity === 1) ? 0 : 1;
-				var customModel = m.customModel;
-				var newCustomModel = _Utils_update(
-					customModel,
-					{opacity: newOpacity});
-				return _Utils_update(
-					m,
-					{customModel: newCustomModel});
-			}),
-		viewEnhancer: author$project$Explorer$viewEnhancer
-	});
+	author$project$UIExplorer$defaultConfig);
 _Platform_export({'Explorer':{'init':author$project$Explorer$main(
-	elm$json$Json$Decode$succeed(_Utils_Tuple0))({"versions":{"elm":"0.19.0"},"types":{"message":"UIExplorer.Msg Explorer.Msg","aliases":{"Url.Url":{"args":[],"type":"{ protocol : Url.Protocol, host : String.String, port_ : Maybe.Maybe Basics.Int, path : String.String, query : Maybe.Maybe String.String, fragment : Maybe.Maybe String.String }"}},"unions":{"Explorer.Msg":{"args":[],"tags":{"ChangeOpacity":[]}},"UIExplorer.Msg":{"args":["a"],"tags":{"ExternalMsg":["a"],"SelectStory":["String.String"],"UrlChange":["Url.Url"],"NavigateToHome":[],"LinkClicked":["Browser.UrlRequest"],"NoOp":[]}},"Browser.UrlRequest":{"args":[],"tags":{"Internal":["Url.Url"],"External":["String.String"]}},"Basics.Int":{"args":[],"tags":{"Int":[]}},"Maybe.Maybe":{"args":["a"],"tags":{"Just":["a"],"Nothing":[]}},"String.String":{"args":[],"tags":{"String":[]}},"Url.Protocol":{"args":[],"tags":{"Http":[],"Https":[]}}}}})}});}(this));
+	elm$json$Json$Decode$succeed(_Utils_Tuple0))({"versions":{"elm":"0.19.0"},"types":{"message":"UIExplorer.Msg ()","aliases":{"Url.Url":{"args":[],"type":"{ protocol : Url.Protocol, host : String.String, port_ : Maybe.Maybe Basics.Int, path : String.String, query : Maybe.Maybe String.String, fragment : Maybe.Maybe String.String }"}},"unions":{"UIExplorer.Msg":{"args":["a"],"tags":{"ExternalMsg":["a"],"SelectStory":["String.String"],"UrlChange":["Url.Url"],"NavigateToHome":[],"LinkClicked":["Browser.UrlRequest"],"NoOp":[]}},"Browser.UrlRequest":{"args":[],"tags":{"Internal":["Url.Url"],"External":["String.String"]}},"Basics.Int":{"args":[],"tags":{"Int":[]}},"Maybe.Maybe":{"args":["a"],"tags":{"Just":["a"],"Nothing":[]}},"String.String":{"args":[],"tags":{"String":[]}},"Url.Protocol":{"args":[],"tags":{"Http":[],"Https":[]}}}}})}});}(this));

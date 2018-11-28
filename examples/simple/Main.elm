@@ -36,13 +36,13 @@ view model =
             , div [] [ input [ type_ "password", placeholder "password", class "border border-grey rounded-lg p-2 mb-2 w-full" ] [] ]
             , div []
                 [ Button.view "Forgot password"
-                    { defaultConfig | size = L, class = "text-left w-full", appearance = Secondary, kind = Link }
+                    { defaultButtonConfig | size = L, class = "text-left w-full", appearance = Secondary, kind = Link }
                     NoOp
                 , Button.view "Submit"
-                    { defaultConfig | size = S, class = "ml-2 float-right" }
+                    { defaultButtonConfig | size = S, class = "ml-2 float-right" }
                     NoOp
                 , Button.view "Cancel"
-                    { defaultConfig | size = S, class = "float-right", appearance = Secondary }
+                    { defaultButtonConfig | size = S, class = "float-right", appearance = Secondary }
                     NoOp
                 ]
             , div []
