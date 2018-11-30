@@ -1,6 +1,8 @@
 module ExplorerNotesPlugin exposing (PluginModel, addNote, viewEnhancer)
 
 import Html
+import Html.Attributes exposing (class, style)
+import Markdown
 import UIExplorer exposing (ViewEnhancer, explore, findStory)
 
 
@@ -42,9 +44,15 @@ viewEnhancer model storiesView =
         note =
             case maybeStory of
                 Just ( _, _, option ) ->
-                    Html.text option.notes.text
+                    Markdown.toHtml [ class "content uie-text-sm" ] option.notes.text
 
                 Nothing ->
                     Html.text ""
     in
-    Html.div [] [ storiesView, Html.br [] [], Html.text "-------", Html.br [] [], note ]
+    Html.div []
+        [ storiesView
+        , Html.br [] []
+        , Html.hr [ style "height" "1px" ] []
+        , Html.br [] []
+        , note
+        ]
