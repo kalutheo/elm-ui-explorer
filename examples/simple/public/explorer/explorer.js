@@ -8497,23 +8497,6 @@ var author$project$Button$view = F3(
 						rtfeldman$elm_css$Html$Styled$text(label)
 					])));
 	});
-var elm$core$Debug$log = _Debug_log;
-var elm$html$Html$br = _VirtualDom_node('br');
-var elm$html$Html$div = _VirtualDom_node('div');
-var elm$html$Html$text = elm$virtual_dom$VirtualDom$text;
-var author$project$ExplorerWithNotes$viewEnhancer = F2(
-	function (model, storiesView) {
-		var _n0 = A2(elm$core$Debug$log, 'model', model);
-		return A2(
-			elm$html$Html$div,
-			_List_Nil,
-			_List_fromArray(
-				[
-					storiesView,
-					A2(elm$html$Html$br, _List_Nil, _List_Nil),
-					elm$html$Html$text('-------')
-				]));
-	});
 var author$project$UIExplorer$LinkClicked = function (a) {
 	return {$: 'LinkClicked', a: a};
 };
@@ -8819,6 +8802,7 @@ var elm$browser$Debugger$Overlay$Choose = F2(
 var elm$browser$Debugger$Overlay$goodNews1 = '\nThe good news is that having values like this in your message type is not\nso great in the long run. You are better off using simpler data, like\n';
 var elm$browser$Debugger$Overlay$goodNews2 = '\nfunction can pattern match on that data and call whatever functions, JSON\ndecoders, etc. you need. This makes the code much more explicit and easy to\nfollow for other readers (or you in a few months!)\n';
 var elm$html$Html$code = _VirtualDom_node('code');
+var elm$html$Html$text = elm$virtual_dom$VirtualDom$text;
 var elm$browser$Debugger$Overlay$viewCode = function (name) {
 	return A2(
 		elm$html$Html$code,
@@ -8956,6 +8940,7 @@ var elm$browser$Debugger$Overlay$viewBadMetadata = function (_n0) {
 var elm$browser$Debugger$Overlay$Cancel = {$: 'Cancel'};
 var elm$browser$Debugger$Overlay$Proceed = {$: 'Proceed'};
 var elm$html$Html$button = _VirtualDom_node('button');
+var elm$html$Html$div = _VirtualDom_node('div');
 var elm$virtual_dom$VirtualDom$style = _VirtualDom_style;
 var elm$html$Html$Attributes$style = elm$virtual_dom$VirtualDom$style;
 var elm$html$Html$Events$on = F2(
@@ -13217,7 +13202,7 @@ var author$project$UIExplorer$explore = function (uiList) {
 			]),
 		author$project$UIExplorer$emptyUICategories);
 };
-var author$project$ExplorerWithNotes$main = A2(
+var author$project$Explorer$main = A2(
 	author$project$UIExplorer$app,
 	author$project$UIExplorer$explore(
 		_List_fromArray(
@@ -13227,13 +13212,12 @@ var author$project$ExplorerWithNotes$main = A2(
 				'Button',
 				_List_fromArray(
 					[
-						_Utils_Tuple3(
+						_Utils_Tuple2(
 						'Primary',
 						function (_n0) {
 							return A3(author$project$Button$view, 'Submit', author$project$Button$defaultButtonConfig, _Utils_Tuple0);
-						},
-						{note: 'A'}),
-						_Utils_Tuple3(
+						}),
+						_Utils_Tuple2(
 						'Secondary',
 						function (_n1) {
 							return A3(
@@ -13243,9 +13227,8 @@ var author$project$ExplorerWithNotes$main = A2(
 									author$project$Button$defaultButtonConfig,
 									{appearance: author$project$Button$Secondary}),
 								_Utils_Tuple0);
-						},
-						{note: 'B'}),
-						_Utils_Tuple3(
+						}),
+						_Utils_Tuple2(
 						'Small',
 						function (_n2) {
 							return A3(
@@ -13255,9 +13238,8 @@ var author$project$ExplorerWithNotes$main = A2(
 									author$project$Button$defaultButtonConfig,
 									{size: author$project$Button$S}),
 								_Utils_Tuple0);
-						},
-						{note: 'C'}),
-						_Utils_Tuple3(
+						}),
+						_Utils_Tuple2(
 						'Large',
 						function (_n3) {
 							return A3(
@@ -13267,9 +13249,8 @@ var author$project$ExplorerWithNotes$main = A2(
 									author$project$Button$defaultButtonConfig,
 									{size: author$project$Button$L}),
 								_Utils_Tuple0);
-						},
-						{note: 'D'}),
-						_Utils_Tuple3(
+						}),
+						_Utils_Tuple2(
 						'Link',
 						function (_n4) {
 							return A3(
@@ -13279,9 +13260,8 @@ var author$project$ExplorerWithNotes$main = A2(
 									author$project$Button$defaultButtonConfig,
 									{appearance: author$project$Button$Secondary, kind: author$project$Button$Link}),
 								_Utils_Tuple0);
-						},
-						{note: 'E'}),
-						_Utils_Tuple3(
+						}),
+						_Utils_Tuple2(
 						'GhostPrimary',
 						function (_n5) {
 							return A3(
@@ -13291,9 +13271,8 @@ var author$project$ExplorerWithNotes$main = A2(
 									author$project$Button$defaultButtonConfig,
 									{kind: author$project$Button$Ghost}),
 								_Utils_Tuple0);
-						},
-						{note: 'F'}),
-						_Utils_Tuple3(
+						}),
+						_Utils_Tuple2(
 						'GhostSecondary',
 						function (_n6) {
 							return A3(
@@ -13303,12 +13282,9 @@ var author$project$ExplorerWithNotes$main = A2(
 									author$project$Button$defaultButtonConfig,
 									{appearance: author$project$Button$Secondary, kind: author$project$Button$Ghost}),
 								_Utils_Tuple0);
-						},
-						{note: 'G'})
+						})
 					]))
 			])),
-	_Utils_update(
-		author$project$UIExplorer$defaultConfig,
-		{viewEnhancer: author$project$ExplorerWithNotes$viewEnhancer}));
-_Platform_export({'ExplorerWithNotes':{'init':author$project$ExplorerWithNotes$main(
+	author$project$UIExplorer$defaultConfig);
+_Platform_export({'Explorer':{'init':author$project$Explorer$main(
 	elm$json$Json$Decode$succeed(_Utils_Tuple0))({"versions":{"elm":"0.19.0"},"types":{"message":"UIExplorer.Msg ()","aliases":{"Url.Url":{"args":[],"type":"{ protocol : Url.Protocol, host : String.String, port_ : Maybe.Maybe Basics.Int, path : String.String, query : Maybe.Maybe String.String, fragment : Maybe.Maybe String.String }"}},"unions":{"UIExplorer.Msg":{"args":["a"],"tags":{"ExternalMsg":["a"],"SelectStory":["String.String"],"UrlChange":["Url.Url"],"NavigateToHome":[],"LinkClicked":["Browser.UrlRequest"],"NoOp":[]}},"Browser.UrlRequest":{"args":[],"tags":{"Internal":["Url.Url"],"External":["String.String"]}},"Basics.Int":{"args":[],"tags":{"Int":[]}},"Maybe.Maybe":{"args":["a"],"tags":{"Just":["a"],"Nothing":[]}},"String.String":{"args":[],"tags":{"String":[]}},"Url.Protocol":{"args":[],"tags":{"Http":[],"Https":[]}}}}})}});}(this));

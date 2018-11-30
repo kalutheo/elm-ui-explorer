@@ -8498,15 +8498,48 @@ var author$project$Button$view = F3(
 					])));
 	});
 var elm$core$Debug$log = _Debug_log;
+var author$project$UIExplorer$findUI = F3(
+	function (uiId, storyId, categories) {
+		var _n0 = A2(elm$core$Debug$log, 'findUI', categories);
+		return elm$core$Maybe$Nothing;
+	});
+var elm$core$Maybe$map2 = F3(
+	function (func, ma, mb) {
+		if (ma.$ === 'Nothing') {
+			return elm$core$Maybe$Nothing;
+		} else {
+			var a = ma.a;
+			if (mb.$ === 'Nothing') {
+				return elm$core$Maybe$Nothing;
+			} else {
+				var b = mb.a;
+				return elm$core$Maybe$Just(
+					A2(func, a, b));
+			}
+		}
+	});
 var elm$html$Html$br = _VirtualDom_node('br');
 var elm$html$Html$div = _VirtualDom_node('div');
 var elm$html$Html$text = elm$virtual_dom$VirtualDom$text;
 var author$project$ExplorerWithNotes$viewEnhancer = F2(
 	function (model, storiesView) {
-		var _n0 = A2(
-			elm$core$Debug$log,
-			'model',
-			elm$core$List$head(model.categories));
+		var r = A3(
+			elm$core$Maybe$map2,
+			F2(
+				function (a, b) {
+					return _Utils_Tuple2(a, b);
+				}),
+			model.selectedUIId,
+			model.selectedStoryId);
+		var n = A2(
+			elm$core$Maybe$map,
+			function (_n1) {
+				var a = _n1.a;
+				var b = _n1.b;
+				return A3(author$project$UIExplorer$findUI, a, b, model.categories);
+			},
+			r);
+		var _n0 = A2(elm$core$Debug$log, 'r', r);
 		return A2(
 			elm$html$Html$div,
 			_List_Nil,
@@ -8636,21 +8669,6 @@ var author$project$UIExplorer$init = F5(
 				url: url
 			},
 			elm$core$Platform$Cmd$none);
-	});
-var elm$core$Maybe$map2 = F3(
-	function (func, ma, mb) {
-		if (ma.$ === 'Nothing') {
-			return elm$core$Maybe$Nothing;
-		} else {
-			var a = ma.a;
-			if (mb.$ === 'Nothing') {
-				return elm$core$Maybe$Nothing;
-			} else {
-				var b = mb.a;
-				return elm$core$Maybe$Just(
-					A2(func, a, b));
-			}
-		}
 	});
 var author$project$UIExplorer$makeStoryUrl = F2(
 	function (model, storyId) {

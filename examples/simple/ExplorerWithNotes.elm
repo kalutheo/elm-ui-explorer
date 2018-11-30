@@ -1,21 +1,27 @@
 module ExplorerWithNotes exposing (main)
 
 import Button exposing (..)
+import ExplorerNotesPlugin exposing (addNote)
 import Html
-import UIExplorer exposing (ExplorerProgram, app, createUI, defaultConfig, explore)
+import UIExplorer
+    exposing
+        ( ExplorerProgram
+        , ViewEnhancer
+        , app
+        , createUI
+        , defaultConfig
+        , explore
+        , findStory
+        )
 
 
 type alias PluginOption =
-    { note : String
+    { notes : ExplorerNotesPlugin.PluginModel
     }
 
 
-viewEnhancer model storiesView =
-    let
-        _ =
-            Debug.log "model" (List.head model.categories)
-    in
-    Html.div [] [ storiesView, Html.br [] [], Html.text "-------" ]
+note =
+    { notes = addNote "A" }
 
 
 main : ExplorerProgram {} () PluginOption
@@ -24,14 +30,14 @@ main =
         (explore
             [ createUI
                 "Button"
-                [ ( "Primary", \_ -> Button.view "Submit" defaultButtonConfig (), { note = "A" } )
-                , ( "Secondary", \_ -> Button.view "Submit" { defaultButtonConfig | appearance = Secondary } (), { note = "B" } )
-                , ( "Small", \_ -> Button.view "Submit" { defaultButtonConfig | size = S } (), { note = "C" } )
-                , ( "Large", \_ -> Button.view "Submit" { defaultButtonConfig | size = L } (), { note = "D" } )
-                , ( "Link", \_ -> Button.view "Submit" { defaultButtonConfig | kind = Link, appearance = Secondary } (), { note = "E" } )
-                , ( "GhostPrimary", \_ -> Button.view "Submit" { defaultButtonConfig | kind = Ghost } (), { note = "F" } )
-                , ( "GhostSecondary", \_ -> Button.view "Submit" { defaultButtonConfig | appearance = Secondary, kind = Ghost } (), { note = "G" } )
+                [ ( "Primary", \_ -> Button.view "Submit" defaultButtonConfig (), note )
+                , ( "Secondary", \_ -> Button.view "Submit" { defaultButtonConfig | appearance = Secondary } (), note )
+                , ( "Small", \_ -> Button.view "Submit" { defaultButtonConfig | size = S } (), note )
+                , ( "Large", \_ -> Button.view "Submit" { defaultButtonConfig | size = L } (), note )
+                , ( "Link", \_ -> Button.view "Submit" { defaultButtonConfig | kind = Link, appearance = Secondary } (), note )
+                , ( "GhostPrimary", \_ -> Button.view "Submit" { defaultButtonConfig | kind = Ghost } (), note )
+                , ( "GhostSecondary", \_ -> Button.view "Submit" { defaultButtonConfig | appearance = Secondary, kind = Ghost } (), note )
                 ]
             ]
         )
-        { defaultConfig | viewEnhancer = viewEnhancer }
+        { defaultConfig | viewEnhancer = ExplorerNotesPlugin.viewEnhancer }

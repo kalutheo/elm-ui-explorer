@@ -8,7 +8,7 @@ module UIExplorer exposing
     , createUI
     , createUIWithDescription
     , explore
-    , ExplorerProgram, Model, Msg(..), UIViewConfig, defaultConfig
+    , ExplorerProgram, Model, Msg(..), UIViewConfig, ViewEnhancer, defaultConfig, findStory
     )
 
 {-|
@@ -56,8 +56,21 @@ type alias ExplorerProgram a b c =
     Program () (Model a b c) (Msg b)
 
 
+type alias ViewEnhancer a b c =
+    Model a b c -> Html (Msg b) -> Html (Msg b)
+
+
+type alias Story a b c =
+    ( String, Model a b c -> Html b, c )
+
+
 type alias Stories a b c =
-    List ( String, Model a b c -> Html b, c )
+    List (Story a b c)
+
+
+getStoryIdFromStories : ( String, Model a b c -> Html b, c ) -> String
+getStoryIdFromStories ( s, _, _ ) =
+    s
 
 
 
@@ -121,7 +134,7 @@ type alias Model a b c =
 type alias Config a b c =
     { customModel : a
     , update : b -> Model a b c -> Model a b c
-    , viewEnhancer : Model a b c -> Html (Msg b) -> Html (Msg b)
+    , viewEnhancer : ViewEnhancer a b c
     }
 
 
@@ -158,6 +171,37 @@ getSelectedUIfromPath { fragment } =
 getSelectedStoryfromPath : Url.Url -> Maybe String
 getSelectedStoryfromPath { fragment } =
     getFragmentSegmentByIndex fragment 2
+
+
+findStory : String -> String -> List (UICategory a b c) -> Maybe (Story a b c)
+findStory uiId storyId categories =
+    let
+        foundStory =
+            List.map
+                (\(UICategoryType ( a, b )) ->
+                    let
+                        uis =
+                            List.map (\(UIType ui) -> ui.id) b
+
+                        _ =
+                            Debug.log "filter" uis
+
+                        _ =
+                            Debug.log "uiId" uiId
+                    in
+                    b
+                )
+                categories
+                |> List.concat
+                |> List.filter (\(UIType ui) -> ui.id == uiId)
+                |> List.map (\(UIType ui) -> ui.viewStories)
+                |> List.concat
+                |> List.filter (\s -> getStoryIdFromStories s == storyId)
+
+        _ =
+            Debug.log "foundStory :-)))" foundStory
+    in
+    List.head foundStory
 
 
 makeStoryUrl : Model a b c -> String -> Maybe String
