@@ -1,19 +1,16 @@
 module Button exposing
-    ( defaultButtonConfig
+    ( Config
+    , Size(..)
+    , Kind(..)
+    , Appearance(..)
+    , defaultButtonConfig
     , view
-    , Appearance(..), Kind(..), Size(..)
     )
 
-{-| This library fills a bunch of important niches in Elm. A `Maybe` can help
-you with optional arguments, error handling, and records with optional fields.
+{-|
 
 
 # Button
-
-@docs Config
-@docs Appareance
-@docs defaultButtonConfig
-@docs view
 
 The Button should be used to trigger user actions.
 Some examples of interactions:
@@ -23,9 +20,23 @@ Some examples of interactions:
   - Toggle a menu visibility
   - Play a media
 
-Links:
+```elm
+import Button exposing (..)
+Button.view "Submit" defaultButtonConfig ()
+```
+
+
+## Links:
 
   - [UX Planet - Basic rules for button](https://uxplanet.org/7-basic-rules-for-button-design-63dcdf5676b4)
+
+@docs Config
+@docs Size
+@docs Kind
+@docs Appearance
+
+@docs defaultButtonConfig
+@docs view
 
 -}
 
@@ -36,6 +47,8 @@ import Html.Styled.Attributes exposing (class)
 import Html.Styled.Events exposing (onClick)
 
 
+{-| Option to customize the Button
+-}
 type alias Config =
     { appearance : Appearance
     , size : Size
@@ -44,23 +57,31 @@ type alias Config =
     }
 
 
+{-| Define the appearance of the Button
+-}
 type Appearance
     = Primary
     | Secondary
 
 
+{-| Define the size of the Button
+-}
 type Size
     = S
     | M
     | L
 
 
+{-| Look and feel of the Button
+-}
 type Kind
     = Link
     | Filled
     | Ghost
 
 
+{-| Default Configurations
+-}
 defaultButtonConfig : Config
 defaultButtonConfig =
     { appearance = Primary
@@ -154,6 +175,8 @@ styledButton { appearance, size, kind } =
             ++ decoration kind
 
 
+{-| Renders the button
+-}
 view : String -> Config -> msg -> Html.Html msg
 view label config clickMsg =
     styledButton config [ onClick clickMsg, class config.class ] [ text label ] |> toUnstyled

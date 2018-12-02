@@ -1,0 +1,16 @@
+{
+  "type": "package",
+  "name": "kalutheo/button",
+  "summary": "A button",
+  "license": "BSD-3-Clause",
+  "version": "1.1.0",
+  "exposed-modules": ["Button"],
+  "elm-version": "0.19.0 <= v < 0.20.0",
+  "dependencies": {
+    "elm/core": "1.0.0 <= v < 2.0.0",
+    "elm/html": "1.0.0 <= v < 2.0.0",
+    "elm/virtual-dom": "1.0.0 <= v < 2.0.0",
+    "rtfeldman/elm-css": "16.0.0 <= v < 17.0.0"
+  },
+  "test-dependencies": {}
+}

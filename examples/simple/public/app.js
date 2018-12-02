@@ -4857,7 +4857,8 @@ var author$project$Button$Secondary = {$: 'Secondary'};
 var author$project$Button$Filled = {$: 'Filled'};
 var author$project$Button$M = {$: 'M'};
 var author$project$Button$Primary = {$: 'Primary'};
-var author$project$Button$defaultConfig = {appearance: author$project$Button$Primary, _class: '', kind: author$project$Button$Filled, size: author$project$Button$M};
+var author$project$Button$defaultButtonConfig = {appearance: author$project$Button$Primary, _class: '', kind: author$project$Button$Filled, size: author$project$Button$M};
+var author$project$Button$Ghost = {$: 'Ghost'};
 var elm$core$Elm$JsArray$foldr = _JsArray_foldr;
 var elm$core$Array$foldr = F3(
 	function (func, baseCase, _n0) {
@@ -4938,7 +4939,6 @@ var elm$core$Set$toList = function (_n0) {
 	var dict = _n0.a;
 	return elm$core$Dict$keys(dict);
 };
-var elm$core$Basics$eq = _Utils_equal;
 var elm$core$Basics$lt = _Utils_lt;
 var elm$core$Maybe$Just = function (a) {
 	return {$: 'Just', a: a};
@@ -5071,6 +5071,7 @@ var elm$core$Result$mapError = F2(
 				f(e));
 		}
 	});
+var elm$core$Basics$eq = _Utils_equal;
 var elm$core$String$isEmpty = function (string) {
 	return string === '';
 };
@@ -5416,6 +5417,14 @@ var rtfeldman$elm_css$Css$hex = function (str) {
 	}
 	return rtfeldman$elm_css$Css$erroneousHex(str);
 };
+var author$project$Button$colorFromAppearance = function (appearance) {
+	if (appearance.$ === 'Primary') {
+		return rtfeldman$elm_css$Css$hex('00d1b2');
+	} else {
+		return rtfeldman$elm_css$Css$hex('333333');
+	}
+};
+var elm$core$Basics$or = _Basics_or;
 var elm$core$Basics$gt = _Utils_gt;
 var elm$core$List$reverse = function (list) {
 	return A3(elm$core$List$foldl, elm$core$List$cons, _List_Nil, list);
@@ -5520,15 +5529,7 @@ var rtfeldman$elm_css$Css$rgba = F4(
 	});
 var author$project$Button$bgColor = F2(
 	function (appearance, kind) {
-		if (_Utils_eq(kind, author$project$Button$Link)) {
-			return A4(rtfeldman$elm_css$Css$rgba, 0, 0, 0, 0);
-		} else {
-			if (appearance.$ === 'Primary') {
-				return rtfeldman$elm_css$Css$hex('00d1b2');
-			} else {
-				return rtfeldman$elm_css$Css$hex('333333');
-			}
-		}
+		return (_Utils_eq(kind, author$project$Button$Link) || _Utils_eq(kind, author$project$Button$Ghost)) ? A4(rtfeldman$elm_css$Css$rgba, 0, 0, 0, 0) : author$project$Button$colorFromAppearance(appearance);
 	});
 var rtfeldman$elm_css$Css$none = {backgroundImage: rtfeldman$elm_css$Css$Structure$Compatible, blockAxisOverflow: rtfeldman$elm_css$Css$Structure$Compatible, borderStyle: rtfeldman$elm_css$Css$Structure$Compatible, cursor: rtfeldman$elm_css$Css$Structure$Compatible, display: rtfeldman$elm_css$Css$Structure$Compatible, hoverCapability: rtfeldman$elm_css$Css$Structure$Compatible, inlineAxisOverflow: rtfeldman$elm_css$Css$Structure$Compatible, keyframes: rtfeldman$elm_css$Css$Structure$Compatible, lengthOrNone: rtfeldman$elm_css$Css$Structure$Compatible, lengthOrNoneOrMinMaxDimension: rtfeldman$elm_css$Css$Structure$Compatible, lengthOrNumberOrAutoOrNoneOrContent: rtfeldman$elm_css$Css$Structure$Compatible, listStyleType: rtfeldman$elm_css$Css$Structure$Compatible, listStyleTypeOrPositionOrImage: rtfeldman$elm_css$Css$Structure$Compatible, none: rtfeldman$elm_css$Css$Structure$Compatible, outline: rtfeldman$elm_css$Css$Structure$Compatible, pointerDevice: rtfeldman$elm_css$Css$Structure$Compatible, pointerEvents: rtfeldman$elm_css$Css$Structure$Compatible, resize: rtfeldman$elm_css$Css$Structure$Compatible, scriptingSupport: rtfeldman$elm_css$Css$Structure$Compatible, textDecorationLine: rtfeldman$elm_css$Css$Structure$Compatible, textTransform: rtfeldman$elm_css$Css$Structure$Compatible, touchAction: rtfeldman$elm_css$Css$Structure$Compatible, transform: rtfeldman$elm_css$Css$Structure$Compatible, updateFrequency: rtfeldman$elm_css$Css$Structure$Compatible, value: 'none'};
 var rtfeldman$elm_css$Css$Preprocess$AppendProperty = function (a) {
@@ -5567,15 +5568,11 @@ var author$project$Button$textColor = F2(
 	function (appearance, kind) {
 		switch (kind.$) {
 			case 'Link':
-				if (appearance.$ === 'Primary') {
-					return rtfeldman$elm_css$Css$hex('00d1b2');
-				} else {
-					return rtfeldman$elm_css$Css$hex('333333');
-				}
+				return author$project$Button$colorFromAppearance(appearance);
 			case 'Filled':
 				return rtfeldman$elm_css$Css$hex('FFFFFF');
 			default:
-				return A2(author$project$Button$bgColor, appearance, kind);
+				return author$project$Button$colorFromAppearance(appearance);
 		}
 	});
 var rtfeldman$elm_css$Css$EmUnits = {$: 'EmUnits'};
@@ -5621,7 +5618,12 @@ var elm$core$Basics$apL = F2(
 var rtfeldman$elm_css$Css$backgroundColor = function (c) {
 	return A2(rtfeldman$elm_css$Css$property, 'background-color', c.value);
 };
+var rtfeldman$elm_css$Css$border = rtfeldman$elm_css$Css$prop1('border');
+var rtfeldman$elm_css$Css$borderColor = function (c) {
+	return A2(rtfeldman$elm_css$Css$property, 'border-color', c.value);
+};
 var rtfeldman$elm_css$Css$borderRadius = rtfeldman$elm_css$Css$prop1('border-radius');
+var rtfeldman$elm_css$Css$borderStyle = rtfeldman$elm_css$Css$prop1('border-style');
 var rtfeldman$elm_css$Css$color = function (c) {
 	return A2(rtfeldman$elm_css$Css$property, 'color', c.value);
 };
@@ -5717,6 +5719,9 @@ var rtfeldman$elm_css$Css$Preprocess$mapLastProperty = F2(
 var rtfeldman$elm_css$Css$important = rtfeldman$elm_css$Css$Preprocess$mapLastProperty(rtfeldman$elm_css$Css$makeImportant);
 var rtfeldman$elm_css$Css$outline = rtfeldman$elm_css$Css$prop1('outline');
 var rtfeldman$elm_css$Css$padding = rtfeldman$elm_css$Css$prop1('padding');
+var rtfeldman$elm_css$Css$PxUnits = {$: 'PxUnits'};
+var rtfeldman$elm_css$Css$px = A2(rtfeldman$elm_css$Css$Internal$lengthConverter, rtfeldman$elm_css$Css$PxUnits, 'px');
+var rtfeldman$elm_css$Css$solid = {borderStyle: rtfeldman$elm_css$Css$Structure$Compatible, textDecorationStyle: rtfeldman$elm_css$Css$Structure$Compatible, value: 'solid'};
 var rtfeldman$elm_css$Css$width = rtfeldman$elm_css$Css$prop1('width');
 var rtfeldman$elm_css$VirtualDom$Styled$Node = F3(
 	function (a, b, c) {
@@ -5883,7 +5888,6 @@ var elm$json$Json$Decode$OneOf = function (a) {
 	return {$: 'OneOf', a: a};
 };
 var elm$core$Basics$and = _Basics_and;
-var elm$core$Basics$or = _Basics_or;
 var elm$core$Char$toCode = _Char_toCode;
 var elm$core$Char$isLower = function (_char) {
 	var code = elm$core$Char$toCode(_char);
@@ -7929,6 +7933,11 @@ var author$project$Button$styledButton = function (_n0) {
 				[
 					rtfeldman$elm_css$Css$backgroundColor(
 					A2(author$project$Button$bgColor, appearance, kind)),
+					rtfeldman$elm_css$Css$border(
+					_Utils_eq(kind, author$project$Button$Ghost) ? rtfeldman$elm_css$Css$px(1) : rtfeldman$elm_css$Css$px(0)),
+					rtfeldman$elm_css$Css$borderStyle(rtfeldman$elm_css$Css$solid),
+					rtfeldman$elm_css$Css$borderColor(
+					author$project$Button$colorFromAppearance(appearance)),
 					rtfeldman$elm_css$Css$color(
 					A2(author$project$Button$textColor, appearance, kind)),
 					rtfeldman$elm_css$Css$padding(
@@ -8562,21 +8571,21 @@ var author$project$Main$view = function (model) {
 								author$project$Button$view,
 								'Forgot password',
 								_Utils_update(
-									author$project$Button$defaultConfig,
+									author$project$Button$defaultButtonConfig,
 									{appearance: author$project$Button$Secondary, _class: 'text-left w-full', kind: author$project$Button$Link, size: author$project$Button$L}),
 								author$project$Main$NoOp),
 								A3(
 								author$project$Button$view,
 								'Submit',
 								_Utils_update(
-									author$project$Button$defaultConfig,
+									author$project$Button$defaultButtonConfig,
 									{_class: 'ml-2 float-right', size: author$project$Button$S}),
 								author$project$Main$NoOp),
 								A3(
 								author$project$Button$view,
 								'Cancel',
 								_Utils_update(
-									author$project$Button$defaultConfig,
+									author$project$Button$defaultButtonConfig,
 									{appearance: author$project$Button$Secondary, _class: 'float-right', size: author$project$Button$S}),
 								author$project$Main$NoOp)
 							])),
