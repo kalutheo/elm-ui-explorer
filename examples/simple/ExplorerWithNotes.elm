@@ -25,6 +25,7 @@ note =
 
 # Button
 
+
 The Button should be used to trigger user actions.
 Some examples of interactions:
 
@@ -33,7 +34,16 @@ Some examples of interactions:
 - Toggle a menu visibility
 - Play a media
 
-Links:
+
+Basic usage
+
+```elm
+import Button exposing (..)
+Button.view "Submit" defaultButtonConfig ()
+```
+
+
+Links
 
 - [UX Planet - Basic rules for button](https://uxplanet.org/7-basic-rules-for-button-design-63dcdf5676b4)
 

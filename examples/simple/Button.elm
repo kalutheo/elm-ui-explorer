@@ -1,4 +1,33 @@
-module Button exposing (Appearance(..), Kind(..), Size(..), defaultButtonConfig, view)
+module Button exposing
+    ( defaultButtonConfig
+    , view
+    , Appearance(..), Kind(..), Size(..)
+    )
+
+{-| This library fills a bunch of important niches in Elm. A `Maybe` can help
+you with optional arguments, error handling, and records with optional fields.
+
+
+# Button
+
+@docs Config
+@docs Appareance
+@docs defaultButtonConfig
+@docs view
+
+The Button should be used to trigger user actions.
+Some examples of interactions:
+
+  - Submit a form
+  - Cancel an order
+  - Toggle a menu visibility
+  - Play a media
+
+Links:
+
+  - [UX Planet - Basic rules for button](https://uxplanet.org/7-basic-rules-for-button-design-63dcdf5676b4)
+
+-}
 
 import Css exposing (..)
 import Html

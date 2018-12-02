@@ -1,0 +1,13 @@
+{
+  "name": "simple",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {},
+  "devDependencies": {},
+  "scripts": {
+    "dev": "elm-live src/Main.elm --open --dir=public --start-page=index.html -- --output=public/app.js --debug "
+  },
+  "author": "",
+  "license": "ISC"
+}
