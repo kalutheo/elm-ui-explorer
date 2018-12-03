@@ -8503,6 +8503,45 @@ var author$project$UIExplorer$LinkClicked = function (a) {
 var author$project$UIExplorer$UrlChange = function (a) {
 	return {$: 'UrlChange', a: a};
 };
+var author$project$UIExplorer$getStoryIdFromStories = function (_n0) {
+	var s = _n0.a;
+	return s;
+};
+var author$project$UIExplorer$getDefaultUrlFromCategories = function (categories) {
+	return A2(
+		elm$core$Maybe$withDefault,
+		'',
+		A2(
+			elm$core$Maybe$map,
+			function (_n0) {
+				var _n1 = _n0.a;
+				var cat = _n1.a;
+				var uiList = _n1.b;
+				var maybeDefaultStr = elm$core$Maybe$withDefault('');
+				var story = maybeDefaultStr(
+					A2(
+						elm$core$Maybe$map,
+						function (_n3) {
+							var viewStories = _n3.a.viewStories;
+							return maybeDefaultStr(
+								A2(
+									elm$core$Maybe$map,
+									author$project$UIExplorer$getStoryIdFromStories,
+									elm$core$List$head(viewStories)));
+						},
+						elm$core$List$head(uiList)));
+				var ui = maybeDefaultStr(
+					A2(
+						elm$core$Maybe$map,
+						function (_n2) {
+							var id = _n2.a.id;
+							return id;
+						},
+						elm$core$List$head(uiList)));
+				return '#' + (cat + ('/' + (ui + ('/' + story))));
+			},
+			elm$core$List$head(categories)));
+};
 var elm$core$Array$fromListHelp = F3(
 	function (list, nodeList, nodeListSize) {
 		fromListHelp:
@@ -8601,52 +8640,6 @@ var author$project$UIExplorer$getSelectedUIfromPath = function (_n0) {
 	var fragment = _n0.fragment;
 	return A2(author$project$UIExplorer$getFragmentSegmentByIndex, fragment, 1);
 };
-var elm$core$Platform$Cmd$batch = _Platform_batch;
-var elm$core$Platform$Cmd$none = elm$core$Platform$Cmd$batch(_List_Nil);
-var author$project$UIExplorer$init = F5(
-	function (customModel, categories, flags, url, key) {
-		return _Utils_Tuple2(
-			{
-				categories: categories,
-				customModel: customModel,
-				key: key,
-				selectedCategory: author$project$UIExplorer$getSelectedCategoryfromPath(url),
-				selectedStoryId: author$project$UIExplorer$getSelectedStoryfromPath(url),
-				selectedUIId: author$project$UIExplorer$getSelectedUIfromPath(url),
-				url: url
-			},
-			elm$core$Platform$Cmd$none);
-	});
-var elm$core$Maybe$map2 = F3(
-	function (func, ma, mb) {
-		if (ma.$ === 'Nothing') {
-			return elm$core$Maybe$Nothing;
-		} else {
-			var a = ma.a;
-			if (mb.$ === 'Nothing') {
-				return elm$core$Maybe$Nothing;
-			} else {
-				var b = mb.a;
-				return elm$core$Maybe$Just(
-					A2(func, a, b));
-			}
-		}
-	});
-var author$project$UIExplorer$makeStoryUrl = F2(
-	function (model, storyId) {
-		return A3(
-			elm$core$Maybe$map2,
-			F2(
-				function (selectedCategory, selectedUIId) {
-					return '#' + A2(
-						elm$core$String$join,
-						'/',
-						_List_fromArray(
-							[selectedCategory, selectedUIId, storyId]));
-				}),
-			model.selectedCategory,
-			model.selectedUIId);
-	});
 var elm$browser$Browser$External = function (a) {
 	return {$: 'External', a: a};
 };
@@ -11926,6 +11919,8 @@ var elm$browser$Debugger$Overlay$BadImport = function (a) {
 };
 var elm$browser$Debugger$Report$CorruptHistory = {$: 'CorruptHistory'};
 var elm$browser$Debugger$Overlay$corruptImport = elm$browser$Debugger$Overlay$BadImport(elm$browser$Debugger$Report$CorruptHistory);
+var elm$core$Platform$Cmd$batch = _Platform_batch;
+var elm$core$Platform$Cmd$none = elm$core$Platform$Cmd$batch(_List_Nil);
 var elm$browser$Debugger$Main$loadNewHistory = F3(
 	function (rawHistory, update, model) {
 		var pureUserUpdate = F2(
@@ -12585,8 +12580,79 @@ var elm$url$Url$fromString = function (str) {
 		elm$url$Url$Https,
 		A2(elm$core$String$dropLeft, 8, str)) : elm$core$Maybe$Nothing);
 };
-var elm$browser$Browser$Navigation$load = _Browser_load;
 var elm$browser$Browser$Navigation$pushUrl = _Browser_pushUrl;
+var elm$core$Maybe$map3 = F4(
+	function (func, ma, mb, mc) {
+		if (ma.$ === 'Nothing') {
+			return elm$core$Maybe$Nothing;
+		} else {
+			var a = ma.a;
+			if (mb.$ === 'Nothing') {
+				return elm$core$Maybe$Nothing;
+			} else {
+				var b = mb.a;
+				if (mc.$ === 'Nothing') {
+					return elm$core$Maybe$Nothing;
+				} else {
+					var c = mc.a;
+					return elm$core$Maybe$Just(
+						A3(func, a, b, c));
+				}
+			}
+		}
+	});
+var author$project$UIExplorer$init = F5(
+	function (customModel, categories, flags, url, key) {
+		var selectedUIId = author$project$UIExplorer$getSelectedUIfromPath(url);
+		var selectedStoryId = author$project$UIExplorer$getSelectedStoryfromPath(url);
+		var selectedCategory = author$project$UIExplorer$getSelectedCategoryfromPath(url);
+		var firstUrl = A2(
+			elm$core$Maybe$withDefault,
+			author$project$UIExplorer$getDefaultUrlFromCategories(categories),
+			A4(
+				elm$core$Maybe$map3,
+				F3(
+					function (cat, ui, story) {
+						return '#' + (cat + ('/' + (ui + ('/' + story))));
+					}),
+				selectedCategory,
+				selectedUIId,
+				selectedStoryId));
+		return _Utils_Tuple2(
+			{categories: categories, customModel: customModel, key: key, selectedCategory: selectedCategory, selectedStoryId: selectedStoryId, selectedUIId: selectedUIId, url: url},
+			A2(elm$browser$Browser$Navigation$pushUrl, key, firstUrl));
+	});
+var elm$core$Maybe$map2 = F3(
+	function (func, ma, mb) {
+		if (ma.$ === 'Nothing') {
+			return elm$core$Maybe$Nothing;
+		} else {
+			var a = ma.a;
+			if (mb.$ === 'Nothing') {
+				return elm$core$Maybe$Nothing;
+			} else {
+				var b = mb.a;
+				return elm$core$Maybe$Just(
+					A2(func, a, b));
+			}
+		}
+	});
+var author$project$UIExplorer$makeStoryUrl = F2(
+	function (model, storyId) {
+		return A3(
+			elm$core$Maybe$map2,
+			F2(
+				function (selectedCategory, selectedUIId) {
+					return '#' + A2(
+						elm$core$String$join,
+						'/',
+						_List_fromArray(
+							[selectedCategory, selectedUIId, storyId]));
+				}),
+			model.selectedCategory,
+			model.selectedUIId);
+	});
+var elm$browser$Browser$Navigation$load = _Browser_load;
 var elm$url$Url$addPort = F2(
 	function (maybePort, starter) {
 		if (maybePort.$ === 'Nothing') {
@@ -12663,8 +12729,6 @@ var author$project$UIExplorer$update = F3(
 							url: location
 						}),
 					elm$core$Platform$Cmd$none);
-			case 'NavigateToHome':
-				return _Utils_Tuple2(model, elm$core$Platform$Cmd$none);
 			default:
 				var urlRequest = msg.a;
 				if (urlRequest.$ === 'Internal') {
@@ -12934,7 +12998,6 @@ var author$project$UIExplorer$viewContent = F2(
 						filteredUIs))
 				]));
 	});
-var author$project$UIExplorer$NavigateToHome = {$: 'NavigateToHome'};
 var author$project$UIExplorer$colors = {
 	bg: {primary: 'bg-black'}
 };
@@ -12942,7 +13005,7 @@ var author$project$UIExplorer$styleHeader = {
 	header: _List_fromArray(
 		[author$project$UIExplorer$colors.bg.primary, 'p-0', 'pb-2', 'text-white', 'shadow-md']),
 	logo: _List_fromArray(
-		['cursor-pointer']),
+		['cursor-default']),
 	subTitle: _List_fromArray(
 		['font-normal', 'text-3xl', 'text-grey']),
 	title: _List_fromArray(
@@ -12963,8 +13026,7 @@ var author$project$UIExplorer$viewHeader = A2(
 				[
 					author$project$UIExplorer$toClassName(
 					_List_fromArray(
-						['bg-cover', 'cursor-pointer', 'logo'])),
-					elm$html$Html$Events$onClick(author$project$UIExplorer$NavigateToHome)
+						['bg-cover', 'cursor-default', 'logo']))
 				]),
 			_List_Nil)
 		]));
@@ -13002,6 +13064,15 @@ var author$project$UIExplorer$viewMenuItem = F3(
 				elm$core$Basics$eq(ui.id),
 				selectedUIId));
 		var linkClass = author$project$UIExplorer$styleMenuItem(isSelected);
+		var defaultLink = function () {
+			var _n1 = elm$core$List$head(ui.viewStories);
+			if (_n1.$ === 'Just') {
+				var story = _n1.a;
+				return '#' + (category + ('/' + (ui.id + ('/' + author$project$UIExplorer$getStoryIdFromStories(story)))));
+			} else {
+				return '#' + (category + ('/' + ui.id));
+			}
+		}();
 		return A2(
 			elm$html$Html$li,
 			_List_fromArray(
@@ -13015,7 +13086,7 @@ var author$project$UIExplorer$viewMenuItem = F3(
 					_List_fromArray(
 						[
 							author$project$UIExplorer$toClassName(linkClass),
-							elm$html$Html$Attributes$href('#' + (category + ('/' + ui.id)))
+							elm$html$Html$Attributes$href(defaultLink)
 						]),
 					_List_fromArray(
 						[
@@ -13212,12 +13283,13 @@ var author$project$Explorer$main = A2(
 				'Button',
 				_List_fromArray(
 					[
-						_Utils_Tuple2(
+						_Utils_Tuple3(
 						'Primary',
 						function (_n0) {
 							return A3(author$project$Button$view, 'Submit', author$project$Button$defaultButtonConfig, _Utils_Tuple0);
-						}),
-						_Utils_Tuple2(
+						},
+						{}),
+						_Utils_Tuple3(
 						'Secondary',
 						function (_n1) {
 							return A3(
@@ -13227,8 +13299,9 @@ var author$project$Explorer$main = A2(
 									author$project$Button$defaultButtonConfig,
 									{appearance: author$project$Button$Secondary}),
 								_Utils_Tuple0);
-						}),
-						_Utils_Tuple2(
+						},
+						{}),
+						_Utils_Tuple3(
 						'Small',
 						function (_n2) {
 							return A3(
@@ -13238,8 +13311,9 @@ var author$project$Explorer$main = A2(
 									author$project$Button$defaultButtonConfig,
 									{size: author$project$Button$S}),
 								_Utils_Tuple0);
-						}),
-						_Utils_Tuple2(
+						},
+						{}),
+						_Utils_Tuple3(
 						'Large',
 						function (_n3) {
 							return A3(
@@ -13249,8 +13323,9 @@ var author$project$Explorer$main = A2(
 									author$project$Button$defaultButtonConfig,
 									{size: author$project$Button$L}),
 								_Utils_Tuple0);
-						}),
-						_Utils_Tuple2(
+						},
+						{}),
+						_Utils_Tuple3(
 						'Link',
 						function (_n4) {
 							return A3(
@@ -13260,8 +13335,9 @@ var author$project$Explorer$main = A2(
 									author$project$Button$defaultButtonConfig,
 									{appearance: author$project$Button$Secondary, kind: author$project$Button$Link}),
 								_Utils_Tuple0);
-						}),
-						_Utils_Tuple2(
+						},
+						{}),
+						_Utils_Tuple3(
 						'GhostPrimary',
 						function (_n5) {
 							return A3(
@@ -13271,8 +13347,9 @@ var author$project$Explorer$main = A2(
 									author$project$Button$defaultButtonConfig,
 									{kind: author$project$Button$Ghost}),
 								_Utils_Tuple0);
-						}),
-						_Utils_Tuple2(
+						},
+						{}),
+						_Utils_Tuple3(
 						'GhostSecondary',
 						function (_n6) {
 							return A3(
@@ -13282,9 +13359,10 @@ var author$project$Explorer$main = A2(
 									author$project$Button$defaultButtonConfig,
 									{appearance: author$project$Button$Secondary, kind: author$project$Button$Ghost}),
 								_Utils_Tuple0);
-						})
+						},
+						{})
 					]))
 			])),
 	author$project$UIExplorer$defaultConfig);
 _Platform_export({'Explorer':{'init':author$project$Explorer$main(
-	elm$json$Json$Decode$succeed(_Utils_Tuple0))({"versions":{"elm":"0.19.0"},"types":{"message":"UIExplorer.Msg ()","aliases":{"Url.Url":{"args":[],"type":"{ protocol : Url.Protocol, host : String.String, port_ : Maybe.Maybe Basics.Int, path : String.String, query : Maybe.Maybe String.String, fragment : Maybe.Maybe String.String }"}},"unions":{"UIExplorer.Msg":{"args":["a"],"tags":{"ExternalMsg":["a"],"SelectStory":["String.String"],"UrlChange":["Url.Url"],"NavigateToHome":[],"LinkClicked":["Browser.UrlRequest"],"NoOp":[]}},"Browser.UrlRequest":{"args":[],"tags":{"Internal":["Url.Url"],"External":["String.String"]}},"Basics.Int":{"args":[],"tags":{"Int":[]}},"Maybe.Maybe":{"args":["a"],"tags":{"Just":["a"],"Nothing":[]}},"String.String":{"args":[],"tags":{"String":[]}},"Url.Protocol":{"args":[],"tags":{"Http":[],"Https":[]}}}}})}});}(this));
+	elm$json$Json$Decode$succeed(_Utils_Tuple0))({"versions":{"elm":"0.19.0"},"types":{"message":"UIExplorer.Msg ()","aliases":{"Url.Url":{"args":[],"type":"{ protocol : Url.Protocol, host : String.String, port_ : Maybe.Maybe Basics.Int, path : String.String, query : Maybe.Maybe String.String, fragment : Maybe.Maybe String.String }"}},"unions":{"UIExplorer.Msg":{"args":["a"],"tags":{"ExternalMsg":["a"],"SelectStory":["String.String"],"UrlChange":["Url.Url"],"LinkClicked":["Browser.UrlRequest"],"NoOp":[]}},"Browser.UrlRequest":{"args":[],"tags":{"Internal":["Url.Url"],"External":["String.String"]}},"Basics.Int":{"args":[],"tags":{"Int":[]}},"Maybe.Maybe":{"args":["a"],"tags":{"Just":["a"],"Nothing":[]}},"String.String":{"args":[],"tags":{"String":[]}},"Url.Protocol":{"args":[],"tags":{"Http":[],"Https":[]}}}}})}});}(this));

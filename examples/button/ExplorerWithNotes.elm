@@ -1,18 +1,16 @@
 module ExplorerWithNotes exposing (main)
 
 import Button exposing (..)
-import ExplorerNotesPlugin exposing (addNote)
 import Html
 import UIExplorer
     exposing
         ( ExplorerProgram
-        , ViewEnhancer
         , app
         , createUI
         , defaultConfig
         , explore
-        , findStory
         )
+import UIExplorer.Plugins.Note as ExplorerNotesPlugin exposing (addNote)
 
 
 type alias PluginOption =

@@ -1,4 +1,4 @@
-module ExplorerNotesPlugin exposing (PluginModel, addNote, viewEnhancer)
+module UIExplorer.Plugins.Note exposing (PluginModel, WithNotes, addNote, join, viewEnhancer)
 
 import Html
 import Html.Attributes exposing (class, style)
