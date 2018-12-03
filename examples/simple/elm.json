@@ -1,6 +1,6 @@
 {
   "type": "application",
-  "source-directories": [".", "./lib/src", "../../src"],
+  "source-directories": [".", "./lib/button/src", "../../src"],
   "elm-version": "0.19.0",
   "dependencies": {
     "direct": {

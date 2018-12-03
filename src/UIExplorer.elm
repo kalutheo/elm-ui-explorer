@@ -81,7 +81,6 @@ type Msg a
     = ExternalMsg a
     | SelectStory String
     | UrlChange Url.Url
-    | NavigateToHome
     | LinkClicked Browser.UrlRequest
     | NoOp
 
@@ -138,6 +137,7 @@ type alias Config a b c =
     }
 
 
+defaultConfig : Config {} b c
 defaultConfig =
     { customModel = {}
     , update =
@@ -246,9 +246,6 @@ update config msg model =
               }
             , Cmd.none
             )
-
-        NavigateToHome ->
-            ( model, Cmd.none )
 
         LinkClicked urlRequest ->
             case urlRequest of
@@ -359,17 +356,64 @@ addUICategory title uiList categories =
     List.append categories [ category ]
 
 
+getDefaultUrlFromCategories : List (UICategory a b c) -> String
+getDefaultUrlFromCategories categories =
+    categories
+        |> List.head
+        |> Maybe.map
+            (\(UICategoryType ( cat, uiList )) ->
+                let
+                    maybeDefaultStr =
+                        Maybe.withDefault ""
+
+                    ui =
+                        List.head uiList
+                            |> Maybe.map (\(UIType { id }) -> id)
+                            |> maybeDefaultStr
+
+                    story =
+                        List.head uiList
+                            |> Maybe.map
+                                (\(UIType { viewStories }) ->
+                                    List.head viewStories
+                                        |> Maybe.map getStoryIdFromStories
+                                        |> maybeDefaultStr
+                                )
+                            |> maybeDefaultStr
+                in
+                "#" ++ cat ++ "/" ++ ui ++ "/" ++ story
+            )
+        |> Maybe.withDefault ""
+
+
 init : a -> List (UICategory a b c) -> () -> Url.Url -> Navigation.Key -> ( Model a b c, Cmd (Msg b) )
 init customModel categories flags url key =
+    let
+        selectedUIId =
+            getSelectedUIfromPath url
+
+        selectedStoryId =
+            getSelectedStoryfromPath url
+
+        selectedCategory =
+            getSelectedCategoryfromPath url
+
+        firstUrl =
+            Maybe.map3 (\cat ui story -> "#" ++ cat ++ "/" ++ ui ++ "/" ++ story)
+                selectedCategory
+                selectedUIId
+                selectedStoryId
+                |> Maybe.withDefault (getDefaultUrlFromCategories categories)
+    in
     ( { categories = categories
-      , selectedUIId = getSelectedUIfromPath url
-      , selectedStoryId = getSelectedStoryfromPath url
-      , selectedCategory = getSelectedCategoryfromPath url
+      , selectedUIId = selectedUIId
+      , selectedStoryId = selectedStoryId
+      , selectedCategory = selectedCategory
       , url = url
       , key = key
       , customModel = customModel
       }
-    , Cmd.none
+    , Navigation.pushUrl key firstUrl
     )
 
 
@@ -394,6 +438,7 @@ init customModel categories flags url key =
             )
 
 -}
+app : List (UICategory a b c) -> Config a b c -> ExplorerProgram a b c
 app categories config =
     Browser.application
         { init = init config.customModel categories
@@ -415,6 +460,7 @@ app categories config =
 {--VIEW --}
 
 
+colors : { bg : { primary : String } }
 colors =
     { bg =
         { primary = "bg-black"
@@ -422,6 +468,7 @@ colors =
     }
 
 
+toClassName : List String -> Html.Attribute msg
 toClassName list =
     class
         (list
@@ -437,6 +484,7 @@ toClassName list =
         )
 
 
+hover : String -> String
 hover className =
     "hover:uie-" ++ className
 
@@ -452,9 +500,15 @@ viewSidebar model =
     viewMenu model.categories viewConfig
 
 
+styleHeader :
+    { header : List String
+    , logo : List String
+    , subTitle : List String
+    , title : List String
+    }
 styleHeader =
     { logo =
-        [ "cursor-pointer" ]
+        [ "cursor-default" ]
     , header =
         [ colors.bg.primary, "p-0", "pb-2", "text-white", "shadow-md" ]
     , title =
@@ -469,13 +523,13 @@ viewHeader =
     section
         [ toClassName styleHeader.header ]
         [ div
-            [ toClassName [ "bg-cover", "cursor-pointer", "logo" ]
-            , onClick NavigateToHome
+            [ toClassName [ "bg-cover", "cursor-default", "logo" ]
             ]
             []
         ]
 
 
+styleMenuItem : Bool -> List String
 styleMenuItem isSelected =
     let
         defaultClass =
@@ -502,6 +556,14 @@ styleMenuItem isSelected =
 viewMenuItem : String -> Maybe String -> UI a b c -> Html (Msg b)
 viewMenuItem category selectedUIId (UIType ui) =
     let
+        defaultLink =
+            case ui.viewStories |> List.head of
+                Just story ->
+                    "#" ++ category ++ "/" ++ ui.id ++ "/" ++ getStoryIdFromStories story
+
+                Nothing ->
+                    "#" ++ category ++ "/" ++ ui.id
+
         isSelected =
             selectedUIId
                 |> Maybe.map ((==) ui.id)
@@ -513,12 +575,13 @@ viewMenuItem category selectedUIId (UIType ui) =
     li [ toClassName [] ]
         [ a
             [ toClassName linkClass
-            , href ("#" ++ category ++ "/" ++ ui.id)
+            , href defaultLink
             ]
             [ text ui.id ]
         ]
 
 
+styleMenuCategoryLink : List String
 styleMenuCategoryLink =
     [ "text-grey-darkest"
     , "uppercase"
@@ -613,10 +676,12 @@ viewContent config model =
         ]
 
 
+oneThird : String
 oneThird =
     "w-1/3"
 
 
+oneQuarter : String
 oneQuarter =
     "w-1/4"
 
