@@ -178,28 +178,13 @@ findStory uiId storyId categories =
     let
         foundStory =
             List.map
-                (\(UICategoryType ( a, b )) ->
-                    let
-                        uis =
-                            List.map (\(UIType ui) -> ui.id) b
-
-                        _ =
-                            Debug.log "filter" uis
-
-                        _ =
-                            Debug.log "uiId" uiId
-                    in
-                    b
-                )
+                (\(UICategoryType ( a, b )) -> b)
                 categories
                 |> List.concat
                 |> List.filter (\(UIType ui) -> ui.id == uiId)
                 |> List.map (\(UIType ui) -> ui.viewStories)
                 |> List.concat
                 |> List.filter (\s -> getStoryIdFromStories s == storyId)
-
-        _ =
-            Debug.log "foundStory :-)))" foundStory
     in
     List.head foundStory
 
