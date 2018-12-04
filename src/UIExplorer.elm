@@ -56,6 +56,10 @@ type alias ExplorerProgram a b c =
     Program () (Model a b c) (Msg b)
 
 
+type alias MenuViewEnhancer a b c =
+    Model a b c -> Html (Msg b) -> Html (Msg b)
+
+
 type alias ViewEnhancer a b c =
     Model a b c -> Html (Msg b) -> Html (Msg b)
 
@@ -134,6 +138,7 @@ type alias Config a b c =
     { customModel : a
     , update : b -> Model a b c -> Model a b c
     , viewEnhancer : ViewEnhancer a b c
+    , menuViewEnhancer : MenuViewEnhancer a b c
     }
 
 
@@ -143,6 +148,7 @@ defaultConfig =
     , update =
         \msg m -> m
     , viewEnhancer = \m stories -> stories
+    , menuViewEnhancer = \m v -> v
     }
 
 
@@ -631,7 +637,7 @@ viewContent config model =
     in
     div [ toClassName [ "m-6" ] ]
         [ filteredUIs
-            |> List.map (\(UIType s) -> config.viewEnhancer model (renderStories s.viewStories viewConfig model))
+            |> List.map (\(UIType s) -> config.viewEnhancer model (renderStories config s.viewStories viewConfig model))
             |> List.head
             |> Maybe.withDefault
                 (div [ toClassName [] ]
@@ -742,14 +748,14 @@ renderStory index { selectedStoryId } ( id, state, _ ) =
         [ text id ]
 
 
-renderStories : Stories a b c -> UIViewConfig -> Model a b c -> Html (Msg b)
-renderStories stories config model =
+renderStories : Config a b c -> Stories a b c -> UIViewConfig -> Model a b c -> Html (Msg b)
+renderStories config stories viewConfig model =
     let
         { selectedStoryId } =
-            config
+            viewConfig
 
         menu =
-            ul [ toClassName [ "list-reset", "flex", "mb-4" ] ] (List.indexedMap (\index -> renderStory index config) stories)
+            config.menuViewEnhancer model (ul [ toClassName [ "list-reset", "flex", "mb-4" ] ] (List.indexedMap (\index -> renderStory index viewConfig) stories))
 
         currentStories =
             case selectedStoryId of
