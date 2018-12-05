@@ -49,7 +49,8 @@ main =
                 "Styles"
                 [ createUI
                     "Colors"
-                    [ ( "Colors", \_ -> ColorGuide.view, { hasMenu = False } )
+                    [ ( "Brand", \_ -> ColorGuide.viewBrandColors, { hasMenu = True } )
+                    , ( "Neutral", \_ -> ColorGuide.viewNeutralColors, { hasMenu = True } )
                     ]
                 , createUI
                     "Typograhy"

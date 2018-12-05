@@ -1,15 +1,16 @@
-module Guidelines.Colors exposing (view)
+module Guidelines.Colors exposing (viewBrandColors, viewNeutralColors)
 
 import Color exposing (Color)
 import Color.Convert exposing (colorToHex)
 import Element exposing (..)
 import Element.Background as Background
+import Element.Border as Border
 import Element.Font as Font
 import Html exposing (Html)
 import Theme exposing (ColorStyle)
 
 
-width =
+boxWidth =
     180
 
 
@@ -18,13 +19,19 @@ viewColor { color, name } =
     let
         { red, green, blue } =
             Color.toRgba color
+
+        b =
+            Color.toRgba Theme.colors.neutral.greyLightest.color
     in
     Element.column []
         [ Element.column [ spacing 8 ]
             [ Element.row
                 [ Background.color <| rgb red green blue
-                , Element.width (px width)
-                , Element.height (px width)
+                , Element.width (px boxWidth)
+                , Element.height (px boxWidth)
+                , Border.solid
+                , Border.width 1
+                , Border.color <| rgb b.red b.green b.blue
                 ]
                 []
             , Element.column [ spacing 2 ]
@@ -43,6 +50,9 @@ viewColor { color, name } =
         ]
 
 
-view : Html msg
-view =
-    Element.layout [] <| Element.row [ spacing 10 ] (Theme.colors |> List.map viewColor)
+viewBrandColors =
+    Element.layout [] <| Element.wrappedRow [ spacing 8 ] (Theme.brandColorCollection |> List.map viewColor)
+
+
+viewNeutralColors =
+    Element.layout [] <| Element.wrappedRow [ spacing 8, Element.width (px 800) ] (Theme.neutralColorCollection |> List.map viewColor)
