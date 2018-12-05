@@ -12848,23 +12848,26 @@ var author$project$UIExplorer$renderStory = F3(
 					elm$html$Html$text(id)
 				]));
 	});
-var author$project$UIExplorer$renderStories = F3(
-	function (stories, config, model) {
+var author$project$UIExplorer$renderStories = F4(
+	function (config, stories, viewConfig, model) {
 		var menu = A2(
-			elm$html$Html$ul,
-			_List_fromArray(
-				[
-					author$project$UIExplorer$toClassName(
-					_List_fromArray(
-						['list-reset', 'flex', 'mb-4']))
-				]),
+			config.menuViewEnhancer,
+			model,
 			A2(
-				elm$core$List$indexedMap,
-				function (index) {
-					return A2(author$project$UIExplorer$renderStory, index, config);
-				},
-				stories));
-		var _n0 = config;
+				elm$html$Html$ul,
+				_List_fromArray(
+					[
+						author$project$UIExplorer$toClassName(
+						_List_fromArray(
+							['list-reset', 'flex', 'mb-4']))
+					]),
+				A2(
+					elm$core$List$indexedMap,
+					function (index) {
+						return A2(author$project$UIExplorer$renderStory, index, viewConfig);
+					},
+					stories)));
+		var _n0 = viewConfig;
 		var selectedStoryId = _n0.selectedStoryId;
 		var currentStories = function () {
 			if (selectedStoryId.$ === 'Just') {
@@ -12977,7 +12980,7 @@ var author$project$UIExplorer$viewContent = F2(
 								return A2(
 									config.viewEnhancer,
 									model,
-									A3(author$project$UIExplorer$renderStories, s.viewStories, viewConfig, model));
+									A4(author$project$UIExplorer$renderStories, config, s.viewStories, viewConfig, model));
 							},
 							filteredUIs))),
 					A2(
@@ -13250,6 +13253,10 @@ var author$project$UIExplorer$createUI = F2(
 	});
 var author$project$UIExplorer$defaultConfig = {
 	customModel: {},
+	menuViewEnhancer: F2(
+		function (m, v) {
+			return v;
+		}),
 	update: F2(
 		function (msg, m) {
 			return m;

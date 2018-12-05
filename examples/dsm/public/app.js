@@ -11158,7 +11158,7 @@ var avh4$elm_color$Color$rgb255 = F3(
 			avh4$elm_color$Color$scaleFrom255(b),
 			1.0);
 	});
-var author$project$System$colors = _List_fromArray(
+var author$project$Theme$colors = _List_fromArray(
 	[
 		{
 		color: A3(avh4$elm_color$Color$rgb255, 188, 144, 61),
@@ -11438,7 +11438,356 @@ var author$project$Guidelines$Colors$view = A2(
 			[
 				mdgriffith$elm_ui$Element$spacing(10)
 			]),
-		A2(elm$core$List$map, author$project$Guidelines$Colors$viewColor, author$project$System$colors)));
+		A2(elm$core$List$map, author$project$Guidelines$Colors$viewColor, author$project$Theme$colors)));
+var author$project$Theme$fonts = {primary: 'Noto Sans TC', secondary: 'Lato'};
+var mdgriffith$elm_ui$Element$Font$family = function (families) {
+	return A2(
+		mdgriffith$elm_ui$Internal$Model$StyleClass,
+		mdgriffith$elm_ui$Internal$Flag$fontFamily,
+		A2(
+			mdgriffith$elm_ui$Internal$Model$FontFamily,
+			A3(elm$core$List$foldl, mdgriffith$elm_ui$Internal$Model$renderFontClassName, 'ff-', families),
+			families));
+};
+var mdgriffith$elm_ui$Element$Font$sansSerif = mdgriffith$elm_ui$Internal$Model$SansSerif;
+var mdgriffith$elm_ui$Element$Font$typeface = mdgriffith$elm_ui$Internal$Model$Typeface;
+var author$project$Guidelines$Typography$lead = _List_fromArray(
+	[
+		mdgriffith$elm_ui$Element$Font$family(
+		_List_fromArray(
+			[
+				mdgriffith$elm_ui$Element$Font$typeface(author$project$Theme$fonts.primary),
+				mdgriffith$elm_ui$Element$Font$sansSerif
+			])),
+		mdgriffith$elm_ui$Element$Font$size(48)
+	]);
+var author$project$Guidelines$Typography$paragraph = _List_fromArray(
+	[
+		mdgriffith$elm_ui$Element$Font$family(
+		_List_fromArray(
+			[
+				mdgriffith$elm_ui$Element$Font$typeface(author$project$Theme$fonts.secondary),
+				mdgriffith$elm_ui$Element$Font$sansSerif
+			])),
+		mdgriffith$elm_ui$Element$Font$size(16)
+	]);
+var author$project$Guidelines$Typography$sentence = 'The quick brown fox jumps over the lazy dog';
+var author$project$Guidelines$Typography$small = _List_fromArray(
+	[
+		mdgriffith$elm_ui$Element$Font$family(
+		_List_fromArray(
+			[
+				mdgriffith$elm_ui$Element$Font$typeface(author$project$Theme$fonts.secondary),
+				mdgriffith$elm_ui$Element$Font$sansSerif
+			])),
+		mdgriffith$elm_ui$Element$Font$color(
+		A3(mdgriffith$elm_ui$Element$rgb, 0.2, 0.2, 0.2)),
+		mdgriffith$elm_ui$Element$Font$size(12)
+	]);
+var author$project$Guidelines$Typography$subtitle = _List_fromArray(
+	[
+		mdgriffith$elm_ui$Element$Font$family(
+		_List_fromArray(
+			[
+				mdgriffith$elm_ui$Element$Font$typeface(author$project$Theme$fonts.secondary),
+				mdgriffith$elm_ui$Element$Font$sansSerif
+			])),
+		mdgriffith$elm_ui$Element$Font$color(
+		A3(mdgriffith$elm_ui$Element$rgb, 0.2, 0.2, 0.2)),
+		mdgriffith$elm_ui$Element$Font$size(22)
+	]);
+var mdgriffith$elm_ui$Internal$Model$Fill = function (a) {
+	return {$: 'Fill', a: a};
+};
+var mdgriffith$elm_ui$Element$fill = mdgriffith$elm_ui$Internal$Model$Fill(1);
+var mdgriffith$elm_ui$Internal$Model$Describe = function (a) {
+	return {$: 'Describe', a: a};
+};
+var mdgriffith$elm_ui$Internal$Model$Paragraph = {$: 'Paragraph'};
+var mdgriffith$elm_ui$Element$paragraph = F2(
+	function (attrs, children) {
+		return A4(
+			mdgriffith$elm_ui$Internal$Model$element,
+			mdgriffith$elm_ui$Internal$Model$asParagraph,
+			mdgriffith$elm_ui$Internal$Model$div,
+			A2(
+				elm$core$List$cons,
+				mdgriffith$elm_ui$Internal$Model$Describe(mdgriffith$elm_ui$Internal$Model$Paragraph),
+				A2(
+					elm$core$List$cons,
+					mdgriffith$elm_ui$Element$width(mdgriffith$elm_ui$Element$fill),
+					A2(
+						elm$core$List$cons,
+						mdgriffith$elm_ui$Element$spacing(5),
+						attrs))),
+			mdgriffith$elm_ui$Internal$Model$Unkeyed(children));
+	});
+var author$project$Guidelines$Typography$text = F2(
+	function (options, label) {
+		return A2(
+			mdgriffith$elm_ui$Element$paragraph,
+			options,
+			_List_fromArray(
+				[
+					mdgriffith$elm_ui$Element$text(label)
+				]));
+	});
+var author$project$Guidelines$Typography$title = _List_fromArray(
+	[
+		mdgriffith$elm_ui$Element$Font$family(
+		_List_fromArray(
+			[
+				mdgriffith$elm_ui$Element$Font$typeface(author$project$Theme$fonts.primary),
+				mdgriffith$elm_ui$Element$Font$sansSerif
+			])),
+		mdgriffith$elm_ui$Element$Font$size(38)
+	]);
+var author$project$Guidelines$Typography$boxWidth = 800;
+var mdgriffith$elm_ui$Internal$Model$AlignX = function (a) {
+	return {$: 'AlignX', a: a};
+};
+var mdgriffith$elm_ui$Internal$Model$Right = {$: 'Right'};
+var mdgriffith$elm_ui$Element$alignRight = mdgriffith$elm_ui$Internal$Model$AlignX(mdgriffith$elm_ui$Internal$Model$Right);
+var mdgriffith$elm_ui$Internal$Flag$padding = mdgriffith$elm_ui$Internal$Flag$flag(2);
+var mdgriffith$elm_ui$Internal$Model$PaddingStyle = F5(
+	function (a, b, c, d, e) {
+		return {$: 'PaddingStyle', a: a, b: b, c: c, d: d, e: e};
+	});
+var mdgriffith$elm_ui$Element$padding = function (x) {
+	return A2(
+		mdgriffith$elm_ui$Internal$Model$StyleClass,
+		mdgriffith$elm_ui$Internal$Flag$padding,
+		A5(
+			mdgriffith$elm_ui$Internal$Model$PaddingStyle,
+			'p-' + elm$core$String$fromInt(x),
+			x,
+			x,
+			x,
+			x));
+};
+var mdgriffith$elm_ui$Internal$Model$paddingName = F4(
+	function (top, right, bottom, left) {
+		return 'pad-' + (elm$core$String$fromInt(top) + ('-' + (elm$core$String$fromInt(right) + ('-' + (elm$core$String$fromInt(bottom) + ('-' + elm$core$String$fromInt(left)))))));
+	});
+var mdgriffith$elm_ui$Element$paddingEach = function (_n0) {
+	var top = _n0.top;
+	var right = _n0.right;
+	var bottom = _n0.bottom;
+	var left = _n0.left;
+	return (_Utils_eq(top, right) && (_Utils_eq(top, bottom) && _Utils_eq(top, left))) ? A2(
+		mdgriffith$elm_ui$Internal$Model$StyleClass,
+		mdgriffith$elm_ui$Internal$Flag$padding,
+		A5(
+			mdgriffith$elm_ui$Internal$Model$PaddingStyle,
+			'p-' + elm$core$String$fromInt(top),
+			top,
+			top,
+			top,
+			top)) : A2(
+		mdgriffith$elm_ui$Internal$Model$StyleClass,
+		mdgriffith$elm_ui$Internal$Flag$padding,
+		A5(
+			mdgriffith$elm_ui$Internal$Model$PaddingStyle,
+			A4(mdgriffith$elm_ui$Internal$Model$paddingName, top, right, bottom, left),
+			top,
+			right,
+			bottom,
+			left));
+};
+var mdgriffith$elm_ui$Internal$Flag$borderColor = mdgriffith$elm_ui$Internal$Flag$flag(28);
+var mdgriffith$elm_ui$Element$Border$color = function (clr) {
+	return A2(
+		mdgriffith$elm_ui$Internal$Model$StyleClass,
+		mdgriffith$elm_ui$Internal$Flag$borderColor,
+		A3(
+			mdgriffith$elm_ui$Internal$Model$Colored,
+			'bc-' + mdgriffith$elm_ui$Internal$Model$formatColorClass(clr),
+			'border-color',
+			clr));
+};
+var mdgriffith$elm_ui$Internal$Flag$borderStyle = mdgriffith$elm_ui$Internal$Flag$flag(11);
+var mdgriffith$elm_ui$Internal$Model$Class = F2(
+	function (a, b) {
+		return {$: 'Class', a: a, b: b};
+	});
+var mdgriffith$elm_ui$Element$Border$solid = A2(mdgriffith$elm_ui$Internal$Model$Class, mdgriffith$elm_ui$Internal$Flag$borderStyle, mdgriffith$elm_ui$Internal$Style$classes.borderSolid);
+var mdgriffith$elm_ui$Internal$Model$BorderWidth = F5(
+	function (a, b, c, d, e) {
+		return {$: 'BorderWidth', a: a, b: b, c: c, d: d, e: e};
+	});
+var mdgriffith$elm_ui$Element$Border$width = function (v) {
+	return A2(
+		mdgriffith$elm_ui$Internal$Model$StyleClass,
+		mdgriffith$elm_ui$Internal$Flag$borderWidth,
+		A5(
+			mdgriffith$elm_ui$Internal$Model$BorderWidth,
+			'b-' + elm$core$String$fromInt(v),
+			v,
+			v,
+			v,
+			v));
+};
+var mdgriffith$elm_ui$Element$Border$widthXY = F2(
+	function (x, y) {
+		return A2(
+			mdgriffith$elm_ui$Internal$Model$StyleClass,
+			mdgriffith$elm_ui$Internal$Flag$borderWidth,
+			A5(
+				mdgriffith$elm_ui$Internal$Model$BorderWidth,
+				'b-' + (elm$core$String$fromInt(x) + ('-' + elm$core$String$fromInt(y))),
+				y,
+				x,
+				y,
+				x));
+	});
+var mdgriffith$elm_ui$Element$Border$widthEach = function (_n0) {
+	var bottom = _n0.bottom;
+	var top = _n0.top;
+	var left = _n0.left;
+	var right = _n0.right;
+	return (_Utils_eq(top, bottom) && _Utils_eq(left, right)) ? (_Utils_eq(top, right) ? mdgriffith$elm_ui$Element$Border$width(top) : A2(mdgriffith$elm_ui$Element$Border$widthXY, left, top)) : A2(
+		mdgriffith$elm_ui$Internal$Model$StyleClass,
+		mdgriffith$elm_ui$Internal$Flag$borderWidth,
+		A5(
+			mdgriffith$elm_ui$Internal$Model$BorderWidth,
+			'b-' + (elm$core$String$fromInt(top) + ('-' + (elm$core$String$fromInt(right) + ('-' + (elm$core$String$fromInt(bottom) + ('-' + elm$core$String$fromInt(left))))))),
+			top,
+			right,
+			bottom,
+			left));
+};
+var author$project$Guidelines$Typography$typoDetail = F4(
+	function (label, infos, content, usage) {
+		return A2(
+			mdgriffith$elm_ui$Element$column,
+			_List_fromArray(
+				[
+					mdgriffith$elm_ui$Element$spacing(10)
+				]),
+			_List_fromArray(
+				[
+					A2(
+					mdgriffith$elm_ui$Element$row,
+					_List_fromArray(
+						[
+							mdgriffith$elm_ui$Element$Border$color(
+							A3(mdgriffith$elm_ui$Element$rgb, 0.8, 0.8, 0.8)),
+							mdgriffith$elm_ui$Element$width(
+							mdgriffith$elm_ui$Element$px(author$project$Guidelines$Typography$boxWidth)),
+							mdgriffith$elm_ui$Element$paddingEach(
+							{bottom: 8, left: 0, right: 0, top: 0}),
+							mdgriffith$elm_ui$Element$Border$widthEach(
+							{bottom: 1, left: 0, right: 0, top: 0})
+						]),
+					_List_fromArray(
+						[
+							A2(
+							mdgriffith$elm_ui$Element$row,
+							_List_fromArray(
+								[
+									mdgriffith$elm_ui$Element$Font$color(
+									A3(mdgriffith$elm_ui$Element$rgb, 0.4, 0.4, 0.4))
+								]),
+							_List_fromArray(
+								[
+									mdgriffith$elm_ui$Element$text(label)
+								])),
+							A2(
+							mdgriffith$elm_ui$Element$row,
+							_List_fromArray(
+								[
+									mdgriffith$elm_ui$Element$Font$color(
+									A3(mdgriffith$elm_ui$Element$rgb, 0.6, 0.6, 0.6)),
+									mdgriffith$elm_ui$Element$Font$size(14),
+									mdgriffith$elm_ui$Element$alignRight
+								]),
+							_List_fromArray(
+								[
+									mdgriffith$elm_ui$Element$text(infos)
+								]))
+						])),
+					A2(
+					mdgriffith$elm_ui$Element$column,
+					_List_fromArray(
+						[
+							mdgriffith$elm_ui$Element$spacing(20)
+						]),
+					_List_fromArray(
+						[
+							content,
+							A2(
+							mdgriffith$elm_ui$Element$row,
+							_List_fromArray(
+								[
+									mdgriffith$elm_ui$Element$Font$size(14),
+									mdgriffith$elm_ui$Element$Font$color(
+									A3(mdgriffith$elm_ui$Element$rgb, 0.4, 0.4, 0.4)),
+									mdgriffith$elm_ui$Element$Background$color(
+									A3(mdgriffith$elm_ui$Element$rgb, 0.9, 0.9, 0.9)),
+									mdgriffith$elm_ui$Element$Border$color(
+									A3(mdgriffith$elm_ui$Element$rgb, 0.5, 0.5, 0.5)),
+									mdgriffith$elm_ui$Element$Border$solid,
+									mdgriffith$elm_ui$Element$width(
+									mdgriffith$elm_ui$Element$px(author$project$Guidelines$Typography$boxWidth)),
+									mdgriffith$elm_ui$Element$padding(10),
+									mdgriffith$elm_ui$Element$Border$widthEach(
+									{bottom: 0, left: 6, right: 0, top: 0})
+								]),
+							_List_fromArray(
+								[
+									mdgriffith$elm_ui$Element$text('Usage : ' + usage)
+								]))
+						]))
+				]));
+	});
+var author$project$Guidelines$Typography$viewTypos = function (content) {
+	return A2(
+		mdgriffith$elm_ui$Element$layout,
+		_List_Nil,
+		A2(
+			mdgriffith$elm_ui$Element$column,
+			_List_fromArray(
+				[
+					mdgriffith$elm_ui$Element$spacing(80),
+					mdgriffith$elm_ui$Element$width(
+					mdgriffith$elm_ui$Element$px(author$project$Guidelines$Typography$boxWidth))
+				]),
+			content));
+};
+var author$project$Guidelines$Typography$view = author$project$Guidelines$Typography$viewTypos(
+	_List_fromArray(
+		[
+			A4(
+			author$project$Guidelines$Typography$typoDetail,
+			'Lead',
+			'48px' + (' / ' + author$project$Theme$fonts.primary),
+			A2(author$project$Guidelines$Typography$text, author$project$Guidelines$Typography$lead, author$project$Guidelines$Typography$sentence),
+			'Hero or blog post title'),
+			A4(
+			author$project$Guidelines$Typography$typoDetail,
+			'Title',
+			'38px' + (' / ' + author$project$Theme$fonts.primary),
+			A2(author$project$Guidelines$Typography$text, author$project$Guidelines$Typography$title, author$project$Guidelines$Typography$sentence),
+			'Article title or section header'),
+			A4(
+			author$project$Guidelines$Typography$typoDetail,
+			'Subtitle',
+			'22px' + (' / ' + author$project$Theme$fonts.secondary),
+			A2(author$project$Guidelines$Typography$text, author$project$Guidelines$Typography$subtitle, author$project$Guidelines$Typography$sentence),
+			'Headline title or subtitle'),
+			A4(
+			author$project$Guidelines$Typography$typoDetail,
+			'Body',
+			'16x' + (' / ' + author$project$Theme$fonts.secondary),
+			A2(author$project$Guidelines$Typography$text, author$project$Guidelines$Typography$paragraph, author$project$Guidelines$Typography$sentence),
+			'Article body'),
+			A4(
+			author$project$Guidelines$Typography$typoDetail,
+			'Small',
+			'12x' + (' / ' + author$project$Theme$fonts.secondary),
+			A2(author$project$Guidelines$Typography$text, author$project$Guidelines$Typography$small, author$project$Guidelines$Typography$sentence),
+			'Time stamps, copyrights')
+		]));
 var author$project$Main$join = function (mx) {
 	if (mx.$ === 'Just') {
 		var x = mx.a;
@@ -16244,17 +16593,23 @@ var author$project$Main$main = A2(
 				_List_fromArray(
 					[
 						_Utils_Tuple3(
-						'Swatches',
+						'Colors',
 						function (_n2) {
 							return author$project$Guidelines$Colors$view;
 						},
-						{hasMenu: true}),
+						{hasMenu: false})
+					])),
+				A2(
+				author$project$UIExplorer$createUI,
+				'Typograhy',
+				_List_fromArray(
+					[
 						_Utils_Tuple3(
-						'Usage',
+						'Typograhy',
 						function (_n3) {
-							return elm$html$Html$text('');
+							return author$project$Guidelines$Typography$view;
 						},
-						{hasMenu: true})
+						{hasMenu: false})
 					]))
 			]),
 		A3(

@@ -6,7 +6,7 @@ import Element exposing (..)
 import Element.Background as Background
 import Element.Font as Font
 import Html exposing (Html)
-import System exposing (ColorStyle)
+import Theme exposing (ColorStyle)
 
 
 width =
@@ -45,4 +45,4 @@ viewColor { color, name } =
 
 view : Html msg
 view =
-    Element.layout [] <| Element.row [ spacing 10 ] (System.colors |> List.map viewColor)
+    Element.layout [] <| Element.row [ spacing 10 ] (Theme.colors |> List.map viewColor)

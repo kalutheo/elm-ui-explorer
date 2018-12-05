@@ -1,10 +1,25 @@
-module System exposing (ColorStyle, colors)
+module Theme exposing (ColorStyle, colors, fonts)
 
 import Color exposing (Color)
 
 
 type alias ColorStyle =
     { color : Color, name : String }
+
+
+type alias FontAsset =
+    { url : String
+    , name : String
+    }
+
+
+type alias FontFamily =
+    { primary : String, secondary : String }
+
+
+fonts : FontFamily
+fonts =
+    { primary = "Noto Sans TC", secondary = "Lato" }
 
 
 colors : List ColorStyle

@@ -2,6 +2,7 @@ module Main exposing (main)
 
 import Docs
 import Guidelines.Colors as ColorGuide
+import Guidelines.Typography as TypographyGuide
 import Html
 import Html.Attributes exposing (class)
 import Markdown
@@ -48,8 +49,11 @@ main =
                 "Styles"
                 [ createUI
                     "Colors"
-                    [ ( "Swatches", \_ -> ColorGuide.view, { hasMenu = True } )
-                    , ( "Usage", \_ -> Html.text "", { hasMenu = True } )
+                    [ ( "Colors", \_ -> ColorGuide.view, { hasMenu = False } )
+                    ]
+                , createUI
+                    "Typograhy"
+                    [ ( "Typograhy", \_ -> TypographyGuide.view, { hasMenu = False } )
                     ]
                 ]
         )
