@@ -77,7 +77,7 @@ colors =
             , color = Color.rgb 0.9 0.9 0.9
             }
         , greyLighter =
-            { name = "Grey Light"
+            { name = "Grey Lighter"
             , color = Color.rgb 0.8 0.8 0.8
             }
         , greyLight =
@@ -93,7 +93,7 @@ colors =
             , color = Color.rgb 0.3 0.3 0.3
             }
         , greyDarker =
-            { name = "Grey Dark"
+            { name = "Grey Darker"
             , color = Color.rgb 0.2 0.2 0.2
             }
         , greyDarkest =

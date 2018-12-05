@@ -5528,7 +5528,7 @@ var author$project$Theme$colors = {
 		},
 		greyDarker: {
 			color: A3(avh4$elm_color$Color$rgb, 0.2, 0.2, 0.2),
-			name: 'Grey Dark'
+			name: 'Grey Darker'
 		},
 		greyDarkest: {
 			color: A3(avh4$elm_color$Color$rgb, 0.1, 0.1, 0.1),
@@ -5540,7 +5540,7 @@ var author$project$Theme$colors = {
 		},
 		greyLighter: {
 			color: A3(avh4$elm_color$Color$rgb, 0.8, 0.8, 0.8),
-			name: 'Grey Light'
+			name: 'Grey Lighter'
 		},
 		greyLightest: {
 			color: A3(avh4$elm_color$Color$rgb, 0.9, 0.9, 0.9),
