@@ -4952,7 +4952,6 @@ var author$project$Button$Secondary = {$: 'Secondary'};
 var author$project$Button$Filled = {$: 'Filled'};
 var author$project$Button$M = {$: 'M'};
 var author$project$Button$Primary = {$: 'Primary'};
-var author$project$Button$defaultButtonConfig = {appearance: author$project$Button$Primary, _class: '', kind: author$project$Button$Filled, size: author$project$Button$M};
 var elm$core$Elm$JsArray$foldr = _JsArray_foldr;
 var elm$core$Array$foldr = F3(
 	function (func, baseCase, _n0) {
@@ -5511,13 +5510,24 @@ var rtfeldman$elm_css$Css$hex = function (str) {
 	}
 	return rtfeldman$elm_css$Css$erroneousHex(str);
 };
-var author$project$Button$colorFromAppearance = function (appearance) {
-	if (appearance.$ === 'Primary') {
-		return rtfeldman$elm_css$Css$hex('00d1b2');
-	} else {
-		return rtfeldman$elm_css$Css$hex('333333');
+var author$project$Button$defaultButtonConfig = {
+	appearance: author$project$Button$Primary,
+	_class: '',
+	kind: author$project$Button$Filled,
+	size: author$project$Button$M,
+	theme: {
+		primary: rtfeldman$elm_css$Css$hex('00d1b2'),
+		secondary: rtfeldman$elm_css$Css$hex('333333')
 	}
 };
+var author$project$Button$colorFromAppearance = F2(
+	function (theme, appearance) {
+		if (appearance.$ === 'Primary') {
+			return theme.primary;
+		} else {
+			return theme.secondary;
+		}
+	});
 var elm$core$Basics$or = _Basics_or;
 var elm$core$Basics$gt = _Utils_gt;
 var elm$core$List$reverse = function (list) {
@@ -5621,9 +5631,9 @@ var rtfeldman$elm_css$Css$rgba = F4(
 						])))
 		};
 	});
-var author$project$Button$bgColor = F2(
-	function (appearance, kind) {
-		return (_Utils_eq(kind, author$project$Button$Link) || _Utils_eq(kind, author$project$Button$Ghost)) ? A4(rtfeldman$elm_css$Css$rgba, 0, 0, 0, 0) : author$project$Button$colorFromAppearance(appearance);
+var author$project$Button$bgColor = F3(
+	function (theme, appearance, kind) {
+		return (_Utils_eq(kind, author$project$Button$Link) || _Utils_eq(kind, author$project$Button$Ghost)) ? A4(rtfeldman$elm_css$Css$rgba, 0, 0, 0, 0) : A2(author$project$Button$colorFromAppearance, theme, appearance);
 	});
 var rtfeldman$elm_css$Css$none = {backgroundImage: rtfeldman$elm_css$Css$Structure$Compatible, blockAxisOverflow: rtfeldman$elm_css$Css$Structure$Compatible, borderStyle: rtfeldman$elm_css$Css$Structure$Compatible, cursor: rtfeldman$elm_css$Css$Structure$Compatible, display: rtfeldman$elm_css$Css$Structure$Compatible, hoverCapability: rtfeldman$elm_css$Css$Structure$Compatible, inlineAxisOverflow: rtfeldman$elm_css$Css$Structure$Compatible, keyframes: rtfeldman$elm_css$Css$Structure$Compatible, lengthOrNone: rtfeldman$elm_css$Css$Structure$Compatible, lengthOrNoneOrMinMaxDimension: rtfeldman$elm_css$Css$Structure$Compatible, lengthOrNumberOrAutoOrNoneOrContent: rtfeldman$elm_css$Css$Structure$Compatible, listStyleType: rtfeldman$elm_css$Css$Structure$Compatible, listStyleTypeOrPositionOrImage: rtfeldman$elm_css$Css$Structure$Compatible, none: rtfeldman$elm_css$Css$Structure$Compatible, outline: rtfeldman$elm_css$Css$Structure$Compatible, pointerDevice: rtfeldman$elm_css$Css$Structure$Compatible, pointerEvents: rtfeldman$elm_css$Css$Structure$Compatible, resize: rtfeldman$elm_css$Css$Structure$Compatible, scriptingSupport: rtfeldman$elm_css$Css$Structure$Compatible, textDecorationLine: rtfeldman$elm_css$Css$Structure$Compatible, textTransform: rtfeldman$elm_css$Css$Structure$Compatible, touchAction: rtfeldman$elm_css$Css$Structure$Compatible, transform: rtfeldman$elm_css$Css$Structure$Compatible, updateFrequency: rtfeldman$elm_css$Css$Structure$Compatible, value: 'none'};
 var rtfeldman$elm_css$Css$Preprocess$AppendProperty = function (a) {
@@ -5658,15 +5668,15 @@ var author$project$Button$decoration = function (shape) {
 				]);
 	}
 };
-var author$project$Button$textColor = F2(
-	function (appearance, kind) {
+var author$project$Button$textColor = F3(
+	function (theme, appearance, kind) {
 		switch (kind.$) {
 			case 'Link':
-				return author$project$Button$colorFromAppearance(appearance);
+				return A2(author$project$Button$colorFromAppearance, theme, appearance);
 			case 'Filled':
 				return rtfeldman$elm_css$Css$hex('FFFFFF');
 			default:
-				return author$project$Button$colorFromAppearance(appearance);
+				return A2(author$project$Button$colorFromAppearance, theme, appearance);
 		}
 	});
 var rtfeldman$elm_css$Css$EmUnits = {$: 'EmUnits'};
@@ -8019,6 +8029,7 @@ var author$project$Button$styledButton = function (_n0) {
 	var appearance = _n0.appearance;
 	var size = _n0.size;
 	var kind = _n0.kind;
+	var theme = _n0.theme;
 	return A2(
 		rtfeldman$elm_css$Html$Styled$styled,
 		rtfeldman$elm_css$Html$Styled$button,
@@ -8026,14 +8037,14 @@ var author$project$Button$styledButton = function (_n0) {
 			_List_fromArray(
 				[
 					rtfeldman$elm_css$Css$backgroundColor(
-					A2(author$project$Button$bgColor, appearance, kind)),
+					A3(author$project$Button$bgColor, theme, appearance, kind)),
 					rtfeldman$elm_css$Css$border(
 					_Utils_eq(kind, author$project$Button$Ghost) ? rtfeldman$elm_css$Css$px(1) : rtfeldman$elm_css$Css$px(0)),
 					rtfeldman$elm_css$Css$borderStyle(rtfeldman$elm_css$Css$solid),
 					rtfeldman$elm_css$Css$borderColor(
-					author$project$Button$colorFromAppearance(appearance)),
+					A2(author$project$Button$colorFromAppearance, theme, appearance)),
 					rtfeldman$elm_css$Css$color(
-					A2(author$project$Button$textColor, appearance, kind)),
+					A3(author$project$Button$textColor, theme, appearance, kind)),
 					rtfeldman$elm_css$Css$padding(
 					rtfeldman$elm_css$Css$em(0)),
 					rtfeldman$elm_css$Css$fontSize(

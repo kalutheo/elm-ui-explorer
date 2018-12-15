@@ -54,6 +54,7 @@ type alias Config =
     , size : Size
     , kind : Kind
     , class : String
+    , theme : Theme
     }
 
 
@@ -80,6 +81,12 @@ type Kind
     | Ghost
 
 
+type alias Theme =
+    { primary : Css.Color
+    , secondary : Css.Color
+    }
+
+
 {-| Default Configurations
 -}
 defaultButtonConfig : Config
@@ -88,6 +95,10 @@ defaultButtonConfig =
     , size = M
     , kind = Filled
     , class = ""
+    , theme =
+        { primary = hex "00d1b2"
+        , secondary = hex "333333"
+        }
     }
 
 
@@ -104,13 +115,13 @@ widthFromSize size =
             Css.em 16
 
 
-bgColor : Appearance -> Kind -> Css.Color
-bgColor appearance kind =
+bgColor : Theme -> Appearance -> Kind -> Css.Color
+bgColor theme appearance kind =
     if kind == Link || kind == Ghost then
         rgba 0 0 0 0
 
     else
-        colorFromAppearance appearance
+        colorFromAppearance theme appearance
 
 
 decoration : Kind -> List Style
@@ -129,33 +140,33 @@ decoration shape =
             ]
 
 
-colorFromAppearance : Appearance -> Css.Color
-colorFromAppearance appearance =
+colorFromAppearance : Theme -> Appearance -> Css.Color
+colorFromAppearance theme appearance =
     case appearance of
         Primary ->
-            hex "00d1b2"
+            theme.primary
 
         Secondary ->
-            hex "333333"
+            theme.secondary
 
 
-textColor : Appearance -> Kind -> Css.Color
-textColor appearance kind =
+textColor : Theme -> Appearance -> Kind -> Css.Color
+textColor theme appearance kind =
     case kind of
         Link ->
-            colorFromAppearance appearance
+            colorFromAppearance theme appearance
 
         Filled ->
             hex "FFFFFF"
 
         Ghost ->
-            colorFromAppearance appearance
+            colorFromAppearance theme appearance
 
 
 styledButton : Config -> List (Attribute msg) -> List (Html msg) -> Html msg
-styledButton { appearance, size, kind } =
+styledButton { appearance, size, kind, theme } =
     styled button <|
-        [ backgroundColor (bgColor appearance kind)
+        [ backgroundColor (bgColor theme appearance kind)
         , border <|
             if kind == Ghost then
                 px 1
@@ -163,8 +174,8 @@ styledButton { appearance, size, kind } =
             else
                 px 0
         , borderStyle solid
-        , borderColor (colorFromAppearance appearance)
-        , color (textColor appearance kind)
+        , borderColor (colorFromAppearance theme appearance)
+        , color (textColor theme appearance kind)
         , padding (Css.em 0)
         , fontSize (Css.em 0.9)
         , width (widthFromSize size)
