@@ -4,7 +4,8 @@ import Element exposing (..)
 import Element.Background as Background
 import Element.Border as Border
 import Element.Font as Font
-import Theme exposing (TypographyStyle, fonts, typographyCollection)
+import Theme exposing (typographyCollection)
+import Theme.Types exposing (TypographyStyle)
 
 
 boxWidth =
@@ -13,53 +14,6 @@ boxWidth =
 
 sentence =
     "The quick brown fox jumps over the lazy dog"
-
-
-lead =
-    [ Font.family
-        [ Font.typeface fonts.primary
-        , Font.sansSerif
-        ]
-    , Font.size 48
-    ]
-
-
-title =
-    [ Font.family
-        [ Font.typeface fonts.primary
-        , Font.sansSerif
-        ]
-    , Font.size 38
-    ]
-
-
-subtitle =
-    [ Font.family
-        [ Font.typeface fonts.secondary
-        , Font.sansSerif
-        ]
-    , Font.color (rgb 0.2 0.2 0.2)
-    , Font.size 22
-    ]
-
-
-paragraph =
-    [ Font.family
-        [ Font.typeface fonts.secondary
-        , Font.sansSerif
-        ]
-    , Font.size 16
-    ]
-
-
-small =
-    [ Font.family
-        [ Font.typeface fonts.secondary
-        , Font.sansSerif
-        ]
-    , Font.color (rgb 0.2 0.2 0.2)
-    , Font.size 12
-    ]
 
 
 text options label =

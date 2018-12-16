@@ -5490,23 +5490,23 @@ var avh4$elm_color$Color$rgb255 = F3(
 			avh4$elm_color$Color$scaleFrom255(b),
 			1.0);
 	});
-var author$project$Theme$blueClassic = {
+var author$project$Theme$Colors$blueClassic = {
 	color: A3(avh4$elm_color$Color$rgb255, 33, 88, 141),
 	name: 'Blue Classic'
 };
-var author$project$Theme$blueNavy = {
+var author$project$Theme$Colors$blueNavy = {
 	color: A3(avh4$elm_color$Color$rgb255, 17, 63, 103),
 	name: 'Blue Navy'
 };
-var author$project$Theme$premiumGold = {
+var author$project$Theme$Colors$premiumGold = {
 	color: A3(avh4$elm_color$Color$rgb255, 188, 144, 61),
 	name: 'Premium Gold'
 };
-var author$project$Theme$unkown = {
+var author$project$Theme$Colors$unkown = {
 	color: A3(avh4$elm_color$Color$rgb255, 0, 0, 0),
 	name: 'Unkown'
 };
-var author$project$Theme$vibrantRed = {
+var author$project$Theme$Colors$vibrantRed = {
 	color: A3(avh4$elm_color$Color$rgb255, 202, 17, 4),
 	name: 'Vibrant Red'
 };
@@ -5514,8 +5514,8 @@ var avh4$elm_color$Color$rgb = F3(
 	function (r, g, b) {
 		return A4(avh4$elm_color$Color$RgbaSpace, r, g, b, 1.0);
 	});
-var author$project$Theme$colors = {
-	brand: {alternative: author$project$Theme$premiumGold, alternativeVariant: author$project$Theme$unkown, primary: author$project$Theme$vibrantRed, primaryVariant: author$project$Theme$vibrantRed, secondary: author$project$Theme$blueNavy, secondaryVariant: author$project$Theme$blueClassic},
+var author$project$Theme$Colors$colors = {
+	brand: {alternative: author$project$Theme$Colors$premiumGold, alternativeVariant: author$project$Theme$Colors$unkown, primary: author$project$Theme$Colors$vibrantRed, primaryVariant: author$project$Theme$Colors$vibrantRed, secondary: author$project$Theme$Colors$blueNavy, secondaryVariant: author$project$Theme$Colors$blueClassic},
 	neutral: {
 		black: {
 			color: A3(avh4$elm_color$Color$rgb, 0, 0, 0),
@@ -11192,7 +11192,7 @@ var noahzgordon$elm_color_extra$Color$Convert$colorToHex = function (cl) {
 var author$project$Guidelines$Colors$viewColor = function (_n0) {
 	var color = _n0.color;
 	var name = _n0.name;
-	var b = avh4$elm_color$Color$toRgba(author$project$Theme$colors.neutral.greyLightest.color);
+	var b = avh4$elm_color$Color$toRgba(author$project$Theme$Colors$colors.neutral.greyLightest.color);
 	var _n1 = avh4$elm_color$Color$toRgba(color);
 	var red = _n1.red;
 	var green = _n1.green;
@@ -11262,7 +11262,7 @@ var author$project$Guidelines$Colors$viewColor = function (_n0) {
 			]));
 };
 var author$project$Theme$brandColorCollection = _List_fromArray(
-	[author$project$Theme$colors.brand.primary, author$project$Theme$colors.brand.secondary, author$project$Theme$colors.brand.secondaryVariant, author$project$Theme$colors.brand.alternative]);
+	[author$project$Theme$Colors$colors.brand.primary, author$project$Theme$Colors$colors.brand.secondary, author$project$Theme$Colors$colors.brand.secondaryVariant, author$project$Theme$Colors$colors.brand.alternative]);
 var mdgriffith$elm_ui$Internal$Model$OnlyDynamic = F2(
 	function (a, b) {
 		return {$: 'OnlyDynamic', a: a, b: b};
@@ -11730,7 +11730,7 @@ var author$project$Guidelines$Colors$viewBrandColors = A2(
 			]),
 		A2(elm$core$List$map, author$project$Guidelines$Colors$viewColor, author$project$Theme$brandColorCollection)));
 var author$project$Theme$neutralColorCollection = _List_fromArray(
-	[author$project$Theme$colors.neutral.white, author$project$Theme$colors.neutral.greyLightest, author$project$Theme$colors.neutral.greyLighter, author$project$Theme$colors.neutral.greyLight, author$project$Theme$colors.neutral.grey, author$project$Theme$colors.neutral.greyDark, author$project$Theme$colors.neutral.greyDarker, author$project$Theme$colors.neutral.greyDarkest, author$project$Theme$colors.neutral.black]);
+	[author$project$Theme$Colors$colors.neutral.white, author$project$Theme$Colors$colors.neutral.greyLightest, author$project$Theme$Colors$colors.neutral.greyLighter, author$project$Theme$Colors$colors.neutral.greyLight, author$project$Theme$Colors$colors.neutral.grey, author$project$Theme$Colors$colors.neutral.greyDark, author$project$Theme$Colors$colors.neutral.greyDarker, author$project$Theme$Colors$colors.neutral.greyDarkest, author$project$Theme$Colors$colors.neutral.black]);
 var author$project$Guidelines$Colors$viewNeutralColors = A2(
 	mdgriffith$elm_ui$Element$layout,
 	_List_Nil,
@@ -11961,16 +11961,16 @@ var author$project$Guidelines$Typography$viewTypos = function (content) {
 				]),
 			content));
 };
-var author$project$Theme$fonts = {primary: 'Noto Sans TC', secondary: 'Lato'};
-var author$project$Theme$typography = {
-	lead: {desc: 'Hero or blog post title', family: author$project$Theme$fonts.primary, name: 'Lead', size: 48},
-	paragraph: {desc: 'Article body', family: author$project$Theme$fonts.secondary, name: 'Paragraph', size: 16},
-	small: {desc: 'Time stamps, copyrights', family: author$project$Theme$fonts.secondary, name: 'Small', size: 12},
-	subtitle: {desc: 'Headline title or subtitle', family: author$project$Theme$fonts.primary, name: 'Subtitle', size: 22},
-	title: {desc: 'Article title or section header', family: author$project$Theme$fonts.primary, name: 'Title', size: 38}
+var author$project$Theme$Typography$fonts = {primary: 'Noto Sans TC', secondary: 'Lato'};
+var author$project$Theme$Typography$typography = {
+	lead: {desc: 'Hero or blog post title', family: author$project$Theme$Typography$fonts.primary, name: 'Lead', size: 48},
+	paragraph: {desc: 'Article body', family: author$project$Theme$Typography$fonts.secondary, name: 'Paragraph', size: 16},
+	small: {desc: 'Time stamps, copyrights', family: author$project$Theme$Typography$fonts.secondary, name: 'Small', size: 12},
+	subtitle: {desc: 'Headline title or subtitle', family: author$project$Theme$Typography$fonts.primary, name: 'Subtitle', size: 22},
+	title: {desc: 'Article title or section header', family: author$project$Theme$Typography$fonts.primary, name: 'Title', size: 38}
 };
 var author$project$Theme$typographyCollection = _List_fromArray(
-	[author$project$Theme$typography.lead, author$project$Theme$typography.title, author$project$Theme$typography.subtitle, author$project$Theme$typography.paragraph, author$project$Theme$typography.small]);
+	[author$project$Theme$Typography$typography.lead, author$project$Theme$Typography$typography.title, author$project$Theme$Typography$typography.subtitle, author$project$Theme$Typography$typography.paragraph, author$project$Theme$Typography$typography.small]);
 var author$project$Guidelines$Typography$view = author$project$Guidelines$Typography$viewTypos(
 	A2(elm$core$List$map, author$project$Guidelines$Typography$viewTypoItem, author$project$Theme$typographyCollection));
 var author$project$Main$join = function (mx) {
