@@ -5478,10 +5478,6 @@ var avh4$elm_color$Color$RgbaSpace = F4(
 	function (a, b, c, d) {
 		return {$: 'RgbaSpace', a: a, b: b, c: c, d: d};
 	});
-var avh4$elm_color$Color$rgb = F3(
-	function (r, g, b) {
-		return A4(avh4$elm_color$Color$RgbaSpace, r, g, b, 1.0);
-	});
 var avh4$elm_color$Color$scaleFrom255 = function (c) {
 	return c / 255;
 };
@@ -5494,25 +5490,32 @@ var avh4$elm_color$Color$rgb255 = F3(
 			avh4$elm_color$Color$scaleFrom255(b),
 			1.0);
 	});
+var author$project$Theme$blueClassic = {
+	color: A3(avh4$elm_color$Color$rgb255, 33, 88, 141),
+	name: 'Blue Classic'
+};
+var author$project$Theme$blueNavy = {
+	color: A3(avh4$elm_color$Color$rgb255, 17, 63, 103),
+	name: 'Blue Navy'
+};
+var author$project$Theme$premiumGold = {
+	color: A3(avh4$elm_color$Color$rgb255, 188, 144, 61),
+	name: 'Premium Gold'
+};
+var author$project$Theme$unkown = {
+	color: A3(avh4$elm_color$Color$rgb255, 0, 0, 0),
+	name: 'Unkown'
+};
+var author$project$Theme$vibrantRed = {
+	color: A3(avh4$elm_color$Color$rgb255, 202, 17, 4),
+	name: 'Vibrant Red'
+};
+var avh4$elm_color$Color$rgb = F3(
+	function (r, g, b) {
+		return A4(avh4$elm_color$Color$RgbaSpace, r, g, b, 1.0);
+	});
 var author$project$Theme$colors = {
-	brand: {
-		blueClassic: {
-			color: A3(avh4$elm_color$Color$rgb255, 33, 88, 141),
-			name: 'Blue Classic'
-		},
-		blueNavy: {
-			color: A3(avh4$elm_color$Color$rgb255, 17, 63, 103),
-			name: 'Blue Navy'
-		},
-		premiumGold: {
-			color: A3(avh4$elm_color$Color$rgb255, 188, 144, 61),
-			name: 'Premium Gold'
-		},
-		vibrantRed: {
-			color: A3(avh4$elm_color$Color$rgb255, 202, 17, 4),
-			name: 'Vibrant Red'
-		}
-	},
+	brand: {alternative: author$project$Theme$premiumGold, alternativeVariant: author$project$Theme$unkown, primary: author$project$Theme$vibrantRed, primaryVariant: author$project$Theme$vibrantRed, secondary: author$project$Theme$blueNavy, secondaryVariant: author$project$Theme$blueClassic},
 	neutral: {
 		black: {
 			color: A3(avh4$elm_color$Color$rgb, 0, 0, 0),
@@ -11259,7 +11262,7 @@ var author$project$Guidelines$Colors$viewColor = function (_n0) {
 			]));
 };
 var author$project$Theme$brandColorCollection = _List_fromArray(
-	[author$project$Theme$colors.brand.premiumGold, author$project$Theme$colors.brand.vibrantRed, author$project$Theme$colors.brand.blueNavy, author$project$Theme$colors.brand.blueClassic]);
+	[author$project$Theme$colors.brand.primary, author$project$Theme$colors.brand.secondary, author$project$Theme$colors.brand.secondaryVariant, author$project$Theme$colors.brand.alternative]);
 var mdgriffith$elm_ui$Internal$Model$OnlyDynamic = F2(
 	function (a, b) {
 		return {$: 'OnlyDynamic', a: a, b: b};
@@ -11740,109 +11743,6 @@ var author$project$Guidelines$Colors$viewNeutralColors = A2(
 				mdgriffith$elm_ui$Element$px(800))
 			]),
 		A2(elm$core$List$map, author$project$Guidelines$Colors$viewColor, author$project$Theme$neutralColorCollection)));
-var author$project$Theme$fonts = {primary: 'Noto Sans TC', secondary: 'Lato'};
-var mdgriffith$elm_ui$Element$Font$family = function (families) {
-	return A2(
-		mdgriffith$elm_ui$Internal$Model$StyleClass,
-		mdgriffith$elm_ui$Internal$Flag$fontFamily,
-		A2(
-			mdgriffith$elm_ui$Internal$Model$FontFamily,
-			A3(elm$core$List$foldl, mdgriffith$elm_ui$Internal$Model$renderFontClassName, 'ff-', families),
-			families));
-};
-var mdgriffith$elm_ui$Element$Font$sansSerif = mdgriffith$elm_ui$Internal$Model$SansSerif;
-var mdgriffith$elm_ui$Element$Font$typeface = mdgriffith$elm_ui$Internal$Model$Typeface;
-var author$project$Guidelines$Typography$lead = _List_fromArray(
-	[
-		mdgriffith$elm_ui$Element$Font$family(
-		_List_fromArray(
-			[
-				mdgriffith$elm_ui$Element$Font$typeface(author$project$Theme$fonts.primary),
-				mdgriffith$elm_ui$Element$Font$sansSerif
-			])),
-		mdgriffith$elm_ui$Element$Font$size(48)
-	]);
-var author$project$Guidelines$Typography$paragraph = _List_fromArray(
-	[
-		mdgriffith$elm_ui$Element$Font$family(
-		_List_fromArray(
-			[
-				mdgriffith$elm_ui$Element$Font$typeface(author$project$Theme$fonts.secondary),
-				mdgriffith$elm_ui$Element$Font$sansSerif
-			])),
-		mdgriffith$elm_ui$Element$Font$size(16)
-	]);
-var author$project$Guidelines$Typography$sentence = 'The quick brown fox jumps over the lazy dog';
-var author$project$Guidelines$Typography$small = _List_fromArray(
-	[
-		mdgriffith$elm_ui$Element$Font$family(
-		_List_fromArray(
-			[
-				mdgriffith$elm_ui$Element$Font$typeface(author$project$Theme$fonts.secondary),
-				mdgriffith$elm_ui$Element$Font$sansSerif
-			])),
-		mdgriffith$elm_ui$Element$Font$color(
-		A3(mdgriffith$elm_ui$Element$rgb, 0.2, 0.2, 0.2)),
-		mdgriffith$elm_ui$Element$Font$size(12)
-	]);
-var author$project$Guidelines$Typography$subtitle = _List_fromArray(
-	[
-		mdgriffith$elm_ui$Element$Font$family(
-		_List_fromArray(
-			[
-				mdgriffith$elm_ui$Element$Font$typeface(author$project$Theme$fonts.secondary),
-				mdgriffith$elm_ui$Element$Font$sansSerif
-			])),
-		mdgriffith$elm_ui$Element$Font$color(
-		A3(mdgriffith$elm_ui$Element$rgb, 0.2, 0.2, 0.2)),
-		mdgriffith$elm_ui$Element$Font$size(22)
-	]);
-var mdgriffith$elm_ui$Internal$Model$Fill = function (a) {
-	return {$: 'Fill', a: a};
-};
-var mdgriffith$elm_ui$Element$fill = mdgriffith$elm_ui$Internal$Model$Fill(1);
-var mdgriffith$elm_ui$Internal$Model$Describe = function (a) {
-	return {$: 'Describe', a: a};
-};
-var mdgriffith$elm_ui$Internal$Model$Paragraph = {$: 'Paragraph'};
-var mdgriffith$elm_ui$Element$paragraph = F2(
-	function (attrs, children) {
-		return A4(
-			mdgriffith$elm_ui$Internal$Model$element,
-			mdgriffith$elm_ui$Internal$Model$asParagraph,
-			mdgriffith$elm_ui$Internal$Model$div,
-			A2(
-				elm$core$List$cons,
-				mdgriffith$elm_ui$Internal$Model$Describe(mdgriffith$elm_ui$Internal$Model$Paragraph),
-				A2(
-					elm$core$List$cons,
-					mdgriffith$elm_ui$Element$width(mdgriffith$elm_ui$Element$fill),
-					A2(
-						elm$core$List$cons,
-						mdgriffith$elm_ui$Element$spacing(5),
-						attrs))),
-			mdgriffith$elm_ui$Internal$Model$Unkeyed(children));
-	});
-var author$project$Guidelines$Typography$text = F2(
-	function (options, label) {
-		return A2(
-			mdgriffith$elm_ui$Element$paragraph,
-			options,
-			_List_fromArray(
-				[
-					mdgriffith$elm_ui$Element$text(label)
-				]));
-	});
-var author$project$Guidelines$Typography$title = _List_fromArray(
-	[
-		mdgriffith$elm_ui$Element$Font$family(
-		_List_fromArray(
-			[
-				mdgriffith$elm_ui$Element$Font$typeface(author$project$Theme$fonts.primary),
-				mdgriffith$elm_ui$Element$Font$sansSerif
-			])),
-		mdgriffith$elm_ui$Element$Font$size(38)
-	]);
 var author$project$Guidelines$Typography$boxWidth = 800;
 var mdgriffith$elm_ui$Internal$Model$AlignX = function (a) {
 	return {$: 'AlignX', a: a};
@@ -11974,6 +11874,79 @@ var author$project$Guidelines$Typography$typoDetail = F4(
 						]))
 				]));
 	});
+var author$project$Guidelines$Typography$sentence = 'The quick brown fox jumps over the lazy dog';
+var mdgriffith$elm_ui$Internal$Model$Fill = function (a) {
+	return {$: 'Fill', a: a};
+};
+var mdgriffith$elm_ui$Element$fill = mdgriffith$elm_ui$Internal$Model$Fill(1);
+var mdgriffith$elm_ui$Internal$Model$Describe = function (a) {
+	return {$: 'Describe', a: a};
+};
+var mdgriffith$elm_ui$Internal$Model$Paragraph = {$: 'Paragraph'};
+var mdgriffith$elm_ui$Element$paragraph = F2(
+	function (attrs, children) {
+		return A4(
+			mdgriffith$elm_ui$Internal$Model$element,
+			mdgriffith$elm_ui$Internal$Model$asParagraph,
+			mdgriffith$elm_ui$Internal$Model$div,
+			A2(
+				elm$core$List$cons,
+				mdgriffith$elm_ui$Internal$Model$Describe(mdgriffith$elm_ui$Internal$Model$Paragraph),
+				A2(
+					elm$core$List$cons,
+					mdgriffith$elm_ui$Element$width(mdgriffith$elm_ui$Element$fill),
+					A2(
+						elm$core$List$cons,
+						mdgriffith$elm_ui$Element$spacing(5),
+						attrs))),
+			mdgriffith$elm_ui$Internal$Model$Unkeyed(children));
+	});
+var author$project$Guidelines$Typography$text = F2(
+	function (options, label) {
+		return A2(
+			mdgriffith$elm_ui$Element$paragraph,
+			options,
+			_List_fromArray(
+				[
+					mdgriffith$elm_ui$Element$text(label)
+				]));
+	});
+var mdgriffith$elm_ui$Element$Font$family = function (families) {
+	return A2(
+		mdgriffith$elm_ui$Internal$Model$StyleClass,
+		mdgriffith$elm_ui$Internal$Flag$fontFamily,
+		A2(
+			mdgriffith$elm_ui$Internal$Model$FontFamily,
+			A3(elm$core$List$foldl, mdgriffith$elm_ui$Internal$Model$renderFontClassName, 'ff-', families),
+			families));
+};
+var mdgriffith$elm_ui$Element$Font$sansSerif = mdgriffith$elm_ui$Internal$Model$SansSerif;
+var mdgriffith$elm_ui$Element$Font$typeface = mdgriffith$elm_ui$Internal$Model$Typeface;
+var author$project$Guidelines$Typography$viewText = F2(
+	function (family, size) {
+		return A2(
+			author$project$Guidelines$Typography$text,
+			_List_fromArray(
+				[
+					mdgriffith$elm_ui$Element$Font$family(
+					_List_fromArray(
+						[
+							mdgriffith$elm_ui$Element$Font$typeface(family),
+							mdgriffith$elm_ui$Element$Font$sansSerif
+						])),
+					mdgriffith$elm_ui$Element$Font$size(size)
+				]),
+			author$project$Guidelines$Typography$sentence);
+	});
+var author$project$Guidelines$Typography$viewTypoItem = function (typo) {
+	var info = elm$core$String$fromInt(typo.size) + ('px' + (' / ' + typo.family));
+	return A4(
+		author$project$Guidelines$Typography$typoDetail,
+		typo.name,
+		info,
+		A2(author$project$Guidelines$Typography$viewText, typo.family, typo.size),
+		typo.desc);
+};
 var author$project$Guidelines$Typography$viewTypos = function (content) {
 	return A2(
 		mdgriffith$elm_ui$Element$layout,
@@ -11988,40 +11961,18 @@ var author$project$Guidelines$Typography$viewTypos = function (content) {
 				]),
 			content));
 };
+var author$project$Theme$fonts = {primary: 'Noto Sans TC', secondary: 'Lato'};
+var author$project$Theme$typography = {
+	lead: {desc: 'Hero or blog post title', family: author$project$Theme$fonts.primary, name: 'Lead', size: 48},
+	paragraph: {desc: 'Article body', family: author$project$Theme$fonts.secondary, name: 'Paragraph', size: 16},
+	small: {desc: 'Time stamps, copyrights', family: author$project$Theme$fonts.secondary, name: 'Small', size: 12},
+	subtitle: {desc: 'Headline title or subtitle', family: author$project$Theme$fonts.primary, name: 'Subtitle', size: 22},
+	title: {desc: 'Article title or section header', family: author$project$Theme$fonts.primary, name: 'Title', size: 38}
+};
+var author$project$Theme$typographyCollection = _List_fromArray(
+	[author$project$Theme$typography.lead, author$project$Theme$typography.title, author$project$Theme$typography.subtitle, author$project$Theme$typography.paragraph, author$project$Theme$typography.small]);
 var author$project$Guidelines$Typography$view = author$project$Guidelines$Typography$viewTypos(
-	_List_fromArray(
-		[
-			A4(
-			author$project$Guidelines$Typography$typoDetail,
-			'Lead',
-			'48px' + (' / ' + author$project$Theme$fonts.primary),
-			A2(author$project$Guidelines$Typography$text, author$project$Guidelines$Typography$lead, author$project$Guidelines$Typography$sentence),
-			'Hero or blog post title'),
-			A4(
-			author$project$Guidelines$Typography$typoDetail,
-			'Title',
-			'38px' + (' / ' + author$project$Theme$fonts.primary),
-			A2(author$project$Guidelines$Typography$text, author$project$Guidelines$Typography$title, author$project$Guidelines$Typography$sentence),
-			'Article title or section header'),
-			A4(
-			author$project$Guidelines$Typography$typoDetail,
-			'Subtitle',
-			'22px' + (' / ' + author$project$Theme$fonts.secondary),
-			A2(author$project$Guidelines$Typography$text, author$project$Guidelines$Typography$subtitle, author$project$Guidelines$Typography$sentence),
-			'Headline title or subtitle'),
-			A4(
-			author$project$Guidelines$Typography$typoDetail,
-			'Body',
-			'16x' + (' / ' + author$project$Theme$fonts.secondary),
-			A2(author$project$Guidelines$Typography$text, author$project$Guidelines$Typography$paragraph, author$project$Guidelines$Typography$sentence),
-			'Article body'),
-			A4(
-			author$project$Guidelines$Typography$typoDetail,
-			'Small',
-			'12x' + (' / ' + author$project$Theme$fonts.secondary),
-			A2(author$project$Guidelines$Typography$text, author$project$Guidelines$Typography$small, author$project$Guidelines$Typography$sentence),
-			'Time stamps, copyrights')
-		]));
+	A2(elm$core$List$map, author$project$Guidelines$Typography$viewTypoItem, author$project$Theme$typographyCollection));
 var author$project$Main$join = function (mx) {
 	if (mx.$ === 'Just') {
 		var x = mx.a;

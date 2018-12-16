@@ -1,10 +1,50 @@
-module Theme exposing (ColorStyle, brandColorCollection, colors, fonts, neutralColorCollection)
+module Theme exposing (ColorStyle, TypographyStyle, brandColorCollection, colors, fonts, neutralColorCollection, typographyCollection)
 
 import Color exposing (Color)
 
 
 type alias ColorStyle =
     { color : Color, name : String }
+
+
+type alias Colors =
+    { brand :
+        { alternative : ColorStyle
+        , alternativeVariant : ColorStyle
+        , primary : ColorStyle
+        , primaryVariant : ColorStyle
+        , secondary : ColorStyle
+        , secondaryVariant : ColorStyle
+        }
+    , neutral :
+        { black : ColorStyle
+        , grey : ColorStyle
+        , greyDark : ColorStyle
+        , greyDarker : ColorStyle
+        , greyDarkest : ColorStyle
+        , greyLight : ColorStyle
+        , greyLighter : ColorStyle
+        , greyLightest : ColorStyle
+        , white : ColorStyle
+        }
+    }
+
+
+type alias TypographyStyle =
+    { size : Int
+    , family : String
+    , name : String
+    , desc : String
+    }
+
+
+type alias Typography =
+    { lead : TypographyStyle
+    , title : TypographyStyle
+    , subtitle : TypographyStyle
+    , paragraph : TypographyStyle
+    , small : TypographyStyle
+    }
 
 
 type alias FontAsset =
@@ -17,55 +57,54 @@ type alias FontFamily =
     { primary : String, secondary : String }
 
 
-type alias TypographyStyle =
-    { size : Int
-    , family : String
-    , name : String
-    }
-
-
 fonts : FontFamily
 fonts =
     { primary = "Noto Sans TC", secondary = "Lato" }
 
 
-colors :
-    { brand :
-        { blueClassic : ColorStyle
-        , blueNavy : ColorStyle
-        , premiumGold : ColorStyle
-        , vibrantRed : ColorStyle
-        }
-    , neutral :
-        { white : ColorStyle
-        , greyLightest : ColorStyle
-        , greyLighter : ColorStyle
-        , greyLight : ColorStyle
-        , grey : ColorStyle
-        , greyDark : ColorStyle
-        , greyDarker : ColorStyle
-        , greyDarkest : ColorStyle
-        , black : ColorStyle
-        }
+
+-- colors --
+
+
+premiumGold =
+    { name = "Premium Gold"
+    , color = Color.rgb255 188 144 61
     }
+
+
+vibrantRed =
+    { name = "Vibrant Red"
+    , color = Color.rgb255 202 17 4
+    }
+
+
+blueNavy =
+    { name = "Blue Navy"
+    , color = Color.rgb255 17 63 103
+    }
+
+
+blueClassic =
+    { name = "Blue Classic"
+    , color = Color.rgb255 33 88 141
+    }
+
+
+unkown =
+    { name = "Unkown"
+    , color = Color.rgb255 0 0 0
+    }
+
+
+colors : Colors
 colors =
     { brand =
-        { premiumGold =
-            { name = "Premium Gold"
-            , color = Color.rgb255 188 144 61
-            }
-        , vibrantRed =
-            { name = "Vibrant Red"
-            , color = Color.rgb255 202 17 4
-            }
-        , blueNavy =
-            { name = "Blue Navy"
-            , color = Color.rgb255 17 63 103
-            }
-        , blueClassic =
-            { name = "Blue Classic"
-            , color = Color.rgb255 33 88 141
-            }
+        { primary = vibrantRed
+        , primaryVariant = vibrantRed
+        , secondary = blueNavy
+        , secondaryVariant = blueClassic
+        , alternative = premiumGold
+        , alternativeVariant = unkown
         }
     , neutral =
         { white =
@@ -108,36 +147,57 @@ colors =
     }
 
 
-typography :
-    { lead : TypographyStyle
-    , title : TypographyStyle
-    , subtitle : TypographyStyle
-    }
+typography : Typography
 typography =
     { lead =
         { size = 48
         , family = fonts.primary
         , name = "Lead"
+        , desc = "Hero or blog post title"
         }
     , title =
         { size = 38
         , family = fonts.primary
-        , name = "Lead"
+        , name = "Title"
+        , desc = "Article title or section header"
         }
     , subtitle =
         { size = 22
         , family = fonts.primary
-        , name = "Lead"
+        , name = "Subtitle"
+        , desc = "Headline title or subtitle"
+        }
+    , paragraph =
+        { size = 16
+        , family = fonts.secondary
+        , name = "Paragraph"
+        , desc = "Article body"
+        }
+    , small =
+        { size = 12
+        , family = fonts.secondary
+        , name = "Small"
+        , desc = "Time stamps, copyrights"
         }
     }
 
 
+typographyCollection : List TypographyStyle
+typographyCollection =
+    [ typography.lead
+    , typography.title
+    , typography.subtitle
+    , typography.paragraph
+    , typography.small
+    ]
+
+
 brandColorCollection : List ColorStyle
 brandColorCollection =
-    [ colors.brand.premiumGold
-    , colors.brand.vibrantRed
-    , colors.brand.blueNavy
-    , colors.brand.blueClassic
+    [ colors.brand.primary
+    , colors.brand.secondary
+    , colors.brand.secondaryVariant
+    , colors.brand.alternative
     ]
 
 
