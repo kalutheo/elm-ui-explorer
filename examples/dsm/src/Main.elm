@@ -1,5 +1,6 @@
 module Main exposing (main)
 
+import Components.Text.Stories as Text
 import Docs
 import Guidelines.Colors as ColorGuide
 import Guidelines.Typography as TypographyGuide
@@ -43,9 +44,12 @@ main =
                     , ( "Neutral", \_ -> ColorGuide.viewNeutralColors, { hasMenu = True } )
                     ]
                 , createUI
-                    "Typograhy"
-                    [ ( "Typograhy", \_ -> TypographyGuide.view, { hasMenu = False } )
+                    "Typography"
+                    [ ( "Typography", \_ -> TypographyGuide.view, { hasMenu = False } )
                     ]
+                ]
+            |> addUICategory "Components"
+                [ Text.stories
                 ]
         )
         { defaultConfig
