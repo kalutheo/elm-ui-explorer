@@ -4944,6 +4944,42 @@ function _Browser_load(url)
 		}
 	}));
 }
+var author$project$Theme$Typography$getProperty = F2(
+	function (typo, callback) {
+		switch (typo.$) {
+			case 'Lead':
+				var typographyStyle = typo.a;
+				return callback(typographyStyle);
+			case 'Title':
+				var typographyStyle = typo.a;
+				return callback(typographyStyle);
+			case 'Subtitle':
+				var typographyStyle = typo.a;
+				return callback(typographyStyle);
+			case 'Paragraph':
+				var typographyStyle = typo.a;
+				return callback(typographyStyle);
+			default:
+				var typographyStyle = typo.a;
+				return callback(typographyStyle);
+		}
+	});
+var author$project$Theme$Typography$getFamily = function (typo) {
+	return A2(
+		author$project$Theme$Typography$getProperty,
+		typo,
+		function ($) {
+			return $.family;
+		});
+};
+var author$project$Theme$Typography$getSize = function (typo) {
+	return A2(
+		author$project$Theme$Typography$getProperty,
+		typo,
+		function ($) {
+			return $.size;
+		});
+};
 var avh4$elm_color$Color$toRgba = function (_n0) {
 	var r = _n0.a;
 	var g = _n0.b;
@@ -10993,14 +11029,12 @@ var mdgriffith$elm_ui$Internal$Model$Typeface = function (a) {
 };
 var mdgriffith$elm_ui$Element$Font$typeface = mdgriffith$elm_ui$Internal$Model$Typeface;
 var author$project$Components$Text$View$text = F3(
-	function (label, _n0, _n1) {
-		var family = _n0.family;
-		var size = _n0.size;
-		var color = _n1.color;
-		var _n2 = avh4$elm_color$Color$toRgba(color);
-		var red = _n2.red;
-		var green = _n2.green;
-		var blue = _n2.blue;
+	function (label, typo, _n0) {
+		var color = _n0.color;
+		var _n1 = avh4$elm_color$Color$toRgba(color);
+		var red = _n1.red;
+		var green = _n1.green;
+		var blue = _n1.blue;
 		return A2(
 			mdgriffith$elm_ui$Element$paragraph,
 			_List_fromArray(
@@ -11008,10 +11042,12 @@ var author$project$Components$Text$View$text = F3(
 					mdgriffith$elm_ui$Element$Font$family(
 					_List_fromArray(
 						[
-							mdgriffith$elm_ui$Element$Font$typeface(family),
+							mdgriffith$elm_ui$Element$Font$typeface(
+							author$project$Theme$Typography$getFamily(typo)),
 							mdgriffith$elm_ui$Element$Font$sansSerif
 						])),
-					mdgriffith$elm_ui$Element$Font$size(size),
+					mdgriffith$elm_ui$Element$Font$size(
+					author$project$Theme$Typography$getSize(typo)),
 					mdgriffith$elm_ui$Element$Font$color(
 					A3(mdgriffith$elm_ui$Element$rgb, red, green, blue))
 				]),
@@ -11020,6 +11056,34 @@ var author$project$Components$Text$View$text = F3(
 					mdgriffith$elm_ui$Element$text(label)
 				]));
 	});
+var author$project$Theme$Typography$Lead = function (a) {
+	return {$: 'Lead', a: a};
+};
+var author$project$Theme$Typography$Paragraph = function (a) {
+	return {$: 'Paragraph', a: a};
+};
+var author$project$Theme$Typography$Small = function (a) {
+	return {$: 'Small', a: a};
+};
+var author$project$Theme$Typography$Subtitle = function (a) {
+	return {$: 'Subtitle', a: a};
+};
+var author$project$Theme$Typography$Title = function (a) {
+	return {$: 'Title', a: a};
+};
+var author$project$Theme$Typography$fonts = {primary: 'Noto Sans TC', secondary: 'Lato'};
+var author$project$Theme$Typography$typography = {
+	lead: author$project$Theme$Typography$Lead(
+		{desc: 'Hero or blog post title', family: author$project$Theme$Typography$fonts.primary, name: 'Lead', size: 48}),
+	paragraph: author$project$Theme$Typography$Paragraph(
+		{desc: 'Article body', family: author$project$Theme$Typography$fonts.secondary, name: 'Paragraph', size: 16}),
+	small: author$project$Theme$Typography$Small(
+		{desc: 'Time stamps, copyrights', family: author$project$Theme$Typography$fonts.secondary, name: 'Small', size: 12}),
+	subtitle: author$project$Theme$Typography$Subtitle(
+		{desc: 'Headline title or subtitle', family: author$project$Theme$Typography$fonts.primary, name: 'Subtitle', size: 22}),
+	title: author$project$Theme$Typography$Title(
+		{desc: 'Article title or section header', family: author$project$Theme$Typography$fonts.primary, name: 'Title', size: 38})
+};
 var author$project$UIExplorer$UIType = function (a) {
 	return {$: 'UIType', a: a};
 };
@@ -11262,7 +11326,7 @@ var author$project$Components$Text$Stories$stories = A2(
 					A3(
 						author$project$Components$Text$View$text,
 						'Hello world',
-						{desc: 'Hero or blog post title', family: 'didididi', name: 'Lead', size: 48},
+						author$project$Theme$Typography$typography.lead,
 						{
 							color: A3(avh4$elm_color$Color$rgb, 0, 0, 0),
 							name: 'nothing to say'
@@ -11838,14 +11902,6 @@ var author$project$Guidelines$Colors$viewNeutralColors = A2(
 				mdgriffith$elm_ui$Element$px(800))
 			]),
 		A2(elm$core$List$map, author$project$Guidelines$Colors$viewColor, author$project$Guidelines$Colors$neutralColorCollection)));
-var author$project$Theme$Typography$fonts = {primary: 'Noto Sans TC', secondary: 'Lato'};
-var author$project$Theme$Typography$typography = {
-	lead: {desc: 'Hero or blog post title', family: author$project$Theme$Typography$fonts.primary, name: 'Lead', size: 48},
-	paragraph: {desc: 'Article body', family: author$project$Theme$Typography$fonts.secondary, name: 'Paragraph', size: 16},
-	small: {desc: 'Time stamps, copyrights', family: author$project$Theme$Typography$fonts.secondary, name: 'Small', size: 12},
-	subtitle: {desc: 'Headline title or subtitle', family: author$project$Theme$Typography$fonts.primary, name: 'Subtitle', size: 22},
-	title: {desc: 'Article title or section header', family: author$project$Theme$Typography$fonts.primary, name: 'Title', size: 38}
-};
 var author$project$Guidelines$Typography$typographyCollection = _List_fromArray(
 	[author$project$Theme$Typography$typography.lead, author$project$Theme$Typography$typography.title, author$project$Theme$Typography$typography.subtitle, author$project$Theme$Typography$typography.paragraph, author$project$Theme$Typography$typography.small]);
 var author$project$Guidelines$Typography$boxWidth = 800;
@@ -12006,14 +12062,34 @@ var author$project$Guidelines$Typography$viewText = F2(
 				]),
 			author$project$Guidelines$Typography$sentence);
 	});
+var author$project$Theme$Typography$getDesc = function (typo) {
+	return A2(
+		author$project$Theme$Typography$getProperty,
+		typo,
+		function ($) {
+			return $.desc;
+		});
+};
+var author$project$Theme$Typography$getName = function (typo) {
+	return A2(
+		author$project$Theme$Typography$getProperty,
+		typo,
+		function ($) {
+			return $.name;
+		});
+};
 var author$project$Guidelines$Typography$viewTypoItem = function (typo) {
-	var info = elm$core$String$fromInt(typo.size) + ('px' + (' / ' + typo.family));
+	var info = elm$core$String$fromInt(
+		author$project$Theme$Typography$getSize(typo)) + ('px' + (' / ' + author$project$Theme$Typography$getFamily(typo)));
 	return A4(
 		author$project$Guidelines$Typography$typoDetail,
-		typo.name,
+		author$project$Theme$Typography$getName(typo),
 		info,
-		A2(author$project$Guidelines$Typography$viewText, typo.family, typo.size),
-		typo.desc);
+		A2(
+			author$project$Guidelines$Typography$viewText,
+			author$project$Theme$Typography$getFamily(typo),
+			author$project$Theme$Typography$getSize(typo)),
+		author$project$Theme$Typography$getDesc(typo));
 };
 var author$project$Guidelines$Typography$viewTypos = function (content) {
 	return A2(

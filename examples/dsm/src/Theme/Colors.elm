@@ -1,7 +1,33 @@
-module Theme.Colors exposing (colors)
+module Theme.Colors exposing (ColorStyle, colors)
 
 import Color exposing (Color)
-import Theme.Types exposing (Colors)
+
+
+type alias ColorStyle =
+    { color : Color, name : String }
+
+
+type alias Colors =
+    { brand :
+        { alternative : ColorStyle
+        , alternativeVariant : ColorStyle
+        , primary : ColorStyle
+        , primaryVariant : ColorStyle
+        , secondary : ColorStyle
+        , secondaryVariant : ColorStyle
+        }
+    , neutral :
+        { black : ColorStyle
+        , grey : ColorStyle
+        , greyDark : ColorStyle
+        , greyDarker : ColorStyle
+        , greyDarkest : ColorStyle
+        , greyLight : ColorStyle
+        , greyLighter : ColorStyle
+        , greyLightest : ColorStyle
+        , white : ColorStyle
+        }
+    }
 
 
 colors : Colors

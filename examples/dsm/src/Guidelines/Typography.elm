@@ -4,11 +4,18 @@ import Element exposing (..)
 import Element.Background as Background
 import Element.Border as Border
 import Element.Font as Font
-import Theme.Types exposing (TypographyStyle)
-import Theme.Typography exposing (typography)
+import Theme.Typography
+    exposing
+        ( Typography
+        , getDesc
+        , getFamily
+        , getName
+        , getSize
+        , typography
+        )
 
 
-typographyCollection : List TypographyStyle
+typographyCollection : List Typography
 typographyCollection =
     [ typography.lead
     , typography.title
@@ -91,16 +98,16 @@ viewText family size =
         sentence
 
 
-viewTypoItem : TypographyStyle -> Element msg
+viewTypoItem : Typography -> Element msg
 viewTypoItem typo =
     let
         info =
-            String.fromInt typo.size ++ "px" ++ " / " ++ typo.family
+            String.fromInt (getSize typo) ++ "px" ++ " / " ++ getFamily typo
     in
-    typoDetail typo.name
+    typoDetail (getName typo)
         info
-        (viewText typo.family typo.size)
-        typo.desc
+        (viewText (getFamily typo) (getSize typo))
+        (getDesc typo)
 
 
 view =
