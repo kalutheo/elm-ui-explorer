@@ -1,8 +1,8 @@
 module Components.Text.Stories exposing (stories)
 
-import Color
 import Components.Text.View as TextView
 import Element exposing (..)
+import Theme.Color exposing (color)
 import Theme.Typography exposing (typography)
 import UIExplorer exposing (createUI)
 
@@ -13,10 +13,15 @@ stories =
         "Text"
         [ ( "Default"
           , \_ ->
-                Element.layout [] <|
-                    TextView.text "Hello world"
-                        typography.lead
-                        { color = Color.rgb 0 0 0, name = "nothing to say" }
+                toHtml <|
+                    TextView.text
+                        "Hello world"
+                        typography.title
+                        color.brand.secondaryVariant
           , { hasMenu = False }
           )
         ]
+
+
+toHtml =
+    Element.layout []

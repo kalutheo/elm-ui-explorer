@@ -1,17 +1,17 @@
 module Components.Text.View exposing (text)
 
-import Color exposing (Color)
+import Color as RawColor
 import Element exposing (..)
 import Element.Font as Font
-import Theme.Colors exposing (ColorStyle)
+import Theme.Color exposing (Color, getColor)
 import Theme.Typography exposing (Typography, getFamily, getSize)
 
 
-text : String -> Typography -> ColorStyle -> Element msg
-text label typo { color } =
+text : String -> Typography -> Color -> Element msg
+text label typo color =
     let
         { red, green, blue } =
-            Color.toRgba color
+            RawColor.toRgba (getColor color)
     in
     Element.paragraph
         [ Font.family

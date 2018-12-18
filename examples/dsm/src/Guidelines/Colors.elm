@@ -1,35 +1,35 @@
 module Guidelines.Colors exposing (viewBrandColors, viewNeutralColors)
 
-import Color exposing (Color)
+import Color as RawColor
 import Color.Convert exposing (colorToHex)
 import Element exposing (..)
 import Element.Background as Background
 import Element.Border as Border
 import Element.Font as Font
 import Html exposing (Html)
-import Theme.Colors exposing (ColorStyle, colors)
+import Theme.Color as ThemeColor exposing (Color, color, getColor, getColorName)
 
 
-brandColorCollection : List ColorStyle
+brandColorCollection : List Color
 brandColorCollection =
-    [ colors.brand.primary
-    , colors.brand.secondary
-    , colors.brand.secondaryVariant
-    , colors.brand.alternative
+    [ color.brand.primary
+    , color.brand.secondary
+    , color.brand.secondaryVariant
+    , color.brand.alternative
     ]
 
 
-neutralColorCollection : List ColorStyle
+neutralColorCollection : List Color
 neutralColorCollection =
-    [ colors.neutral.white
-    , colors.neutral.greyLightest
-    , colors.neutral.greyLighter
-    , colors.neutral.greyLight
-    , colors.neutral.grey
-    , colors.neutral.greyDark
-    , colors.neutral.greyDarker
-    , colors.neutral.greyDarkest
-    , colors.neutral.black
+    [ color.neutral.white
+    , color.neutral.greyLightest
+    , color.neutral.greyLighter
+    , color.neutral.greyLight
+    , color.neutral.grey
+    , color.neutral.greyDark
+    , color.neutral.greyDarker
+    , color.neutral.greyDarkest
+    , color.neutral.black
     ]
 
 
@@ -37,14 +37,14 @@ boxWidth =
     180
 
 
-viewColor : ColorStyle -> Element msg
-viewColor { color, name } =
+viewColor : Color -> Element msg
+viewColor color =
     let
         { red, green, blue } =
-            Color.toRgba color
+            RawColor.toRgba (getColor color)
 
         b =
-            Color.toRgba colors.neutral.greyLightest.color
+            RawColor.toRgba (getColor ThemeColor.color.neutral.greyLightest)
     in
     Element.column []
         [ Element.column [ spacing 8 ]
@@ -61,21 +61,23 @@ viewColor { color, name } =
                 [ Element.row
                     [ Font.size 14
                     ]
-                    [ Element.text name ]
+                    [ Element.text (getColorName color) ]
                 , Element.row
                     [ Font.size 14
                     , Font.color <| rgb255 102 102 102
                     ]
-                    [ Element.text <| colorToHex color
+                    [ Element.text <| colorToHex (getColor color)
                     ]
                 ]
             ]
         ]
 
 
+viewBrandColors : Html msg
 viewBrandColors =
     Element.layout [] <| Element.wrappedRow [ spacing 8 ] (brandColorCollection |> List.map viewColor)
 
 
+viewNeutralColors : Html msg
 viewNeutralColors =
     Element.layout [] <| Element.wrappedRow [ spacing 8, Element.width (px 800) ] (neutralColorCollection |> List.map viewColor)

@@ -1,6 +1,5 @@
 module Theme.Typography exposing
     ( Typography
-    , fonts
     , getDesc
     , getFamily
     , getName
