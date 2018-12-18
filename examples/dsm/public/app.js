@@ -11973,14 +11973,6 @@ var author$project$Theme$typographyCollection = _List_fromArray(
 	[author$project$Theme$Typography$typography.lead, author$project$Theme$Typography$typography.title, author$project$Theme$Typography$typography.subtitle, author$project$Theme$Typography$typography.paragraph, author$project$Theme$Typography$typography.small]);
 var author$project$Guidelines$Typography$view = author$project$Guidelines$Typography$viewTypos(
 	A2(elm$core$List$map, author$project$Guidelines$Typography$viewTypoItem, author$project$Theme$typographyCollection));
-var author$project$Main$join = function (mx) {
-	if (mx.$ === 'Just') {
-		var x = mx.a;
-		return x;
-	} else {
-		return elm$core$Maybe$Nothing;
-	}
-};
 var author$project$UIExplorer$UICategoryType = function (a) {
 	return {$: 'UICategoryType', a: a};
 };
@@ -16763,6 +16755,35 @@ var author$project$UIExplorer$findStory = F3(
 								categories))))));
 		return elm$core$List$head(foundStory);
 	});
+var author$project$UIExplorer$join = function (mx) {
+	if (mx.$ === 'Just') {
+		var x = mx.a;
+		return x;
+	} else {
+		return elm$core$Maybe$Nothing;
+	}
+};
+var author$project$UIExplorer$getCurrentSelectedStory = function (_n0) {
+	var selectedUIId = _n0.selectedUIId;
+	var selectedStoryId = _n0.selectedStoryId;
+	var categories = _n0.categories;
+	return author$project$UIExplorer$join(
+		A2(
+			elm$core$Maybe$map,
+			function (_n1) {
+				var a = _n1.a;
+				var b = _n1.b;
+				return A3(author$project$UIExplorer$findStory, a, b, categories);
+			},
+			A3(
+				elm$core$Maybe$map2,
+				F2(
+					function (a, b) {
+						return _Utils_Tuple2(a, b);
+					}),
+				selectedUIId,
+				selectedStoryId)));
+};
 var author$project$Main$main = A2(
 	author$project$UIExplorer$app,
 	A3(
@@ -16842,31 +16863,17 @@ var author$project$Main$main = A2(
 		author$project$UIExplorer$defaultConfig,
 		{
 			menuViewEnhancer: F2(
-				function (m, v) {
-					var r = A3(
-						elm$core$Maybe$map2,
-						F2(
-							function (a, b) {
-								return _Utils_Tuple2(a, b);
-							}),
-						m.selectedUIId,
-						m.selectedStoryId);
-					var maybeStory = author$project$Main$join(
+				function (model, menuView) {
+					return A2(
+						elm$core$Maybe$withDefault,
+						elm$html$Html$text(''),
 						A2(
 							elm$core$Maybe$map,
-							function (_n7) {
-								var a = _n7.a;
-								var b = _n7.b;
-								return A3(author$project$UIExplorer$findStory, a, b, m.categories);
+							function (_n5) {
+								var option = _n5.c;
+								return option.hasMenu ? menuView : elm$html$Html$text('');
 							},
-							r));
-					if (maybeStory.$ === 'Just') {
-						var _n6 = maybeStory.a;
-						var option = _n6.c;
-						return option.hasMenu ? v : elm$html$Html$text('');
-					} else {
-						return v;
-					}
+							author$project$UIExplorer$getCurrentSelectedStory(model)));
 				})
 		}));
 _Platform_export({'Main':{'init':author$project$Main$main(

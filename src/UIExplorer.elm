@@ -8,7 +8,7 @@ module UIExplorer exposing
     , createUI
     , createUIWithDescription
     , explore
-    , ExplorerProgram, Model, Msg(..), UIViewConfig, ViewEnhancer, defaultConfig, findStory
+    , ExplorerProgram, Model, Msg(..), UIViewConfig, ViewEnhancer, defaultConfig, findStory, getCurrentSelectedStory
     )
 
 {-|
@@ -177,6 +177,23 @@ getSelectedUIfromPath { fragment } =
 getSelectedStoryfromPath : Url.Url -> Maybe String
 getSelectedStoryfromPath { fragment } =
     getFragmentSegmentByIndex fragment 2
+
+
+join : Maybe (Maybe a) -> Maybe a
+join mx =
+    case mx of
+        Just x ->
+            x
+
+        Nothing ->
+            Nothing
+
+
+getCurrentSelectedStory : Model a b c -> Maybe (Story a b c)
+getCurrentSelectedStory { selectedUIId, selectedStoryId, categories } =
+    Maybe.map2 (\a b -> ( a, b )) selectedUIId selectedStoryId
+        |> Maybe.map (\( a, b ) -> findStory a b categories)
+        |> join
 
 
 findStory : String -> String -> List (UICategory a b c) -> Maybe (Story a b c)

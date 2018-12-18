@@ -1,9 +1,9 @@
-module UIExplorer.Plugins.Note exposing (PluginModel, WithNotes, addNote, join, viewEnhancer)
+module UIExplorer.Plugins.Note exposing (PluginModel, WithNotes, addNote, viewEnhancer)
 
 import Html
 import Html.Attributes exposing (class, style)
 import Markdown
-import UIExplorer exposing (ViewEnhancer, explore, findStory)
+import UIExplorer exposing (ViewEnhancer, explore, getCurrentSelectedStory)
 
 
 type alias PluginModel =
@@ -17,16 +17,6 @@ addNote text =
     }
 
 
-join : Maybe (Maybe a) -> Maybe a
-join mx =
-    case mx of
-        Just x ->
-            x
-
-        Nothing ->
-            Nothing
-
-
 type alias WithNotes a =
     { a | notes : PluginModel }
 
@@ -34,15 +24,8 @@ type alias WithNotes a =
 viewEnhancer : ViewEnhancer {} () (WithNotes a)
 viewEnhancer model storiesView =
     let
-        r =
-            Maybe.map2 (\a b -> ( a, b )) model.selectedUIId model.selectedStoryId
-
-        maybeStory =
-            Maybe.map (\( a, b ) -> findStory a b model.categories) r
-                |> join
-
         note =
-            case maybeStory of
+            case getCurrentSelectedStory model of
                 Just ( _, _, option ) ->
                     Markdown.toHtml [ class "content uie-text-sm" ] option.notes.text
 

@@ -15,18 +15,8 @@ import UIExplorer
         , defaultConfig
         , emptyUICategories
         , explore
-        , findStory
+        , getCurrentSelectedStory
         )
-
-
-join : Maybe (Maybe a) -> Maybe a
-join mx =
-    case mx of
-        Just x ->
-            x
-
-        Nothing ->
-            Nothing
 
 
 main : ExplorerProgram {} () { hasMenu : Bool }
@@ -60,23 +50,15 @@ main =
         )
         { defaultConfig
             | menuViewEnhancer =
-                \m v ->
-                    let
-                        r =
-                            Maybe.map2 (\a b -> ( a, b )) m.selectedUIId m.selectedStoryId
+                \model menuView ->
+                    getCurrentSelectedStory model
+                        |> Maybe.map
+                            (\( _, _, option ) ->
+                                if option.hasMenu then
+                                    menuView
 
-                        maybeStory =
-                            Maybe.map (\( a, b ) -> findStory a b m.categories) r
-                                |> join
-                    in
-                    case maybeStory of
-                        Just ( _, _, option ) ->
-                            if option.hasMenu then
-                                v
-
-                            else
-                                Html.text ""
-
-                        Nothing ->
-                            v
+                                else
+                                    Html.text ""
+                            )
+                        |> Maybe.withDefault (Html.text "")
         }

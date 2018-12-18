@@ -13430,13 +13430,34 @@ var author$project$UIExplorer$findStory = F3(
 								categories))))));
 		return elm$core$List$head(foundStory);
 	});
-var author$project$UIExplorer$Plugins$Note$join = function (mx) {
+var author$project$UIExplorer$join = function (mx) {
 	if (mx.$ === 'Just') {
 		var x = mx.a;
 		return x;
 	} else {
 		return elm$core$Maybe$Nothing;
 	}
+};
+var author$project$UIExplorer$getCurrentSelectedStory = function (_n0) {
+	var selectedUIId = _n0.selectedUIId;
+	var selectedStoryId = _n0.selectedStoryId;
+	var categories = _n0.categories;
+	return author$project$UIExplorer$join(
+		A2(
+			elm$core$Maybe$map,
+			function (_n1) {
+				var a = _n1.a;
+				var b = _n1.b;
+				return A3(author$project$UIExplorer$findStory, a, b, categories);
+			},
+			A3(
+				elm$core$Maybe$map2,
+				F2(
+					function (a, b) {
+						return _Utils_Tuple2(a, b);
+					}),
+				selectedUIId,
+				selectedStoryId)));
 };
 var elm$html$Html$br = _VirtualDom_node('br');
 var elm$html$Html$hr = _VirtualDom_node('hr');
@@ -13458,26 +13479,10 @@ var elm_explorations$markdown$Markdown$toHtmlWith = _Markdown_toHtml;
 var elm_explorations$markdown$Markdown$toHtml = elm_explorations$markdown$Markdown$toHtmlWith(elm_explorations$markdown$Markdown$defaultOptions);
 var author$project$UIExplorer$Plugins$Note$viewEnhancer = F2(
 	function (model, storiesView) {
-		var r = A3(
-			elm$core$Maybe$map2,
-			F2(
-				function (a, b) {
-					return _Utils_Tuple2(a, b);
-				}),
-			model.selectedUIId,
-			model.selectedStoryId);
-		var maybeStory = author$project$UIExplorer$Plugins$Note$join(
-			A2(
-				elm$core$Maybe$map,
-				function (_n2) {
-					var a = _n2.a;
-					var b = _n2.b;
-					return A3(author$project$UIExplorer$findStory, a, b, model.categories);
-				},
-				r));
 		var note = function () {
-			if (maybeStory.$ === 'Just') {
-				var _n1 = maybeStory.a;
+			var _n0 = author$project$UIExplorer$getCurrentSelectedStory(model);
+			if (_n0.$ === 'Just') {
+				var _n1 = _n0.a;
 				var option = _n1.c;
 				return A2(
 					elm_explorations$markdown$Markdown$toHtml,
