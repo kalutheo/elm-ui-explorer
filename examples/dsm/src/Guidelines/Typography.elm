@@ -4,8 +4,18 @@ import Element exposing (..)
 import Element.Background as Background
 import Element.Border as Border
 import Element.Font as Font
-import Theme exposing (typographyCollection)
 import Theme.Types exposing (TypographyStyle)
+import Theme.Typography exposing (typography)
+
+
+typographyCollection : List TypographyStyle
+typographyCollection =
+    [ typography.lead
+    , typography.title
+    , typography.subtitle
+    , typography.paragraph
+    , typography.small
+    ]
 
 
 boxWidth =

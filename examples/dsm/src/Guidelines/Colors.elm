@@ -7,9 +7,31 @@ import Element.Background as Background
 import Element.Border as Border
 import Element.Font as Font
 import Html exposing (Html)
-import Theme exposing (brandColorCollection, neutralColorCollection)
 import Theme.Colors exposing (colors)
 import Theme.Types exposing (ColorStyle)
+
+
+brandColorCollection : List ColorStyle
+brandColorCollection =
+    [ colors.brand.primary
+    , colors.brand.secondary
+    , colors.brand.secondaryVariant
+    , colors.brand.alternative
+    ]
+
+
+neutralColorCollection : List ColorStyle
+neutralColorCollection =
+    [ colors.neutral.white
+    , colors.neutral.greyLightest
+    , colors.neutral.greyLighter
+    , colors.neutral.greyLight
+    , colors.neutral.grey
+    , colors.neutral.greyDark
+    , colors.neutral.greyDarker
+    , colors.neutral.greyDarkest
+    , colors.neutral.black
+    ]
 
 
 boxWidth =

@@ -5473,7 +5473,6 @@ var author$project$Docs$toMarkdown = function (text) {
 			]),
 		text);
 };
-var author$project$Guidelines$Colors$boxWidth = 180;
 var avh4$elm_color$Color$RgbaSpace = F4(
 	function (a, b, c, d) {
 		return {$: 'RgbaSpace', a: a, b: b, c: c, d: d};
@@ -5555,6 +5554,9 @@ var author$project$Theme$Colors$colors = {
 		}
 	}
 };
+var author$project$Guidelines$Colors$brandColorCollection = _List_fromArray(
+	[author$project$Theme$Colors$colors.brand.primary, author$project$Theme$Colors$colors.brand.secondary, author$project$Theme$Colors$colors.brand.secondaryVariant, author$project$Theme$Colors$colors.brand.alternative]);
+var author$project$Guidelines$Colors$boxWidth = 180;
 var avh4$elm_color$Color$toRgba = function (_n0) {
 	var r = _n0.a;
 	var g = _n0.b;
@@ -11261,8 +11263,6 @@ var author$project$Guidelines$Colors$viewColor = function (_n0) {
 					]))
 			]));
 };
-var author$project$Theme$brandColorCollection = _List_fromArray(
-	[author$project$Theme$Colors$colors.brand.primary, author$project$Theme$Colors$colors.brand.secondary, author$project$Theme$Colors$colors.brand.secondaryVariant, author$project$Theme$Colors$colors.brand.alternative]);
 var mdgriffith$elm_ui$Internal$Model$OnlyDynamic = F2(
 	function (a, b) {
 		return {$: 'OnlyDynamic', a: a, b: b};
@@ -11728,8 +11728,8 @@ var author$project$Guidelines$Colors$viewBrandColors = A2(
 			[
 				mdgriffith$elm_ui$Element$spacing(8)
 			]),
-		A2(elm$core$List$map, author$project$Guidelines$Colors$viewColor, author$project$Theme$brandColorCollection)));
-var author$project$Theme$neutralColorCollection = _List_fromArray(
+		A2(elm$core$List$map, author$project$Guidelines$Colors$viewColor, author$project$Guidelines$Colors$brandColorCollection)));
+var author$project$Guidelines$Colors$neutralColorCollection = _List_fromArray(
 	[author$project$Theme$Colors$colors.neutral.white, author$project$Theme$Colors$colors.neutral.greyLightest, author$project$Theme$Colors$colors.neutral.greyLighter, author$project$Theme$Colors$colors.neutral.greyLight, author$project$Theme$Colors$colors.neutral.grey, author$project$Theme$Colors$colors.neutral.greyDark, author$project$Theme$Colors$colors.neutral.greyDarker, author$project$Theme$Colors$colors.neutral.greyDarkest, author$project$Theme$Colors$colors.neutral.black]);
 var author$project$Guidelines$Colors$viewNeutralColors = A2(
 	mdgriffith$elm_ui$Element$layout,
@@ -11742,7 +11742,17 @@ var author$project$Guidelines$Colors$viewNeutralColors = A2(
 				mdgriffith$elm_ui$Element$width(
 				mdgriffith$elm_ui$Element$px(800))
 			]),
-		A2(elm$core$List$map, author$project$Guidelines$Colors$viewColor, author$project$Theme$neutralColorCollection)));
+		A2(elm$core$List$map, author$project$Guidelines$Colors$viewColor, author$project$Guidelines$Colors$neutralColorCollection)));
+var author$project$Theme$Typography$fonts = {primary: 'Noto Sans TC', secondary: 'Lato'};
+var author$project$Theme$Typography$typography = {
+	lead: {desc: 'Hero or blog post title', family: author$project$Theme$Typography$fonts.primary, name: 'Lead', size: 48},
+	paragraph: {desc: 'Article body', family: author$project$Theme$Typography$fonts.secondary, name: 'Paragraph', size: 16},
+	small: {desc: 'Time stamps, copyrights', family: author$project$Theme$Typography$fonts.secondary, name: 'Small', size: 12},
+	subtitle: {desc: 'Headline title or subtitle', family: author$project$Theme$Typography$fonts.primary, name: 'Subtitle', size: 22},
+	title: {desc: 'Article title or section header', family: author$project$Theme$Typography$fonts.primary, name: 'Title', size: 38}
+};
+var author$project$Guidelines$Typography$typographyCollection = _List_fromArray(
+	[author$project$Theme$Typography$typography.lead, author$project$Theme$Typography$typography.title, author$project$Theme$Typography$typography.subtitle, author$project$Theme$Typography$typography.paragraph, author$project$Theme$Typography$typography.small]);
 var author$project$Guidelines$Typography$boxWidth = 800;
 var mdgriffith$elm_ui$Internal$Model$AlignX = function (a) {
 	return {$: 'AlignX', a: a};
@@ -11961,18 +11971,8 @@ var author$project$Guidelines$Typography$viewTypos = function (content) {
 				]),
 			content));
 };
-var author$project$Theme$Typography$fonts = {primary: 'Noto Sans TC', secondary: 'Lato'};
-var author$project$Theme$Typography$typography = {
-	lead: {desc: 'Hero or blog post title', family: author$project$Theme$Typography$fonts.primary, name: 'Lead', size: 48},
-	paragraph: {desc: 'Article body', family: author$project$Theme$Typography$fonts.secondary, name: 'Paragraph', size: 16},
-	small: {desc: 'Time stamps, copyrights', family: author$project$Theme$Typography$fonts.secondary, name: 'Small', size: 12},
-	subtitle: {desc: 'Headline title or subtitle', family: author$project$Theme$Typography$fonts.primary, name: 'Subtitle', size: 22},
-	title: {desc: 'Article title or section header', family: author$project$Theme$Typography$fonts.primary, name: 'Title', size: 38}
-};
-var author$project$Theme$typographyCollection = _List_fromArray(
-	[author$project$Theme$Typography$typography.lead, author$project$Theme$Typography$typography.title, author$project$Theme$Typography$typography.subtitle, author$project$Theme$Typography$typography.paragraph, author$project$Theme$Typography$typography.small]);
 var author$project$Guidelines$Typography$view = author$project$Guidelines$Typography$viewTypos(
-	A2(elm$core$List$map, author$project$Guidelines$Typography$viewTypoItem, author$project$Theme$typographyCollection));
+	A2(elm$core$List$map, author$project$Guidelines$Typography$viewTypoItem, author$project$Guidelines$Typography$typographyCollection));
 var author$project$UIExplorer$UICategoryType = function (a) {
 	return {$: 'UICategoryType', a: a};
 };
