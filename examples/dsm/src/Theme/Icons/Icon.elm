@@ -1,4 +1,4 @@
-module Theme.Icons.Icon exposing (IconType(..), view)
+module Theme.Icons.Icon exposing (Icon, getName, icon, view)
 
 import Color as RawColor
 import Html exposing (Html, div)
@@ -7,20 +7,53 @@ import Theme.Icons.Pita as PitaIcon
 import Theme.Icons.Salad as SaladIcon
 
 
-type IconType
-    = Salad
-    | Pita
+type alias IconStyle =
+    { name : String }
 
 
-view : IconType -> Color -> Html msg
-view icon color =
+type Icon
+    = Salad IconStyle
+    | Pita IconStyle
+
+
+type alias IconTheme =
+    { pita : Icon
+    , salad : Icon
+    }
+
+
+icon : IconTheme
+icon =
+    { salad =
+        Salad
+            { name = "Salad"
+            }
+    , pita =
+        Pita
+            { name = "Pita"
+            }
+    }
+
+
+getName : Icon -> String
+getName i =
+    case i of
+        Salad v ->
+            v.name
+
+        Pita v ->
+            v.name
+
+
+view : Color -> Icon -> Html msg
+view color i =
     let
         c =
             RawColor.toCssString (getColor color)
     in
-    case icon of
-        Salad ->
+    case i of
+        Salad _ ->
             SaladIcon.view c
 
-        Pita ->
+        Pita _ ->
             PitaIcon.view c

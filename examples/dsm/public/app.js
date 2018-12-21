@@ -12132,8 +12132,29 @@ var author$project$Guidelines$Colors$viewNeutralColors = A2(
 				mdgriffith$elm_ui$Element$px(800))
 			]),
 		A2(elm$core$List$map, author$project$Guidelines$Colors$viewColor, author$project$Guidelines$Colors$neutralColorCollection)));
-var author$project$Theme$Icons$Icon$Pita = {$: 'Pita'};
-var author$project$Theme$Icons$Icon$Salad = {$: 'Salad'};
+var author$project$Theme$Icons$Icon$Pita = function (a) {
+	return {$: 'Pita', a: a};
+};
+var author$project$Theme$Icons$Icon$Salad = function (a) {
+	return {$: 'Salad', a: a};
+};
+var author$project$Theme$Icons$Icon$icon = {
+	pita: author$project$Theme$Icons$Icon$Pita(
+		{name: 'Pita'}),
+	salad: author$project$Theme$Icons$Icon$Salad(
+		{name: 'Salad'})
+};
+var author$project$Guidelines$Iconography$iconsCollection = _List_fromArray(
+	[author$project$Theme$Icons$Icon$icon.pita, author$project$Theme$Icons$Icon$icon.salad]);
+var author$project$Theme$Icons$Icon$getName = function (i) {
+	if (i.$ === 'Salad') {
+		var v = i.a;
+		return v.name;
+	} else {
+		var v = i.a;
+		return v.name;
+	}
+};
 var elm$html$Html$Attributes$id = elm$html$Html$Attributes$stringProperty('id');
 var elm$html$Html$Attributes$width = function (n) {
 	return A2(
@@ -12423,43 +12444,48 @@ var avh4$elm_color$Color$toCssString = function (_n0) {
 			]));
 };
 var author$project$Theme$Icons$Icon$view = F2(
-	function (icon, color) {
+	function (color, i) {
 		var c = avh4$elm_color$Color$toCssString(
 			author$project$Theme$Color$getColor(color));
-		if (icon.$ === 'Salad') {
+		if (i.$ === 'Salad') {
 			return author$project$Theme$Icons$Salad$view(c);
 		} else {
 			return author$project$Theme$Icons$Pita$view(c);
 		}
 	});
-var author$project$Guidelines$Iconography$view = A2(
-	elm$html$Html$div,
-	_List_Nil,
-	_List_fromArray(
-		[
-			A2(
-			elm$html$Html$div,
-			_List_Nil,
-			_List_fromArray(
-				[
-					A2(author$project$Theme$Icons$Icon$view, author$project$Theme$Icons$Icon$Pita, author$project$Theme$Color$color.brand.primary)
-				])),
-			A2(
-			elm$html$Html$div,
-			_List_Nil,
-			_List_fromArray(
-				[
-					A2(author$project$Theme$Icons$Icon$view, author$project$Theme$Icons$Icon$Salad, author$project$Theme$Color$color.brand.secondaryVariant)
-				]))
-		]));
-var author$project$Guidelines$Typography$typographyCollection = _List_fromArray(
-	[author$project$Theme$Typography$typography.lead, author$project$Theme$Typography$typography.title, author$project$Theme$Typography$typography.subtitle, author$project$Theme$Typography$typography.paragraph, author$project$Theme$Typography$typography.small]);
-var author$project$Guidelines$Typography$boxWidth = 800;
 var mdgriffith$elm_ui$Internal$Model$AlignX = function (a) {
 	return {$: 'AlignX', a: a};
 };
-var mdgriffith$elm_ui$Internal$Model$Right = {$: 'Right'};
-var mdgriffith$elm_ui$Element$alignRight = mdgriffith$elm_ui$Internal$Model$AlignX(mdgriffith$elm_ui$Internal$Model$Right);
+var mdgriffith$elm_ui$Internal$Model$CenterX = {$: 'CenterX'};
+var mdgriffith$elm_ui$Element$centerX = mdgriffith$elm_ui$Internal$Model$AlignX(mdgriffith$elm_ui$Internal$Model$CenterX);
+var mdgriffith$elm_ui$Element$el = F2(
+	function (attrs, child) {
+		return A4(
+			mdgriffith$elm_ui$Internal$Model$element,
+			mdgriffith$elm_ui$Internal$Model$asEl,
+			mdgriffith$elm_ui$Internal$Model$div,
+			A2(
+				elm$core$List$cons,
+				mdgriffith$elm_ui$Element$width(mdgriffith$elm_ui$Element$shrink),
+				A2(
+					elm$core$List$cons,
+					mdgriffith$elm_ui$Element$height(mdgriffith$elm_ui$Element$shrink),
+					attrs)),
+			mdgriffith$elm_ui$Internal$Model$Unkeyed(
+				_List_fromArray(
+					[child])));
+	});
+var elm$core$Basics$always = F2(
+	function (a, _n0) {
+		return a;
+	});
+var elm$core$Basics$composeL = F3(
+	function (g, f, x) {
+		return g(
+			f(x));
+	});
+var mdgriffith$elm_ui$Internal$Model$unstyled = A2(elm$core$Basics$composeL, mdgriffith$elm_ui$Internal$Model$Unstyled, elm$core$Basics$always);
+var mdgriffith$elm_ui$Element$html = mdgriffith$elm_ui$Internal$Model$unstyled;
 var mdgriffith$elm_ui$Element$padding = function (x) {
 	return A2(
 		mdgriffith$elm_ui$Internal$Model$StyleClass,
@@ -12472,6 +12498,65 @@ var mdgriffith$elm_ui$Element$padding = function (x) {
 			x,
 			x));
 };
+var author$project$Guidelines$Iconography$viewIcon = F3(
+	function (bgColor, iconColor, i) {
+		var _n0 = avh4$elm_color$Color$toRgba(
+			author$project$Theme$Color$getColor(bgColor));
+		var red = _n0.red;
+		var green = _n0.green;
+		var blue = _n0.blue;
+		return A2(
+			mdgriffith$elm_ui$Element$column,
+			_List_fromArray(
+				[
+					mdgriffith$elm_ui$Element$spacing(8)
+				]),
+			_List_fromArray(
+				[
+					A2(
+					mdgriffith$elm_ui$Element$el,
+					_List_fromArray(
+						[
+							mdgriffith$elm_ui$Element$Background$color(
+							A3(mdgriffith$elm_ui$Element$rgb, red, green, blue)),
+							mdgriffith$elm_ui$Element$padding(20)
+						]),
+					mdgriffith$elm_ui$Element$html(
+						A2(author$project$Theme$Icons$Icon$view, iconColor, i))),
+					A2(
+					mdgriffith$elm_ui$Element$el,
+					_List_fromArray(
+						[mdgriffith$elm_ui$Element$centerX]),
+					A3(
+						author$project$Components$Text$View$text,
+						author$project$Theme$Icons$Icon$getName(i),
+						author$project$Theme$Typography$typography.small,
+						author$project$Theme$Color$color.neutral.greyDarkest))
+				]));
+	});
+var author$project$Guidelines$Iconography$view = F2(
+	function (bgColor, iconColor) {
+		return A2(
+			mdgriffith$elm_ui$Element$layout,
+			_List_Nil,
+			A2(
+				mdgriffith$elm_ui$Element$row,
+				_List_fromArray(
+					[
+						mdgriffith$elm_ui$Element$spacing(12)
+					]),
+				A2(
+					elm$core$List$map,
+					A2(author$project$Guidelines$Iconography$viewIcon, bgColor, iconColor),
+					author$project$Guidelines$Iconography$iconsCollection)));
+	});
+var author$project$Guidelines$Iconography$viewClassic = A2(author$project$Guidelines$Iconography$view, author$project$Theme$Color$color.neutral.white, author$project$Theme$Color$color.neutral.greyDarkest);
+var author$project$Guidelines$Iconography$viewWithBg = A2(author$project$Guidelines$Iconography$view, author$project$Theme$Color$color.brand.secondary, author$project$Theme$Color$color.neutral.white);
+var author$project$Guidelines$Typography$typographyCollection = _List_fromArray(
+	[author$project$Theme$Typography$typography.lead, author$project$Theme$Typography$typography.title, author$project$Theme$Typography$typography.subtitle, author$project$Theme$Typography$typography.paragraph, author$project$Theme$Typography$typography.small]);
+var author$project$Guidelines$Typography$boxWidth = 800;
+var mdgriffith$elm_ui$Internal$Model$Right = {$: 'Right'};
+var mdgriffith$elm_ui$Element$alignRight = mdgriffith$elm_ui$Internal$Model$AlignX(mdgriffith$elm_ui$Internal$Model$Right);
 var mdgriffith$elm_ui$Element$Border$widthXY = F2(
 	function (x, y) {
 		return A2(
@@ -13889,11 +13974,6 @@ var elm$browser$Debugger$Expando$viewTinyRecordHelp = F3(
 									otherHtmls)))));
 			}
 		}
-	});
-var elm$core$Basics$composeL = F3(
-	function (g, f, x) {
-		return g(
-			f(x));
 	});
 var elm$browser$Debugger$Expando$view = F2(
 	function (maybeKey, expando) {
@@ -16077,10 +16157,6 @@ var elm$browser$Debugger$Main$loadNewHistory = F3(
 				elm$core$Platform$Cmd$none);
 		}
 	});
-var elm$core$Basics$always = F2(
-	function (a, _n0) {
-		return a;
-	});
 var elm$browser$Debugger$Main$scroll = function (popout) {
 	return A2(
 		elm$core$Task$perform,
@@ -17507,11 +17583,17 @@ var author$project$Main$main = A2(
 					_List_fromArray(
 						[
 							_Utils_Tuple3(
-							'Iconography',
+							'Classic',
 							function (_n5) {
-								return author$project$Guidelines$Iconography$view;
+								return author$project$Guidelines$Iconography$viewClassic;
 							},
-							{hasMenu: false})
+							{hasMenu: true}),
+							_Utils_Tuple3(
+							'WithBackground',
+							function (_n6) {
+								return author$project$Guidelines$Iconography$viewWithBg;
+							},
+							{hasMenu: true})
 						]))
 				]),
 			A3(
@@ -17561,8 +17643,8 @@ var author$project$Main$main = A2(
 						elm$html$Html$text(''),
 						A2(
 							elm$core$Maybe$map,
-							function (_n6) {
-								var option = _n6.c;
+							function (_n7) {
+								var option = _n7.c;
 								return option.hasMenu ? menuView : elm$html$Html$text('');
 							},
 							author$project$UIExplorer$getCurrentSelectedStory(model)));

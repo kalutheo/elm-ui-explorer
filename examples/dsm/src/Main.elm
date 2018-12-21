@@ -50,7 +50,8 @@ main =
                     ]
                 , createUI
                     "Iconography"
-                    [ ( "Iconography", \_ -> IconographyGuide.view, { hasMenu = False } )
+                    [ ( "Classic", \_ -> IconographyGuide.viewClassic, { hasMenu = True } )
+                    , ( "WithBackground", \_ -> IconographyGuide.viewWithBg, { hasMenu = True } )
                     ]
                 ]
             |> addUICategory "Components"
