@@ -3,6 +3,7 @@ module Main exposing (main)
 import Components.Text.Stories as Text
 import Docs
 import Guidelines.Colors as ColorGuide
+import Guidelines.Iconography as IconographyGuide
 import Guidelines.Typography as TypographyGuide
 import Html
 import Html.Attributes exposing (class)
@@ -46,6 +47,10 @@ main =
                 , createUI
                     "Typography"
                     [ ( "Typography", \_ -> TypographyGuide.view, { hasMenu = False } )
+                    ]
+                , createUI
+                    "Iconography"
+                    [ ( "Iconography", \_ -> IconographyGuide.view, { hasMenu = False } )
                     ]
                 ]
             |> addUICategory "Components"
