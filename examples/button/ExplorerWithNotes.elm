@@ -20,25 +20,35 @@ type alias PluginOption =
 
 note =
     { notes = addNote """
+# Modules
+- [Button](#button)
+
 # Button
+- [Config](#config)
+- [Size](#size)
+- [Kind](#kind)
+- [Appearance](#appearance)
+- [defaultButtonConfig](#defaultbuttonconfig)
+- [view](#view)
+
+## Button
 The Button should be used to trigger user actions.
 Some examples of interactions:
   - Submit a form
   - Cancel an order
   - Toggle a menu visibility
   - Play a media
-
-## Usage
-
 ```elm
 import Button exposing (..)
 Button.view "Submit" defaultButtonConfig ()
 ```
+## Links:
+  - [UX Planet - Basic rules for button](https://uxplanet.org/7-basic-rules-for-button-design-63dcdf5676b4)
 
 ### `Config`
 ```elm
 type alias Config  =
-    { appearance : Button.Appearance, size : Button.Size, kind : Button.Kind, class : String.String }
+    { appearance : Button.Appearance, size : Button.Size, kind : Button.Kind, class : String.String, theme : Button.Theme }
 ```
  Option to customize the Button
 
@@ -48,10 +58,8 @@ type alias Config  =
 
 ### `Size`
 ```elm
-type Size
-    = S
-    | M
-    | L
+type Size  
+    = S \n    | M \n    | L 
 ```
  Define the size of the Button
 
@@ -61,10 +69,8 @@ type Size
 
 ### `Kind`
 ```elm
-type Kind
-    = Link
-    | Filled
-    | Ghost
+type Kind  
+    = Link \n    | Filled \n    | Ghost 
 ```
  Look and feel of the Button
 
@@ -74,9 +80,8 @@ type Kind
 
 ### `Appearance`
 ```elm
-type Appearance
-    = Primary
-    | Secondary
+type Appearance  
+    = Primary \n    | Secondary 
 ```
  Define the appearance of the Button
 

@@ -1,6 +1,6 @@
 module Explorer exposing (main)
 
-import Button exposing (..)
+import Button exposing (Appearance(..), Kind(..), Size(..), defaultButtonConfig)
 import UIExplorer exposing (ExplorerProgram, app, createUI, defaultConfig, explore)
 
 

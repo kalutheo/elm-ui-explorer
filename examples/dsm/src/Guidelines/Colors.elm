@@ -33,6 +33,7 @@ neutralColorCollection =
     ]
 
 
+boxWidth : number
 boxWidth =
     180
 

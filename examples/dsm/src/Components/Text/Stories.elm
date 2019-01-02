@@ -7,6 +7,7 @@ import Theme.Typography exposing (typography)
 import UIExplorer exposing (createUI)
 
 
+lorem : String
 lorem =
     """
 Suspendisse varius, est id convallis feugiat, tortor justo dignissim dolor, eu pellentesque diam nisi quis odio. Donec condimentum risus ut arcu accumsan, at viverra lorem accumsan. Aenean fermentum ligula magna, id luctus augue sollicitudin id. Cras posuere metus lorem, eu suscipit lorem porta id. Etiam sed imperdiet libero, non dapibus nunc. Proin sed odio id ante auctor placerat vitae sit amet justo. Integer eget nisi ut dolor molestie cursus. Fusce quis lectus ultrices, condimentum nunc quis, viverra mi. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Morbi dictum libero vitae nisl feugiat, eu porta nisl mattis. Nam non mi lacinia, bibendum eros sed, mollis odio. Fusce sit amet enim sollicitudin, convallis lacus vitae, interdum augue. Vestibulum venenatis auctor eros, ut gravida urna cursus vitae.
@@ -23,6 +24,7 @@ colors =
     ]
 
 
+textShowcase : Theme.Typography.Typography -> String -> Int -> Element msg
 textShowcase typo text s =
     Element.column [ spacing s ]
         (colors

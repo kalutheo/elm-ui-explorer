@@ -2,7 +2,7 @@ module Main exposing (Model, Msg(..), initialModel, main, update, view)
 
 import Browser
 import Button exposing (..)
-import Html exposing (Html, a, button, div, i, input, span, text)
+import Html exposing (Html, div, input, span, text)
 import Html.Attributes exposing (attribute, class, classList, href, id, placeholder, type_)
 import Html.Events exposing (onClick)
 

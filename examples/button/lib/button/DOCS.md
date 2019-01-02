@@ -1,13 +1,21 @@
+# Modules
+- [Button](#button)
+
 # Button
+- [Config](#config)
+- [Size](#size)
+- [Kind](#kind)
+- [Appearance](#appearance)
+- [defaultButtonConfig](#defaultbuttonconfig)
+- [view](#view)
+
+## Button
 The Button should be used to trigger user actions.
 Some examples of interactions:
   - Submit a form
   - Cancel an order
   - Toggle a menu visibility
   - Play a media
-
-## Usage
-
 ```elm
 import Button exposing (..)
 Button.view "Submit" defaultButtonConfig ()
@@ -18,7 +26,7 @@ Button.view "Submit" defaultButtonConfig ()
 ### `Config`
 ```elm
 type alias Config  =
-    { appearance : Button.Appearance, size : Button.Size, kind : Button.Kind, class : String.String }
+    { appearance : Button.Appearance, size : Button.Size, kind : Button.Kind, class : String.String, theme : Button.Theme }
 ```
  Option to customize the Button
 
@@ -29,7 +37,7 @@ type alias Config  =
 ### `Size`
 ```elm
 type Size  
-    = S \n    | M \n    | L
+    = S \n    | M \n    | L 
 ```
  Define the size of the Button
 
@@ -40,7 +48,7 @@ type Size
 ### `Kind`
 ```elm
 type Kind  
-    = Link \n    | Filled \n    | Ghost
+    = Link \n    | Filled \n    | Ghost 
 ```
  Look and feel of the Button
 
@@ -51,7 +59,7 @@ type Kind
 ### `Appearance`
 ```elm
 type Appearance  
-    = Primary \n    | Secondary
+    = Primary \n    | Secondary 
 ```
  Define the appearance of the Button
 

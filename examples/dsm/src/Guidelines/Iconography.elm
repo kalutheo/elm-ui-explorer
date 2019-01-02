@@ -9,13 +9,13 @@ import Html.Attributes exposing (attribute, style)
 import Svg exposing (svg, use)
 import Svg.Attributes exposing (fill)
 import Theme.Color exposing (Color, color, getColor)
-import Theme.Icons.Icon as Icon exposing (Icon, getName, icon)
+import Theme.Icons.Icon as Icon exposing (Icon, Size(..), getName, icon)
 import Theme.Typography exposing (typography)
 
 
 iconsCollection : List Icon
 iconsCollection =
-    [ icon.pita, icon.salad ]
+    [ icon.pita, icon.salad, icon.frenchFries, icon.soda, icon.iceCream ]
 
 
 viewIcon : Color -> Color -> Icon -> Element msg
@@ -25,7 +25,7 @@ viewIcon bgColor iconColor i =
             RawColor.toRgba (getColor bgColor)
     in
     Element.column [ spacing 8 ]
-        [ Element.el [ Background.color <| rgb red green blue, padding 20 ] (Element.html <| Icon.view iconColor i)
+        [ Element.el [ Background.color <| rgb red green blue, padding 20 ] (Element.html <| Icon.view iconColor i M)
         , Element.el [ centerX ] (TextView.text (getName i) typography.small color.neutral.greyDarkest)
         ]
 
