@@ -2,4 +2,5 @@ elm-stuff
 node_modules
 .vscode/settings.json
 
-examples/button/lib/button/.vscode/settings.json
+.vscode
+.stencil

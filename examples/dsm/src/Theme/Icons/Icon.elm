@@ -5,6 +5,7 @@ import Html exposing (Html, div)
 import Theme.Color exposing (Color, color, getColor)
 import Theme.Icons.FrenchFries as FrenchFriesIcon
 import Theme.Icons.IceCream as IceCreamIcon
+import Theme.Icons.Logo as LogoIcon
 import Theme.Icons.Pita as PitaIcon
 import Theme.Icons.Salad as SaladIcon
 import Theme.Icons.Soda as SodaIcon
@@ -26,6 +27,7 @@ type Icon
     | FrenchFries IconStyle
     | Soda IconStyle
     | IceCream IconStyle
+    | Logo IconStyle
 
 
 type alias IconTheme =
@@ -34,6 +36,7 @@ type alias IconTheme =
     , frenchFries : Icon
     , soda : Icon
     , iceCream : Icon
+    , logo : Icon
     }
 
 
@@ -59,6 +62,10 @@ icon =
         IceCream
             { name = "Ice Cream"
             }
+    , logo =
+        Logo
+            { name = "Logo"
+            }
     }
 
 
@@ -78,6 +85,9 @@ getName i =
             v.name
 
         IceCream v ->
+            v.name
+
+        Logo v ->
             v.name
 
 
@@ -115,3 +125,6 @@ view color i size =
 
         IceCream _ ->
             IceCreamIcon.view c (getSize size)
+
+        Logo _ ->
+            LogoIcon.view c (getSize size)

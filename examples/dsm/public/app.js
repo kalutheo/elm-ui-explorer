@@ -12138,6 +12138,9 @@ var author$project$Theme$Icons$Icon$FrenchFries = function (a) {
 var author$project$Theme$Icons$Icon$IceCream = function (a) {
 	return {$: 'IceCream', a: a};
 };
+var author$project$Theme$Icons$Icon$Logo = function (a) {
+	return {$: 'Logo', a: a};
+};
 var author$project$Theme$Icons$Icon$Pita = function (a) {
 	return {$: 'Pita', a: a};
 };
@@ -12152,6 +12155,8 @@ var author$project$Theme$Icons$Icon$icon = {
 		{name: 'French Fries'}),
 	iceCream: author$project$Theme$Icons$Icon$IceCream(
 		{name: 'Ice Cream'}),
+	logo: author$project$Theme$Icons$Icon$Logo(
+		{name: 'Logo'}),
 	pita: author$project$Theme$Icons$Icon$Pita(
 		{name: 'Pita'}),
 	salad: author$project$Theme$Icons$Icon$Salad(
@@ -12160,7 +12165,7 @@ var author$project$Theme$Icons$Icon$icon = {
 		{name: 'Soda'})
 };
 var author$project$Guidelines$Iconography$iconsCollection = _List_fromArray(
-	[author$project$Theme$Icons$Icon$icon.pita, author$project$Theme$Icons$Icon$icon.salad, author$project$Theme$Icons$Icon$icon.frenchFries, author$project$Theme$Icons$Icon$icon.soda, author$project$Theme$Icons$Icon$icon.iceCream]);
+	[author$project$Theme$Icons$Icon$icon.pita, author$project$Theme$Icons$Icon$icon.salad, author$project$Theme$Icons$Icon$icon.frenchFries, author$project$Theme$Icons$Icon$icon.soda, author$project$Theme$Icons$Icon$icon.iceCream, author$project$Theme$Icons$Icon$icon.logo]);
 var author$project$Theme$Icons$Icon$M = {$: 'M'};
 var author$project$Theme$Icons$Icon$getName = function (i) {
 	switch (i.$) {
@@ -12174,6 +12179,9 @@ var author$project$Theme$Icons$Icon$getName = function (i) {
 			var v = i.a;
 			return v.name;
 		case 'Soda':
+			var v = i.a;
+			return v.name;
+		case 'IceCream':
 			var v = i.a;
 			return v.name;
 		default:
@@ -12259,6 +12267,20 @@ var author$project$Theme$Icons$Icon$getSize = function (size) {
 			return 128;
 	}
 };
+var elm$html$Html$node = elm$virtual_dom$VirtualDom$node;
+var elm$html$Html$Attributes$attribute = elm$virtual_dom$VirtualDom$attribute;
+var author$project$Theme$Icons$Logo$view = F2(
+	function (c, w) {
+		return A3(
+			elm$html$Html$node,
+			'svg-loader',
+			_List_fromArray(
+				[
+					A2(elm$html$Html$Attributes$attribute, 'url', 'svg/logo.svg'),
+					A2(elm$html$Html$Attributes$attribute, 'color', c)
+				]),
+			_List_Nil);
+	});
 var elm$html$Html$Attributes$id = elm$html$Html$Attributes$stringProperty('id');
 var elm$svg$Svg$g = elm$svg$Svg$trustedNode('g');
 var elm$svg$Svg$Attributes$version = _VirtualDom_attribute('version');
@@ -12623,9 +12645,14 @@ var author$project$Theme$Icons$Icon$view = F3(
 					author$project$Theme$Icons$Soda$view,
 					c,
 					author$project$Theme$Icons$Icon$getSize(size));
-			default:
+			case 'IceCream':
 				return A2(
 					author$project$Theme$Icons$IceCream$view,
+					c,
+					author$project$Theme$Icons$Icon$getSize(size));
+			default:
+				return A2(
+					author$project$Theme$Icons$Logo$view,
 					c,
 					author$project$Theme$Icons$Icon$getSize(size));
 		}
@@ -14613,7 +14640,6 @@ var elm$browser$Debugger$History$consMsg = F3(
 				A4(elm$html$Html$Lazy$lazy3, elm$browser$Debugger$History$viewMessage, currentIndex, index, msg),
 				rest));
 	});
-var elm$html$Html$node = elm$virtual_dom$VirtualDom$node;
 var elm$browser$Debugger$History$styles = A3(
 	elm$html$Html$node,
 	'style',
