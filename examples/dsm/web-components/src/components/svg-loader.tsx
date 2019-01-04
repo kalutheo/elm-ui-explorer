@@ -7,6 +7,7 @@ import SVGInjector from "svg-injector";
 export class SvgLoader {
   @Prop() url: string;
   @Prop() color: string;
+  @Prop() width: string;
 
   imageElement!: HTMLElement;
 
@@ -15,6 +16,7 @@ export class SvgLoader {
       const newImage = new Image();
       newImage.src = this.url;
       newImage.style.fill = this.color;
+      newImage.style.width = this.width + "px";
       while (this.imageElement.firstChild) {
         this.imageElement.removeChild(this.imageElement.firstChild);
       }

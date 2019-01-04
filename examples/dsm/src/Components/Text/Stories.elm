@@ -31,9 +31,9 @@ textShowcase typo text s =
             |> List.map
                 (\c ->
                     TextView.text
-                        text
                         typo
                         c
+                        text
                 )
         )
 

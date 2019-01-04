@@ -74,7 +74,7 @@ typography =
             }
     , small =
         Small
-            { size = 12
+            { size = 14
             , family = fonts.secondary
             , name = "Small"
             , desc = "Time stamps, copyrights"

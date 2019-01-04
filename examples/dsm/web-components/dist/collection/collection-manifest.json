@@ -16,6 +16,11 @@
           "name": "url",
           "type": "String",
           "attr": "url"
+        },
+        {
+          "name": "width",
+          "type": "String",
+          "attr": "width"
         }
       ]
     }

@@ -2,12 +2,12 @@
   "namespace": "MyApp",
   "fsNamespace": "myapp",
   "loader": "../myapp.js",
-  "core": "myapp.lklphj9v.js",
-  "corePolyfilled": "myapp.m2hxe9u8.js",
+  "core": "myapp.3xdlgq4p.js",
+  "corePolyfilled": "myapp.3nrsrnzt.js",
   "components": {
     "svg-loader": {
       "bundleIds": {
-        "$": "mack8kpt"
+        "$": "awgahu8c"
       }
     }
   }

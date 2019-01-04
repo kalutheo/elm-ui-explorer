@@ -13,6 +13,11 @@
           "label": "url",
           "description": "",
           "required": false
+        },
+        {
+          "label": "width",
+          "description": "",
+          "required": false
         }
       ]
     }

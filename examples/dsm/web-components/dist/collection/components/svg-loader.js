@@ -5,6 +5,7 @@ export class SvgLoader {
             const newImage = new Image();
             newImage.src = this.url;
             newImage.style.fill = this.color;
+            newImage.style.width = this.width + "px";
             while (this.imageElement.firstChild) {
                 this.imageElement.removeChild(this.imageElement.firstChild);
             }
@@ -30,6 +31,10 @@ export class SvgLoader {
         "url": {
             "type": String,
             "attr": "url"
+        },
+        "width": {
+            "type": String,
+            "attr": "width"
         }
     }; }
 }

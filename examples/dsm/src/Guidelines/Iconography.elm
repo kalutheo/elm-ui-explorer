@@ -15,7 +15,7 @@ import Theme.Typography exposing (typography)
 
 iconsCollection : List Icon
 iconsCollection =
-    [ icon.pita, icon.salad, icon.frenchFries, icon.soda, icon.iceCream, icon.logo ]
+    [ icon.pita, icon.salad, icon.frenchFries, icon.soda, icon.iceCream, icon.logo, icon.menu ]
 
 
 viewIcon : Color -> Color -> Icon -> Element msg
@@ -26,7 +26,7 @@ viewIcon bgColor iconColor i =
     in
     Element.column [ spacing 8 ]
         [ Element.el [ Background.color <| rgb red green blue, padding 20 ] (Element.html <| Icon.view iconColor i M)
-        , Element.el [ centerX ] (TextView.text (getName i) typography.small color.neutral.greyDarkest)
+        , Element.el [ centerX ] (TextView.text typography.small color.neutral.greyDarkest (getName i))
         ]
 
 

@@ -6,6 +6,7 @@ import Theme.Color exposing (Color, color, getColor)
 import Theme.Icons.FrenchFries as FrenchFriesIcon
 import Theme.Icons.IceCream as IceCreamIcon
 import Theme.Icons.Logo as LogoIcon
+import Theme.Icons.Menu as MenuIcon
 import Theme.Icons.Pita as PitaIcon
 import Theme.Icons.Salad as SaladIcon
 import Theme.Icons.Soda as SodaIcon
@@ -16,7 +17,8 @@ type alias IconStyle =
 
 
 type Size
-    = S
+    = XS
+    | S
     | M
     | L
 
@@ -28,6 +30,7 @@ type Icon
     | Soda IconStyle
     | IceCream IconStyle
     | Logo IconStyle
+    | Menu IconStyle
 
 
 type alias IconTheme =
@@ -37,6 +40,7 @@ type alias IconTheme =
     , soda : Icon
     , iceCream : Icon
     , logo : Icon
+    , menu : Icon
     }
 
 
@@ -66,6 +70,10 @@ icon =
         Logo
             { name = "Logo"
             }
+    , menu =
+        Menu
+            { name = "Menu"
+            }
     }
 
 
@@ -90,10 +98,16 @@ getName i =
         Logo v ->
             v.name
 
+        Menu v ->
+            v.name
+
 
 getSize : Size -> Int
 getSize size =
     case size of
+        XS ->
+            24
+
         S ->
             32
 
@@ -128,3 +142,6 @@ view color i size =
 
         Logo _ ->
             LogoIcon.view c (getSize size)
+
+        Menu _ ->
+            MenuIcon.view c (getSize size)

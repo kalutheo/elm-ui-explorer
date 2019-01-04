@@ -11402,9 +11402,9 @@ var author$project$Components$Header$Stories$toHtml = mdgriffith$elm_ui$Element$
 var author$project$Components$Header$View$Primary = {$: 'Primary'};
 var author$project$Components$Header$View$getTheme = function (appearance) {
 	if (appearance.$ === 'Primary') {
-		return {background: author$project$Theme$Color$color.neutral.white, color: author$project$Theme$Color$color.brand.primary};
+		return {background: author$project$Theme$Color$color.neutral.white, color: author$project$Theme$Color$color.brand.primary, secondColor: author$project$Theme$Color$color.neutral.greyDarker};
 	} else {
-		return {background: author$project$Theme$Color$color.brand.primary, color: author$project$Theme$Color$color.neutral.white};
+		return {background: author$project$Theme$Color$color.brand.primary, color: author$project$Theme$Color$color.neutral.white, secondColor: author$project$Theme$Color$color.neutral.white};
 	}
 };
 var author$project$Theme$Typography$getProperty = F2(
@@ -11518,7 +11518,7 @@ var mdgriffith$elm_ui$Element$Font$size = function (i) {
 };
 var mdgriffith$elm_ui$Element$Font$typeface = mdgriffith$elm_ui$Internal$Model$Typeface;
 var author$project$Components$Text$View$text = F3(
-	function (label, typo, color) {
+	function (typo, color, label) {
 		var _n0 = avh4$elm_color$Color$toRgba(
 			author$project$Theme$Color$getColor(color));
 		var red = _n0.red;
@@ -11545,7 +11545,8 @@ var author$project$Components$Text$View$text = F3(
 					mdgriffith$elm_ui$Element$text(label)
 				]));
 	});
-var author$project$Theme$Icons$Icon$S = {$: 'S'};
+var author$project$Theme$Icons$Icon$M = {$: 'M'};
+var author$project$Theme$Icons$Icon$XS = {$: 'XS'};
 var author$project$Theme$Icons$Icon$FrenchFries = function (a) {
 	return {$: 'FrenchFries', a: a};
 };
@@ -11554,6 +11555,9 @@ var author$project$Theme$Icons$Icon$IceCream = function (a) {
 };
 var author$project$Theme$Icons$Icon$Logo = function (a) {
 	return {$: 'Logo', a: a};
+};
+var author$project$Theme$Icons$Icon$Menu = function (a) {
+	return {$: 'Menu', a: a};
 };
 var author$project$Theme$Icons$Icon$Pita = function (a) {
 	return {$: 'Pita', a: a};
@@ -11571,6 +11575,8 @@ var author$project$Theme$Icons$Icon$icon = {
 		{name: 'Ice Cream'}),
 	logo: author$project$Theme$Icons$Icon$Logo(
 		{name: 'Logo'}),
+	menu: author$project$Theme$Icons$Icon$Menu(
+		{name: 'Menu'}),
 	pita: author$project$Theme$Icons$Icon$Pita(
 		{name: 'Pita'}),
 	salad: author$project$Theme$Icons$Icon$Salad(
@@ -11648,6 +11654,8 @@ var author$project$Theme$Icons$IceCream$view = F2(
 	});
 var author$project$Theme$Icons$Icon$getSize = function (size) {
 	switch (size.$) {
+		case 'XS':
+			return 24;
 		case 'S':
 			return 32;
 		case 'M':
@@ -11666,7 +11674,27 @@ var author$project$Theme$Icons$Logo$view = F2(
 			_List_fromArray(
 				[
 					A2(elm$html$Html$Attributes$attribute, 'url', 'svg/logo.svg'),
-					A2(elm$html$Html$Attributes$attribute, 'color', c)
+					A2(elm$html$Html$Attributes$attribute, 'color', c),
+					A2(
+					elm$html$Html$Attributes$attribute,
+					'width',
+					elm$core$String$fromInt(w))
+				]),
+			_List_Nil);
+	});
+var author$project$Theme$Icons$Menu$view = F2(
+	function (c, w) {
+		return A3(
+			elm$html$Html$node,
+			'svg-loader',
+			_List_fromArray(
+				[
+					A2(elm$html$Html$Attributes$attribute, 'url', 'svg/menu.svg'),
+					A2(elm$html$Html$Attributes$attribute, 'color', c),
+					A2(
+					elm$html$Html$Attributes$attribute,
+					'width',
+					elm$core$String$fromInt(w))
 				]),
 			_List_Nil);
 	});
@@ -12039,9 +12067,14 @@ var author$project$Theme$Icons$Icon$view = F3(
 					author$project$Theme$Icons$IceCream$view,
 					c,
 					author$project$Theme$Icons$Icon$getSize(size));
-			default:
+			case 'Logo':
 				return A2(
 					author$project$Theme$Icons$Logo$view,
+					c,
+					author$project$Theme$Icons$Icon$getSize(size));
+			default:
+				return A2(
+					author$project$Theme$Icons$Menu$view,
 					c,
 					author$project$Theme$Icons$Icon$getSize(size));
 		}
@@ -12068,12 +12101,17 @@ var author$project$Theme$Typography$typography = {
 	paragraph: author$project$Theme$Typography$Paragraph(
 		{desc: 'Article body', family: author$project$Theme$Typography$fonts.secondary, name: 'Paragraph', size: 16}),
 	small: author$project$Theme$Typography$Small(
-		{desc: 'Time stamps, copyrights', family: author$project$Theme$Typography$fonts.secondary, name: 'Small', size: 12}),
+		{desc: 'Time stamps, copyrights', family: author$project$Theme$Typography$fonts.secondary, name: 'Small', size: 14}),
 	subtitle: author$project$Theme$Typography$Subtitle(
 		{desc: 'Headline title or subtitle', family: author$project$Theme$Typography$fonts.primary, name: 'Subtitle', size: 22}),
 	title: author$project$Theme$Typography$Title(
 		{desc: 'Article title or section header', family: author$project$Theme$Typography$fonts.primary, name: 'Title', size: 38})
 };
+var mdgriffith$elm_ui$Internal$Model$AlignX = function (a) {
+	return {$: 'AlignX', a: a};
+};
+var mdgriffith$elm_ui$Internal$Model$Right = {$: 'Right'};
+var mdgriffith$elm_ui$Element$alignRight = mdgriffith$elm_ui$Internal$Model$AlignX(mdgriffith$elm_ui$Internal$Model$Right);
 var mdgriffith$elm_ui$Internal$Model$Content = {$: 'Content'};
 var mdgriffith$elm_ui$Element$shrink = mdgriffith$elm_ui$Internal$Model$Content;
 var mdgriffith$elm_ui$Element$el = F2(
@@ -12139,11 +12177,48 @@ var author$project$Components$Header$View$view = function (appearance) {
 		_List_fromArray(
 			[
 				A2(
-				mdgriffith$elm_ui$Element$el,
-				_List_Nil,
-				mdgriffith$elm_ui$Element$html(
-					A3(author$project$Theme$Icons$Icon$view, theme.color, author$project$Theme$Icons$Icon$icon.logo, author$project$Theme$Icons$Icon$S))),
-				A3(author$project$Components$Text$View$text, '08.75.57.43.32', author$project$Theme$Typography$typography.paragraph, theme.color)
+				mdgriffith$elm_ui$Element$row,
+				_List_fromArray(
+					[
+						mdgriffith$elm_ui$Element$spacing(64)
+					]),
+				_List_fromArray(
+					[
+						A2(
+						mdgriffith$elm_ui$Element$el,
+						_List_Nil,
+						mdgriffith$elm_ui$Element$html(
+							A3(author$project$Theme$Icons$Icon$view, theme.color, author$project$Theme$Icons$Icon$icon.logo, author$project$Theme$Icons$Icon$M)))
+					])),
+				A2(
+				mdgriffith$elm_ui$Element$row,
+				_List_fromArray(
+					[
+						mdgriffith$elm_ui$Element$width(mdgriffith$elm_ui$Element$fill),
+						mdgriffith$elm_ui$Element$spacing(16)
+					]),
+				_List_fromArray(
+					[
+						A2(
+						mdgriffith$elm_ui$Element$row,
+						_List_fromArray(
+							[
+								mdgriffith$elm_ui$Element$spacing(8),
+								mdgriffith$elm_ui$Element$alignRight
+							]),
+						_List_fromArray(
+							[
+								A2(
+								mdgriffith$elm_ui$Element$el,
+								_List_Nil,
+								A3(author$project$Components$Text$View$text, author$project$Theme$Typography$typography.small, theme.color, 'MENU')),
+								A2(
+								mdgriffith$elm_ui$Element$el,
+								_List_Nil,
+								mdgriffith$elm_ui$Element$html(
+									A3(author$project$Theme$Icons$Icon$view, theme.color, author$project$Theme$Icons$Icon$icon.menu, author$project$Theme$Icons$Icon$XS)))
+							]))
+					]))
 			]));
 };
 var author$project$Components$Header$View$viewPrimary = author$project$Components$Header$View$view(author$project$Components$Header$View$Primary);
@@ -12209,7 +12284,7 @@ var author$project$Components$Text$Stories$textShowcase = F3(
 			A2(
 				elm$core$List$map,
 				function (c) {
-					return A3(author$project$Components$Text$View$text, text, typo, c);
+					return A3(author$project$Components$Text$View$text, typo, c, text);
 				},
 				author$project$Components$Text$Stories$colors));
 	});
@@ -12743,8 +12818,7 @@ var author$project$Guidelines$Colors$viewNeutralColors = A2(
 			]),
 		A2(elm$core$List$map, author$project$Guidelines$Colors$viewColor, author$project$Guidelines$Colors$neutralColorCollection)));
 var author$project$Guidelines$Iconography$iconsCollection = _List_fromArray(
-	[author$project$Theme$Icons$Icon$icon.pita, author$project$Theme$Icons$Icon$icon.salad, author$project$Theme$Icons$Icon$icon.frenchFries, author$project$Theme$Icons$Icon$icon.soda, author$project$Theme$Icons$Icon$icon.iceCream, author$project$Theme$Icons$Icon$icon.logo]);
-var author$project$Theme$Icons$Icon$M = {$: 'M'};
+	[author$project$Theme$Icons$Icon$icon.pita, author$project$Theme$Icons$Icon$icon.salad, author$project$Theme$Icons$Icon$icon.frenchFries, author$project$Theme$Icons$Icon$icon.soda, author$project$Theme$Icons$Icon$icon.iceCream, author$project$Theme$Icons$Icon$icon.logo, author$project$Theme$Icons$Icon$icon.menu]);
 var author$project$Theme$Icons$Icon$getName = function (i) {
 	switch (i.$) {
 		case 'Salad':
@@ -12762,13 +12836,13 @@ var author$project$Theme$Icons$Icon$getName = function (i) {
 		case 'IceCream':
 			var v = i.a;
 			return v.name;
+		case 'Logo':
+			var v = i.a;
+			return v.name;
 		default:
 			var v = i.a;
 			return v.name;
 	}
-};
-var mdgriffith$elm_ui$Internal$Model$AlignX = function (a) {
-	return {$: 'AlignX', a: a};
 };
 var mdgriffith$elm_ui$Internal$Model$CenterX = {$: 'CenterX'};
 var mdgriffith$elm_ui$Element$centerX = mdgriffith$elm_ui$Internal$Model$AlignX(mdgriffith$elm_ui$Internal$Model$CenterX);
@@ -12803,9 +12877,9 @@ var author$project$Guidelines$Iconography$viewIcon = F3(
 						[mdgriffith$elm_ui$Element$centerX]),
 					A3(
 						author$project$Components$Text$View$text,
-						author$project$Theme$Icons$Icon$getName(i),
 						author$project$Theme$Typography$typography.small,
-						author$project$Theme$Color$color.neutral.greyDarkest))
+						author$project$Theme$Color$color.neutral.greyDarkest,
+						author$project$Theme$Icons$Icon$getName(i)))
 				]));
 	});
 var author$project$Guidelines$Iconography$view = F2(
@@ -12829,8 +12903,6 @@ var author$project$Guidelines$Iconography$viewWithBg = A2(author$project$Guideli
 var author$project$Guidelines$Typography$typographyCollection = _List_fromArray(
 	[author$project$Theme$Typography$typography.lead, author$project$Theme$Typography$typography.title, author$project$Theme$Typography$typography.subtitle, author$project$Theme$Typography$typography.paragraph, author$project$Theme$Typography$typography.small]);
 var author$project$Guidelines$Typography$boxWidth = 800;
-var mdgriffith$elm_ui$Internal$Model$Right = {$: 'Right'};
-var mdgriffith$elm_ui$Element$alignRight = mdgriffith$elm_ui$Internal$Model$AlignX(mdgriffith$elm_ui$Internal$Model$Right);
 var mdgriffith$elm_ui$Element$Border$widthXY = F2(
 	function (x, y) {
 		return A2(

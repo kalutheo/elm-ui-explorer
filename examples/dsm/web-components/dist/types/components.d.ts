@@ -15,10 +15,12 @@ export namespace Components {
   interface SvgLoader {
     'color': string;
     'url': string;
+    'width': string;
   }
   interface SvgLoaderAttributes extends StencilHTMLAttributes {
     'color'?: string;
     'url'?: string;
+    'width'?: string;
   }
 }
 

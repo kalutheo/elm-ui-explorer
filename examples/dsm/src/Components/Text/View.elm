@@ -7,8 +7,8 @@ import Theme.Color exposing (Color, getColor)
 import Theme.Typography exposing (Typography, getFamily, getSize)
 
 
-text : String -> Typography -> Color -> Element msg
-text label typo color =
+text : Typography -> Color -> String -> Element msg
+text typo color label =
     let
         { red, green, blue } =
             RawColor.toRgba (getColor color)
