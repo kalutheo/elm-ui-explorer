@@ -1,6 +1,7 @@
 module Main exposing (main)
 
 import Components.Text.Stories as Text
+import Components.Header.Stories as Header
 import Docs
 import Guidelines.Colors as ColorGuide
 import Guidelines.Iconography as IconographyGuide
@@ -55,7 +56,8 @@ main =
                     ]
                 ]
             |> addUICategory "Components"
-                [ Text.stories
+                [ Text.stories,
+                Header.stories
                 ]
         )
         { defaultConfig
