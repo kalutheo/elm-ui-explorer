@@ -1,10 +1,11 @@
 module Main exposing (main)
 
-import Components.Text.Stories as Text
 import Components.Header.Stories as Header
+import Components.Text.Stories as Text
 import Docs
 import Guidelines.Colors as ColorGuide
 import Guidelines.Iconography as IconographyGuide
+import Guidelines.Spacing as SpacingGuide
 import Guidelines.Typography as TypographyGuide
 import Html
 import Html.Attributes exposing (class)
@@ -54,10 +55,14 @@ main =
                     [ ( "Classic", \_ -> IconographyGuide.viewClassic, { hasMenu = True } )
                     , ( "WithBackground", \_ -> IconographyGuide.viewWithBg, { hasMenu = True } )
                     ]
+                , createUI
+                    "Spacing"
+                    [ ( "Spacing", \_ -> SpacingGuide.view, { hasMenu = True } )
+                    ]
                 ]
             |> addUICategory "Components"
-                [ Text.stories,
-                Header.stories
+                [ Text.stories
+                , Header.stories
                 ]
         )
         { defaultConfig

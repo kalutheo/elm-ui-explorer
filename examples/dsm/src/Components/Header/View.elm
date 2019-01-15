@@ -5,6 +5,7 @@ import Element exposing (..)
 import Element.Background as Background
 import Theme.Color exposing (Color, color)
 import Theme.Icons.Icon as Icon exposing (Size(..), icon)
+import Theme.Spacing as Spacing
 import Theme.Typography exposing (typography)
 import Utils exposing (toRgb)
 
@@ -62,18 +63,18 @@ view appearance =
     Element.row
         [ Background.color <| toRgb theme.background
         , width fill
-        , padding 16
-        , spacing 64
+        , padding Spacing.medium.value
+        , spacing Spacing.large.value
         ]
         [ Element.row
-            [ spacing 64 ]
+            [ spacing Spacing.large.value ]
             [ Element.el []
                 (Element.html <|
                     Icon.view theme.color icon.logo M
                 )
             ]
-        , Element.row [ width fill, spacing 16 ]
-            [ Element.row [ spacing 8, alignRight ]
+        , Element.row [ width fill, spacing Spacing.medium.value ]
+            [ Element.row [ spacing Spacing.small.value, alignRight ]
                 [ Element.el [] (Text.text typography.small theme.color "MENU")
                 , Element.el []
                     (Element.html <|

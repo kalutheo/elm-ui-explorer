@@ -12079,6 +12079,63 @@ var author$project$Theme$Icons$Icon$view = F3(
 					author$project$Theme$Icons$Icon$getSize(size));
 		}
 	});
+var author$project$Theme$Spacing$getSpacing = function (sp) {
+	switch (sp.$) {
+		case 'XS':
+			var s = sp.a;
+			return s;
+		case 'S':
+			var s = sp.a;
+			return s;
+		case 'M':
+			var s = sp.a;
+			return s;
+		case 'L':
+			var s = sp.a;
+			return s;
+		case 'XL':
+			var s = sp.a;
+			return s;
+		default:
+			var s = sp.a;
+			return s;
+	}
+};
+var author$project$Theme$Spacing$L = function (a) {
+	return {$: 'L', a: a};
+};
+var author$project$Theme$Spacing$M = function (a) {
+	return {$: 'M', a: a};
+};
+var author$project$Theme$Spacing$S = function (a) {
+	return {$: 'S', a: a};
+};
+var author$project$Theme$Spacing$XL = function (a) {
+	return {$: 'XL', a: a};
+};
+var author$project$Theme$Spacing$XS = function (a) {
+	return {$: 'XS', a: a};
+};
+var author$project$Theme$Spacing$XXL = function (a) {
+	return {$: 'XXL', a: a};
+};
+var author$project$Theme$Spacing$spacing = {
+	l: author$project$Theme$Spacing$L(
+		{name: 'Large', value: 32}),
+	m: author$project$Theme$Spacing$M(
+		{name: 'Medium', value: 12}),
+	s: author$project$Theme$Spacing$S(
+		{name: 'Small', value: 8}),
+	xl: author$project$Theme$Spacing$XL(
+		{name: 'ExtraLarge', value: 52}),
+	xs: author$project$Theme$Spacing$XS(
+		{name: 'Smallest', value: 4}),
+	xxl: author$project$Theme$Spacing$XXL(
+		{name: 'Largest', value: 84})
+};
+var author$project$Theme$Spacing$large = author$project$Theme$Spacing$getSpacing(author$project$Theme$Spacing$spacing.l);
+var author$project$Theme$Spacing$medium = author$project$Theme$Spacing$getSpacing(author$project$Theme$Spacing$spacing.m);
+var author$project$Theme$Spacing$small = author$project$Theme$Spacing$getSpacing(author$project$Theme$Spacing$spacing.s);
 var author$project$Theme$Typography$Lead = function (a) {
 	return {$: 'Lead', a: a};
 };
@@ -12171,8 +12228,8 @@ var author$project$Components$Header$View$view = function (appearance) {
 				mdgriffith$elm_ui$Element$Background$color(
 				author$project$Utils$toRgb(theme.background)),
 				mdgriffith$elm_ui$Element$width(mdgriffith$elm_ui$Element$fill),
-				mdgriffith$elm_ui$Element$padding(16),
-				mdgriffith$elm_ui$Element$spacing(64)
+				mdgriffith$elm_ui$Element$padding(author$project$Theme$Spacing$medium.value),
+				mdgriffith$elm_ui$Element$spacing(author$project$Theme$Spacing$large.value)
 			]),
 		_List_fromArray(
 			[
@@ -12180,7 +12237,7 @@ var author$project$Components$Header$View$view = function (appearance) {
 				mdgriffith$elm_ui$Element$row,
 				_List_fromArray(
 					[
-						mdgriffith$elm_ui$Element$spacing(64)
+						mdgriffith$elm_ui$Element$spacing(author$project$Theme$Spacing$large.value)
 					]),
 				_List_fromArray(
 					[
@@ -12195,7 +12252,7 @@ var author$project$Components$Header$View$view = function (appearance) {
 				_List_fromArray(
 					[
 						mdgriffith$elm_ui$Element$width(mdgriffith$elm_ui$Element$fill),
-						mdgriffith$elm_ui$Element$spacing(16)
+						mdgriffith$elm_ui$Element$spacing(author$project$Theme$Spacing$medium.value)
 					]),
 				_List_fromArray(
 					[
@@ -12203,7 +12260,7 @@ var author$project$Components$Header$View$view = function (appearance) {
 						mdgriffith$elm_ui$Element$row,
 						_List_fromArray(
 							[
-								mdgriffith$elm_ui$Element$spacing(8),
+								mdgriffith$elm_ui$Element$spacing(author$project$Theme$Spacing$small.value),
 								mdgriffith$elm_ui$Element$alignRight
 							]),
 						_List_fromArray(
@@ -12900,6 +12957,41 @@ var author$project$Guidelines$Iconography$view = F2(
 	});
 var author$project$Guidelines$Iconography$viewClassic = A2(author$project$Guidelines$Iconography$view, author$project$Theme$Color$color.neutral.white, author$project$Theme$Color$color.neutral.greyDarkest);
 var author$project$Guidelines$Iconography$viewWithBg = A2(author$project$Guidelines$Iconography$view, author$project$Theme$Color$color.brand.secondary, author$project$Theme$Color$color.neutral.white);
+var author$project$Theme$Spacing$extraLarge = author$project$Theme$Spacing$getSpacing(author$project$Theme$Spacing$spacing.xl);
+var author$project$Theme$Spacing$largest = author$project$Theme$Spacing$getSpacing(author$project$Theme$Spacing$spacing.xxl);
+var author$project$Theme$Spacing$smallest = author$project$Theme$Spacing$getSpacing(author$project$Theme$Spacing$spacing.xs);
+var author$project$Guidelines$Spacing$spacingCollection = _List_fromArray(
+	[author$project$Theme$Spacing$smallest.value, author$project$Theme$Spacing$small.value, author$project$Theme$Spacing$medium.value, author$project$Theme$Spacing$large.value, author$project$Theme$Spacing$extraLarge.value, author$project$Theme$Spacing$largest.value]);
+var author$project$Guidelines$Spacing$viewSpacing = function (_int) {
+	var _n0 = avh4$elm_color$Color$toRgba(
+		author$project$Theme$Color$getColor(author$project$Theme$Color$color.brand.primary));
+	var red = _n0.red;
+	var green = _n0.green;
+	var blue = _n0.blue;
+	return A2(
+		mdgriffith$elm_ui$Element$row,
+		_List_fromArray(
+			[
+				mdgriffith$elm_ui$Element$Background$color(
+				A3(mdgriffith$elm_ui$Element$rgb, red, green, blue)),
+				mdgriffith$elm_ui$Element$padding(0),
+				mdgriffith$elm_ui$Element$width(
+				mdgriffith$elm_ui$Element$px(_int)),
+				mdgriffith$elm_ui$Element$height(
+				mdgriffith$elm_ui$Element$px(_int))
+			]),
+		_List_Nil);
+};
+var author$project$Guidelines$Spacing$view = A2(
+	mdgriffith$elm_ui$Element$layout,
+	_List_Nil,
+	A2(
+		mdgriffith$elm_ui$Element$row,
+		_List_fromArray(
+			[
+				mdgriffith$elm_ui$Element$spacing(8)
+			]),
+		A2(elm$core$List$map, author$project$Guidelines$Spacing$viewSpacing, author$project$Guidelines$Spacing$spacingCollection)));
 var author$project$Guidelines$Typography$typographyCollection = _List_fromArray(
 	[author$project$Theme$Typography$typography.lead, author$project$Theme$Typography$typography.title, author$project$Theme$Typography$typography.subtitle, author$project$Theme$Typography$typography.paragraph, author$project$Theme$Typography$typography.small]);
 var author$project$Guidelines$Typography$boxWidth = 800;
@@ -17939,6 +18031,18 @@ var author$project$Main$main = A2(
 								return author$project$Guidelines$Iconography$viewWithBg;
 							},
 							{hasMenu: true})
+						])),
+					A2(
+					author$project$UIExplorer$createUI,
+					'Spacing',
+					_List_fromArray(
+						[
+							_Utils_Tuple3(
+							'Spacing',
+							function (_n7) {
+								return author$project$Guidelines$Spacing$view;
+							},
+							{hasMenu: true})
 						]))
 				]),
 			A3(
@@ -17988,8 +18092,8 @@ var author$project$Main$main = A2(
 						elm$html$Html$text(''),
 						A2(
 							elm$core$Maybe$map,
-							function (_n7) {
-								var option = _n7.c;
+							function (_n8) {
+								var option = _n8.c;
 								return option.hasMenu ? menuView : elm$html$Html$text('');
 							},
 							author$project$UIExplorer$getCurrentSelectedStory(model)));
