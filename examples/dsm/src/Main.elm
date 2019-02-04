@@ -1,5 +1,6 @@
 module Main exposing (main)
 
+import Components.Button.Stories as Button
 import Components.Header.Stories as Header
 import Components.Text.Stories as Text
 import Docs
@@ -63,6 +64,7 @@ main =
             |> addUICategory "Components"
                 [ Text.stories
                 , Header.stories
+                , Button.stories
                 ]
         )
         { defaultConfig
