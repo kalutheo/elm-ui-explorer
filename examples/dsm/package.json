@@ -6,6 +6,8 @@
     "@stencil/core": "0.16.1"
   },
   "devDependencies": {
+    "figma-js": "^1.6.0",
+    "ramda": "^0.26.1",
     "stencil": "0.0.5"
   },
   "scripts": {
