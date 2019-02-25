@@ -1,4 +1,4 @@
-module Theme.Spacing exposing (extraLarge, getSpacing, large, largest, medium, small, smallest, spacing)
+module Theme.Spacing exposing (Spacing, SpacingStyle, extraLarge, getSpacing, large, largest, medium, small, smallest, spacing)
 
 
 type alias SpacingStyle =

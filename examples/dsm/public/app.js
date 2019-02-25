@@ -15937,8 +15937,8 @@ var author$project$Theme$Spacing$extraLarge = author$project$Theme$Spacing$getSp
 var author$project$Theme$Spacing$largest = author$project$Theme$Spacing$getSpacing(author$project$Theme$Spacing$spacing.xxl);
 var author$project$Theme$Spacing$smallest = author$project$Theme$Spacing$getSpacing(author$project$Theme$Spacing$spacing.xs);
 var author$project$Guidelines$Spacing$spacingCollection = _List_fromArray(
-	[author$project$Theme$Spacing$smallest.value, author$project$Theme$Spacing$small.value, author$project$Theme$Spacing$medium.value, author$project$Theme$Spacing$large.value, author$project$Theme$Spacing$extraLarge.value, author$project$Theme$Spacing$largest.value]);
-var author$project$Guidelines$Spacing$viewSpacing = function (_int) {
+	[author$project$Theme$Spacing$smallest, author$project$Theme$Spacing$small, author$project$Theme$Spacing$medium, author$project$Theme$Spacing$large, author$project$Theme$Spacing$extraLarge, author$project$Theme$Spacing$largest]);
+var author$project$Guidelines$Spacing$viewSpacing = function (s) {
 	var _n0 = avh4$elm_color$Color$toRgba(
 		author$project$Theme$Color$getColor(author$project$Theme$Color$color.brand.primary));
 	var red = _n0.red;
@@ -15948,24 +15948,44 @@ var author$project$Guidelines$Spacing$viewSpacing = function (_int) {
 		mdgriffith$elm_ui$Element$row,
 		_List_fromArray(
 			[
-				mdgriffith$elm_ui$Element$Background$color(
-				A3(mdgriffith$elm_ui$Element$rgb, red, green, blue)),
-				mdgriffith$elm_ui$Element$padding(0),
-				mdgriffith$elm_ui$Element$width(
-				mdgriffith$elm_ui$Element$px(_int)),
-				mdgriffith$elm_ui$Element$height(
-				mdgriffith$elm_ui$Element$px(_int))
+				mdgriffith$elm_ui$Element$spacing(author$project$Theme$Spacing$large.value)
 			]),
-		_List_Nil);
+		_List_fromArray(
+			[
+				A2(
+				mdgriffith$elm_ui$Element$row,
+				_List_fromArray(
+					[
+						mdgriffith$elm_ui$Element$width(
+						mdgriffith$elm_ui$Element$px(100))
+					]),
+				_List_fromArray(
+					[
+						A3(author$project$Components$Text$View$text, author$project$Theme$Typography$typography.small, author$project$Theme$Color$color.neutral.greyDark, s.name)
+					])),
+				A2(
+				mdgriffith$elm_ui$Element$row,
+				_List_fromArray(
+					[
+						mdgriffith$elm_ui$Element$Background$color(
+						A3(mdgriffith$elm_ui$Element$rgb, red, green, blue)),
+						mdgriffith$elm_ui$Element$padding(0),
+						mdgriffith$elm_ui$Element$width(
+						mdgriffith$elm_ui$Element$px(s.value)),
+						mdgriffith$elm_ui$Element$height(
+						mdgriffith$elm_ui$Element$px(s.value))
+					]),
+				_List_Nil)
+			]));
 };
 var author$project$Guidelines$Spacing$view = A2(
 	mdgriffith$elm_ui$Element$layout,
 	_List_Nil,
 	A2(
-		mdgriffith$elm_ui$Element$row,
+		mdgriffith$elm_ui$Element$column,
 		_List_fromArray(
 			[
-				mdgriffith$elm_ui$Element$spacing(8)
+				mdgriffith$elm_ui$Element$spacing(author$project$Theme$Spacing$large.value)
 			]),
 		A2(elm$core$List$map, author$project$Guidelines$Spacing$viewSpacing, author$project$Guidelines$Spacing$spacingCollection)));
 var author$project$Guidelines$Typography$typographyCollection = _List_fromArray(
