@@ -1,5 +1,6 @@
 module Main exposing (main)
 
+import Components.Block.Welcome.Stories as Welcome
 import Components.Button.Stories as Button
 import Components.Header.Stories as Header
 import Components.Text.Stories as Text
@@ -65,6 +66,7 @@ main =
                 [ Text.stories
                 , Header.stories
                 , Button.stories
+                , Welcome.stories
                 ]
         )
         { defaultConfig

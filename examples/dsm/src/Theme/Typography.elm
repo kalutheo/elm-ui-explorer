@@ -1,9 +1,12 @@
 module Theme.Typography exposing
-    ( Typography
+    ( FontWeight(..)
+    , Typography
     , getDesc
     , getFamily
+    , getLetterspacing
     , getName
     , getSize
+    , getWeight
     , typography
     )
 
@@ -13,6 +16,8 @@ type alias TypographyStyle =
     , family : String
     , name : String
     , desc : String
+    , letterSpacing : Int
+    , weight : FontWeight
     }
 
 
@@ -22,6 +27,11 @@ type Typography
     | Subtitle TypographyStyle
     | Paragraph TypographyStyle
     | Small TypographyStyle
+
+
+type FontWeight
+    = Bold
+    | Regular
 
 
 type alias TypographyTheme =
@@ -39,7 +49,7 @@ type alias FontFamily =
 
 fonts : FontFamily
 fonts =
-    { primary = "Noto Sans TC", secondary = "Lato" }
+    { primary = "Montserrat", secondary = "Lato" }
 
 
 typography : TypographyTheme
@@ -50,6 +60,8 @@ typography =
             , family = fonts.primary
             , name = "Lead"
             , desc = "Hero or blog post title"
+            , letterSpacing = 0
+            , weight = Bold
             }
     , title =
         Title
@@ -57,6 +69,8 @@ typography =
             , family = fonts.primary
             , name = "Title"
             , desc = "Article title or section header"
+            , letterSpacing = 0
+            , weight = Regular
             }
     , subtitle =
         Subtitle
@@ -64,6 +78,8 @@ typography =
             , family = fonts.primary
             , name = "Subtitle"
             , desc = "Headline title or subtitle"
+            , letterSpacing = 0
+            , weight = Regular
             }
     , paragraph =
         Paragraph
@@ -71,6 +87,8 @@ typography =
             , family = fonts.secondary
             , name = "Paragraph"
             , desc = "Article body"
+            , letterSpacing = 0
+            , weight = Regular
             }
     , small =
         Small
@@ -78,6 +96,8 @@ typography =
             , family = fonts.secondary
             , name = "Small"
             , desc = "Time stamps, copyrights"
+            , letterSpacing = 0
+            , weight = Regular
             }
     }
 
@@ -89,6 +109,16 @@ typography =
 getFamily : Typography -> String
 getFamily typo =
     getProperty typo .family
+
+
+getLetterspacing : Typography -> Float
+getLetterspacing typo =
+    getProperty typo .letterSpacing |> toFloat
+
+
+getWeight : Typography -> FontWeight
+getWeight typo =
+    getProperty typo .weight
 
 
 getName : Typography -> String
