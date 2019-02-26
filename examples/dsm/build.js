@@ -1,0 +1,27 @@
+const StyleDictionary = require('style-dictionary').extend(__dirname + '/config.json');
+const handlebars = require('handlebars');
+const fs = require("fs")
+require('handlebars-helpers')();
+
+// In this case we are using an alternative templating engine (Handlebars)
+const templateCustom = handlebars.compile(fs.readFileSync(__dirname + '/templates/colors-elm.hbs', 'utf8'));
+
+StyleDictionary.registerFormat({
+  name: 'custom/format/elm',
+  formatter: function(dictionary, platform) {
+
+    console.log(JSON.stringify(dictionary.properties, null, 3))
+    return templateCustom({
+      // this is just to show that the formatter function takes a "dictionary" and "platform" parameters
+      // (and dictionary has a "properties" and "allProperties" attributes)
+      // and returns a string. for more details about the "formatter" function refer to the documentation
+      brandColors : dictionary.properties.color.brand,
+      allProperties: dictionary.allProperties,
+      properties: dictionary.properties,
+      options: platform
+    });
+  }
+});
+
+
+StyleDictionary.buildAllPlatforms();

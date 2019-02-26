@@ -1,0 +1,17 @@
+module Theme.Color exposing (Color)
+
+import Color as RawColor
+
+
+type alias ColorStyle =
+    { color : RawColor.Color, name : String }
+
+
+type BrandColor = {{#each brandColors}}{{#if @first}}{{else}}|{{/if}}{{attributes.item}}{{/each}}
+
+type Color
+    = Brand BrandColor
+
+type alias BrandColorEntries = {
+  {{#each brandColors}}{{#if @first}}{{camelcase attributes.item}}:Color{{else}},{{camelcase attributes.item}}:Color{{/if}}{{/each}}
+  }

@@ -1,0 +1,12 @@
+{
+  "color": {
+    "brand": {
+      "Primary": { "value": "#FF0000" },
+      "PrimaryVariant": { "value": "#FF0000" },
+      "Secondary": { "value": "#00FF00" },
+      "SecondaryVariant": { "value": "#00FF00" },
+      "Alternative": { "value": "#00FF00" },
+      "AlternativeVariant": { "value": "#00FF00" }
+    }
+  }
+}

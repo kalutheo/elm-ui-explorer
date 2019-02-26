@@ -9,6 +9,19 @@
         "format": "scss/variables"
       }]
     },
+    "elm": {
+      "transformGroup": "scss",
+      "buildPath": "build/elm/",
+      "files": [{
+        "destination": "Color.elm",
+        "format": "custom/format/elm"
+      }],
+      "filter": {
+        "attributes": {
+          "category": "color"
+        }
+      }
+    },
     "android": {
       "transformGroup": "android",
       "buildPath": "build/android/",
