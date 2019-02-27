@@ -2,14 +2,14 @@
 
 <!--
   Do not edit directly
-  Generated on Tue, 26 Feb 2019 23:39:33 GMT
+  Generated on Wed, 27 Feb 2019 13:02:38 GMT
 -->
 <resources>
-  <color name="color_brand_primary">#ffff0000</color>
-  <color name="color_brand_primary_variant">#ffff0000</color>
-  <color name="color_brand_secondary">#ff00ff00</color>
-  <color name="color_brand_secondary_variant">#ff00ff00</color>
-  <color name="color_brand_alternative">#ff00ff00</color>
-  <color name="color_brand_alternative_variant">#ff00ff00</color>
+  <color name="color_brand_primary">#ff4c5760</color>
+  <color name="color_brand_primary_variant">#ffd7ceb2</color>
+  <color name="color_brand_secondary">#ff93a8ac</color>
+  <color name="color_brand_secondary_variant">#ffa59e8c</color>
+  <color name="color_brand_alternative">#ffff0000</color>
+  <color name="color_brand_alternative_variant">#ffff0000</color>
   
 </resources>

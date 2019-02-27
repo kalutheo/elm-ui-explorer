@@ -1,10 +1,37 @@
 const StyleDictionary = require('style-dictionary').extend(__dirname + '/config.json');
 const handlebars = require('handlebars');
 const fs = require("fs")
-require('handlebars-helpers')();
+const helpers = require('handlebars-helpers')();
 
 // In this case we are using an alternative templating engine (Handlebars)
 const templateCustom = handlebars.compile(fs.readFileSync(__dirname + '/templates/colors-elm.hbs', 'utf8'));
+
+
+
+function hexToRgb(hex) {
+    var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+    return result ? {
+        r: parseInt(result[1], 16),
+        g: parseInt(result[2], 16),
+        b: parseInt(result[3], 16)
+    } : null;
+}
+
+
+
+handlebars.registerHelper('elmColor', function(name, value) {
+  const {r, g, b} =  hexToRgb(value)
+  return new handlebars.SafeString(
+    `
+      Brand
+          (${helpers.pascalcase(name)}
+              { name = "${name}"
+              , color = RawColor.rgb ${r} ${g} ${b}
+              }
+          )
+    `
+  );
+});
 
 StyleDictionary.registerFormat({
   name: 'custom/format/elm',

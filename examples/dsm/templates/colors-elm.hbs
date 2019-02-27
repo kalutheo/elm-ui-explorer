@@ -7,11 +7,22 @@ type alias ColorStyle =
     { color : RawColor.Color, name : String }
 
 
-type BrandColor = {{#each brandColors}}{{#if @first}}{{else}}|{{/if}}{{attributes.item}}{{/each}}
+type BrandColor = {{#each brandColors}}{{#if @first}}{{else}}|{{/if}}{{pascalcase attributes.item}} ColorStyle{{/each}}
 
 type Color
     = Brand BrandColor
 
 type alias BrandColorEntries = {
   {{#each brandColors}}{{#if @first}}{{camelcase attributes.item}}:Color{{else}},{{camelcase attributes.item}}:Color{{/if}}{{/each}}
+  }
+
+
+type alias ColorTheme = { brand : BrandColorEntries}
+
+
+color : ColorTheme
+color = {
+  brand = {
+    {{#each brandColors}}{{#if @first}}{{camelcase attributes.item}}={{elmColor attributes.item value}}{{else}},{{camelcase attributes.item}}={{elmColor attributes.item value}}{{/if}}{{/each}}    
+  }
   }
