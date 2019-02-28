@@ -2,7 +2,7 @@
 
 <!--
   Do not edit directly
-  Generated on Wed, 27 Feb 2019 13:02:38 GMT
+  Generated on Thu, 28 Feb 2019 08:43:49 GMT
 -->
 <resources>
   <color name="color_brand_primary">#ff4c5760</color>
@@ -11,5 +11,14 @@
   <color name="color_brand_secondary_variant">#ffa59e8c</color>
   <color name="color_brand_alternative">#ffff0000</color>
   <color name="color_brand_alternative_variant">#ffff0000</color>
+  <color name="color_neutral_black">#ff22292f</color>
+  <color name="color_neutral_grey_darkest">#ff3d4852</color>
+  <color name="color_neutral_grey_darker">#ff606f7b</color>
+  <color name="color_neutral_grey_dark">#ff8795a1</color>
+  <color name="color_neutral_grey">#ffb8c2cc</color>
+  <color name="color_neutral_grey_light">#ffdae1e7</color>
+  <color name="color_neutral_grey_lighter">#fff1f5f8</color>
+  <color name="color_neutral_grey_lightest">#fff8fafc</color>
+  <color name="color_neutral_white">#ffffffff</color>
   
 </resources>

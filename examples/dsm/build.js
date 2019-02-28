@@ -19,11 +19,11 @@ function hexToRgb(hex) {
 
 
 
-handlebars.registerHelper('elmColor', function(name, value) {
+handlebars.registerHelper('elmColor', function(name, value, kind) {
   const {r, g, b} =  hexToRgb(value)
   return new handlebars.SafeString(
     `
-      Brand
+      ${helpers.pascalcase(kind)}
           (${helpers.pascalcase(name)}
               { name = "${name}"
               , color = RawColor.rgb ${r} ${g} ${b}
@@ -43,6 +43,7 @@ StyleDictionary.registerFormat({
       // (and dictionary has a "properties" and "allProperties" attributes)
       // and returns a string. for more details about the "formatter" function refer to the documentation
       brandColors : dictionary.properties.color.brand,
+      neutralColors : dictionary.properties.color.neutral,
       allProperties: dictionary.allProperties,
       properties: dictionary.properties,
       options: platform

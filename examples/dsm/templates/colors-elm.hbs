@@ -8,21 +8,32 @@ type alias ColorStyle =
 
 
 type BrandColor = {{#each brandColors}}{{#if @first}}{{else}}|{{/if}}{{pascalcase attributes.item}} ColorStyle{{/each}}
+type NeutralColor = {{#each neutralColors}}{{#if @first}}{{else}}|{{/if}}{{pascalcase attributes.item}} ColorStyle{{/each}}
+
 
 type Color
     = Brand BrandColor
+    | Neutral NeutralColor
 
 type alias BrandColorEntries = {
   {{#each brandColors}}{{#if @first}}{{camelcase attributes.item}}:Color{{else}},{{camelcase attributes.item}}:Color{{/if}}{{/each}}
   }
 
+type alias NeutralColorEntries = {
+  {{#each neutralColors}}{{#if @first}}{{camelcase attributes.item}}:Color{{else}},{{camelcase attributes.item}}:Color{{/if}}{{/each}}
+  }
 
-type alias ColorTheme = { brand : BrandColorEntries}
+
+
+type alias ColorTheme = { brand : BrandColorEntries, neutral: NeutralColorEntries}
 
 
 color : ColorTheme
 color = {
   brand = {
-    {{#each brandColors}}{{#if @first}}{{camelcase attributes.item}}={{elmColor attributes.item value}}{{else}},{{camelcase attributes.item}}={{elmColor attributes.item value}}{{/if}}{{/each}}    
+    {{#each brandColors}}{{#if @first}}{{camelcase attributes.item}}={{elmColor attributes.item value "brand"}}{{else}},{{camelcase attributes.item}}={{elmColor attributes.item value "brand"}}{{/if}}{{/each}}
+  },
+  neutral = {
+    {{#each neutralColors}}{{#if @first}}{{camelcase attributes.item}}={{elmColor attributes.item value "neutral"}}{{else}},{{camelcase attributes.item}}={{elmColor attributes.item value "neutral"}}{{/if}}{{/each}}
   }
   }

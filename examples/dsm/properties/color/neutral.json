@@ -1,0 +1,15 @@
+{
+  "color": {
+    "neutral": {
+      "black": { "value": "#22292F" },
+      "grey darkest": { "value": "#3D4852" },
+      "grey darker": { "value": "#606F7B" },
+      "grey dark": { "value": "#8795A1" },
+      "grey": { "value": "#B8C2CC" },
+      "grey light": { "value": "#DAE1E7" },
+      "grey lighter": { "value": "#F1F5F8" },
+      "grey lightest": { "value": "#F8FAFC" },
+      "white": { "value": "#FFFFFF" }
+    }
+  }
+}
