@@ -26,7 +26,7 @@ handlebars.registerHelper('elmColor', function(name, value, kind) {
       ${helpers.pascalcase(kind)}
           (${helpers.pascalcase(name)}
               { name = "${name}"
-              , color = RawColor.rgb ${r} ${g} ${b}
+              , color = RawColor.rgb255 ${r} ${g} ${b}
               }
           )
     `

@@ -1,4 +1,4 @@
-module Theme.Color exposing (Color)
+module Theme.Color exposing (Color, color, getColor, getColorName)
 
 import Color as RawColor
 
@@ -37,3 +37,40 @@ color = {
     {{#each neutralColors}}{{#if @first}}{{camelcase attributes.item}}={{elmColor attributes.item value "neutral"}}{{else}},{{camelcase attributes.item}}={{elmColor attributes.item value "neutral"}}{{/if}}{{/each}}
   }
   }
+
+
+getBrandProperty : BrandColor -> (ColorStyle -> a) -> a
+getBrandProperty c callback =
+    case c of
+        {{#each brandColors}}
+        {{pascalcase attributes.item}} colorStyle ->
+            callback colorStyle
+        {{/each}}
+
+getNeutralProperty : NeutralColor -> (ColorStyle -> a) -> a
+getNeutralProperty c callback =
+    case c of
+        {{#each neutralColors}}
+        {{pascalcase attributes.item}} colorStyle ->
+            callback colorStyle
+        {{/each}}
+
+
+getColorName : Color -> String
+getColorName c =
+    case c of
+        Brand brandColor ->
+            getBrandProperty brandColor .name
+
+        Neutral neutralColor ->
+            getNeutralProperty neutralColor .name
+
+
+getColor : Color -> RawColor.Color
+getColor c =
+    case c of
+        Brand brandColor ->
+            getBrandProperty brandColor .color
+
+        Neutral neutralColor ->
+            getNeutralProperty neutralColor .color
