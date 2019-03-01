@@ -1,5 +1,5 @@
 const {Client}  = require('figma-js')
-const token = 'xxxx';
+const token = 'xx';
 const R = require("ramda")
 
 const client = Client({
@@ -7,13 +7,15 @@ const client = Client({
 });
 
 const result = {}
-const findObjectByLabel = (obj) => {
+const findObjectByLabel = (obj, n ) => {
+
     R.map(item =>{
+      const f = (item.type === 'FRAME' && item.name) ? item.name : n
       if (item.styles) {
-        result[item.styles.fill] = item
+        result[item.styles.fill] = {...item, frame: f}
         return item
       } else if (item.children) {
-        findObjectByLabel(item.children)
+        findObjectByLabel(item.children, f)
       } else {
         return item
       }
@@ -40,6 +42,7 @@ client.file('LIuCW7SxwiNb3pxOp5kKueXA').then(({ data }) => {
   console.log(JSON.stringify(
     R.map(s => ({
       ...s,
+      frame: result[s.id].frame,
       fills: result[s.id].fills
     }), styles)
   ))
