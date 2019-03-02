@@ -1,5 +1,6 @@
+require('dotenv').config()
 const {Client}  = require('figma-js')
-const token = 'xx';
+const token = process.env.FIGMA_TOKEN;
 const R = require("ramda")
 
 const client = Client({
