@@ -15,7 +15,7 @@
     "style-dictionary": "^2.7.0"
   },
   "scripts": {
-    "dev": "elm-live src/Main.elm --open --dir=public --start-page=index.html -- --output=public/app.js --debug "
+    "start": "elm-live src/Main.elm --open --dir=public --start-page=index.html -- --output=public/app.js --debug "
   },
   "author": "",
   "license": "ISC",

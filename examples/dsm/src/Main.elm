@@ -14,50 +14,67 @@ import Html.Attributes exposing (class)
 import Markdown
 import UIExplorer
     exposing
-        ( ExplorerProgram
+        ( UIExplorerProgram
         , addUICategory
-        , app
-        , createUI
         , defaultConfig
         , emptyUICategories
-        , explore
+        , exploreWithCategories
         , getCurrentSelectedStory
+        , storiesOf
         )
 
 
-main : ExplorerProgram {} () { hasMenu : Bool }
+config =
+    { defaultConfig
+        | menuViewEnhancer =
+            \model menuView ->
+                getCurrentSelectedStory model
+                    |> Maybe.map
+                        (\( _, _, option ) ->
+                            if option.hasMenu then
+                                menuView
+
+                            else
+                                Html.text ""
+                        )
+                    |> Maybe.withDefault (Html.text "")
+    }
+
+
+main : UIExplorerProgram {} () { hasMenu : Bool }
 main =
-    app
+    exploreWithCategories
+        config
         (emptyUICategories
             |> addUICategory
                 "Getting Started"
-                [ createUI
+                [ storiesOf
                     "About"
                     [ ( "About", \_ -> Docs.toMarkdown Docs.about, { hasMenu = False } ) ]
                 ]
             |> addUICategory
                 "Guidelines"
-                [ createUI
+                [ storiesOf
                     "Principles"
                     [ ( "Principles", \_ -> Docs.toMarkdown Docs.principles, { hasMenu = False } ) ]
                 ]
             |> addUICategory
                 "Styles"
-                [ createUI
+                [ storiesOf
                     "Colors"
                     [ ( "Brand", \_ -> ColorGuide.viewBrandColors, { hasMenu = True } )
                     , ( "Neutral", \_ -> ColorGuide.viewNeutralColors, { hasMenu = True } )
                     ]
-                , createUI
+                , storiesOf
                     "Typography"
                     [ ( "Typography", \_ -> TypographyGuide.view, { hasMenu = False } )
                     ]
-                , createUI
+                , storiesOf
                     "Iconography"
                     [ ( "Classic", \_ -> IconographyGuide.viewClassic, { hasMenu = True } )
                     , ( "WithBackground", \_ -> IconographyGuide.viewWithBg, { hasMenu = True } )
                     ]
-                , createUI
+                , storiesOf
                     "Spacing"
                     [ ( "Spacing", \_ -> SpacingGuide.view, { hasMenu = True } )
                     ]
@@ -69,17 +86,3 @@ main =
                 , Welcome.stories
                 ]
         )
-        { defaultConfig
-            | menuViewEnhancer =
-                \model menuView ->
-                    getCurrentSelectedStory model
-                        |> Maybe.map
-                            (\( _, _, option ) ->
-                                if option.hasMenu then
-                                    menuView
-
-                                else
-                                    Html.text ""
-                            )
-                        |> Maybe.withDefault (Html.text "")
-        }

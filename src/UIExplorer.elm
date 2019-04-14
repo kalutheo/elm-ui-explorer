@@ -1,14 +1,19 @@
 module UIExplorer exposing
-    ( app
-    , renderStories
+    ( explore
+    , exploreWithCategories
     , UI
     , UICategory
+    , Model
+    , Msg(..)
+    , UIExplorerProgram
     , addUICategory
+    , storiesOf
+    , ViewEnhancer
+    , defaultConfig
+    , findStory
+    , getCurrentSelectedStory
     , emptyUICategories
-    , createUI
-    , createUIWithDescription
-    , explore
-    , ExplorerProgram, Model, Msg(..), UIViewConfig, ViewEnhancer, defaultConfig, findStory, getCurrentSelectedStory
+    , UIViewConfig
     )
 
 {-|
@@ -23,23 +28,28 @@ module UIExplorer exposing
 
 # Main API
 
-@docs app
-@docs renderStories
+@docs explore
+@docs exploreWithCategories
 
 
 # Models
 
 @docs UI
 @docs UICategory
+@docs Model
+@docs Msg
+@docs UIExplorerProgram
 
 
 # Helpers
 
 @docs addUICategory
+@docs storiesOf
+@docs ViewEnhancer
+@docs defaultConfig
+@docs findStory
+@docs getCurrentSelectedStory
 @docs emptyUICategories
-@docs createUI
-@docs createUIWithDescription
-@docs explore
 
 -}
 
@@ -52,7 +62,7 @@ import Html.Events exposing (onClick)
 import Url
 
 
-type alias ExplorerProgram a b c =
+type alias UIExplorerProgram a b c =
     Program () (Model a b c) (Msg b)
 
 
@@ -290,28 +300,14 @@ emptyUICategories =
     viewStories =
         renderStories customButton stories
 
-    createUI "Button" viewStories
+    storiesOf "Button" viewStories
 
 -}
-createUI : String -> Stories a b c -> UI a b c
-createUI id stories =
+storiesOf : String -> Stories a b c -> UI a b c
+storiesOf id stories =
     UIType
         { id = id
         , description = ""
-        , viewStories = stories
-        }
-
-
-{-| Create a UI with a description
-
-    createUI "Button" "A Simple Button :-)" viewStories
-
--}
-createUIWithDescription : String -> String -> Stories a b c -> UI a b c
-createUIWithDescription id description stories =
-    UIType
-        { id = id
-        , description = description
         , viewStories = stories
         }
 
@@ -322,21 +318,21 @@ This is the simplest way to initialize the UI Explorer app.
     main =
         app
             (explore
-                [ createUI
+                [ storiesOf
                     "PlayPause"
                     PlayPause.viewStories
-                , createUI
+                , storiesOf
                     "Controls"
                     Controls.viewStories
-                , createUI
+                , storiesOf
                     "TrackList"
                     TrackList.viewStories
                 ]
             )
 
 -}
-explore : List (UI a b c) -> List (UICategory a b c)
-explore uiList =
+fromUIList : List (UI a b c) -> List (UICategory a b c)
+fromUIList uiList =
     emptyUICategories |> List.append [ UICategoryType ( "Default", uiList ) ]
 
 
@@ -346,7 +342,7 @@ Convenient for running a UI Explorer devided into categories
        emptyUICategories
            |> addUICategory
                "A Great Category"
-               [ createUI
+               [ storiesOf
                    "My View"
                    MyView.viewStories
                ]
@@ -425,29 +421,8 @@ init customModel categories flags url key =
     )
 
 
-{-| Launches a UI Explorer Applicaton given a list of UI Categories
-
-    main =
-        app
-            (emptyUICategories
-                |> addUICategory
-                    "Atoms"
-                    [ createUIWithDescription
-                        "Colors"
-                        "Global Color Schemes"
-                        Colors.viewStories
-                    ]
-                |> addUICategory
-                    "Molecules"
-                    [ createUI
-                        "Card"
-                        Card.viewStories
-                    ]
-            )
-
--}
-app : List (UICategory a b c) -> Config a b c -> ExplorerProgram a b c
-app categories config =
+app : Config a b c -> List (UICategory a b c) -> UIExplorerProgram a b c
+app config categories =
     Browser.application
         { init = init config.customModel categories
         , view =
@@ -462,6 +437,36 @@ app categories config =
         , onUrlRequest = LinkClicked
         , subscriptions = \_ -> Sub.none
         }
+
+
+{-| Launches a UI Explorer Applicaton given a list of [UI](#UI).
+This is the simplest way to initialize the UI Explorer app.
+
+    button : String -> String -> Html.Html msg
+    button label bgColor =
+        Html.button
+            [ style "background-color" bgColor ]
+            [ Html.text label ]
+
+    main : UIExplorerProgram {} () {}
+    main =
+        explore
+            [ storiesOf
+                "Button"
+                [ ( "SignIn", \_ -> button "Sign In" "pink", {} )
+                , ( "SignOut", \_ -> button "Sign Out" "cyan", {} )
+                , ( "Loading", \_ -> button "Loading please wait..." "white", {} )
+                ]
+            ]
+            defaultConfig
+
+-}
+explore config uiList =
+    app config (fromUIList uiList)
+
+
+exploreWithCategories config categories =
+    app config categories
 
 
 

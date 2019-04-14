@@ -8,7 +8,7 @@ import Element exposing (..)
 import Element.Background as Background
 import Html
 import Theme.Color exposing (color, getColor)
-import UIExplorer exposing (createUI)
+import UIExplorer exposing (storiesOf)
 import Utils exposing (toRgb)
 
 
@@ -29,7 +29,7 @@ config =
 
 stories : UIExplorer.UI a () { hasMenu : Bool }
 stories =
-    createUI
+    storiesOf
         "Button"
         [ ( "Primary", \_ -> Button.view "Submit" config (), { hasMenu = True } )
         , ( "Secondary", \_ -> Button.view "Submit" { config | appearance = Secondary } (), { hasMenu = True } )

@@ -8613,6 +8613,21 @@ var author$project$UIExplorer$Plugins$Note$addNote = function (text) {
 var author$project$ExplorerWithNotes$note = {
 	notes: author$project$UIExplorer$Plugins$Note$addNote('\n# Modules\n- [Button](#button)\n\n# Button\n- [Config](#config)\n- [Size](#size)\n- [Kind](#kind)\n- [Appearance](#appearance)\n- [defaultButtonConfig](#defaultbuttonconfig)\n- [view](#view)\n\n## Button\nThe Button should be used to trigger user actions.\nSome examples of interactions:\n  - Submit a form\n  - Cancel an order\n  - Toggle a menu visibility\n  - Play a media\n```elm\nimport Button exposing (..)\nButton.view "Submit" defaultButtonConfig ()\n```\n## Links:\n  - [UX Planet - Basic rules for button](https://uxplanet.org/7-basic-rules-for-button-design-63dcdf5676b4)\n\n### `Config`\n```elm\ntype alias Config  =\n    { appearance : Button.Appearance, size : Button.Size, kind : Button.Kind, class : String.String, theme : Button.Theme }\n```\n Option to customize the Button\n\n\n---\n\n\n### `Size`\n```elm\ntype Size  \n    = S \n    | M \n    | L \n```\n Define the size of the Button\n\n\n---\n\n\n### `Kind`\n```elm\ntype Kind  \n    = Link \n    | Filled \n    | Ghost \n```\n Look and feel of the Button\n\n\n---\n\n\n### `Appearance`\n```elm\ntype Appearance  \n    = Primary \n    | Secondary \n```\n Define the appearance of the Button\n\n\n---\n\n\n### `defaultButtonConfig`\n```elm\ndefaultButtonConfig : Config\n```\n Default Configurations\n\n\n---\n\n\n### `view`\n```elm\nview : String.String -> Config -> msg -> Html.Html msg\n```\n Renders the button\n\n\n---\n\n\n> Generated with elm: 0.19.0 and elm-docs: 0.4.0\n\n')
 };
+var author$project$UIExplorer$defaultConfig = {
+	customModel: {},
+	menuViewEnhancer: F2(
+		function (m, v) {
+			return v;
+		}),
+	update: F2(
+		function (msg, m) {
+			return m;
+		}),
+	viewEnhancer: F2(
+		function (m, stories) {
+			return stories;
+		})
+};
 var author$project$UIExplorer$LinkClicked = function (a) {
 	return {$: 'LinkClicked', a: a};
 };
@@ -13338,7 +13353,7 @@ var elm$browser$Browser$application = _Browser_application;
 var elm$core$Platform$Sub$batch = _Platform_batch;
 var elm$core$Platform$Sub$none = elm$core$Platform$Sub$batch(_List_Nil);
 var author$project$UIExplorer$app = F2(
-	function (categories, config) {
+	function (config, categories) {
 		return elm$browser$Browser$application(
 			{
 				init: A2(author$project$UIExplorer$init, config.customModel, categories),
@@ -13359,34 +13374,11 @@ var author$project$UIExplorer$app = F2(
 				}
 			});
 	});
-var author$project$UIExplorer$UIType = function (a) {
-	return {$: 'UIType', a: a};
-};
-var author$project$UIExplorer$createUI = F2(
-	function (id, stories) {
-		return author$project$UIExplorer$UIType(
-			{description: '', id: id, viewStories: stories});
-	});
-var author$project$UIExplorer$defaultConfig = {
-	customModel: {},
-	menuViewEnhancer: F2(
-		function (m, v) {
-			return v;
-		}),
-	update: F2(
-		function (msg, m) {
-			return m;
-		}),
-	viewEnhancer: F2(
-		function (m, stories) {
-			return stories;
-		})
-};
 var author$project$UIExplorer$UICategoryType = function (a) {
 	return {$: 'UICategoryType', a: a};
 };
 var author$project$UIExplorer$emptyUICategories = _List_Nil;
-var author$project$UIExplorer$explore = function (uiList) {
+var author$project$UIExplorer$fromUIList = function (uiList) {
 	return A2(
 		elm$core$List$append,
 		_List_fromArray(
@@ -13396,6 +13388,21 @@ var author$project$UIExplorer$explore = function (uiList) {
 			]),
 		author$project$UIExplorer$emptyUICategories);
 };
+var author$project$UIExplorer$explore = F2(
+	function (config, uiList) {
+		return A2(
+			author$project$UIExplorer$app,
+			config,
+			author$project$UIExplorer$fromUIList(uiList));
+	});
+var author$project$UIExplorer$UIType = function (a) {
+	return {$: 'UIType', a: a};
+};
+var author$project$UIExplorer$storiesOf = F2(
+	function (id, stories) {
+		return author$project$UIExplorer$UIType(
+			{description: '', id: id, viewStories: stories});
+	});
 var author$project$UIExplorer$findStory = F3(
 	function (uiId, storyId, categories) {
 		var foundStory = A2(
@@ -13514,97 +13521,96 @@ var author$project$UIExplorer$Plugins$Note$viewEnhancer = F2(
 				]));
 	});
 var author$project$ExplorerWithNotes$main = A2(
-	author$project$UIExplorer$app,
-	author$project$UIExplorer$explore(
-		_List_fromArray(
-			[
-				A2(
-				author$project$UIExplorer$createUI,
-				'Button',
-				_List_fromArray(
-					[
-						_Utils_Tuple3(
-						'Primary',
-						function (_n0) {
-							return A3(author$project$Button$view, 'Submit', author$project$Button$defaultButtonConfig, _Utils_Tuple0);
-						},
-						author$project$ExplorerWithNotes$note),
-						_Utils_Tuple3(
-						'Secondary',
-						function (_n1) {
-							return A3(
-								author$project$Button$view,
-								'Submit',
-								_Utils_update(
-									author$project$Button$defaultButtonConfig,
-									{appearance: author$project$Button$Secondary}),
-								_Utils_Tuple0);
-						},
-						author$project$ExplorerWithNotes$note),
-						_Utils_Tuple3(
-						'Small',
-						function (_n2) {
-							return A3(
-								author$project$Button$view,
-								'Submit',
-								_Utils_update(
-									author$project$Button$defaultButtonConfig,
-									{size: author$project$Button$S}),
-								_Utils_Tuple0);
-						},
-						author$project$ExplorerWithNotes$note),
-						_Utils_Tuple3(
-						'Large',
-						function (_n3) {
-							return A3(
-								author$project$Button$view,
-								'Submit',
-								_Utils_update(
-									author$project$Button$defaultButtonConfig,
-									{size: author$project$Button$L}),
-								_Utils_Tuple0);
-						},
-						author$project$ExplorerWithNotes$note),
-						_Utils_Tuple3(
-						'Link',
-						function (_n4) {
-							return A3(
-								author$project$Button$view,
-								'Submit',
-								_Utils_update(
-									author$project$Button$defaultButtonConfig,
-									{appearance: author$project$Button$Secondary, kind: author$project$Button$Link}),
-								_Utils_Tuple0);
-						},
-						author$project$ExplorerWithNotes$note),
-						_Utils_Tuple3(
-						'GhostPrimary',
-						function (_n5) {
-							return A3(
-								author$project$Button$view,
-								'Submit',
-								_Utils_update(
-									author$project$Button$defaultButtonConfig,
-									{kind: author$project$Button$Ghost}),
-								_Utils_Tuple0);
-						},
-						author$project$ExplorerWithNotes$note),
-						_Utils_Tuple3(
-						'GhostSecondary',
-						function (_n6) {
-							return A3(
-								author$project$Button$view,
-								'Submit',
-								_Utils_update(
-									author$project$Button$defaultButtonConfig,
-									{appearance: author$project$Button$Secondary, kind: author$project$Button$Ghost}),
-								_Utils_Tuple0);
-						},
-						author$project$ExplorerWithNotes$note)
-					]))
-			])),
+	author$project$UIExplorer$explore,
 	_Utils_update(
 		author$project$UIExplorer$defaultConfig,
-		{viewEnhancer: author$project$UIExplorer$Plugins$Note$viewEnhancer}));
+		{viewEnhancer: author$project$UIExplorer$Plugins$Note$viewEnhancer}),
+	_List_fromArray(
+		[
+			A2(
+			author$project$UIExplorer$storiesOf,
+			'Button',
+			_List_fromArray(
+				[
+					_Utils_Tuple3(
+					'Primary',
+					function (_n0) {
+						return A3(author$project$Button$view, 'Submit', author$project$Button$defaultButtonConfig, _Utils_Tuple0);
+					},
+					author$project$ExplorerWithNotes$note),
+					_Utils_Tuple3(
+					'Secondary',
+					function (_n1) {
+						return A3(
+							author$project$Button$view,
+							'Submit',
+							_Utils_update(
+								author$project$Button$defaultButtonConfig,
+								{appearance: author$project$Button$Secondary}),
+							_Utils_Tuple0);
+					},
+					author$project$ExplorerWithNotes$note),
+					_Utils_Tuple3(
+					'Small',
+					function (_n2) {
+						return A3(
+							author$project$Button$view,
+							'Submit',
+							_Utils_update(
+								author$project$Button$defaultButtonConfig,
+								{size: author$project$Button$S}),
+							_Utils_Tuple0);
+					},
+					author$project$ExplorerWithNotes$note),
+					_Utils_Tuple3(
+					'Large',
+					function (_n3) {
+						return A3(
+							author$project$Button$view,
+							'Submit',
+							_Utils_update(
+								author$project$Button$defaultButtonConfig,
+								{size: author$project$Button$L}),
+							_Utils_Tuple0);
+					},
+					author$project$ExplorerWithNotes$note),
+					_Utils_Tuple3(
+					'Link',
+					function (_n4) {
+						return A3(
+							author$project$Button$view,
+							'Submit',
+							_Utils_update(
+								author$project$Button$defaultButtonConfig,
+								{appearance: author$project$Button$Secondary, kind: author$project$Button$Link}),
+							_Utils_Tuple0);
+					},
+					author$project$ExplorerWithNotes$note),
+					_Utils_Tuple3(
+					'GhostPrimary',
+					function (_n5) {
+						return A3(
+							author$project$Button$view,
+							'Submit',
+							_Utils_update(
+								author$project$Button$defaultButtonConfig,
+								{kind: author$project$Button$Ghost}),
+							_Utils_Tuple0);
+					},
+					author$project$ExplorerWithNotes$note),
+					_Utils_Tuple3(
+					'GhostSecondary',
+					function (_n6) {
+						return A3(
+							author$project$Button$view,
+							'Submit',
+							_Utils_update(
+								author$project$Button$defaultButtonConfig,
+								{appearance: author$project$Button$Secondary, kind: author$project$Button$Ghost}),
+							_Utils_Tuple0);
+					},
+					author$project$ExplorerWithNotes$note)
+				]))
+		]));
 _Platform_export({'ExplorerWithNotes':{'init':author$project$ExplorerWithNotes$main(
 	elm$json$Json$Decode$succeed(_Utils_Tuple0))({"versions":{"elm":"0.19.0"},"types":{"message":"UIExplorer.Msg ()","aliases":{"Url.Url":{"args":[],"type":"{ protocol : Url.Protocol, host : String.String, port_ : Maybe.Maybe Basics.Int, path : String.String, query : Maybe.Maybe String.String, fragment : Maybe.Maybe String.String }"}},"unions":{"UIExplorer.Msg":{"args":["a"],"tags":{"ExternalMsg":["a"],"SelectStory":["String.String"],"UrlChange":["Url.Url"],"LinkClicked":["Browser.UrlRequest"],"NoOp":[]}},"Browser.UrlRequest":{"args":[],"tags":{"Internal":["Url.Url"],"External":["String.String"]}},"Basics.Int":{"args":[],"tags":{"Int":[]}},"Maybe.Maybe":{"args":["a"],"tags":{"Just":["a"],"Nothing":[]}},"String.String":{"args":[],"tags":{"String":[]}},"Url.Protocol":{"args":[],"tags":{"Http":[],"Https":[]}}}}})}});}(this));

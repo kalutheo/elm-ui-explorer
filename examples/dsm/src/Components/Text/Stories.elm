@@ -4,7 +4,7 @@ import Components.Text.View as TextView
 import Element exposing (..)
 import Theme.Color exposing (color)
 import Theme.Typography exposing (typography)
-import UIExplorer exposing (createUI)
+import UIExplorer exposing (storiesOf)
 
 
 lorem : String
@@ -40,7 +40,7 @@ textShowcase typo text s =
 
 stories : UIExplorer.UI a b { hasMenu : Bool }
 stories =
-    createUI
+    storiesOf
         "Text"
         [ ( "Lead"
           , \_ ->

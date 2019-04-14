@@ -7,13 +7,13 @@ import Element exposing (..)
 import Element.Background as Background
 import Html
 import Theme.Color exposing (color, getColor)
-import UIExplorer exposing (createUI)
+import UIExplorer exposing (storiesOf)
 import Utils exposing (toRgb)
 
 
 stories : UIExplorer.UI a b { hasMenu : Bool }
 stories =
-    createUI
+    storiesOf
         "Header"
         [ ( "Primary"
           , \_ ->

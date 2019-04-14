@@ -11756,13 +11756,13 @@ var author$project$Components$Block$Welcome$View$view = A2(
 var author$project$UIExplorer$UIType = function (a) {
 	return {$: 'UIType', a: a};
 };
-var author$project$UIExplorer$createUI = F2(
+var author$project$UIExplorer$storiesOf = F2(
 	function (id, stories) {
 		return author$project$UIExplorer$UIType(
 			{description: '', id: id, viewStories: stories});
 	});
 var author$project$Components$Block$Welcome$Stories$stories = A2(
-	author$project$UIExplorer$createUI,
+	author$project$UIExplorer$storiesOf,
 	'Welcome',
 	_List_fromArray(
 		[
@@ -14739,7 +14739,7 @@ var author$project$Components$Button$View$view = F3(
 					])));
 	});
 var author$project$Components$Button$Stories$stories = A2(
-	author$project$UIExplorer$createUI,
+	author$project$UIExplorer$storiesOf,
 	'Button',
 	_List_fromArray(
 		[
@@ -15476,7 +15476,7 @@ var author$project$Components$Header$View$viewPrimary = author$project$Component
 var author$project$Components$Header$View$Secondary = {$: 'Secondary'};
 var author$project$Components$Header$View$viewSecondary = author$project$Components$Header$View$view(author$project$Components$Header$View$Secondary);
 var author$project$Components$Header$Stories$stories = A2(
-	author$project$UIExplorer$createUI,
+	author$project$UIExplorer$storiesOf,
 	'Header',
 	_List_fromArray(
 		[
@@ -15513,7 +15513,7 @@ var author$project$Components$Text$Stories$textShowcase = F3(
 	});
 var author$project$Components$Text$Stories$toHtml = mdgriffith$elm_ui$Element$layout(_List_Nil);
 var author$project$Components$Text$Stories$stories = A2(
-	author$project$UIExplorer$createUI,
+	author$project$UIExplorer$storiesOf,
 	'Text',
 	_List_fromArray(
 		[
@@ -16292,6 +16292,120 @@ var author$project$Guidelines$Typography$viewTypos = function (content) {
 };
 var author$project$Guidelines$Typography$view = author$project$Guidelines$Typography$viewTypos(
 	A2(elm$core$List$map, author$project$Guidelines$Typography$viewTypoItem, author$project$Guidelines$Typography$typographyCollection));
+var author$project$UIExplorer$defaultConfig = {
+	customModel: {},
+	menuViewEnhancer: F2(
+		function (m, v) {
+			return v;
+		}),
+	update: F2(
+		function (msg, m) {
+			return m;
+		}),
+	viewEnhancer: F2(
+		function (m, stories) {
+			return stories;
+		})
+};
+var author$project$UIExplorer$getStoryIdFromStories = function (_n0) {
+	var s = _n0.a;
+	return s;
+};
+var author$project$UIExplorer$findStory = F3(
+	function (uiId, storyId, categories) {
+		var foundStory = A2(
+			elm$core$List$filter,
+			function (s) {
+				return _Utils_eq(
+					author$project$UIExplorer$getStoryIdFromStories(s),
+					storyId);
+			},
+			elm$core$List$concat(
+				A2(
+					elm$core$List$map,
+					function (_n3) {
+						var ui = _n3.a;
+						return ui.viewStories;
+					},
+					A2(
+						elm$core$List$filter,
+						function (_n2) {
+							var ui = _n2.a;
+							return _Utils_eq(ui.id, uiId);
+						},
+						elm$core$List$concat(
+							A2(
+								elm$core$List$map,
+								function (_n0) {
+									var _n1 = _n0.a;
+									var a = _n1.a;
+									var b = _n1.b;
+									return b;
+								},
+								categories))))));
+		return elm$core$List$head(foundStory);
+	});
+var author$project$UIExplorer$join = function (mx) {
+	if (mx.$ === 'Just') {
+		var x = mx.a;
+		return x;
+	} else {
+		return elm$core$Maybe$Nothing;
+	}
+};
+var elm$core$Maybe$map2 = F3(
+	function (func, ma, mb) {
+		if (ma.$ === 'Nothing') {
+			return elm$core$Maybe$Nothing;
+		} else {
+			var a = ma.a;
+			if (mb.$ === 'Nothing') {
+				return elm$core$Maybe$Nothing;
+			} else {
+				var b = mb.a;
+				return elm$core$Maybe$Just(
+					A2(func, a, b));
+			}
+		}
+	});
+var author$project$UIExplorer$getCurrentSelectedStory = function (_n0) {
+	var selectedUIId = _n0.selectedUIId;
+	var selectedStoryId = _n0.selectedStoryId;
+	var categories = _n0.categories;
+	return author$project$UIExplorer$join(
+		A2(
+			elm$core$Maybe$map,
+			function (_n1) {
+				var a = _n1.a;
+				var b = _n1.b;
+				return A3(author$project$UIExplorer$findStory, a, b, categories);
+			},
+			A3(
+				elm$core$Maybe$map2,
+				F2(
+					function (a, b) {
+						return _Utils_Tuple2(a, b);
+					}),
+				selectedUIId,
+				selectedStoryId)));
+};
+var author$project$Main$config = _Utils_update(
+	author$project$UIExplorer$defaultConfig,
+	{
+		menuViewEnhancer: F2(
+			function (model, menuView) {
+				return A2(
+					elm$core$Maybe$withDefault,
+					elm$html$Html$text(''),
+					A2(
+						elm$core$Maybe$map,
+						function (_n0) {
+							var option = _n0.c;
+							return option.hasMenu ? menuView : elm$html$Html$text('');
+						},
+						author$project$UIExplorer$getCurrentSelectedStory(model)));
+			})
+	});
 var author$project$UIExplorer$UICategoryType = function (a) {
 	return {$: 'UICategoryType', a: a};
 };
@@ -16305,15 +16419,12 @@ var author$project$UIExplorer$addUICategory = F3(
 			_List_fromArray(
 				[category]));
 	});
+var author$project$UIExplorer$emptyUICategories = _List_Nil;
 var author$project$UIExplorer$LinkClicked = function (a) {
 	return {$: 'LinkClicked', a: a};
 };
 var author$project$UIExplorer$UrlChange = function (a) {
 	return {$: 'UrlChange', a: a};
-};
-var author$project$UIExplorer$getStoryIdFromStories = function (_n0) {
-	var s = _n0.a;
-	return s;
 };
 var author$project$UIExplorer$getDefaultUrlFromCategories = function (categories) {
 	return A2(
@@ -20357,21 +20468,6 @@ var author$project$UIExplorer$init = F5(
 			{categories: categories, customModel: customModel, key: key, selectedCategory: selectedCategory, selectedStoryId: selectedStoryId, selectedUIId: selectedUIId, url: url},
 			A2(elm$browser$Browser$Navigation$pushUrl, key, firstUrl));
 	});
-var elm$core$Maybe$map2 = F3(
-	function (func, ma, mb) {
-		if (ma.$ === 'Nothing') {
-			return elm$core$Maybe$Nothing;
-		} else {
-			var a = ma.a;
-			if (mb.$ === 'Nothing') {
-				return elm$core$Maybe$Nothing;
-			} else {
-				var b = mb.a;
-				return elm$core$Maybe$Just(
-					A2(func, a, b));
-			}
-		}
-	});
 var author$project$UIExplorer$makeStoryUrl = F2(
 	function (model, storyId) {
 		return A3(
@@ -20957,7 +21053,7 @@ var elm$browser$Browser$application = _Browser_application;
 var elm$core$Platform$Sub$batch = _Platform_batch;
 var elm$core$Platform$Sub$none = elm$core$Platform$Sub$batch(_List_Nil);
 var author$project$UIExplorer$app = F2(
-	function (categories, config) {
+	function (config, categories) {
 		return elm$browser$Browser$application(
 			{
 				init: A2(author$project$UIExplorer$init, config.customModel, categories),
@@ -20978,87 +21074,13 @@ var author$project$UIExplorer$app = F2(
 				}
 			});
 	});
-var author$project$UIExplorer$defaultConfig = {
-	customModel: {},
-	menuViewEnhancer: F2(
-		function (m, v) {
-			return v;
-		}),
-	update: F2(
-		function (msg, m) {
-			return m;
-		}),
-	viewEnhancer: F2(
-		function (m, stories) {
-			return stories;
-		})
-};
-var author$project$UIExplorer$emptyUICategories = _List_Nil;
-var author$project$UIExplorer$findStory = F3(
-	function (uiId, storyId, categories) {
-		var foundStory = A2(
-			elm$core$List$filter,
-			function (s) {
-				return _Utils_eq(
-					author$project$UIExplorer$getStoryIdFromStories(s),
-					storyId);
-			},
-			elm$core$List$concat(
-				A2(
-					elm$core$List$map,
-					function (_n3) {
-						var ui = _n3.a;
-						return ui.viewStories;
-					},
-					A2(
-						elm$core$List$filter,
-						function (_n2) {
-							var ui = _n2.a;
-							return _Utils_eq(ui.id, uiId);
-						},
-						elm$core$List$concat(
-							A2(
-								elm$core$List$map,
-								function (_n0) {
-									var _n1 = _n0.a;
-									var a = _n1.a;
-									var b = _n1.b;
-									return b;
-								},
-								categories))))));
-		return elm$core$List$head(foundStory);
+var author$project$UIExplorer$exploreWithCategories = F2(
+	function (config, categories) {
+		return A2(author$project$UIExplorer$app, config, categories);
 	});
-var author$project$UIExplorer$join = function (mx) {
-	if (mx.$ === 'Just') {
-		var x = mx.a;
-		return x;
-	} else {
-		return elm$core$Maybe$Nothing;
-	}
-};
-var author$project$UIExplorer$getCurrentSelectedStory = function (_n0) {
-	var selectedUIId = _n0.selectedUIId;
-	var selectedStoryId = _n0.selectedStoryId;
-	var categories = _n0.categories;
-	return author$project$UIExplorer$join(
-		A2(
-			elm$core$Maybe$map,
-			function (_n1) {
-				var a = _n1.a;
-				var b = _n1.b;
-				return A3(author$project$UIExplorer$findStory, a, b, categories);
-			},
-			A3(
-				elm$core$Maybe$map2,
-				F2(
-					function (a, b) {
-						return _Utils_Tuple2(a, b);
-					}),
-				selectedUIId,
-				selectedStoryId)));
-};
 var author$project$Main$main = A2(
-	author$project$UIExplorer$app,
+	author$project$UIExplorer$exploreWithCategories,
+	author$project$Main$config,
 	A3(
 		author$project$UIExplorer$addUICategory,
 		'Components',
@@ -21070,7 +21092,7 @@ var author$project$Main$main = A2(
 			_List_fromArray(
 				[
 					A2(
-					author$project$UIExplorer$createUI,
+					author$project$UIExplorer$storiesOf,
 					'Colors',
 					_List_fromArray(
 						[
@@ -21088,7 +21110,7 @@ var author$project$Main$main = A2(
 							{hasMenu: true})
 						])),
 					A2(
-					author$project$UIExplorer$createUI,
+					author$project$UIExplorer$storiesOf,
 					'Typography',
 					_List_fromArray(
 						[
@@ -21100,7 +21122,7 @@ var author$project$Main$main = A2(
 							{hasMenu: false})
 						])),
 					A2(
-					author$project$UIExplorer$createUI,
+					author$project$UIExplorer$storiesOf,
 					'Iconography',
 					_List_fromArray(
 						[
@@ -21118,7 +21140,7 @@ var author$project$Main$main = A2(
 							{hasMenu: true})
 						])),
 					A2(
-					author$project$UIExplorer$createUI,
+					author$project$UIExplorer$storiesOf,
 					'Spacing',
 					_List_fromArray(
 						[
@@ -21136,7 +21158,7 @@ var author$project$Main$main = A2(
 				_List_fromArray(
 					[
 						A2(
-						author$project$UIExplorer$createUI,
+						author$project$UIExplorer$storiesOf,
 						'Principles',
 						_List_fromArray(
 							[
@@ -21154,7 +21176,7 @@ var author$project$Main$main = A2(
 					_List_fromArray(
 						[
 							A2(
-							author$project$UIExplorer$createUI,
+							author$project$UIExplorer$storiesOf,
 							'About',
 							_List_fromArray(
 								[
@@ -21166,23 +21188,6 @@ var author$project$Main$main = A2(
 									{hasMenu: false})
 								]))
 						]),
-					author$project$UIExplorer$emptyUICategories)))),
-	_Utils_update(
-		author$project$UIExplorer$defaultConfig,
-		{
-			menuViewEnhancer: F2(
-				function (model, menuView) {
-					return A2(
-						elm$core$Maybe$withDefault,
-						elm$html$Html$text(''),
-						A2(
-							elm$core$Maybe$map,
-							function (_n8) {
-								var option = _n8.c;
-								return option.hasMenu ? menuView : elm$html$Html$text('');
-							},
-							author$project$UIExplorer$getCurrentSelectedStory(model)));
-				})
-		}));
+					author$project$UIExplorer$emptyUICategories)))));
 _Platform_export({'Main':{'init':author$project$Main$main(
 	elm$json$Json$Decode$succeed(_Utils_Tuple0))({"versions":{"elm":"0.19.0"},"types":{"message":"UIExplorer.Msg ()","aliases":{"Url.Url":{"args":[],"type":"{ protocol : Url.Protocol, host : String.String, port_ : Maybe.Maybe Basics.Int, path : String.String, query : Maybe.Maybe String.String, fragment : Maybe.Maybe String.String }"}},"unions":{"UIExplorer.Msg":{"args":["a"],"tags":{"ExternalMsg":["a"],"SelectStory":["String.String"],"UrlChange":["Url.Url"],"LinkClicked":["Browser.UrlRequest"],"NoOp":[]}},"Browser.UrlRequest":{"args":[],"tags":{"Internal":["Url.Url"],"External":["String.String"]}},"Basics.Int":{"args":[],"tags":{"Int":[]}},"Maybe.Maybe":{"args":["a"],"tags":{"Just":["a"],"Nothing":[]}},"String.String":{"args":[],"tags":{"String":[]}},"Url.Protocol":{"args":[],"tags":{"Http":[],"Https":[]}}}}})}});}(this));

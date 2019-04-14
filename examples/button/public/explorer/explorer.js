@@ -8508,6 +8508,21 @@ var author$project$Button$view = F3(
 						rtfeldman$elm_css$Html$Styled$text(label)
 					])));
 	});
+var author$project$UIExplorer$defaultConfig = {
+	customModel: {},
+	menuViewEnhancer: F2(
+		function (m, v) {
+			return v;
+		}),
+	update: F2(
+		function (msg, m) {
+			return m;
+		}),
+	viewEnhancer: F2(
+		function (m, stories) {
+			return stories;
+		})
+};
 var author$project$UIExplorer$LinkClicked = function (a) {
 	return {$: 'LinkClicked', a: a};
 };
@@ -13233,7 +13248,7 @@ var elm$browser$Browser$application = _Browser_application;
 var elm$core$Platform$Sub$batch = _Platform_batch;
 var elm$core$Platform$Sub$none = elm$core$Platform$Sub$batch(_List_Nil);
 var author$project$UIExplorer$app = F2(
-	function (categories, config) {
+	function (config, categories) {
 		return elm$browser$Browser$application(
 			{
 				init: A2(author$project$UIExplorer$init, config.customModel, categories),
@@ -13254,34 +13269,11 @@ var author$project$UIExplorer$app = F2(
 				}
 			});
 	});
-var author$project$UIExplorer$UIType = function (a) {
-	return {$: 'UIType', a: a};
-};
-var author$project$UIExplorer$createUI = F2(
-	function (id, stories) {
-		return author$project$UIExplorer$UIType(
-			{description: '', id: id, viewStories: stories});
-	});
-var author$project$UIExplorer$defaultConfig = {
-	customModel: {},
-	menuViewEnhancer: F2(
-		function (m, v) {
-			return v;
-		}),
-	update: F2(
-		function (msg, m) {
-			return m;
-		}),
-	viewEnhancer: F2(
-		function (m, stories) {
-			return stories;
-		})
-};
 var author$project$UIExplorer$UICategoryType = function (a) {
 	return {$: 'UICategoryType', a: a};
 };
 var author$project$UIExplorer$emptyUICategories = _List_Nil;
-var author$project$UIExplorer$explore = function (uiList) {
+var author$project$UIExplorer$fromUIList = function (uiList) {
 	return A2(
 		elm$core$List$append,
 		_List_fromArray(
@@ -13291,96 +13283,110 @@ var author$project$UIExplorer$explore = function (uiList) {
 			]),
 		author$project$UIExplorer$emptyUICategories);
 };
+var author$project$UIExplorer$explore = F2(
+	function (config, uiList) {
+		return A2(
+			author$project$UIExplorer$app,
+			config,
+			author$project$UIExplorer$fromUIList(uiList));
+	});
+var author$project$UIExplorer$UIType = function (a) {
+	return {$: 'UIType', a: a};
+};
+var author$project$UIExplorer$storiesOf = F2(
+	function (id, stories) {
+		return author$project$UIExplorer$UIType(
+			{description: '', id: id, viewStories: stories});
+	});
 var author$project$Explorer$main = A2(
-	author$project$UIExplorer$app,
-	author$project$UIExplorer$explore(
-		_List_fromArray(
-			[
-				A2(
-				author$project$UIExplorer$createUI,
-				'Button',
-				_List_fromArray(
-					[
-						_Utils_Tuple3(
-						'Primary',
-						function (_n0) {
-							return A3(author$project$Button$view, 'Submit', author$project$Button$defaultButtonConfig, _Utils_Tuple0);
-						},
-						{}),
-						_Utils_Tuple3(
-						'Secondary',
-						function (_n1) {
-							return A3(
-								author$project$Button$view,
-								'Submit',
-								_Utils_update(
-									author$project$Button$defaultButtonConfig,
-									{appearance: author$project$Button$Secondary}),
-								_Utils_Tuple0);
-						},
-						{}),
-						_Utils_Tuple3(
-						'Small',
-						function (_n2) {
-							return A3(
-								author$project$Button$view,
-								'Submit',
-								_Utils_update(
-									author$project$Button$defaultButtonConfig,
-									{size: author$project$Button$S}),
-								_Utils_Tuple0);
-						},
-						{}),
-						_Utils_Tuple3(
-						'Large',
-						function (_n3) {
-							return A3(
-								author$project$Button$view,
-								'Submit',
-								_Utils_update(
-									author$project$Button$defaultButtonConfig,
-									{size: author$project$Button$L}),
-								_Utils_Tuple0);
-						},
-						{}),
-						_Utils_Tuple3(
-						'Link',
-						function (_n4) {
-							return A3(
-								author$project$Button$view,
-								'Submit',
-								_Utils_update(
-									author$project$Button$defaultButtonConfig,
-									{appearance: author$project$Button$Secondary, kind: author$project$Button$Link}),
-								_Utils_Tuple0);
-						},
-						{}),
-						_Utils_Tuple3(
-						'GhostPrimary',
-						function (_n5) {
-							return A3(
-								author$project$Button$view,
-								'Submit',
-								_Utils_update(
-									author$project$Button$defaultButtonConfig,
-									{kind: author$project$Button$Ghost}),
-								_Utils_Tuple0);
-						},
-						{}),
-						_Utils_Tuple3(
-						'GhostSecondary',
-						function (_n6) {
-							return A3(
-								author$project$Button$view,
-								'Submit',
-								_Utils_update(
-									author$project$Button$defaultButtonConfig,
-									{appearance: author$project$Button$Secondary, kind: author$project$Button$Ghost}),
-								_Utils_Tuple0);
-						},
-						{})
-					]))
-			])),
-	author$project$UIExplorer$defaultConfig);
+	author$project$UIExplorer$explore,
+	author$project$UIExplorer$defaultConfig,
+	_List_fromArray(
+		[
+			A2(
+			author$project$UIExplorer$storiesOf,
+			'Button',
+			_List_fromArray(
+				[
+					_Utils_Tuple3(
+					'Primary',
+					function (_n0) {
+						return A3(author$project$Button$view, 'Submit', author$project$Button$defaultButtonConfig, _Utils_Tuple0);
+					},
+					{}),
+					_Utils_Tuple3(
+					'Secondary',
+					function (_n1) {
+						return A3(
+							author$project$Button$view,
+							'Submit',
+							_Utils_update(
+								author$project$Button$defaultButtonConfig,
+								{appearance: author$project$Button$Secondary}),
+							_Utils_Tuple0);
+					},
+					{}),
+					_Utils_Tuple3(
+					'Small',
+					function (_n2) {
+						return A3(
+							author$project$Button$view,
+							'Submit',
+							_Utils_update(
+								author$project$Button$defaultButtonConfig,
+								{size: author$project$Button$S}),
+							_Utils_Tuple0);
+					},
+					{}),
+					_Utils_Tuple3(
+					'Large',
+					function (_n3) {
+						return A3(
+							author$project$Button$view,
+							'Submit',
+							_Utils_update(
+								author$project$Button$defaultButtonConfig,
+								{size: author$project$Button$L}),
+							_Utils_Tuple0);
+					},
+					{}),
+					_Utils_Tuple3(
+					'Link',
+					function (_n4) {
+						return A3(
+							author$project$Button$view,
+							'Submit',
+							_Utils_update(
+								author$project$Button$defaultButtonConfig,
+								{appearance: author$project$Button$Secondary, kind: author$project$Button$Link}),
+							_Utils_Tuple0);
+					},
+					{}),
+					_Utils_Tuple3(
+					'GhostPrimary',
+					function (_n5) {
+						return A3(
+							author$project$Button$view,
+							'Submit',
+							_Utils_update(
+								author$project$Button$defaultButtonConfig,
+								{kind: author$project$Button$Ghost}),
+							_Utils_Tuple0);
+					},
+					{}),
+					_Utils_Tuple3(
+					'GhostSecondary',
+					function (_n6) {
+						return A3(
+							author$project$Button$view,
+							'Submit',
+							_Utils_update(
+								author$project$Button$defaultButtonConfig,
+								{appearance: author$project$Button$Secondary, kind: author$project$Button$Ghost}),
+							_Utils_Tuple0);
+					},
+					{})
+				]))
+		]));
 _Platform_export({'Explorer':{'init':author$project$Explorer$main(
 	elm$json$Json$Decode$succeed(_Utils_Tuple0))({"versions":{"elm":"0.19.0"},"types":{"message":"UIExplorer.Msg ()","aliases":{"Url.Url":{"args":[],"type":"{ protocol : Url.Protocol, host : String.String, port_ : Maybe.Maybe Basics.Int, path : String.String, query : Maybe.Maybe String.String, fragment : Maybe.Maybe String.String }"}},"unions":{"UIExplorer.Msg":{"args":["a"],"tags":{"ExternalMsg":["a"],"SelectStory":["String.String"],"UrlChange":["Url.Url"],"LinkClicked":["Browser.UrlRequest"],"NoOp":[]}},"Browser.UrlRequest":{"args":[],"tags":{"Internal":["Url.Url"],"External":["String.String"]}},"Basics.Int":{"args":[],"tags":{"Int":[]}},"Maybe.Maybe":{"args":["a"],"tags":{"Just":["a"],"Nothing":[]}},"String.String":{"args":[],"tags":{"String":[]}},"Url.Protocol":{"args":[],"tags":{"Http":[],"Https":[]}}}}})}});}(this));
