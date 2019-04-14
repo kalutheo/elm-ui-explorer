@@ -121,7 +121,7 @@ view : String.String -> Config -> msg -> Html.Html msg
 main : UIExplorerProgram {} () PluginOption
 main =
     explore
-    { defaultConfig | viewEnhancer = ExplorerNotesPlugin.viewEnhancer }
+        { defaultConfig | viewEnhancer = ExplorerNotesPlugin.viewEnhancer }
         [ storiesOf
             "Button"
             [ ( "Primary", \_ -> Button.view "Submit" defaultButtonConfig (), note )
@@ -133,4 +133,3 @@ main =
             , ( "GhostSecondary", \_ -> Button.view "Submit" { defaultButtonConfig | appearance = Secondary, kind = Ghost } (), note )
             ]
         ]
-        

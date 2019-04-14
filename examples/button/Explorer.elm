@@ -7,7 +7,7 @@ import UIExplorer exposing (UIExplorerProgram, defaultConfig, explore, storiesOf
 main : UIExplorerProgram {} () {}
 main =
     explore
-    defaultConfig
+        defaultConfig
         [ storiesOf
             "Button"
             [ ( "Primary", \_ -> Button.view "Submit" defaultButtonConfig (), {} )
@@ -19,4 +19,3 @@ main =
             , ( "GhostSecondary", \_ -> Button.view "Submit" { defaultButtonConfig | appearance = Secondary, kind = Ghost } (), {} )
             ]
         ]
-        
