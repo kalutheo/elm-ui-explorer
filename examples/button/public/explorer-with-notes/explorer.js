@@ -8607,12 +8607,7 @@ var author$project$Button$view = F3(
 						rtfeldman$elm_css$Html$Styled$text(label)
 					])));
 	});
-var author$project$UIExplorer$Plugins$Note$addNote = function (text) {
-	return {text: text};
-};
-var author$project$ExplorerWithNotes$note = {
-	notes: author$project$UIExplorer$Plugins$Note$addNote('\n# Modules\n- [Button](#button)\n\n# Button\n- [Config](#config)\n- [Size](#size)\n- [Kind](#kind)\n- [Appearance](#appearance)\n- [defaultButtonConfig](#defaultbuttonconfig)\n- [view](#view)\n\n## Button\nThe Button should be used to trigger user actions.\nSome examples of interactions:\n  - Submit a form\n  - Cancel an order\n  - Toggle a menu visibility\n  - Play a media\n```elm\nimport Button exposing (..)\nButton.view "Submit" defaultButtonConfig ()\n```\n## Links:\n  - [UX Planet - Basic rules for button](https://uxplanet.org/7-basic-rules-for-button-design-63dcdf5676b4)\n\n### `Config`\n```elm\ntype alias Config  =\n    { appearance : Button.Appearance, size : Button.Size, kind : Button.Kind, class : String.String, theme : Button.Theme }\n```\n Option to customize the Button\n\n\n---\n\n\n### `Size`\n```elm\ntype Size  \n    = S \n    | M \n    | L \n```\n Define the size of the Button\n\n\n---\n\n\n### `Kind`\n```elm\ntype Kind  \n    = Link \n    | Filled \n    | Ghost \n```\n Look and feel of the Button\n\n\n---\n\n\n### `Appearance`\n```elm\ntype Appearance  \n    = Primary \n    | Secondary \n```\n Define the appearance of the Button\n\n\n---\n\n\n### `defaultButtonConfig`\n```elm\ndefaultButtonConfig : Config\n```\n Default Configurations\n\n\n---\n\n\n### `view`\n```elm\nview : String.String -> Config -> msg -> Html.Html msg\n```\n Renders the button\n\n\n---\n\n\n> Generated with elm: 0.19.0 and elm-docs: 0.4.0\n\n')
-};
+var author$project$ExplorerWithNotes$note = {note: '\n# Modules\n- [Button](#button)\n\n# Button\n- [Config](#config)\n- [Size](#size)\n- [Kind](#kind)\n- [Appearance](#appearance)\n- [defaultButtonConfig](#defaultbuttonconfig)\n- [view](#view)\n\n## Button\nThe Button should be used to trigger user actions.\nSome examples of interactions:\n  - Submit a form\n  - Cancel an order\n  - Toggle a menu visibility\n  - Play a media\n```elm\nimport Button exposing (..)\nButton.view "Submit" defaultButtonConfig ()\n```\n## Links:\n  - [UX Planet - Basic rules for button](https://uxplanet.org/7-basic-rules-for-button-design-63dcdf5676b4)\n\n### `Config`\n```elm\ntype alias Config  =\n    { appearance : Button.Appearance, size : Button.Size, kind : Button.Kind, class : String.String, theme : Button.Theme }\n```\n Option to customize the Button\n\n\n---\n\n\n### `Size`\n```elm\ntype Size\n    = S\n    | M\n    | L\n```\n Define the size of the Button\n\n\n---\n\n\n### `Kind`\n```elm\ntype Kind\n    = Link\n    | Filled\n    | Ghost\n```\n Look and feel of the Button\n\n\n---\n\n\n### `Appearance`\n```elm\ntype Appearance\n    = Primary\n    | Secondary\n```\n Define the appearance of the Button\n\n\n---\n\n\n### `defaultButtonConfig`\n```elm\ndefaultButtonConfig : Config\n```\n Default Configurations\n\n\n---\n\n\n### `view`\n```elm\nview : String.String -> Config -> msg -> Html.Html msg\n```\n Renders the button\n\n\n---\n\n\n> Generated with elm: 0.19.0 and elm-docs: 0.4.0\n\n'};
 var author$project$UIExplorer$defaultConfig = {
 	customModel: {},
 	menuViewEnhancer: F2(
@@ -12942,7 +12937,7 @@ var author$project$UIExplorer$renderStory = F3(
 				},
 				selectedStoryId));
 		var defaultLiClass = _List_fromArray(
-			['mr-2', 'mb-2', 'rounded', 'p-2', 'text-sm']);
+			['mr-2', 'mb-2', 'rounded', 'p-2', 'text-xs']);
 		var liClass = isActive ? A2(
 			elm$core$List$append,
 			defaultLiClass,
@@ -13174,6 +13169,7 @@ var author$project$UIExplorer$styleMenuItem = function (isSelected) {
 			'pl-6',
 			'pt-2',
 			'pb-2',
+			'text-xs',
 			author$project$UIExplorer$hover('bg-grey-lighter'),
 			author$project$UIExplorer$hover('text-black')
 		]);
@@ -13258,7 +13254,7 @@ var author$project$UIExplorer$viewMenuCategory = F2(
 								[
 									author$project$UIExplorer$toClassName(
 									_List_fromArray(
-										['font-bold', 'text-grey-darker']))
+										['font-bold', 'text-grey-darker', 'text-xs']))
 								]),
 							_List_fromArray(
 								[
@@ -13497,7 +13493,7 @@ var author$project$UIExplorer$Plugins$Note$viewEnhancer = F2(
 						[
 							elm$html$Html$Attributes$class('content uie-text-sm')
 						]),
-					option.notes.text);
+					option.note);
 			} else {
 				return elm$html$Html$text('');
 			}

@@ -22,22 +22,12 @@ import UIExplorer
         , getCurrentSelectedStory
         , storiesOf
         )
+import UIExplorer.Plugins.MenuVisibility as MenuVisibility
 
 
 config =
     { defaultConfig
-        | menuViewEnhancer =
-            \model menuView ->
-                getCurrentSelectedStory model
-                    |> Maybe.map
-                        (\( _, _, option ) ->
-                            if option.hasMenu then
-                                menuView
-
-                            else
-                                Html.text ""
-                        )
-                    |> Maybe.withDefault (Html.text "")
+        | menuViewEnhancer = MenuVisibility.menuViewEnhancer
     }
 
 

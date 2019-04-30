@@ -9,16 +9,16 @@ import UIExplorer
         , explore
         , storiesOf
         )
-import UIExplorer.Plugins.Note as ExplorerNotesPlugin exposing (addNote)
+import UIExplorer.Plugins.Note as Note
 
 
 type alias PluginOption =
-    { notes : ExplorerNotesPlugin.PluginModel
+    { note : String
     }
 
 
 note =
-    { notes = addNote """
+    { note = """
 # Modules
 - [Button](#button)
 
@@ -57,10 +57,10 @@ type alias Config  =
 
 ### `Size`
 ```elm
-type Size  
-    = S 
-    | M 
-    | L 
+type Size
+    = S
+    | M
+    | L
 ```
  Define the size of the Button
 
@@ -70,10 +70,10 @@ type Size
 
 ### `Kind`
 ```elm
-type Kind  
-    = Link 
-    | Filled 
-    | Ghost 
+type Kind
+    = Link
+    | Filled
+    | Ghost
 ```
  Look and feel of the Button
 
@@ -83,9 +83,9 @@ type Kind
 
 ### `Appearance`
 ```elm
-type Appearance  
-    = Primary 
-    | Secondary 
+type Appearance
+    = Primary
+    | Secondary
 ```
  Define the appearance of the Button
 
@@ -121,7 +121,7 @@ view : String.String -> Config -> msg -> Html.Html msg
 main : UIExplorerProgram {} () PluginOption
 main =
     explore
-        { defaultConfig | viewEnhancer = ExplorerNotesPlugin.viewEnhancer }
+        { defaultConfig | viewEnhancer = Note.viewEnhancer }
         [ storiesOf
             "Button"
             [ ( "Primary", \_ -> Button.view "Submit" defaultButtonConfig (), note )

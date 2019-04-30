@@ -16389,23 +16389,22 @@ var author$project$UIExplorer$getCurrentSelectedStory = function (_n0) {
 				selectedUIId,
 				selectedStoryId)));
 };
+var author$project$UIExplorer$Plugins$MenuVisibility$menuViewEnhancer = F2(
+	function (model, menuView) {
+		return A2(
+			elm$core$Maybe$withDefault,
+			elm$html$Html$text(''),
+			A2(
+				elm$core$Maybe$map,
+				function (_n0) {
+					var option = _n0.c;
+					return option.hasMenu ? menuView : elm$html$Html$text('');
+				},
+				author$project$UIExplorer$getCurrentSelectedStory(model)));
+	});
 var author$project$Main$config = _Utils_update(
 	author$project$UIExplorer$defaultConfig,
-	{
-		menuViewEnhancer: F2(
-			function (model, menuView) {
-				return A2(
-					elm$core$Maybe$withDefault,
-					elm$html$Html$text(''),
-					A2(
-						elm$core$Maybe$map,
-						function (_n0) {
-							var option = _n0.c;
-							return option.hasMenu ? menuView : elm$html$Html$text('');
-						},
-						author$project$UIExplorer$getCurrentSelectedStory(model)));
-			})
-	});
+	{menuViewEnhancer: author$project$UIExplorer$Plugins$MenuVisibility$menuViewEnhancer});
 var author$project$UIExplorer$UICategoryType = function (a) {
 	return {$: 'UICategoryType', a: a};
 };

@@ -1,9 +1,4 @@
-module UIExplorer.Plugins.Note exposing
-    ( PluginModel
-    , WithNotes
-    , addNote
-    , viewEnhancer
-    )
+module UIExplorer.Plugins.Note exposing (viewEnhancer)
 
 {-|
 
@@ -16,7 +11,7 @@ It can be used to display some nice markdown content to document your UI.
 Example:
 
     note =
-        { notes = addNote """
+        { note = """
           ## Hello world
           Some markdown content here...
          """
@@ -33,9 +28,6 @@ Example:
                 ]
             ]
 
-@docs PluginModel
-@docs WithNotes
-@docs addNote
 @docs viewEnhancer
 
 -}
@@ -48,34 +40,21 @@ import UIExplorer exposing (ViewEnhancer, explore, getCurrentSelectedStory)
 
 {-| The Type used to store notes for each story
 -}
-type alias PluginModel =
-    { text : String
+type alias PluginModel a =
+    { a
+        | note : String
     }
-
-
-{-| Simple helper to create a note from a string
--}
-addNote : String -> PluginModel
-addNote text =
-    { text = text
-    }
-
-
-{-| Extensible model that can be used in your Explorer app
--}
-type alias WithNotes a =
-    { a | notes : PluginModel }
 
 
 {-| This is the part that allows to display information underneath the view
 -}
-viewEnhancer : ViewEnhancer {} () (WithNotes a)
+viewEnhancer : ViewEnhancer {} () (PluginModel a)
 viewEnhancer model storiesView =
     let
         note =
             case getCurrentSelectedStory model of
                 Just ( _, _, option ) ->
-                    Markdown.toHtml [ class "content uie-text-sm" ] option.notes.text
+                    Markdown.toHtml [ class "content uie-text-sm" ] option.note
 
                 Nothing ->
                     Html.text ""
