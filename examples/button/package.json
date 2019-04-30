@@ -6,6 +6,10 @@
   "dependencies": {},
   "devDependencies": {},
   "scripts": {
+    "build": "npm run build:app && npm run build:explorer && npm run build:explorer-with-notes",
+    "build:app": "elm make Main.elm --output=../../docs/examples/button/app.js",
+    "build:explorer": "elm make Explorer.elm --output=../../docs/examples/button/explorer/explorer.js",
+    "build:explorer-with-notes": "elm make ExplorerWithNotes.elm --output=../../docs/examples/button/explorer-with-notes/explorer.js",
     "start": "elm-live Main.elm --open --dir=public --start-page=index.html -- --output=public/app.js --debug ",
     "start:explorer": "elm-live Explorer.elm --open --dir=public/explorer --start-page=index.html -- --output=public/explorer/explorer.js --debug",
     "start:explorer-with-notes": "elm-live ExplorerWithNotes.elm --open --dir=public/explorer-with-notes --start-page=index.html -- --output=public/explorer-with-notes/explorer.js --debug"

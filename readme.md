@@ -16,9 +16,10 @@ This project is inspired by [React Storybook](https://storybook.js.org/) and sty
 <img src="https://kalutheo.github.io/elm-ui-explorer/intro.gif" width="900"/>
 
 [Examples](https://github.com/kalutheo/elm-ui-explorer/tree/master/examples)
-- Button Example [source](https://github.com/kalutheo/elm-ui-explorer/tree/master/examples/simple)| [explorer demo](https://kalutheo.github.io/elm-ui-explorer/examples/simples/explorer.html) | [app demo](https://kalutheo.github.io/elm-ui-explorer/examples/simples/index.html)
-- Button With Notes [source](https://github.com/kalutheo/elm-ui-explorer/tree/master/examples/music-player) | [explorer demo](https://kalutheo.github.io/elm-ui-explorer/examples/music-player/explorer/) | [app demo](https://kalutheo.github.io/elm-ui-explorer/examples/music-player/app/index.html)
-- Design system [source](https://github.com/kalutheo/elm-ui-explorer/tree/master/examples/design-system) | [explorer demo](https://kalutheo.github.io/elm-ui-explorer/examples/design-system/explorer/)
+- Button Example [source](https://github.com/kalutheo/elm-ui-explorer/tree/master/examples/button)| [explorer demo](https://kalutheo.github.io/elm-ui-explorer/examples/button/explorer/index.html) |
+[explorer with notes demo](https://kalutheo.github.io/elm-ui-explorer/examples/button/explorer-with-notes/index.html) | [app demo](https://kalutheo.github.io/elm-ui-explorer/examples/button/index.html)
+
+- Design system [source](https://github.com/kalutheo/elm-ui-explorer/tree/master/examples/dsm/) | [explorer demo](https://kalutheo.github.io/elm-ui-explorer/examples/dsm/explorer/)
 
 ### Main Features
 
