@@ -15,9 +15,9 @@ import Markdown
 import UIExplorer
     exposing
         ( UIExplorerProgram
-        , addUICategory
+        , category
+        , createCategories
         , defaultConfig
-        , emptyUICategories
         , exploreWithCategories
         , getCurrentSelectedStory
         , storiesOf
@@ -45,20 +45,20 @@ main : UIExplorerProgram {} () { hasMenu : Bool }
 main =
     exploreWithCategories
         config
-        (emptyUICategories
-            |> addUICategory
+        (createCategories
+            |> category
                 "Getting Started"
                 [ storiesOf
                     "About"
                     [ ( "About", \_ -> Docs.toMarkdown Docs.about, { hasMenu = False } ) ]
                 ]
-            |> addUICategory
+            |> category
                 "Guidelines"
                 [ storiesOf
                     "Principles"
                     [ ( "Principles", \_ -> Docs.toMarkdown Docs.principles, { hasMenu = False } ) ]
                 ]
-            |> addUICategory
+            |> category
                 "Styles"
                 [ storiesOf
                     "Colors"
@@ -79,7 +79,7 @@ main =
                     [ ( "Spacing", \_ -> SpacingGuide.view, { hasMenu = True } )
                     ]
                 ]
-            |> addUICategory "Components"
+            |> category "Components"
                 [ Text.stories
                 , Header.stories
                 , Button.stories

@@ -16409,17 +16409,17 @@ var author$project$Main$config = _Utils_update(
 var author$project$UIExplorer$UICategoryType = function (a) {
 	return {$: 'UICategoryType', a: a};
 };
-var author$project$UIExplorer$addUICategory = F3(
+var author$project$UIExplorer$category = F3(
 	function (title, uiList, categories) {
-		var category = author$project$UIExplorer$UICategoryType(
+		var cat = author$project$UIExplorer$UICategoryType(
 			_Utils_Tuple2(title, uiList));
 		return A2(
 			elm$core$List$append,
 			categories,
 			_List_fromArray(
-				[category]));
+				[cat]));
 	});
-var author$project$UIExplorer$emptyUICategories = _List_Nil;
+var author$project$UIExplorer$createCategories = _List_Nil;
 var author$project$UIExplorer$LinkClicked = function (a) {
 	return {$: 'LinkClicked', a: a};
 };
@@ -20642,7 +20642,7 @@ var author$project$UIExplorer$renderStory = F3(
 				},
 				selectedStoryId));
 		var defaultLiClass = _List_fromArray(
-			['mr-2', 'mb-2', 'rounded', 'p-2', 'text-sm']);
+			['mr-2', 'mb-2', 'rounded', 'p-2', 'text-xs']);
 		var liClass = isActive ? A2(
 			elm$core$List$append,
 			defaultLiClass,
@@ -20874,6 +20874,7 @@ var author$project$UIExplorer$styleMenuItem = function (isSelected) {
 			'pl-6',
 			'pt-2',
 			'pb-2',
+			'text-xs',
 			author$project$UIExplorer$hover('bg-grey-lighter'),
 			author$project$UIExplorer$hover('text-black')
 		]);
@@ -20888,7 +20889,7 @@ var author$project$UIExplorer$styleMenuItem = function (isSelected) {
 		defaultClass);
 };
 var author$project$UIExplorer$viewMenuItem = F3(
-	function (category, selectedUIId, _n0) {
+	function (cat, selectedUIId, _n0) {
 		var ui = _n0.a;
 		var isSelected = A2(
 			elm$core$Maybe$withDefault,
@@ -20902,9 +20903,9 @@ var author$project$UIExplorer$viewMenuItem = F3(
 			var _n1 = elm$core$List$head(ui.viewStories);
 			if (_n1.$ === 'Just') {
 				var story = _n1.a;
-				return '#' + (category + ('/' + (ui.id + ('/' + author$project$UIExplorer$getStoryIdFromStories(story)))));
+				return '#' + (cat + ('/' + (ui.id + ('/' + author$project$UIExplorer$getStoryIdFromStories(story)))));
 			} else {
-				return '#' + (category + ('/' + ui.id));
+				return '#' + (cat + ('/' + ui.id));
 			}
 		}();
 		return A2(
@@ -20958,7 +20959,7 @@ var author$project$UIExplorer$viewMenuCategory = F2(
 								[
 									author$project$UIExplorer$toClassName(
 									_List_fromArray(
-										['font-bold', 'text-grey-darker']))
+										['font-bold', 'text-grey-darker', 'text-xs']))
 								]),
 							_List_fromArray(
 								[
@@ -21082,12 +21083,12 @@ var author$project$Main$main = A2(
 	author$project$UIExplorer$exploreWithCategories,
 	author$project$Main$config,
 	A3(
-		author$project$UIExplorer$addUICategory,
+		author$project$UIExplorer$category,
 		'Components',
 		_List_fromArray(
 			[author$project$Components$Text$Stories$stories, author$project$Components$Header$Stories$stories, author$project$Components$Button$Stories$stories, author$project$Components$Block$Welcome$Stories$stories]),
 		A3(
-			author$project$UIExplorer$addUICategory,
+			author$project$UIExplorer$category,
 			'Styles',
 			_List_fromArray(
 				[
@@ -21153,7 +21154,7 @@ var author$project$Main$main = A2(
 						]))
 				]),
 			A3(
-				author$project$UIExplorer$addUICategory,
+				author$project$UIExplorer$category,
 				'Guidelines',
 				_List_fromArray(
 					[
@@ -21171,7 +21172,7 @@ var author$project$Main$main = A2(
 							]))
 					]),
 				A3(
-					author$project$UIExplorer$addUICategory,
+					author$project$UIExplorer$category,
 					'Getting Started',
 					_List_fromArray(
 						[
@@ -21188,6 +21189,6 @@ var author$project$Main$main = A2(
 									{hasMenu: false})
 								]))
 						]),
-					author$project$UIExplorer$emptyUICategories)))));
+					author$project$UIExplorer$createCategories)))));
 _Platform_export({'Main':{'init':author$project$Main$main(
 	elm$json$Json$Decode$succeed(_Utils_Tuple0))({"versions":{"elm":"0.19.0"},"types":{"message":"UIExplorer.Msg ()","aliases":{"Url.Url":{"args":[],"type":"{ protocol : Url.Protocol, host : String.String, port_ : Maybe.Maybe Basics.Int, path : String.String, query : Maybe.Maybe String.String, fragment : Maybe.Maybe String.String }"}},"unions":{"UIExplorer.Msg":{"args":["a"],"tags":{"ExternalMsg":["a"],"SelectStory":["String.String"],"UrlChange":["Url.Url"],"LinkClicked":["Browser.UrlRequest"],"NoOp":[]}},"Browser.UrlRequest":{"args":[],"tags":{"Internal":["Url.Url"],"External":["String.String"]}},"Basics.Int":{"args":[],"tags":{"Int":[]}},"Maybe.Maybe":{"args":["a"],"tags":{"Just":["a"],"Nothing":[]}},"String.String":{"args":[],"tags":{"String":[]}},"Url.Protocol":{"args":[],"tags":{"Http":[],"Https":[]}}}}})}});}(this));

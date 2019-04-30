@@ -657,6 +657,7 @@ styleMenuItem isSelected =
             , "pl-6"
             , "pt-2"
             , "pb-2"
+            , "text-xs"
             , hover "bg-grey-lighter"
             , hover "text-black"
             ]
@@ -723,7 +724,7 @@ viewMenuCategory { selectedUIId, selectedStoryId } (UICategoryType ( title, cate
             [ toClassName styleMenuCategoryLink
             , href "#"
             ]
-            [ span [ toClassName [ "font-bold", "text-grey-darker" ] ] [ text ("> " ++ title) ] ]
+            [ span [ toClassName [ "font-bold", "text-grey-darker", "text-xs" ] ] [ text ("> " ++ title) ] ]
         , ul [ toClassName [ "list-reset" ] ]
             (List.map (viewMenuItem title selectedUIId) categories)
         ]
@@ -846,7 +847,7 @@ renderStory index { selectedStoryId } ( id, state, _ ) =
             , "mb-2"
             , "rounded"
             , "p-2"
-            , "text-sm"
+            , "text-xs"
             ]
 
         liClass =
