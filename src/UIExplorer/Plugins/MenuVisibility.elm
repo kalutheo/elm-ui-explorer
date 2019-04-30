@@ -7,6 +7,21 @@ module UIExplorer.Plugins.MenuVisibility exposing (menuViewEnhancer)
 
 This plugin allows to hide or show the menu for each story.
 
+Example:
+
+    import UIExplorer.Plugins.MenuVisibility as MenuVisibility
+
+    main : UIExplorerProgram {} () { a | note : String }
+    main =
+        explore
+            { defaultConfig | viewEnhancer = MenuVisibility.viewEnhancer }
+            [ storiesOf
+              "About"
+              [ ( "HideMenu", _ -> myView { hasMenu = False } ),
+              ( "ShowMenu", _ -> myView { hasMenu = True } )
+              ]
+            ]
+
 @docs menuViewEnhancer
 
 -}
@@ -15,13 +30,9 @@ import Html
 import UIExplorer exposing (getCurrentSelectedStory)
 
 
-type alias PluginModel a =
-    { a | hasMenu : Bool }
-
-
 {-| This function will hide or show the menu according to what was defined for the story
 -}
-menuViewEnhancer : UIExplorer.Model a b (PluginModel c) -> Html.Html msg -> Html.Html msg
+menuViewEnhancer : UIExplorer.Model a b { c | hasMenu : Bool } -> Html.Html msg -> Html.Html msg
 menuViewEnhancer model menuView =
     getCurrentSelectedStory model
         |> Maybe.map

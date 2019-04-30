@@ -17,7 +17,7 @@ Example:
          """
         }
 
-    main : UIExplorerProgram {} () PluginOption
+    main : UIExplorerProgram {} () { a | note : String }
     main =
         explore
             { defaultConfig | viewEnhancer = ExplorerNotesPlugin.viewEnhancer }
@@ -38,17 +38,9 @@ import Markdown
 import UIExplorer exposing (ViewEnhancer, explore, getCurrentSelectedStory)
 
 
-{-| The Type used to store notes for each story
+{-| This is the part that allows to display notes underneath the view
 -}
-type alias PluginModel a =
-    { a
-        | note : String
-    }
-
-
-{-| This is the part that allows to display information underneath the view
--}
-viewEnhancer : ViewEnhancer {} () (PluginModel a)
+viewEnhancer : ViewEnhancer {} () { a | note : String }
 viewEnhancer model storiesView =
     let
         note =
