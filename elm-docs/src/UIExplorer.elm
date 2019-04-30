@@ -10,7 +10,6 @@ module UIExplorer exposing
     , Config
     , ViewEnhancer
     , MenuViewEnhancer
-    , findStory
     , getCurrentSelectedStory
     , category
     , storiesOf
@@ -45,10 +44,14 @@ module UIExplorer exposing
 
 # Advanced
 
+Elm UI Explorer can be extended with Plugins.
+The package comes with core plugins and you can obviously create your own.
+Theses plugins allow to customize the appearance of the UI Explorer.
+Functions listed below are related to that.
+
 @docs Config
 @docs ViewEnhancer
 @docs MenuViewEnhancer
-@docs findStory
 @docs getCurrentSelectedStory
 
 
@@ -83,7 +86,30 @@ type alias UIExplorerProgram a b c =
     Program () (Model a b c) (Msg b)
 
 
-{-| The View MenuViewEnhancer
+{-| Gives a chance to Plugins to add features to the stories selection menu.
+For example, the Menu Visibility Plugin allows to hide/show the menu :
+
+    menuViewEnhancer =
+        \model menuView ->
+            getCurrentSelectedStory model
+                |> Maybe.map
+                    (\( _, _, option ) ->
+                        if option.hasMenu then
+                            menuView
+
+                        else
+                            Html.text ""
+                    )
+                |> Maybe.withDefault (Html.text "")
+
+Then in your stories :
+
+    storiesOf
+        "About"
+        [ ( "HideMenu", _ -> myView { hasMenu = False } ),
+        ( "ShowMenu", _ -> myView { hasMenu = True } )
+        ]
+
 -}
 type alias MenuViewEnhancer a b c =
     Model a b c -> Html (Msg b) -> Html (Msg b)
@@ -121,7 +147,7 @@ getStoryIdFromStories ( s, _, _ ) =
 
 
 {-| Messages of the UI Explorer.
-You should not interact with this Type unless you are trying to achieve more advancing stuff such as Plugin Creation.
+You should not interact with this Type unless you are trying to achieve more [advanced stuff](#Config) such as Plugin Creation.
 -}
 type Msg a
     = ExternalMsg a
@@ -146,7 +172,7 @@ type UI a b c
         }
 
 
-{-| Represents a familly of related views.
+{-| Represents a family of related views.
 For example using [Atomic Design](http://bradfrost.com/blog/post/atomic-web-design/), we can have the following categories : Atoms, Molecules etc..
 -}
 type UICategory a b c
@@ -166,7 +192,7 @@ type alias UIViewConfig =
 
 
 {-| Model of the UI Explorer.
-You should not interact with this Type unless you are trying to achieve more advancing stuff such as Plugin Creation.
+You should not interact with this Type unless you are trying to achieve more [advanced stuff](#Config) such as Plugin Creation.
 -}
 type alias Model a b c =
     { categories : List (UICategory a b c)
@@ -189,7 +215,7 @@ type alias Config a b c =
     }
 
 
-{-| The default config
+{-| Sensible default configuration to initialize the explorer.
 -}
 defaultConfig : Config {} b c
 defaultConfig =
@@ -238,7 +264,8 @@ join mx =
             Nothing
 
 
-{-| Get Current Selected Story
+{-| Get the Current Selected Story.
+Usefull to retrieve the current selected story. It can be used with MenuViewEnhancer or ViewEnhancer to hide/display contextual content.
 -}
 getCurrentSelectedStory : Model a b c -> Maybe (Story a b c)
 getCurrentSelectedStory { selectedUIId, selectedStoryId, categories } =
@@ -479,6 +506,8 @@ This is the simplest way to initialize the UI Explorer app.
 
 Here we have an example of a Button that we want to explore:
 
+    import UIExplorer exposing (UIExplorerProgram, defaultConfig, explore, storiesOf)
+
     button : String -> String -> Html.Html msg
     button label bgColor =
         Html.button
@@ -507,7 +536,7 @@ explore config uiList =
 
 Launches a UI Explorer Applicaton given a list of [UI Categories](#UICategory).
 This is a more advanced way to initialize the UI Explorer app. It can be usefull if you want
-to organize your UI by familly.
+to organize your UI by family.
 
     main : UIExplorerProgram {} () {}
     main =

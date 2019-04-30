@@ -16,8 +16,8 @@ This project is inspired by [React Storybook](https://storybook.js.org/) and sty
 <img src="https://kalutheo.github.io/elm-ui-explorer/intro.gif" width="900"/>
 
 [Examples](https://github.com/kalutheo/elm-ui-explorer/tree/master/examples)
-- Simple Example [source](https://github.com/kalutheo/elm-ui-explorer/tree/master/examples/simple)| [explorer demo](https://kalutheo.github.io/elm-ui-explorer/examples/simples/explorer.html) | [app demo](https://kalutheo.github.io/elm-ui-explorer/examples/simples/index.html)
-- Music Player [source](https://github.com/kalutheo/elm-ui-explorer/tree/master/examples/music-player) | [explorer demo](https://kalutheo.github.io/elm-ui-explorer/examples/music-player/explorer/) | [app demo](https://kalutheo.github.io/elm-ui-explorer/examples/music-player/app/index.html)
+- Button Example [source](https://github.com/kalutheo/elm-ui-explorer/tree/master/examples/simple)| [explorer demo](https://kalutheo.github.io/elm-ui-explorer/examples/simples/explorer.html) | [app demo](https://kalutheo.github.io/elm-ui-explorer/examples/simples/index.html)
+- Button With Notes [source](https://github.com/kalutheo/elm-ui-explorer/tree/master/examples/music-player) | [explorer demo](https://kalutheo.github.io/elm-ui-explorer/examples/music-player/explorer/) | [app demo](https://kalutheo.github.io/elm-ui-explorer/examples/music-player/app/index.html)
 - Design system [source](https://github.com/kalutheo/elm-ui-explorer/tree/master/examples/design-system) | [explorer demo](https://kalutheo.github.io/elm-ui-explorer/examples/design-system/explorer/)
 
 ### Main Features
@@ -31,7 +31,7 @@ This project is inspired by [React Storybook](https://storybook.js.org/) and sty
 
 ### Best Practices
 
-- In order to avoid CSS conflicts with built in UI Explorer Styles, consider using CSS Namespacing if using [elm-css](https://github.com/rtfeldman/elm-css) or any technic that prevents styles collisions.  
+- In order to avoid CSS conflicts with built in UI Explorer Styles, consider using  [elm-css](https://package.elm-lang.org/packages/rtfeldman/elm-css/latest/) or [elm-ui](https://package.elm-lang.org/packages/mdgriffith/elm-ui/latest/). Theses tools use technics that prevent styles collisions by scoping the css.  
 
 - All ids should be unique and be written in CamelCase without spaces or special characters (ex:  DropDownMenu, Loading, Loaded etc... )
 

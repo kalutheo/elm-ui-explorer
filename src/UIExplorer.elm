@@ -1,19 +1,19 @@
 module UIExplorer exposing
     ( explore
     , exploreWithCategories
+    , defaultConfig
     , UI
     , UICategory
     , Model
     , Msg(..)
     , UIExplorerProgram
-    , addUICategory
-    , storiesOf
+    , Config
     , ViewEnhancer
-    , defaultConfig
-    , findStory
+    , MenuViewEnhancer
     , getCurrentSelectedStory
-    , emptyUICategories
-    , UIViewConfig
+    , category
+    , storiesOf
+    , createCategories
     )
 
 {-|
@@ -21,18 +21,19 @@ module UIExplorer exposing
 
 # Anatomy of the UI Explorer
 
-  - The Explorer is devided into a list of [UICategory](#UICategory) (ex: Buttons)
-  - Each Category contains some [UI](#UI) items (ex: ToggleButton, ButtonWithImage, SubmitButton etc...)
+  - The Explorer is devided into a list of [UICategory](#UICategory) (ex: Buttons, Icons)
+  - Each Category contains some [UI](#UI) items (ex: the Buttons Category can contain ToggleButton, ButtonWithImage, SubmitButton etc...)
   - Each [UI](#UI) item defines states (ex: Loaded, Disabled etc..) that we usually call [stories](https://storybook.js.org/basics/writing-stories/)
 
 
-# Main API
+# How to explore my UI ?
 
 @docs explore
 @docs exploreWithCategories
+@docs defaultConfig
 
 
-# Models
+# Types
 
 @docs UI
 @docs UICategory
@@ -41,15 +42,24 @@ module UIExplorer exposing
 @docs UIExplorerProgram
 
 
+# Advanced
+
+Elm UI Explorer can be extended with Plugins.
+The package comes with core plugins and you can obviously create your own.
+Theses plugins allow to customize the appearance of the UI Explorer.
+Functions listed below are related to that.
+
+@docs Config
+@docs ViewEnhancer
+@docs MenuViewEnhancer
+@docs getCurrentSelectedStory
+
+
 # Helpers
 
-@docs addUICategory
+@docs category
 @docs storiesOf
-@docs ViewEnhancer
-@docs defaultConfig
-@docs findStory
-@docs getCurrentSelectedStory
-@docs emptyUICategories
+@docs createCategories
 
 -}
 
@@ -62,14 +72,63 @@ import Html.Events exposing (onClick)
 import Url
 
 
+{-| The Elm Program created by the UI Explorer.
+
+The three argument should only be changed when using Plugins.
+Default values are sufficent most of the time.
+
+  - a : Custom Model entry that can be used to store data related to Plugins
+  - b : Message Type emitted by the UIExporer main view
+  - c : Data related to Plugins and used by your Stories
+
+-}
 type alias UIExplorerProgram a b c =
     Program () (Model a b c) (Msg b)
 
 
+{-| Gives a chance to Plugins to add features to the stories selection menu.
+For example, the Menu Visibility Plugin allows to hide/show the menu :
+
+    menuViewEnhancer =
+        \model menuView ->
+            getCurrentSelectedStory model
+                |> Maybe.map
+                    (\( _, _, option ) ->
+                        if option.hasMenu then
+                            menuView
+
+                        else
+                            Html.text ""
+                    )
+                |> Maybe.withDefault (Html.text "")
+
+Then in your stories :
+
+    storiesOf
+        "About"
+        [ ( "HideMenu", _ -> myView { hasMenu = False } ),
+        ( "ShowMenu", _ -> myView { hasMenu = True } )
+        ]
+
+-}
 type alias MenuViewEnhancer a b c =
     Model a b c -> Html (Msg b) -> Html (Msg b)
 
 
+{-| Gives a chance to Plugins to add features to the main view canvas.
+For example, the Notes plugin allows to add markdown notes for each stories:
+
+    main : UIExplorerProgram {} () PluginOption
+    main =
+        explore
+            { defaultConfig | viewEnhancer = ExplorerNotesPlugin.viewEnhancer }
+            [ storiesOf
+                "Button"
+                [ ( "Primary", \_ -> Button.view "Submit" defaultButtonConfig (), {notes: "This is the primary style :-)"} )
+                , ( "Secondary", \_ -> Button.view "Submit" { defaultButtonConfig | appearance = Secondary } (), {notes: "This is the secondary style"} )
+            ]
+
+-}
 type alias ViewEnhancer a b c =
     Model a b c -> Html (Msg b) -> Html (Msg b)
 
@@ -87,10 +146,9 @@ getStoryIdFromStories ( s, _, _ ) =
     s
 
 
-
-{--Messages --}
-
-
+{-| Messages of the UI Explorer.
+You should not interact with this Type unless you are trying to achieve more [advanced stuff](#Config) such as Plugin Creation.
+-}
 type Msg a
     = ExternalMsg a
     | SelectStory String
@@ -114,7 +172,7 @@ type UI a b c
         }
 
 
-{-| Represents a familly of related views.
+{-| Represents a family of related views.
 For example using [Atomic Design](http://bradfrost.com/blog/post/atomic-web-design/), we can have the following categories : Atoms, Molecules etc..
 -}
 type UICategory a b c
@@ -125,13 +183,16 @@ type alias InternalUICategory a b c =
     ( String, List (UI a b c) )
 
 
+{-| The Config
+-}
 type alias UIViewConfig =
     { selectedUIId : Maybe String
     , selectedStoryId : Maybe String
     }
 
 
-{-| Model of the UI Explorer
+{-| Model of the UI Explorer.
+You should not interact with this Type unless you are trying to achieve more [advanced stuff](#Config) such as Plugin Creation.
 -}
 type alias Model a b c =
     { categories : List (UICategory a b c)
@@ -144,6 +205,8 @@ type alias Model a b c =
     }
 
 
+{-| Configuration Type used to extend the UI Explorer appearance and behaviour.
+-}
 type alias Config a b c =
     { customModel : a
     , update : b -> Model a b c -> Model a b c
@@ -152,6 +215,8 @@ type alias Config a b c =
     }
 
 
+{-| Sensible default configuration to initialize the explorer.
+-}
 defaultConfig : Config {} b c
 defaultConfig =
     { customModel = {}
@@ -199,6 +264,9 @@ join mx =
             Nothing
 
 
+{-| Get the Current Selected Story.
+Usefull to retrieve the current selected story. It can be used with MenuViewEnhancer or ViewEnhancer to hide/display contextual content.
+-}
 getCurrentSelectedStory : Model a b c -> Maybe (Story a b c)
 getCurrentSelectedStory { selectedUIId, selectedStoryId, categories } =
     Maybe.map2 (\a b -> ( a, b )) selectedUIId selectedStoryId
@@ -206,6 +274,8 @@ getCurrentSelectedStory { selectedUIId, selectedStoryId, categories } =
         |> join
 
 
+{-| Find story
+-}
 findStory : String -> String -> List (UICategory a b c) -> Maybe (Story a b c)
 findStory uiId storyId categories =
     let
@@ -281,26 +351,19 @@ toCategories list =
 
 {-| Creates an empty list of UI Categories
 -}
-emptyUICategories : List (UICategory a b c)
-emptyUICategories =
+createCategories : List (UICategory a b c)
+createCategories =
     []
 
 
-{-| Create a UI given an ID and Story Views
+{-| Create a UI given an ID and stories
 
-    stories : List ( String, ButtonModel )
-    stories =
-        [ ( "LargePrimary", { label = "Primary", isLarge = True, isPrimary = True } )
-        , ( "TinyPrimary", { label = "Primary", isLarge = False, isPrimary = True } )
-        , ( "LargeSecondary", { label = "Secondary", isLarge = True, isPrimary = False } )
-        , ( "TinySecondary", { label = "Secondary", isLarge = False, isPrimary = False } )
+    storiesOf
+        "GreatUI"
+        [ ( "Default", \_ -> GreatUI.view, {} )
+        , ( "Loading", \_ -> GreatUI.viewLoading, {} )
+        , ( "Failure", \_ -> GreatUI.viewFailure, {} )
         ]
-
-
-    viewStories =
-        renderStories customButton stories
-
-    storiesOf "Button" viewStories
 
 -}
 storiesOf : String -> Stories a b c -> UI a b c
@@ -333,31 +396,30 @@ This is the simplest way to initialize the UI Explorer app.
 -}
 fromUIList : List (UI a b c) -> List (UICategory a b c)
 fromUIList uiList =
-    emptyUICategories |> List.append [ UICategoryType ( "Default", uiList ) ]
+    createCategories |> List.append [ UICategoryType ( "Default", uiList ) ]
 
 
-{-| Adds a UI Category to a list of categories
+{-| Adds a UI Category to a list of categories.
 Convenient for running a UI Explorer devided into categories
 
-       emptyUICategories
-           |> addUICategory
-               "A Great Category"
-               [ storiesOf
-                   "My View"
-                   MyView.viewStories
-               ]
+       createCategories
+            |> category "A Great Category"
+                [ storiesOf
+                    "GreatUI"
+                    [ ( "SomeState", \_ -> GreatUI.view , {} ) ]
+                ]
 
 -}
-addUICategory : String -> List (UI a b c) -> List (UICategory a b c) -> List (UICategory a b c)
-addUICategory title uiList categories =
+category : String -> List (UI a b c) -> List (UICategory a b c) -> List (UICategory a b c)
+category title uiList categories =
     let
-        category =
+        cat =
             UICategoryType
                 ( title
                 , uiList
                 )
     in
-    List.append categories [ category ]
+    List.append categories [ cat ]
 
 
 getDefaultUrlFromCategories : List (UICategory a b c) -> String
@@ -442,6 +504,10 @@ app config categories =
 {-| Launches a UI Explorer Applicaton given a list of [UI](#UI).
 This is the simplest way to initialize the UI Explorer app.
 
+Here we have an example of a Button that we want to explore:
+
+    import UIExplorer exposing (UIExplorerProgram, defaultConfig, explore, storiesOf)
+
     button : String -> String -> Html.Html msg
     button label bgColor =
         Html.button
@@ -451,6 +517,7 @@ This is the simplest way to initialize the UI Explorer app.
     main : UIExplorerProgram {} () {}
     main =
         explore
+            defaultConfig
             [ storiesOf
                 "Button"
                 [ ( "SignIn", \_ -> button "Sign In" "pink", {} )
@@ -458,13 +525,52 @@ This is the simplest way to initialize the UI Explorer app.
                 , ( "Loading", \_ -> button "Loading please wait..." "white", {} )
                 ]
             ]
-            defaultConfig
 
 -}
+explore : Config a b c -> List (UI a b c) -> UIExplorerProgram a b c
 explore config uiList =
     app config (fromUIList uiList)
 
 
+{-| Explore with Categories
+
+Launches a UI Explorer Applicaton given a list of [UI Categories](#UICategory).
+This is a more advanced way to initialize the UI Explorer app. It can be usefull if you want
+to organize your UI by family.
+
+    main : UIExplorerProgram {} () {}
+    main =
+        exploreWithCategories
+            defaultConfig
+            (createCategories
+                |> category "Getting Started"
+                    [ storiesOf
+                        "About"
+                        [ ( "About", \_ -> Docs.toMarkdown Docs.about, { hasMenu = False } ) ]
+                    ]
+                |> category
+                    "Guidelines"
+                    [ storiesOf
+                        "Principles"
+                        [ ( "Principles", \_ -> Docs.toMarkdown Docs.principles, { hasMenu = False } ) ]
+                    ]
+                |> category
+                    "Styles"
+                    [ storiesOf
+                        "Colors"
+                        [ ( "Brand", \_ -> ColorGuide.viewBrandColors, { hasMenu = True } )
+                        , ( "Neutral", \_ -> ColorGuide.viewNeutralColors, { hasMenu = True } )
+                        ]
+                    , storiesOf
+                        "Typography"
+                        [ ( "Typography", \_ -> TypographyGuide.view, { hasMenu = False } )
+                        ]
+                    ]
+            )
+            defaultConfig
+
+-}
+exploreWithCategories : Config a b c -> List (UICategory a b c) -> UIExplorerProgram a b c
 exploreWithCategories config categories =
     app config categories
 
@@ -567,15 +673,15 @@ styleMenuItem isSelected =
 
 
 viewMenuItem : String -> Maybe String -> UI a b c -> Html (Msg b)
-viewMenuItem category selectedUIId (UIType ui) =
+viewMenuItem cat selectedUIId (UIType ui) =
     let
         defaultLink =
             case ui.viewStories |> List.head of
                 Just story ->
-                    "#" ++ category ++ "/" ++ ui.id ++ "/" ++ getStoryIdFromStories story
+                    "#" ++ cat ++ "/" ++ ui.id ++ "/" ++ getStoryIdFromStories story
 
                 Nothing ->
-                    "#" ++ category ++ "/" ++ ui.id
+                    "#" ++ cat ++ "/" ++ ui.id
 
         isSelected =
             selectedUIId

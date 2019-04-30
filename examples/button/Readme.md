@@ -1,9 +1,25 @@
 ## Button Example
 
-The simplest integration of a view in the Elm UI Explorer. The example shows a simple button
+Here we have a simple Login Form that uses different variations of a Button.
+
+To see the sample application:
+- run ```npm run start```
+- Go to http://localhost:8000 to see the App running
+### Example 1 :
+
+A basic example that shows a button showcased in the Elm UI Explorer.
+
+#### How to run it
+- run ```npm run start:explorer``` to launch the example
+- Go to http://localhost:8000 to see the UI Explorer running
 
 
-### How to run it
-- run ```elm reactor``` to launch the dev server
-- Go to http://localhost:8000/public/index.html to run the project
-- Go to http://localhost:8000/public/explorer-with-notes/index.html to run the UI Explorer
+### Example 2 :
+
+A more advanced example that shows how we can use the Notes Plugin to add markdown documentation.
+
+The documentation has been generated with [elm-docs](https://github.com/baransu/elm-docs).
+
+#### How to run it
+- run ```npm run start:explorer-with-notes``` to launch the example
+- Go to http://localhost:8000 to see the UI Explorer running

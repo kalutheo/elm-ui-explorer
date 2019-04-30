@@ -13188,7 +13188,7 @@ var author$project$UIExplorer$styleMenuItem = function (isSelected) {
 		defaultClass);
 };
 var author$project$UIExplorer$viewMenuItem = F3(
-	function (category, selectedUIId, _n0) {
+	function (cat, selectedUIId, _n0) {
 		var ui = _n0.a;
 		var isSelected = A2(
 			elm$core$Maybe$withDefault,
@@ -13202,9 +13202,9 @@ var author$project$UIExplorer$viewMenuItem = F3(
 			var _n1 = elm$core$List$head(ui.viewStories);
 			if (_n1.$ === 'Just') {
 				var story = _n1.a;
-				return '#' + (category + ('/' + (ui.id + ('/' + author$project$UIExplorer$getStoryIdFromStories(story)))));
+				return '#' + (cat + ('/' + (ui.id + ('/' + author$project$UIExplorer$getStoryIdFromStories(story)))));
 			} else {
-				return '#' + (category + ('/' + ui.id));
+				return '#' + (cat + ('/' + ui.id));
 			}
 		}();
 		return A2(
@@ -13377,7 +13377,7 @@ var author$project$UIExplorer$app = F2(
 var author$project$UIExplorer$UICategoryType = function (a) {
 	return {$: 'UICategoryType', a: a};
 };
-var author$project$UIExplorer$emptyUICategories = _List_Nil;
+var author$project$UIExplorer$createCategories = _List_Nil;
 var author$project$UIExplorer$fromUIList = function (uiList) {
 	return A2(
 		elm$core$List$append,
@@ -13386,7 +13386,7 @@ var author$project$UIExplorer$fromUIList = function (uiList) {
 				author$project$UIExplorer$UICategoryType(
 				_Utils_Tuple2('Default', uiList))
 			]),
-		author$project$UIExplorer$emptyUICategories);
+		author$project$UIExplorer$createCategories);
 };
 var author$project$UIExplorer$explore = F2(
 	function (config, uiList) {
