@@ -46,7 +46,7 @@ viewEnhancer model storiesView =
         note =
             case getCurrentSelectedStory model of
                 Just ( _, _, option ) ->
-                    Markdown.toHtml [ class "content uie-text-sm" ] option.note
+                    Markdown.toHtml [ class "content uie-text-sm", style "width" "800px" ] option.note
 
                 Nothing ->
                     Html.text ""

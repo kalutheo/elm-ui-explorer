@@ -22,7 +22,9 @@ The system is composed of guidelines, components and code examples.
 
 
 
-![Preview](https://www.jerome-kalumbu.com/sites/default/files/stylescape.jpg)
+![Preview](https://www.jerome-kalumbu.com/sites/default/files/logo-duo.jpg)
+
+
 """
 
 
@@ -31,11 +33,15 @@ principles =
     """
 # Design Principles
 
-- Classy;
-- Premium;
-- Quality;
-- Professional;
-- Simple.
+
+- #### Classy;
+- #### Premium;
+- #### Quality;
+- #### Professional;
+- #### Simple.
+
+
+![Preview](https://www.jerome-kalumbu.com/sites/default/files/stylescape.jpg)
 
 
 

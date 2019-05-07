@@ -13491,7 +13491,8 @@ var author$project$UIExplorer$Plugins$Note$viewEnhancer = F2(
 					elm_explorations$markdown$Markdown$toHtml,
 					_List_fromArray(
 						[
-							elm$html$Html$Attributes$class('content uie-text-sm')
+							elm$html$Html$Attributes$class('content uie-text-sm'),
+							A2(elm$html$Html$Attributes$style, 'width', '800px')
 						]),
 					option.note);
 			} else {

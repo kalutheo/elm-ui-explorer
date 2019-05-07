@@ -12837,7 +12837,7 @@ var author$project$UIExplorer$renderStory = F3(
 				},
 				selectedStoryId));
 		var defaultLiClass = _List_fromArray(
-			['mr-2', 'mb-2', 'rounded', 'p-2', 'text-sm']);
+			['mr-2', 'mb-2', 'rounded', 'p-2', 'text-xs']);
 		var liClass = isActive ? A2(
 			elm$core$List$append,
 			defaultLiClass,
@@ -13069,6 +13069,7 @@ var author$project$UIExplorer$styleMenuItem = function (isSelected) {
 			'pl-6',
 			'pt-2',
 			'pb-2',
+			'text-xs',
 			author$project$UIExplorer$hover('bg-grey-lighter'),
 			author$project$UIExplorer$hover('text-black')
 		]);
@@ -13153,7 +13154,7 @@ var author$project$UIExplorer$viewMenuCategory = F2(
 								[
 									author$project$UIExplorer$toClassName(
 									_List_fromArray(
-										['font-bold', 'text-grey-darker']))
+										['font-bold', 'text-grey-darker', 'text-xs']))
 								]),
 							_List_fromArray(
 								[

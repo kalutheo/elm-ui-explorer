@@ -15,6 +15,7 @@
     "style-dictionary": "^2.7.0"
   },
   "scripts": {
+    "build": "elm make src/Main.elm --output=../../docs/examples/dsm/app.js",
     "start": "elm-live src/Main.elm --open --dir=public --start-page=index.html -- --output=public/app.js --debug "
   },
   "author": "",

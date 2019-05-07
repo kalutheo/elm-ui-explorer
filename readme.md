@@ -19,7 +19,7 @@ This project is inspired by [React Storybook](https://storybook.js.org/) and sty
 - Button Example [source](https://github.com/kalutheo/elm-ui-explorer/tree/master/examples/button)| [explorer demo](https://kalutheo.github.io/elm-ui-explorer/examples/button/explorer/index.html) |
 [explorer with notes demo](https://kalutheo.github.io/elm-ui-explorer/examples/button/explorer-with-notes/index.html) | [app demo](https://kalutheo.github.io/elm-ui-explorer/examples/button/index.html)
 
-- Design system [source](https://github.com/kalutheo/elm-ui-explorer/tree/master/examples/dsm/) | [explorer demo](https://kalutheo.github.io/elm-ui-explorer/examples/dsm/explorer/)
+- Design system [source](https://github.com/kalutheo/elm-ui-explorer/tree/master/examples/dsm/) | [explorer demo](https://kalutheo.github.io/elm-ui-explorer/examples/dsm/index.html)
 
 ### Main Features
 
@@ -34,7 +34,7 @@ This project is inspired by [React Storybook](https://storybook.js.org/) and sty
 
 - In order to avoid CSS conflicts with built in UI Explorer Styles, consider using  [elm-css](https://package.elm-lang.org/packages/rtfeldman/elm-css/latest/) or [elm-ui](https://package.elm-lang.org/packages/mdgriffith/elm-ui/latest/). Theses tools use technics that prevent styles collisions by scoping the css.  
 
-- All ids should be unique and be written in CamelCase without spaces or special characters (ex:  DropDownMenu, Loading, Loaded etc... )
+- All ids (Story names and categories) should be unique and be written in CamelCase without spaces or special characters (ex:  DropDownMenu, Loading, Loaded etc... )
 
 - For Hot Reloading, it's recommended to use [Create Elm App](https://github.com/halfzebra/create-elm-app)
 
