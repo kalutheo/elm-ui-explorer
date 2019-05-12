@@ -66,7 +66,7 @@ Functions listed below are related to that.
 import Array exposing (Array)
 import Browser
 import Browser.Navigation as Navigation
-import Html exposing (Html, a, article, aside, div, h1, h2, img, li, node, section, span, text, ul)
+import Html exposing (Html, a, article, aside, div, h1, h2, h3, img, li, node, section, span, text, ul)
 import Html.Attributes exposing (class, classList, href, rel, src, style)
 import Html.Events exposing (onClick)
 import Url
@@ -205,10 +205,15 @@ type alias Model a b c =
     }
 
 
+type alias CustomHeader =
+    { title : String, logoUrl : String }
+
+
 {-| Configuration Type used to extend the UI Explorer appearance and behaviour.
 -}
 type alias Config a b c =
     { customModel : a
+    , customHeader : Maybe CustomHeader
     , update : b -> Model a b c -> Model a b c
     , viewEnhancer : ViewEnhancer a b c
     , menuViewEnhancer : MenuViewEnhancer a b c
@@ -220,6 +225,7 @@ type alias Config a b c =
 defaultConfig : Config {} b c
 defaultConfig =
     { customModel = {}
+    , customHeader = Nothing
     , update =
         \msg m -> m
     , viewEnhancer = \m stories -> stories
@@ -629,7 +635,7 @@ styleHeader =
     { logo =
         [ "cursor-default" ]
     , header =
-        [ colors.bg.primary, "p-0", "pb-2", "text-white", "shadow-md" ]
+        [ colors.bg.primary, "p-0", "pb-2", "text-white", "shadow-md", "flex" ]
     , title =
         [ "font-normal", "text-3xl", "text-black" ]
     , subTitle =
@@ -637,15 +643,25 @@ styleHeader =
     }
 
 
-viewHeader : Html (Msg b)
-viewHeader =
+viewHeader : Maybe CustomHeader -> Html (Msg b)
+viewHeader customHeader =
     section
-        [ toClassName styleHeader.header ]
-        [ div
-            [ toClassName [ "bg-cover", "cursor-default", "logo" ]
-            ]
-            []
-        ]
+        [ toClassName styleHeader.header, style "height" "80px" ]
+        (case customHeader of
+            Just { title, logoUrl } ->
+                [ img [ src logoUrl, style "height" "80px" ]
+                    []
+                , div
+                    [ toClassName [ "h-full", "flex", "flex-col", "justify-center" ] ]
+                    [ h3 [ toClassName [ "ml-4" ] ] [ text title ]
+                    ]
+                ]
+
+            Nothing ->
+                [ div [ toClassName [ "bg-cover", "cursor-default", "logo" ] ]
+                    []
+                ]
+        )
 
 
 styleMenuItem : Bool -> List String
@@ -809,7 +825,7 @@ oneQuarter =
 view : Config a b c -> Model a b c -> Html (Msg b)
 view config model =
     div [ toClassName [ "h-screen" ] ]
-        [ viewHeader
+        [ viewHeader config.customHeader
         , div [ toClassName [ "flex" ] ]
             [ div
                 [ toClassName

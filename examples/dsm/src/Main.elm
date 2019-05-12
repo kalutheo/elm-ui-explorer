@@ -28,6 +28,7 @@ import UIExplorer.Plugins.MenuVisibility as MenuVisibility
 config =
     { defaultConfig
         | menuViewEnhancer = MenuVisibility.menuViewEnhancer
+        , customHeader = Just { title = "Tasty Design System", logoUrl = "/grec-logo-header.png" }
     }
 
 

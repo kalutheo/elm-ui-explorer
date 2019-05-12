@@ -8509,6 +8509,7 @@ var author$project$Button$view = F3(
 					])));
 	});
 var author$project$UIExplorer$defaultConfig = {
+	customHeader: elm$core$Maybe$Nothing,
 	customModel: {},
 	menuViewEnhancer: F2(
 		function (m, v) {
@@ -13032,7 +13033,7 @@ var author$project$UIExplorer$colors = {
 };
 var author$project$UIExplorer$styleHeader = {
 	header: _List_fromArray(
-		[author$project$UIExplorer$colors.bg.primary, 'p-0', 'pb-2', 'text-white', 'shadow-md']),
+		[author$project$UIExplorer$colors.bg.primary, 'p-0', 'pb-2', 'text-white', 'shadow-md', 'flex']),
 	logo: _List_fromArray(
 		['cursor-default']),
 	subTitle: _List_fromArray(
@@ -13040,25 +13041,77 @@ var author$project$UIExplorer$styleHeader = {
 	title: _List_fromArray(
 		['font-normal', 'text-3xl', 'text-black'])
 };
+var elm$html$Html$h3 = _VirtualDom_node('h3');
+var elm$html$Html$img = _VirtualDom_node('img');
 var elm$html$Html$section = _VirtualDom_node('section');
-var author$project$UIExplorer$viewHeader = A2(
-	elm$html$Html$section,
-	_List_fromArray(
-		[
-			author$project$UIExplorer$toClassName(author$project$UIExplorer$styleHeader.header)
-		]),
-	_List_fromArray(
-		[
-			A2(
-			elm$html$Html$div,
-			_List_fromArray(
-				[
-					author$project$UIExplorer$toClassName(
-					_List_fromArray(
-						['bg-cover', 'cursor-default', 'logo']))
-				]),
-			_List_Nil)
-		]));
+var elm$html$Html$Attributes$src = function (url) {
+	return A2(
+		elm$html$Html$Attributes$stringProperty,
+		'src',
+		_VirtualDom_noJavaScriptOrHtmlUri(url));
+};
+var author$project$UIExplorer$viewHeader = function (customHeader) {
+	return A2(
+		elm$html$Html$section,
+		_List_fromArray(
+			[
+				author$project$UIExplorer$toClassName(author$project$UIExplorer$styleHeader.header),
+				A2(elm$html$Html$Attributes$style, 'height', '80px')
+			]),
+		function () {
+			if (customHeader.$ === 'Just') {
+				var title = customHeader.a.title;
+				var logoUrl = customHeader.a.logoUrl;
+				return _List_fromArray(
+					[
+						A2(
+						elm$html$Html$img,
+						_List_fromArray(
+							[
+								elm$html$Html$Attributes$src(logoUrl),
+								A2(elm$html$Html$Attributes$style, 'height', '80px')
+							]),
+						_List_Nil),
+						A2(
+						elm$html$Html$div,
+						_List_fromArray(
+							[
+								author$project$UIExplorer$toClassName(
+								_List_fromArray(
+									['h-full', 'flex', 'flex-col', 'justify-center']))
+							]),
+						_List_fromArray(
+							[
+								A2(
+								elm$html$Html$h3,
+								_List_fromArray(
+									[
+										author$project$UIExplorer$toClassName(
+										_List_fromArray(
+											['ml-4']))
+									]),
+								_List_fromArray(
+									[
+										elm$html$Html$text(title)
+									]))
+							]))
+					]);
+			} else {
+				return _List_fromArray(
+					[
+						A2(
+						elm$html$Html$div,
+						_List_fromArray(
+							[
+								author$project$UIExplorer$toClassName(
+								_List_fromArray(
+									['bg-cover', 'cursor-default', 'logo']))
+							]),
+						_List_Nil)
+					]);
+			}
+		}());
+};
 var author$project$UIExplorer$styleMenuCategoryLink = _List_fromArray(
 	['text-grey-darkest', 'uppercase', 'border-b', 'border-grey-light', 'w-full', 'flex', 'cursor-default', 'pl-4', 'pb-2', 'pt-2', 'text-sm']);
 var author$project$UIExplorer$styleMenuItem = function (isSelected) {
@@ -13207,7 +13260,7 @@ var author$project$UIExplorer$view = F2(
 				]),
 			_List_fromArray(
 				[
-					author$project$UIExplorer$viewHeader,
+					author$project$UIExplorer$viewHeader(config.customHeader),
 					A2(
 					elm$html$Html$div,
 					_List_fromArray(
