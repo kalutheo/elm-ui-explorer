@@ -20886,7 +20886,8 @@ var author$project$UIExplorer$viewHeader = function (customHeader) {
 							[
 								author$project$UIExplorer$toClassName(
 								_List_fromArray(
-									['h-full', 'flex', 'flex-col', 'justify-center']))
+									['flex', 'flex-col', 'justify-center'])),
+								A2(elm$html$Html$Attributes$style, 'height', '80px')
 							]),
 						_List_fromArray(
 							[

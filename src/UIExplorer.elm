@@ -652,7 +652,7 @@ viewHeader customHeader =
                 [ img [ src logoUrl, style "height" "80px" ]
                     []
                 , div
-                    [ toClassName [ "h-full", "flex", "flex-col", "justify-center" ] ]
+                    [ toClassName [ "flex", "flex-col", "justify-center" ], style "height" "80px" ]
                     [ h3 [ toClassName [ "ml-4" ] ] [ text title ]
                     ]
                 ]
