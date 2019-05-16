@@ -81,7 +81,7 @@ spacing =
     { xs = XS { value = 4, name = "Smallest" }
     , s = S { value = 8, name = "Small" }
     , m = M { value = 12, name = "Medium" }
-    , l = L { value = 32, name = "Large" }
-    , xl = XL { value = 52, name = "ExtraLarge" }
-    , xxl = XXL { value = 84, name = "Largest" }
+    , l = L { value = 22, name = "Large" }
+    , xl = XL { value = 26, name = "ExtraLarge" }
+    , xxl = XXL { value = 36, name = "Largest" }
     }

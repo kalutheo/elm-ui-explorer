@@ -11331,15 +11331,15 @@ var author$project$Theme$Typography$Title = function (a) {
 var author$project$Theme$Typography$fonts = {primary: 'Montserrat', secondary: 'Lato'};
 var author$project$Theme$Typography$typography = {
 	lead: author$project$Theme$Typography$Lead(
-		{desc: 'Hero or blog post title', family: author$project$Theme$Typography$fonts.primary, letterSpacing: 0, name: 'Lead', size: 48, weight: author$project$Theme$Typography$Bold}),
+		{desc: 'Hero or blog post title', family: author$project$Theme$Typography$fonts.primary, letterSpacing: 0, name: 'Lead', size: 36, weight: author$project$Theme$Typography$Bold}),
 	paragraph: author$project$Theme$Typography$Paragraph(
-		{desc: 'Article body', family: author$project$Theme$Typography$fonts.secondary, letterSpacing: 0, name: 'Paragraph', size: 16, weight: author$project$Theme$Typography$Regular}),
+		{desc: 'Article body', family: author$project$Theme$Typography$fonts.secondary, letterSpacing: 0, name: 'Paragraph', size: 13, weight: author$project$Theme$Typography$Regular}),
 	small: author$project$Theme$Typography$Small(
-		{desc: 'Time stamps, copyrights', family: author$project$Theme$Typography$fonts.secondary, letterSpacing: 0, name: 'Small', size: 14, weight: author$project$Theme$Typography$Regular}),
+		{desc: 'Time stamps, copyrights', family: author$project$Theme$Typography$fonts.secondary, letterSpacing: 0, name: 'Small', size: 9, weight: author$project$Theme$Typography$Regular}),
 	subtitle: author$project$Theme$Typography$Subtitle(
-		{desc: 'Headline title or subtitle', family: author$project$Theme$Typography$fonts.primary, letterSpacing: 0, name: 'Subtitle', size: 22, weight: author$project$Theme$Typography$Regular}),
+		{desc: 'Headline title or subtitle', family: author$project$Theme$Typography$fonts.primary, letterSpacing: 0, name: 'Subtitle', size: 20, weight: author$project$Theme$Typography$Regular}),
 	title: author$project$Theme$Typography$Title(
-		{desc: 'Article title or section header', family: author$project$Theme$Typography$fonts.primary, letterSpacing: 0, name: 'Title', size: 38, weight: author$project$Theme$Typography$Regular})
+		{desc: 'Article title or section header', family: author$project$Theme$Typography$fonts.primary, letterSpacing: 0, name: 'Title', size: 24, weight: author$project$Theme$Typography$Regular})
 };
 var elm$core$String$toUpper = _String_toUpper;
 var author$project$Components$Block$Welcome$View$title = A3(
@@ -11389,17 +11389,17 @@ var author$project$Theme$Spacing$XXL = function (a) {
 };
 var author$project$Theme$Spacing$spacing = {
 	l: author$project$Theme$Spacing$L(
-		{name: 'Large', value: 32}),
+		{name: 'Large', value: 22}),
 	m: author$project$Theme$Spacing$M(
 		{name: 'Medium', value: 12}),
 	s: author$project$Theme$Spacing$S(
 		{name: 'Small', value: 8}),
 	xl: author$project$Theme$Spacing$XL(
-		{name: 'ExtraLarge', value: 52}),
+		{name: 'ExtraLarge', value: 26}),
 	xs: author$project$Theme$Spacing$XS(
 		{name: 'Smallest', value: 4}),
 	xxl: author$project$Theme$Spacing$XXL(
-		{name: 'Largest', value: 84})
+		{name: 'Largest', value: 36})
 };
 var author$project$Theme$Spacing$extraLarge = author$project$Theme$Spacing$getSpacing(author$project$Theme$Spacing$spacing.xl);
 var mdgriffith$elm_ui$Internal$Model$Height = function (a) {
@@ -14873,7 +14873,7 @@ var author$project$Theme$Icons$Icon$Soda = function (a) {
 };
 var author$project$Theme$Icons$Icon$icon = {
 	frenchFries: author$project$Theme$Icons$Icon$FrenchFries(
-		{name: 'French Fries'}),
+		{name: 'Frites'}),
 	iceCream: author$project$Theme$Icons$Icon$IceCream(
 		{name: 'Ice Cream'}),
 	logo: author$project$Theme$Icons$Icon$Logo(
@@ -15575,7 +15575,7 @@ var author$project$Docs$toMarkdown = function (text) {
 };
 var author$project$Guidelines$Colors$brandColorCollection = _List_fromArray(
 	[author$project$Theme$Color$color.brand.primary, author$project$Theme$Color$color.brand.secondary, author$project$Theme$Color$color.brand.secondaryVariant, author$project$Theme$Color$color.brand.alternative]);
-var author$project$Guidelines$Colors$boxWidth = 180;
+var author$project$Guidelines$Colors$boxWidth = 120;
 var author$project$Theme$Color$getBrandColorName = function (brandColor) {
 	switch (brandColor.$) {
 		case 'Alternative':
@@ -15720,7 +15720,7 @@ var author$project$Guidelines$Colors$viewColor = function (color) {
 								mdgriffith$elm_ui$Element$row,
 								_List_fromArray(
 									[
-										mdgriffith$elm_ui$Element$Font$size(14)
+										mdgriffith$elm_ui$Element$Font$size(13)
 									]),
 								_List_fromArray(
 									[
@@ -15731,7 +15731,7 @@ var author$project$Guidelines$Colors$viewColor = function (color) {
 								mdgriffith$elm_ui$Element$row,
 								_List_fromArray(
 									[
-										mdgriffith$elm_ui$Element$Font$size(14),
+										mdgriffith$elm_ui$Element$Font$size(12),
 										mdgriffith$elm_ui$Element$Font$color(
 										A3(mdgriffith$elm_ui$Element$rgb255, 102, 102, 102))
 									]),
@@ -15969,6 +15969,7 @@ var author$project$Guidelines$Colors$viewNeutralColors = A2(
 		A2(elm$core$List$map, author$project$Guidelines$Colors$viewColor, author$project$Guidelines$Colors$neutralColorCollection)));
 var author$project$Guidelines$Iconography$iconsCollection = _List_fromArray(
 	[author$project$Theme$Icons$Icon$icon.pita, author$project$Theme$Icons$Icon$icon.salad, author$project$Theme$Icons$Icon$icon.frenchFries, author$project$Theme$Icons$Icon$icon.soda, author$project$Theme$Icons$Icon$icon.iceCream, author$project$Theme$Icons$Icon$icon.logo, author$project$Theme$Icons$Icon$icon.menu]);
+var author$project$Theme$Icons$Icon$S = {$: 'S'};
 var author$project$Theme$Icons$Icon$getName = function (i) {
 	switch (i.$) {
 		case 'Salad':
@@ -16020,14 +16021,14 @@ var author$project$Guidelines$Iconography$viewIcon = F3(
 							mdgriffith$elm_ui$Element$padding(20)
 						]),
 					mdgriffith$elm_ui$Element$html(
-						A3(author$project$Theme$Icons$Icon$view, iconColor, i, author$project$Theme$Icons$Icon$M))),
+						A3(author$project$Theme$Icons$Icon$view, iconColor, i, author$project$Theme$Icons$Icon$S))),
 					A2(
 					mdgriffith$elm_ui$Element$el,
 					_List_fromArray(
 						[mdgriffith$elm_ui$Element$centerX]),
 					A3(
 						author$project$Components$Text$View$text,
-						author$project$Theme$Typography$typography.small,
+						author$project$Theme$Typography$typography.paragraph,
 						author$project$Theme$Color$color.neutral.greyDarkest,
 						author$project$Theme$Icons$Icon$getName(i)))
 				]));
@@ -16077,7 +16078,7 @@ var author$project$Guidelines$Spacing$viewSpacing = function (s) {
 					]),
 				_List_fromArray(
 					[
-						A3(author$project$Components$Text$View$text, author$project$Theme$Typography$typography.small, author$project$Theme$Color$color.neutral.greyDark, s.name)
+						A3(author$project$Components$Text$View$text, author$project$Theme$Typography$typography.paragraph, author$project$Theme$Color$color.neutral.greyDark, s.name)
 					])),
 				A2(
 				mdgriffith$elm_ui$Element$row,
@@ -16407,7 +16408,7 @@ var author$project$Main$config = _Utils_update(
 	author$project$UIExplorer$defaultConfig,
 	{
 		customHeader: elm$core$Maybe$Just(
-			{logoUrl: '/grec-logo-header.png', title: 'Tasty Design System'}),
+			{bgColor: elm$core$Maybe$Nothing, logoUrl: '/grec-logo-header.png', title: 'Tasty Design System', titleColor: elm$core$Maybe$Nothing}),
 		menuViewEnhancer: author$project$UIExplorer$Plugins$MenuVisibility$menuViewEnhancer
 	});
 var author$project$UIExplorer$UICategoryType = function (a) {
@@ -20841,7 +20842,7 @@ var author$project$UIExplorer$colors = {
 };
 var author$project$UIExplorer$styleHeader = {
 	header: _List_fromArray(
-		[author$project$UIExplorer$colors.bg.primary, 'p-0', 'pb-2', 'text-white', 'shadow-md', 'flex']),
+		['p-0', 'pb-2', 'text-white', 'shadow-md', 'flex']),
 	logo: _List_fromArray(
 		['cursor-default']),
 	subTitle: _List_fromArray(
@@ -20859,67 +20860,110 @@ var elm$html$Html$Attributes$src = function (url) {
 		_VirtualDom_noJavaScriptOrHtmlUri(url));
 };
 var author$project$UIExplorer$viewHeader = function (customHeader) {
-	return A2(
-		elm$html$Html$section,
-		_List_fromArray(
-			[
-				author$project$UIExplorer$toClassName(author$project$UIExplorer$styleHeader.header),
-				A2(elm$html$Html$Attributes$style, 'height', '80px')
-			]),
-		function () {
-			if (customHeader.$ === 'Just') {
-				var title = customHeader.a.title;
-				var logoUrl = customHeader.a.logoUrl;
-				return _List_fromArray(
+	var heightStyle = A2(elm$html$Html$Attributes$style, 'height', '80px');
+	if (customHeader.$ === 'Just') {
+		var title = customHeader.a.title;
+		var logoUrl = customHeader.a.logoUrl;
+		var titleColor = customHeader.a.titleColor;
+		var bgColor = customHeader.a.bgColor;
+		var titleStyles = A2(
+			elm$core$Maybe$withDefault,
+			_List_Nil,
+			A2(
+				elm$core$Maybe$map,
+				function (c) {
+					return _List_fromArray(
+						[
+							A2(elm$html$Html$Attributes$style, 'color', c)
+						]);
+				},
+				titleColor));
+		var headerStyles = A2(
+			elm$core$Maybe$withDefault,
+			_List_fromArray(
+				[
+					author$project$UIExplorer$toClassName(
+					_List_fromArray(
+						[author$project$UIExplorer$colors.bg.primary]))
+				]),
+			A2(
+				elm$core$Maybe$map,
+				function (c) {
+					return _List_fromArray(
+						[
+							A2(elm$html$Html$Attributes$style, 'background-color', c)
+						]);
+				},
+				bgColor));
+		return A2(
+			elm$html$Html$section,
+			A2(
+				elm$core$List$append,
+				headerStyles,
+				_List_fromArray(
 					[
-						A2(
-						elm$html$Html$img,
-						_List_fromArray(
-							[
-								elm$html$Html$Attributes$src(logoUrl),
-								A2(elm$html$Html$Attributes$style, 'height', '80px')
-							]),
-						_List_Nil),
-						A2(
-						elm$html$Html$div,
-						_List_fromArray(
-							[
-								author$project$UIExplorer$toClassName(
-								_List_fromArray(
-									['flex', 'flex-col', 'justify-center'])),
-								A2(elm$html$Html$Attributes$style, 'height', '80px')
-							]),
-						_List_fromArray(
-							[
-								A2(
-								elm$html$Html$h3,
+						author$project$UIExplorer$toClassName(author$project$UIExplorer$styleHeader.header),
+						heightStyle
+					])),
+			_List_fromArray(
+				[
+					A2(
+					elm$html$Html$img,
+					_List_fromArray(
+						[
+							elm$html$Html$Attributes$src(logoUrl),
+							heightStyle
+						]),
+					_List_Nil),
+					A2(
+					elm$html$Html$div,
+					_List_fromArray(
+						[
+							author$project$UIExplorer$toClassName(
+							_List_fromArray(
+								['flex', 'flex-col', 'justify-center'])),
+							heightStyle
+						]),
+					_List_fromArray(
+						[
+							A2(
+							elm$html$Html$h3,
+							A2(
+								elm$core$List$append,
+								titleStyles,
 								_List_fromArray(
 									[
 										author$project$UIExplorer$toClassName(
 										_List_fromArray(
 											['ml-4']))
-									]),
-								_List_fromArray(
-									[
-										elm$html$Html$text(title)
-									]))
-							]))
-					]);
-			} else {
-				return _List_fromArray(
-					[
-						A2(
-						elm$html$Html$div,
-						_List_fromArray(
-							[
-								author$project$UIExplorer$toClassName(
-								_List_fromArray(
-									['bg-cover', 'cursor-default', 'logo']))
-							]),
-						_List_Nil)
-					]);
-			}
-		}());
+									])),
+							_List_fromArray(
+								[
+									elm$html$Html$text(title)
+								]))
+						]))
+				]));
+	} else {
+		return A2(
+			elm$html$Html$section,
+			_List_fromArray(
+				[
+					author$project$UIExplorer$toClassName(author$project$UIExplorer$styleHeader.header),
+					heightStyle
+				]),
+			_List_fromArray(
+				[
+					A2(
+					elm$html$Html$div,
+					_List_fromArray(
+						[
+							author$project$UIExplorer$toClassName(
+							_List_fromArray(
+								['bg-cover', 'cursor-default', 'logo']))
+						]),
+					_List_Nil)
+				]));
+	}
 };
 var author$project$UIExplorer$styleMenuCategoryLink = _List_fromArray(
 	['text-grey-darkest', 'uppercase', 'border-b', 'border-grey-light', 'w-full', 'flex', 'cursor-default', 'pl-4', 'pb-2', 'pt-2', 'text-sm']);

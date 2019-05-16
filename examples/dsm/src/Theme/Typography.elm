@@ -56,7 +56,7 @@ typography : TypographyTheme
 typography =
     { lead =
         Lead
-            { size = 48
+            { size = 36
             , family = fonts.primary
             , name = "Lead"
             , desc = "Hero or blog post title"
@@ -65,7 +65,7 @@ typography =
             }
     , title =
         Title
-            { size = 38
+            { size = 24
             , family = fonts.primary
             , name = "Title"
             , desc = "Article title or section header"
@@ -74,7 +74,7 @@ typography =
             }
     , subtitle =
         Subtitle
-            { size = 22
+            { size = 20
             , family = fonts.primary
             , name = "Subtitle"
             , desc = "Headline title or subtitle"
@@ -83,7 +83,7 @@ typography =
             }
     , paragraph =
         Paragraph
-            { size = 16
+            { size = 13
             , family = fonts.secondary
             , name = "Paragraph"
             , desc = "Article body"
@@ -92,7 +92,7 @@ typography =
             }
     , small =
         Small
-            { size = 14
+            { size = 9
             , family = fonts.secondary
             , name = "Small"
             , desc = "Time stamps, copyrights"

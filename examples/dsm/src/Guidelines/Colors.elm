@@ -35,7 +35,7 @@ neutralColorCollection =
 
 boxWidth : number
 boxWidth =
-    180
+    120
 
 
 viewColor : Color -> Element msg
@@ -60,11 +60,11 @@ viewColor color =
                 []
             , Element.column [ spacing 2 ]
                 [ Element.row
-                    [ Font.size 14
+                    [ Font.size 13
                     ]
                     [ Element.text (getColorName color) ]
                 , Element.row
-                    [ Font.size 14
+                    [ Font.size 12
                     , Font.color <| rgb255 102 102 102
                     ]
                     [ Element.text <| colorToHex (getColor color)

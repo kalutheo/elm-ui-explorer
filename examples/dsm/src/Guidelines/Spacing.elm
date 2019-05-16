@@ -28,7 +28,7 @@ viewSpacing s =
             RawColor.toRgba (getColor color.brand.primary)
     in
     Element.row [ Element.spacing large.value ]
-        [ Element.row [ width (px 100) ] [ TextView.text typography.small color.neutral.greyDark s.name ]
+        [ Element.row [ width (px 100) ] [ TextView.text typography.paragraph color.neutral.greyDark s.name ]
         , Element.row
             [ Background.color <| rgb red green blue
             , padding 0

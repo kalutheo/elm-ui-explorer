@@ -25,8 +25,8 @@ viewIcon bgColor iconColor i =
             RawColor.toRgba (getColor bgColor)
     in
     Element.column [ spacing 8 ]
-        [ Element.el [ Background.color <| rgb red green blue, padding 20 ] (Element.html <| Icon.view iconColor i M)
-        , Element.el [ centerX ] (TextView.text typography.small color.neutral.greyDarkest (getName i))
+        [ Element.el [ Background.color <| rgb red green blue, padding 20 ] (Element.html <| Icon.view iconColor i S)
+        , Element.el [ centerX ] (TextView.text typography.paragraph color.neutral.greyDarkest (getName i))
         ]
 
 

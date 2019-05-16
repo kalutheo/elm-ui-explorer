@@ -206,7 +206,7 @@ type alias Model a b c =
 
 
 type alias CustomHeader =
-    { title : String, logoUrl : String }
+    { title : String, logoUrl : String, titleColor : Maybe String, bgColor : Maybe String }
 
 
 {-| Configuration Type used to extend the UI Explorer appearance and behaviour.
@@ -635,7 +635,7 @@ styleHeader =
     { logo =
         [ "cursor-default" ]
     , header =
-        [ colors.bg.primary, "p-0", "pb-2", "text-white", "shadow-md", "flex" ]
+        [ "p-0", "pb-2", "text-white", "shadow-md", "flex" ]
     , title =
         [ "font-normal", "text-3xl", "text-black" ]
     , subTitle =
@@ -645,23 +645,35 @@ styleHeader =
 
 viewHeader : Maybe CustomHeader -> Html (Msg b)
 viewHeader customHeader =
-    section
-        [ toClassName styleHeader.header, style "height" "80px" ]
-        (case customHeader of
-            Just { title, logoUrl } ->
-                [ img [ src logoUrl, style "height" "80px" ]
+    let
+        heightStyle =
+            style "height" "80px"
+    in
+    case customHeader of
+        Just { title, logoUrl, titleColor, bgColor } ->
+            let
+                titleStyles =
+                    titleColor |> Maybe.map (\c -> [ style "color" c ]) |> Maybe.withDefault []
+
+                headerStyles =
+                    bgColor |> Maybe.map (\c -> [ style "background-color" c ]) |> Maybe.withDefault [ toClassName [ colors.bg.primary ] ]
+            in
+            section
+                ([ toClassName styleHeader.header, heightStyle ] |> List.append headerStyles)
+                [ img [ src logoUrl, heightStyle ]
                     []
                 , div
-                    [ toClassName [ "flex", "flex-col", "justify-center" ], style "height" "80px" ]
-                    [ h3 [ toClassName [ "ml-4" ] ] [ text title ]
+                    [ toClassName [ "flex", "flex-col", "justify-center" ], heightStyle ]
+                    [ h3 ([ toClassName [ "ml-4" ] ] |> List.append titleStyles) [ text title ]
                     ]
                 ]
 
-            Nothing ->
+        Nothing ->
+            section
+                [ toClassName styleHeader.header, heightStyle ]
                 [ div [ toClassName [ "bg-cover", "cursor-default", "logo" ] ]
                     []
                 ]
-        )
 
 
 styleMenuItem : Bool -> List String

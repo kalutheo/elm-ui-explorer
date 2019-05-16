@@ -56,7 +56,7 @@ icon =
             }
     , frenchFries =
         FrenchFries
-            { name = "French Fries"
+            { name = "Frites"
             }
     , soda =
         Soda
