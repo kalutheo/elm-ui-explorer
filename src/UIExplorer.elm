@@ -8,6 +8,7 @@ module UIExplorer exposing
     , Msg(..)
     , UIExplorerProgram
     , Config
+    , CustomHeader
     , ViewEnhancer
     , MenuViewEnhancer
     , getCurrentSelectedStory
@@ -50,6 +51,7 @@ Theses plugins allow to customize the appearance of the UI Explorer.
 Functions listed below are related to that.
 
 @docs Config
+@docs CustomHeader
 @docs ViewEnhancer
 @docs MenuViewEnhancer
 @docs getCurrentSelectedStory
@@ -205,6 +207,20 @@ type alias Model a b c =
     }
 
 
+{-| Use this type to customize the appearance of the header
+
+        config =
+            { defaultConfig
+                | customHeader =
+                    Just
+                        { title = "This is my Design System"
+                        , logoUrl = "/some-fancy-logo.png"
+                        , titleColor = Just "#FF6E00"
+                        , bgColor = Just "#FFFFFF"
+                        }
+            }
+
+-}
 type alias CustomHeader =
     { title : String, logoUrl : String, titleColor : Maybe String, bgColor : Maybe String }
 
