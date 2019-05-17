@@ -13,9 +13,36 @@ your views and their states in a single tool.
 This project is inspired by [React Storybook](https://storybook.js.org/) and styled with [Tailwind](https://tailwindcss.com/)
 
 
-<img src="https://kalutheo.github.io/elm-ui-explorer/intro.gif" width="900"/>
+### How to use it ?
 
-[Examples](https://github.com/kalutheo/elm-ui-explorer/tree/master/examples)
+Here is a basic example of a button showcased in Elm UI Explorer:
+
+```elm
+    import UIExplorer exposing (UIExplorerProgram, defaultConfig, explore, storiesOf)
+
+    button : String -> String -> Html.Html msg
+    button label bgColor =
+        Html.button
+            [ style "background-color" bgColor ]
+            [ Html.text label ]
+
+    main : UIExplorerProgram {} () {}
+    main =
+        explore
+            defaultConfig
+            [ storiesOf
+                "Button"
+                [ ( "SignIn", \_ -> button "Sign In" "pink", {} )
+                , ( "SignOut", \_ -> button "Sign Out" "cyan", {} )
+                , ( "Loading", \_ -> button "Loading please wait..." "white", {} )
+                ]
+            ]
+
+```
+
+
+
+[Other Examples](https://github.com/kalutheo/elm-ui-explorer/tree/master/examples)
 - Button Example [source](https://github.com/kalutheo/elm-ui-explorer/tree/master/examples/button)| [explorer demo](https://kalutheo.github.io/elm-ui-explorer/examples/button/explorer/index.html) |
 [explorer with notes demo](https://kalutheo.github.io/elm-ui-explorer/examples/button/explorer-with-notes/index.html) | [app demo](https://kalutheo.github.io/elm-ui-explorer/examples/button/index.html)
 
@@ -28,6 +55,13 @@ This project is inspired by [React Storybook](https://storybook.js.org/) and sty
 - **Categories :** Your UI Explorer can be divided into categories. Convenient if you have many views and you want to group them by family.
 
 - **Descriptions :** A short paragraph can be added to describe how a view works and behaves.
+
+- **Plugins :** Elm UI Explorer has a mechanism that let you extend the tool by creating your own plugins. By defaults the library comes with [built in plugins](src/UIExporer/Plugins).
+
+
+- **Customization :** You can make the header match your brand identity by changing colors, title and icons.
+
+
 
 
 ### Best Practices

@@ -661,13 +661,12 @@ styleHeader =
 
 viewHeader : Maybe CustomHeader -> Html (Msg b)
 viewHeader customHeader =
-    let
-        heightStyle =
-            style "height" "80px"
-    in
     case customHeader of
         Just { title, logoUrl, titleColor, bgColor } ->
             let
+                heightStyle =
+                    style "height" "80px"
+
                 titleStyles =
                     titleColor |> Maybe.map (\c -> [ style "color" c ]) |> Maybe.withDefault []
 
@@ -685,8 +684,12 @@ viewHeader customHeader =
                 ]
 
         Nothing ->
+            let
+                heightStyle =
+                    style "height" "86px"
+            in
             section
-                [ toClassName styleHeader.header, heightStyle ]
+                ([ toClassName styleHeader.header, heightStyle ] |> List.append [ toClassName [ colors.bg.primary, "pb-3" ] ])
                 [ div [ toClassName [ "bg-cover", "cursor-default", "logo" ] ]
                     []
                 ]

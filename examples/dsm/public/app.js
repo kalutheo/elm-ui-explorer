@@ -20860,7 +20860,6 @@ var elm$html$Html$Attributes$src = function (url) {
 		_VirtualDom_noJavaScriptOrHtmlUri(url));
 };
 var author$project$UIExplorer$viewHeader = function (customHeader) {
-	var heightStyle = A2(elm$html$Html$Attributes$style, 'height', '80px');
 	if (customHeader.$ === 'Just') {
 		var title = customHeader.a.title;
 		var logoUrl = customHeader.a.logoUrl;
@@ -20878,6 +20877,7 @@ var author$project$UIExplorer$viewHeader = function (customHeader) {
 						]);
 				},
 				titleColor));
+		var heightStyle = A2(elm$html$Html$Attributes$style, 'height', '80px');
 		var headerStyles = A2(
 			elm$core$Maybe$withDefault,
 			_List_fromArray(
@@ -20944,13 +20944,22 @@ var author$project$UIExplorer$viewHeader = function (customHeader) {
 						]))
 				]));
 	} else {
+		var heightStyle = A2(elm$html$Html$Attributes$style, 'height', '86px');
 		return A2(
 			elm$html$Html$section,
-			_List_fromArray(
-				[
-					author$project$UIExplorer$toClassName(author$project$UIExplorer$styleHeader.header),
-					heightStyle
-				]),
+			A2(
+				elm$core$List$append,
+				_List_fromArray(
+					[
+						author$project$UIExplorer$toClassName(
+						_List_fromArray(
+							[author$project$UIExplorer$colors.bg.primary, 'pb-3']))
+					]),
+				_List_fromArray(
+					[
+						author$project$UIExplorer$toClassName(author$project$UIExplorer$styleHeader.header),
+						heightStyle
+					])),
 			_List_fromArray(
 				[
 					A2(

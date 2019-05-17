@@ -8609,6 +8609,7 @@ var author$project$Button$view = F3(
 	});
 var author$project$ExplorerWithNotes$note = {note: '\n# Modules\n- [Button](#button)\n\n# Button\n- [Config](#config)\n- [Size](#size)\n- [Kind](#kind)\n- [Appearance](#appearance)\n- [defaultButtonConfig](#defaultbuttonconfig)\n- [view](#view)\n\n## Button\nThe Button should be used to trigger user actions.\nSome examples of interactions:\n  - Submit a form\n  - Cancel an order\n  - Toggle a menu visibility\n  - Play a media\n```elm\nimport Button exposing (..)\nButton.view "Submit" defaultButtonConfig ()\n```\n## Links:\n  - [UX Planet - Basic rules for button](https://uxplanet.org/7-basic-rules-for-button-design-63dcdf5676b4)\n\n### `Config`\n```elm\ntype alias Config  =\n    { appearance : Button.Appearance, size : Button.Size, kind : Button.Kind, class : String.String, theme : Button.Theme }\n```\n Option to customize the Button\n\n\n---\n\n\n### `Size`\n```elm\ntype Size\n    = S\n    | M\n    | L\n```\n Define the size of the Button\n\n\n---\n\n\n### `Kind`\n```elm\ntype Kind\n    = Link\n    | Filled\n    | Ghost\n```\n Look and feel of the Button\n\n\n---\n\n\n### `Appearance`\n```elm\ntype Appearance\n    = Primary\n    | Secondary\n```\n Define the appearance of the Button\n\n\n---\n\n\n### `defaultButtonConfig`\n```elm\ndefaultButtonConfig : Config\n```\n Default Configurations\n\n\n---\n\n\n### `view`\n```elm\nview : String.String -> Config -> msg -> Html.Html msg\n```\n Renders the button\n\n\n---\n\n\n> Generated with elm: 0.19.0 and elm-docs: 0.4.0\n\n'};
 var author$project$UIExplorer$defaultConfig = {
+	customHeader: elm$core$Maybe$Nothing,
 	customModel: {},
 	menuViewEnhancer: F2(
 		function (m, v) {
@@ -13132,7 +13133,7 @@ var author$project$UIExplorer$colors = {
 };
 var author$project$UIExplorer$styleHeader = {
 	header: _List_fromArray(
-		[author$project$UIExplorer$colors.bg.primary, 'p-0', 'pb-2', 'text-white', 'shadow-md']),
+		['p-0', 'pb-2', 'text-white', 'shadow-md', 'flex']),
 	logo: _List_fromArray(
 		['cursor-default']),
 	subTitle: _List_fromArray(
@@ -13140,25 +13141,130 @@ var author$project$UIExplorer$styleHeader = {
 	title: _List_fromArray(
 		['font-normal', 'text-3xl', 'text-black'])
 };
+var elm$html$Html$h3 = _VirtualDom_node('h3');
+var elm$html$Html$img = _VirtualDom_node('img');
 var elm$html$Html$section = _VirtualDom_node('section');
-var author$project$UIExplorer$viewHeader = A2(
-	elm$html$Html$section,
-	_List_fromArray(
-		[
-			author$project$UIExplorer$toClassName(author$project$UIExplorer$styleHeader.header)
-		]),
-	_List_fromArray(
-		[
+var elm$html$Html$Attributes$src = function (url) {
+	return A2(
+		elm$html$Html$Attributes$stringProperty,
+		'src',
+		_VirtualDom_noJavaScriptOrHtmlUri(url));
+};
+var author$project$UIExplorer$viewHeader = function (customHeader) {
+	if (customHeader.$ === 'Just') {
+		var title = customHeader.a.title;
+		var logoUrl = customHeader.a.logoUrl;
+		var titleColor = customHeader.a.titleColor;
+		var bgColor = customHeader.a.bgColor;
+		var titleStyles = A2(
+			elm$core$Maybe$withDefault,
+			_List_Nil,
 			A2(
-			elm$html$Html$div,
+				elm$core$Maybe$map,
+				function (c) {
+					return _List_fromArray(
+						[
+							A2(elm$html$Html$Attributes$style, 'color', c)
+						]);
+				},
+				titleColor));
+		var heightStyle = A2(elm$html$Html$Attributes$style, 'height', '80px');
+		var headerStyles = A2(
+			elm$core$Maybe$withDefault,
 			_List_fromArray(
 				[
 					author$project$UIExplorer$toClassName(
 					_List_fromArray(
-						['bg-cover', 'cursor-default', 'logo']))
+						[author$project$UIExplorer$colors.bg.primary]))
 				]),
-			_List_Nil)
-		]));
+			A2(
+				elm$core$Maybe$map,
+				function (c) {
+					return _List_fromArray(
+						[
+							A2(elm$html$Html$Attributes$style, 'background-color', c)
+						]);
+				},
+				bgColor));
+		return A2(
+			elm$html$Html$section,
+			A2(
+				elm$core$List$append,
+				headerStyles,
+				_List_fromArray(
+					[
+						author$project$UIExplorer$toClassName(author$project$UIExplorer$styleHeader.header),
+						heightStyle
+					])),
+			_List_fromArray(
+				[
+					A2(
+					elm$html$Html$img,
+					_List_fromArray(
+						[
+							elm$html$Html$Attributes$src(logoUrl),
+							heightStyle
+						]),
+					_List_Nil),
+					A2(
+					elm$html$Html$div,
+					_List_fromArray(
+						[
+							author$project$UIExplorer$toClassName(
+							_List_fromArray(
+								['flex', 'flex-col', 'justify-center'])),
+							heightStyle
+						]),
+					_List_fromArray(
+						[
+							A2(
+							elm$html$Html$h3,
+							A2(
+								elm$core$List$append,
+								titleStyles,
+								_List_fromArray(
+									[
+										author$project$UIExplorer$toClassName(
+										_List_fromArray(
+											['ml-4']))
+									])),
+							_List_fromArray(
+								[
+									elm$html$Html$text(title)
+								]))
+						]))
+				]));
+	} else {
+		var heightStyle = A2(elm$html$Html$Attributes$style, 'height', '86px');
+		return A2(
+			elm$html$Html$section,
+			A2(
+				elm$core$List$append,
+				_List_fromArray(
+					[
+						author$project$UIExplorer$toClassName(
+						_List_fromArray(
+							[author$project$UIExplorer$colors.bg.primary, 'pb-3']))
+					]),
+				_List_fromArray(
+					[
+						author$project$UIExplorer$toClassName(author$project$UIExplorer$styleHeader.header),
+						heightStyle
+					])),
+			_List_fromArray(
+				[
+					A2(
+					elm$html$Html$div,
+					_List_fromArray(
+						[
+							author$project$UIExplorer$toClassName(
+							_List_fromArray(
+								['bg-cover', 'cursor-default', 'logo']))
+						]),
+					_List_Nil)
+				]));
+	}
+};
 var author$project$UIExplorer$styleMenuCategoryLink = _List_fromArray(
 	['text-grey-darkest', 'uppercase', 'border-b', 'border-grey-light', 'w-full', 'flex', 'cursor-default', 'pl-4', 'pb-2', 'pt-2', 'text-sm']);
 var author$project$UIExplorer$styleMenuItem = function (isSelected) {
@@ -13307,7 +13413,7 @@ var author$project$UIExplorer$view = F2(
 				]),
 			_List_fromArray(
 				[
-					author$project$UIExplorer$viewHeader,
+					author$project$UIExplorer$viewHeader(config.customHeader),
 					A2(
 					elm$html$Html$div,
 					_List_fromArray(
