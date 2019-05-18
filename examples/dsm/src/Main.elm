@@ -31,7 +31,7 @@ config =
         , customHeader =
             Just
                 { title = "Tasty Design System"
-                , logoUrl = "/grec-logo-header.png"
+                , logoUrl = "grec-logo-header.png"
                 , titleColor = Nothing
                 , bgColor = Nothing
                 }

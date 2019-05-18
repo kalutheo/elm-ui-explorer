@@ -15885,7 +15885,7 @@ var author$project$Main$config = _Utils_update(
 	author$project$UIExplorer$defaultConfig,
 	{
 		customHeader: elm$core$Maybe$Just(
-			{bgColor: elm$core$Maybe$Nothing, logoUrl: '/grec-logo-header.png', title: 'Tasty Design System', titleColor: elm$core$Maybe$Nothing}),
+			{bgColor: elm$core$Maybe$Nothing, logoUrl: 'grec-logo-header.png', title: 'Tasty Design System', titleColor: elm$core$Maybe$Nothing}),
 		menuViewEnhancer: author$project$UIExplorer$Plugins$MenuVisibility$menuViewEnhancer
 	});
 var author$project$UIExplorer$UICategoryType = function (a) {
