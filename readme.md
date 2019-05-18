@@ -17,7 +17,12 @@ This project is inspired by [React Storybook](https://storybook.js.org/) and sty
 
 Here is a basic example of a button showcased in Elm UI Explorer:
 
+
+Add this to your `Main.elm` file.
+
 ```elm
+    module Main exposing (main)
+
     import UIExplorer exposing (UIExplorerProgram, defaultConfig, explore, storiesOf)
 
     button : String -> String -> Html.Html msg
@@ -40,9 +45,15 @@ Here is a basic example of a button showcased in Elm UI Explorer:
 
 ```
 
+Then in your Html add a link to the Elm UI Explorer stylesheet
+
+```html
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/kalutheo/elm-ui-explorer@master/assets/styles.css">
+
+```
 
 
-[Other Examples](https://github.com/kalutheo/elm-ui-explorer/tree/master/examples)
+[Checkout more examples here](https://github.com/kalutheo/elm-ui-explorer/tree/master/examples)
 - Button Example [source](https://github.com/kalutheo/elm-ui-explorer/tree/master/examples/button)| [explorer demo](https://kalutheo.github.io/elm-ui-explorer/examples/button/explorer/index.html) |
 [explorer with notes demo](https://kalutheo.github.io/elm-ui-explorer/examples/button/explorer-with-notes/index.html) | [app demo](https://kalutheo.github.io/elm-ui-explorer/examples/button/index.html)
 
@@ -54,7 +65,6 @@ Here is a basic example of a button showcased in Elm UI Explorer:
 
 - **Categories :** Your UI Explorer can be divided into categories. Convenient if you have many views and you want to group them by family.
 
-- **Descriptions :** A short paragraph can be added to describe how a view works and behaves.
 
 - **Plugins :** Elm UI Explorer has a mechanism that let you extend the tool by creating your own plugins. By defaults the library comes with [built in plugins](src/UIExporer/Plugins).
 

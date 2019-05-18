@@ -7986,6 +7986,7 @@ var author$project$Button$view = F3(
 					])));
 	});
 var author$project$UIExplorer$defaultConfig = {
+	customHeader: elm$core$Maybe$Nothing,
 	customModel: {},
 	menuViewEnhancer: F2(
 		function (m, v) {
@@ -8815,7 +8816,7 @@ var author$project$UIExplorer$colors = {
 };
 var author$project$UIExplorer$styleHeader = {
 	header: _List_fromArray(
-		[author$project$UIExplorer$colors.bg.primary, 'p-0', 'pb-2', 'text-white', 'shadow-md']),
+		['p-0', 'pb-2', 'text-white', 'shadow-md', 'flex']),
 	logo: _List_fromArray(
 		['cursor-default']),
 	subTitle: _List_fromArray(
@@ -8823,25 +8824,132 @@ var author$project$UIExplorer$styleHeader = {
 	title: _List_fromArray(
 		['font-normal', 'text-3xl', 'text-black'])
 };
+var elm$html$Html$h3 = _VirtualDom_node('h3');
+var elm$html$Html$img = _VirtualDom_node('img');
 var elm$html$Html$section = _VirtualDom_node('section');
-var author$project$UIExplorer$viewHeader = A2(
-	elm$html$Html$section,
-	_List_fromArray(
-		[
-			author$project$UIExplorer$toClassName(author$project$UIExplorer$styleHeader.header)
-		]),
-	_List_fromArray(
-		[
+var elm$html$Html$Attributes$src = function (url) {
+	return A2(
+		elm$html$Html$Attributes$stringProperty,
+		'src',
+		_VirtualDom_noJavaScriptOrHtmlUri(url));
+};
+var elm$virtual_dom$VirtualDom$style = _VirtualDom_style;
+var elm$html$Html$Attributes$style = elm$virtual_dom$VirtualDom$style;
+var author$project$UIExplorer$viewHeader = function (customHeader) {
+	if (customHeader.$ === 'Just') {
+		var title = customHeader.a.title;
+		var logoUrl = customHeader.a.logoUrl;
+		var titleColor = customHeader.a.titleColor;
+		var bgColor = customHeader.a.bgColor;
+		var titleStyles = A2(
+			elm$core$Maybe$withDefault,
+			_List_Nil,
 			A2(
-			elm$html$Html$div,
+				elm$core$Maybe$map,
+				function (c) {
+					return _List_fromArray(
+						[
+							A2(elm$html$Html$Attributes$style, 'color', c)
+						]);
+				},
+				titleColor));
+		var heightStyle = A2(elm$html$Html$Attributes$style, 'height', '80px');
+		var headerStyles = A2(
+			elm$core$Maybe$withDefault,
 			_List_fromArray(
 				[
 					author$project$UIExplorer$toClassName(
 					_List_fromArray(
-						['bg-cover', 'cursor-default', 'logo']))
+						[author$project$UIExplorer$colors.bg.primary]))
 				]),
-			_List_Nil)
-		]));
+			A2(
+				elm$core$Maybe$map,
+				function (c) {
+					return _List_fromArray(
+						[
+							A2(elm$html$Html$Attributes$style, 'background-color', c)
+						]);
+				},
+				bgColor));
+		return A2(
+			elm$html$Html$section,
+			A2(
+				elm$core$List$append,
+				headerStyles,
+				_List_fromArray(
+					[
+						author$project$UIExplorer$toClassName(author$project$UIExplorer$styleHeader.header),
+						heightStyle
+					])),
+			_List_fromArray(
+				[
+					A2(
+					elm$html$Html$img,
+					_List_fromArray(
+						[
+							elm$html$Html$Attributes$src(logoUrl),
+							heightStyle
+						]),
+					_List_Nil),
+					A2(
+					elm$html$Html$div,
+					_List_fromArray(
+						[
+							author$project$UIExplorer$toClassName(
+							_List_fromArray(
+								['flex', 'flex-col', 'justify-center'])),
+							heightStyle
+						]),
+					_List_fromArray(
+						[
+							A2(
+							elm$html$Html$h3,
+							A2(
+								elm$core$List$append,
+								titleStyles,
+								_List_fromArray(
+									[
+										author$project$UIExplorer$toClassName(
+										_List_fromArray(
+											['ml-4']))
+									])),
+							_List_fromArray(
+								[
+									elm$html$Html$text(title)
+								]))
+						]))
+				]));
+	} else {
+		var heightStyle = A2(elm$html$Html$Attributes$style, 'height', '86px');
+		return A2(
+			elm$html$Html$section,
+			A2(
+				elm$core$List$append,
+				_List_fromArray(
+					[
+						author$project$UIExplorer$toClassName(
+						_List_fromArray(
+							[author$project$UIExplorer$colors.bg.primary, 'pb-3']))
+					]),
+				_List_fromArray(
+					[
+						author$project$UIExplorer$toClassName(author$project$UIExplorer$styleHeader.header),
+						heightStyle
+					])),
+			_List_fromArray(
+				[
+					A2(
+					elm$html$Html$div,
+					_List_fromArray(
+						[
+							author$project$UIExplorer$toClassName(
+							_List_fromArray(
+								['bg-cover', 'cursor-default', 'logo']))
+						]),
+					_List_Nil)
+				]));
+	}
+};
 var author$project$UIExplorer$styleMenuCategoryLink = _List_fromArray(
 	['text-grey-darkest', 'uppercase', 'border-b', 'border-grey-light', 'w-full', 'flex', 'cursor-default', 'pl-4', 'pb-2', 'pt-2', 'text-sm']);
 var author$project$UIExplorer$styleMenuItem = function (isSelected) {
@@ -8997,7 +9105,7 @@ var author$project$UIExplorer$view = F2(
 				]),
 			_List_fromArray(
 				[
-					author$project$UIExplorer$viewHeader,
+					author$project$UIExplorer$viewHeader(config.customHeader),
 					A2(
 					elm$html$Html$div,
 					_List_fromArray(
