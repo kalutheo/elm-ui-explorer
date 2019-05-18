@@ -13,12 +13,51 @@ your views and their states in a single tool.
 This project is inspired by [React Storybook](https://storybook.js.org/) and styled with [Tailwind](https://tailwindcss.com/)
 
 
-<img src="https://kalutheo.github.io/elm-ui-explorer/intro.gif" width="900"/>
+### How to use it ?
 
-[Examples](https://github.com/kalutheo/elm-ui-explorer/tree/master/examples)
-- Simple Example [source](https://github.com/kalutheo/elm-ui-explorer/tree/master/examples/simple)| [explorer demo](https://kalutheo.github.io/elm-ui-explorer/examples/simples/explorer.html) | [app demo](https://kalutheo.github.io/elm-ui-explorer/examples/simples/index.html)
-- Music Player [source](https://github.com/kalutheo/elm-ui-explorer/tree/master/examples/music-player) | [explorer demo](https://kalutheo.github.io/elm-ui-explorer/examples/music-player/explorer/) | [app demo](https://kalutheo.github.io/elm-ui-explorer/examples/music-player/app/index.html)
-- Design system [source](https://github.com/kalutheo/elm-ui-explorer/tree/master/examples/design-system) | [explorer demo](https://kalutheo.github.io/elm-ui-explorer/examples/design-system/explorer/)
+Here is a basic example of a button showcased in Elm UI Explorer:
+
+
+Add this to your `Main.elm` file.
+
+```elm
+    module Main exposing (main)
+
+    import UIExplorer exposing (UIExplorerProgram, defaultConfig, explore, storiesOf)
+
+    button : String -> String -> Html.Html msg
+    button label bgColor =
+        Html.button
+            [ style "background-color" bgColor ]
+            [ Html.text label ]
+
+    main : UIExplorerProgram {} () {}
+    main =
+        explore
+            defaultConfig
+            [ storiesOf
+                "Button"
+                [ ( "SignIn", \_ -> button "Sign In" "pink", {} )
+                , ( "SignOut", \_ -> button "Sign Out" "cyan", {} )
+                , ( "Loading", \_ -> button "Loading please wait..." "white", {} )
+                ]
+            ]
+
+```
+
+Then in your Html add a link to the Elm UI Explorer stylesheet
+
+```html
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/kalutheo/elm-ui-explorer@master/assets/styles.css">
+
+```
+
+
+[Checkout more examples here](https://github.com/kalutheo/elm-ui-explorer/tree/master/examples)
+- Button Example [source](https://github.com/kalutheo/elm-ui-explorer/tree/master/examples/button)| [explorer demo](https://kalutheo.github.io/elm-ui-explorer/examples/button/explorer/index.html) |
+[explorer with notes demo](https://kalutheo.github.io/elm-ui-explorer/examples/button/explorer-with-notes/index.html) | [app demo](https://kalutheo.github.io/elm-ui-explorer/examples/button/index.html)
+
+- Design system [source](https://github.com/kalutheo/elm-ui-explorer/tree/master/examples/dsm/) | [explorer demo](https://kalutheo.github.io/elm-ui-explorer/examples/dsm/index.html)
 
 ### Main Features
 
@@ -26,14 +65,20 @@ This project is inspired by [React Storybook](https://storybook.js.org/) and sty
 
 - **Categories :** Your UI Explorer can be divided into categories. Convenient if you have many views and you want to group them by family.
 
-- **Descriptions :** A short paragraph can be added to describe how a view works and behaves.
+
+- **Plugins :** Elm UI Explorer has a mechanism that let you extend the tool by creating your own plugins. By defaults the library comes with [built in plugins](src/UIExporer/Plugins).
+
+
+- **Customization :** You can make the header match your brand identity by changing colors, title and icons.
+
+
 
 
 ### Best Practices
 
-- In order to avoid CSS conflicts with built in UI Explorer Styles, consider using CSS Namespacing if using [elm-css](https://github.com/rtfeldman/elm-css) or any technic that prevents styles collisions.  
+- In order to avoid CSS conflicts with built in UI Explorer Styles, consider using  [elm-css](https://package.elm-lang.org/packages/rtfeldman/elm-css/latest/) or [elm-ui](https://package.elm-lang.org/packages/mdgriffith/elm-ui/latest/). Theses tools use technics that prevent styles collisions by scoping the css.  
 
-- All ids should be unique and be written in CamelCase without spaces or special characters (ex:  DropDownMenu, Loading, Loaded etc... )
+- All ids (Story names and categories) should be unique and be written in CamelCase without spaces or special characters (ex:  DropDownMenu, Loading, Loaded etc... )
 
 - For Hot Reloading, it's recommended to use [Create Elm App](https://github.com/halfzebra/create-elm-app)
 

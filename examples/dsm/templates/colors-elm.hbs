@@ -1,0 +1,76 @@
+module Theme.Color exposing (Color, color, getColor, getColorName)
+
+import Color as RawColor
+
+
+type alias ColorStyle =
+    { color : RawColor.Color, name : String }
+
+
+type BrandColor = {{#each brandColors}}{{#if @first}}{{else}}|{{/if}}{{pascalcase attributes.item}} ColorStyle{{/each}}
+type NeutralColor = {{#each neutralColors}}{{#if @first}}{{else}}|{{/if}}{{pascalcase attributes.item}} ColorStyle{{/each}}
+
+
+type Color
+    = Brand BrandColor
+    | Neutral NeutralColor
+
+type alias BrandColorEntries = {
+  {{#each brandColors}}{{#if @first}}{{camelcase attributes.item}}:Color{{else}},{{camelcase attributes.item}}:Color{{/if}}{{/each}}
+  }
+
+type alias NeutralColorEntries = {
+  {{#each neutralColors}}{{#if @first}}{{camelcase attributes.item}}:Color{{else}},{{camelcase attributes.item}}:Color{{/if}}{{/each}}
+  }
+
+
+
+type alias ColorTheme = { brand : BrandColorEntries, neutral: NeutralColorEntries}
+
+
+color : ColorTheme
+color = {
+  brand = {
+    {{#each brandColors}}{{#if @first}}{{camelcase attributes.item}}={{elmColor attributes.item value "brand"}}{{else}},{{camelcase attributes.item}}={{elmColor attributes.item value "brand"}}{{/if}}{{/each}}
+  },
+  neutral = {
+    {{#each neutralColors}}{{#if @first}}{{camelcase attributes.item}}={{elmColor attributes.item value "neutral"}}{{else}},{{camelcase attributes.item}}={{elmColor attributes.item value "neutral"}}{{/if}}{{/each}}
+  }
+  }
+
+
+getBrandProperty : BrandColor -> (ColorStyle -> a) -> a
+getBrandProperty c callback =
+    case c of
+        {{#each brandColors}}
+        {{pascalcase attributes.item}} colorStyle ->
+            callback colorStyle
+        {{/each}}
+
+getNeutralProperty : NeutralColor -> (ColorStyle -> a) -> a
+getNeutralProperty c callback =
+    case c of
+        {{#each neutralColors}}
+        {{pascalcase attributes.item}} colorStyle ->
+            callback colorStyle
+        {{/each}}
+
+
+getColorName : Color -> String
+getColorName c =
+    case c of
+        Brand brandColor ->
+            getBrandProperty brandColor .name
+
+        Neutral neutralColor ->
+            getNeutralProperty neutralColor .name
+
+
+getColor : Color -> RawColor.Color
+getColor c =
+    case c of
+        Brand brandColor ->
+            getBrandProperty brandColor .color
+
+        Neutral neutralColor ->
+            getNeutralProperty neutralColor .color

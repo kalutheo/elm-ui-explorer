@@ -1,3 +1,8 @@
 elm-stuff
 node_modules
 .vscode/settings.json
+
+.vscode
+.stencil
+.env
+elm-docs

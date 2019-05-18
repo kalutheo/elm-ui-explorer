@@ -22,7 +22,7 @@ install:
   - | # build time improvement - see https://github.com/elm-lang/elm-compiler/issues/1473#issuecomment-245704142
     if [ ! -d sysconfcpus/bin ];
     then
-      git clone https://github.com/obmarg/libsysconfcpus.git; 
+      git clone https://github.com/obmarg/libsysconfcpus.git;
       cd libsysconfcpus;
       ./configure --prefix=$TRAVIS_BUILD_DIR/sysconfcpus;
       make && make install;
@@ -31,8 +31,7 @@ install:
   - npm install elm@$ELM_VERSION
 
 script:
-  - cd $TRAVIS_BUILD_DIR/examples/simple/ && $TRAVIS_BUILD_DIR/sysconfcpus/bin/sysconfcpus -n 2 ../../node_modules/.bin/elm-make Main.elm --yes
-  - cd $TRAVIS_BUILD_DIR/examples/simple/ && $TRAVIS_BUILD_DIR/sysconfcpus/bin/sysconfcpus -n 2 ../../node_modules/.bin/elm-make Explorer.elm --yes
-  - cd $TRAVIS_BUILD_DIR/examples/design-system/ && $TRAVIS_BUILD_DIR/sysconfcpus/bin/sysconfcpus -n 2 ../../node_modules/.bin/elm-make src/App.elm --yes
-  - cd $TRAVIS_BUILD_DIR/examples/music-player/ && $TRAVIS_BUILD_DIR/sysconfcpus/bin/sysconfcpus -n 2 ../../node_modules/.bin/elm-make src/Main.elm --yes
-  - cd $TRAVIS_BUILD_DIR/examples/music-player/explorer/ && $TRAVIS_BUILD_DIR/sysconfcpus/bin/sysconfcpus -n 2 ../../../node_modules/.bin/elm-make src/App.elm --yes
+  - cd $TRAVIS_BUILD_DIR/examples/button/ && $TRAVIS_BUILD_DIR/sysconfcpus/bin/sysconfcpus -n 2 ../../node_modules/.bin/elm make Main.elm
+  - cd $TRAVIS_BUILD_DIR/examples/button/ && $TRAVIS_BUILD_DIR/sysconfcpus/bin/sysconfcpus -n 2 ../../node_modules/.bin/elm make Explorer.elm
+  - cd $TRAVIS_BUILD_DIR/examples/button/ && $TRAVIS_BUILD_DIR/sysconfcpus/bin/sysconfcpus -n 2 ../../node_modules/.bin/elm make ExplorerWithNotes.elm
+  - cd $TRAVIS_BUILD_DIR/examples/dsm/ && $TRAVIS_BUILD_DIR/sysconfcpus/bin/sysconfcpus -n 2 ../../node_modules/.bin/elm make src/Main.elm

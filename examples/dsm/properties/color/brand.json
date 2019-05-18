@@ -1,0 +1,12 @@
+{
+  "color": {
+    "brand": {
+      "primary": { "value": "#4C5760" },
+      "primary variant": { "value": "#D7CEB2" },
+      "secondary": { "value": "#93A8AC" },
+      "secondary variant": { "value": "#A59E8C" },
+      "alternative": { "value": "#FF0000" },
+      "alternative variant": { "value": "#FF0000" }
+    }
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "name": "dsm",
+  "version": "1.0.0",
+  "main": "index.js",
+  "dependencies": {
+    "@stencil/core": "0.16.1",
+    "handlebars-helpers": "^0.10.0"
+  },
+  "devDependencies": {
+    "dotenv": "^6.2.0",
+    "figma-js": "^1.6.0",
+    "handlebars": "^4.1.0",
+    "ramda": "^0.26.1",
+    "stencil": "0.0.5",
+    "style-dictionary": "^2.7.0"
+  },
+  "scripts": {
+    "build": "elm make src/Main.elm --output=../../docs/examples/dsm/app.js",
+    "start": "elm-live src/Main.elm --open --dir=public --start-page=index.html -- --output=public/app.js --debug "
+  },
+  "author": "",
+  "license": "ISC",
+  "description": ""
+}

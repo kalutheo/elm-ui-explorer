@@ -1,0 +1,37 @@
+{
+    "type": "application",
+    "source-directories": [
+        "./src",
+        "../../src"
+    ],
+    "elm-version": "0.19.0",
+    "dependencies": {
+        "direct": {
+            "avh4/elm-color": "1.0.0",
+            "elm/browser": "1.0.0",
+            "elm/core": "1.0.0",
+            "elm/html": "1.0.0",
+            "elm/svg": "1.0.1",
+            "elm/url": "1.0.0",
+            "elm-explorations/markdown": "1.0.0",
+            "mdgriffith/elm-ui": "1.1.0",
+            "noahzgordon/elm-color-extra": "1.0.1",
+            "rtfeldman/elm-css": "16.0.0"
+        },
+        "indirect": {
+            "Skinney/murmur3": "2.0.8",
+            "elm/json": "1.0.0",
+            "elm/random": "1.0.0",
+            "elm/regex": "1.0.0",
+            "elm/time": "1.0.0",
+            "elm/virtual-dom": "1.0.0",
+            "elm-explorations/test": "1.2.0",
+            "fredcy/elm-parseint": "2.0.1",
+            "rtfeldman/elm-hex": "1.0.0"
+        }
+    },
+    "test-dependencies": {
+        "direct": {},
+        "indirect": {}
+    }
+}
