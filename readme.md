@@ -77,12 +77,13 @@ You can now run the `Main.elm` application with the tool of your choice.
 
 ### Best Practices
 
-- In order to avoid CSS conflicts with built in UI Explorer Styles, consider using  [elm-css](https://package.elm-lang.org/packages/rtfeldman/elm-css/latest/) or [elm-ui](https://package.elm-lang.org/packages/mdgriffith/elm-ui/latest/). Theses tools use technics that prevent styles collisions by scoping the css.  
-
-- All ids (Story names and categories) should be unique and be written in CamelCase without spaces or special characters (ex:  DropDownMenu, Loading, Loaded etc... )
-
 - For hot reloading, it's recommended to use [Create Elm App](https://github.com/halfzebra/create-elm-app). [Elm Live](https://github.com/wking-io/elm-live) is also a great alternative that provides live reloading.
+
+- In order to avoid CSS conflicts with built in UI Explorer Styles, consider using  [elm-css](https://package.elm-lang.org/packages/rtfeldman/elm-css/latest/) or [elm-ui](https://package.elm-lang.org/packages/mdgriffith/elm-ui/latest/). Theses tools use technics that prevent styles collisions by scoping the css.  
 
 - Try to adopt [SDD (StoryBook Driven Development)](https://medium.com/nulogy/storybook-driven-development-a3c517276c07), creating UI this way can be very efficient.
 
 - Use [Atomic Design](http://bradfrost.com/blog/post/atomic-web-design/) paradigm. This will help you build a scalable Design System.
+
+
+- All ids (Story names and categories) should be unique and be written in CamelCase without spaces or special characters (ex:  DropDownMenu, Loading, Loaded etc... )
