@@ -51,7 +51,7 @@ Then in your Html add a link to the Elm UI Explorer stylesheet
 <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/kalutheo/elm-ui-explorer@master/assets/styles.css">
 ```
 
-You can now run the Main.elm application with the tool of your choice. 
+You can now run the `Main.elm` application with the tool of your choice. 
 
 
 [Checkout more examples here](https://github.com/kalutheo/elm-ui-explorer/tree/master/examples)
