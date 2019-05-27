@@ -49,8 +49,9 @@ Then in your Html add a link to the Elm UI Explorer stylesheet
 
 ```html
 <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/kalutheo/elm-ui-explorer@master/assets/styles.css">
-
 ```
+
+You can now run the Main.elm application with the tool of your choice. 
 
 
 [Checkout more examples here](https://github.com/kalutheo/elm-ui-explorer/tree/master/examples)
@@ -80,7 +81,7 @@ Then in your Html add a link to the Elm UI Explorer stylesheet
 
 - All ids (Story names and categories) should be unique and be written in CamelCase without spaces or special characters (ex:  DropDownMenu, Loading, Loaded etc... )
 
-- For Hot Reloading, it's recommended to use [Create Elm App](https://github.com/halfzebra/create-elm-app)
+- For hot reloading, it's recommended to use [Create Elm App](https://github.com/halfzebra/create-elm-app). [Elm Live](https://github.com/wking-io/elm-live) is also a great alternative that provides live reloading.
 
 - Try to adopt [SDD (StoryBook Driven Development)](https://medium.com/nulogy/storybook-driven-development-a3c517276c07), creating UI this way can be very efficient.
 
