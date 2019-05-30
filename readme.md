@@ -67,7 +67,7 @@ You can now run the `Main.elm` application with the tool of your choice.
 - **Categories :** Your UI Explorer can be divided into categories. Convenient if you have many views and you want to group them by family.
 
 
-- **Plugins :** Elm UI Explorer has a mechanism that let you extend the tool by creating your own plugins. By defaults the library comes with [built in plugins](src/UIExporer/Plugins).
+- **Plugins :** Elm UI Explorer has a mechanism that let you extend the tool by creating your own plugins. By defaults the library comes with [built in plugins](src/UIExplorer/Plugins).
 
 
 - **Customization :** You can make the header match your brand identity by changing colors, title and icons.
