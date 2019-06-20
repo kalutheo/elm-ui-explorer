@@ -88,4 +88,4 @@ You can now run the `Main.elm` application with the tool of your choice.
 - Use [Atomic Design](http://bradfrost.com/blog/post/atomic-web-design/) paradigm. This will help you build a scalable Design System.
 
 
-- All ids (Story names and categories) should be unique and be written in CamelCase without spaces or special characters (ex:  DropDownMenu, Loading, Loaded etc... )
+- All ids (Story names and categories) should be unique (ex:  DropDown Menu, Loading, Loaded etc... )
