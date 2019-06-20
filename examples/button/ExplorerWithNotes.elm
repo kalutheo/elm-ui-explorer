@@ -129,7 +129,7 @@ main =
             , ( "Small", \_ -> Button.view "Submit" { defaultButtonConfig | size = S } (), note )
             , ( "Large", \_ -> Button.view "Submit" { defaultButtonConfig | size = L } (), note )
             , ( "Link", \_ -> Button.view "Submit" { defaultButtonConfig | kind = Link, appearance = Secondary } (), note )
-            , ( "GhostPrimary", \_ -> Button.view "Submit" { defaultButtonConfig | kind = Ghost } (), note )
+            , ( "Ghost Primary", \_ -> Button.view "Submit" { defaultButtonConfig | kind = Ghost } (), note )
             , ( "GhostSecondary", \_ -> Button.view "Submit" { defaultButtonConfig | appearance = Secondary, kind = Ghost } (), note )
             ]
         ]

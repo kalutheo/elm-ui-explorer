@@ -209,16 +209,16 @@ type alias Model a b c =
 
 {-| Use this type to customize the appearance of the header
 
-        config =
-            { defaultConfig
-                | customHeader =
-                    Just
-                        { title = "This is my Design System"
-                        , logoUrl = "/some-fancy-logo.png"
-                        , titleColor = Just "#FF6E00"
-                        , bgColor = Just "#FFFFFF"
-                        }
-            }
+    config =
+        { defaultConfig
+            | customHeader =
+                Just
+                    { title = "This is my Design System"
+                    , logoUrl = "/some-fancy-logo.png"
+                    , titleColor = Just "#FF6E00"
+                    , bgColor = Just "#FFFFFF"
+                    }
+        }
 
 -}
 type alias CustomHeader =
@@ -309,7 +309,7 @@ findStory uiId storyId categories =
                 |> List.filter (\(UIType ui) -> ui.id == uiId)
                 |> List.map (\(UIType ui) -> ui.viewStories)
                 |> List.concat
-                |> List.filter (\s -> getStoryIdFromStories s == storyId)
+                |> List.filter (\s -> (s |> getStoryIdFromStories |> Url.percentEncode) == storyId)
     in
     List.head foundStory
 
@@ -883,7 +883,11 @@ renderStory : Int -> UIViewConfig -> ( String, a, c ) -> Html (Msg b)
 renderStory index { selectedStoryId } ( id, state, _ ) =
     let
         isActive =
-            Maybe.map (\theId -> id == theId) selectedStoryId
+            Maybe.map
+                (\theId ->
+                    (id |> Url.percentEncode) == theId
+                )
+                selectedStoryId
                 |> Maybe.withDefault (index == 0)
 
         buttonClass =
@@ -936,7 +940,7 @@ renderStories config stories viewConfig model =
         currentStories =
             case selectedStoryId of
                 Just selectedId ->
-                    List.filter (\( id, state, _ ) -> id == selectedId) stories
+                    List.filter (\( id, state, _ ) -> (id |> Url.percentEncode) == selectedId) stories
 
                 Nothing ->
                     stories
@@ -944,7 +948,7 @@ renderStories config stories viewConfig model =
         content =
             case currentStories |> List.head of
                 Just ( id, story, _ ) ->
-                    story model |> Html.map (\_ -> NoOp)
+                    story model |> Html.map ExternalMsg
 
                 Nothing ->
                     text "Include somes states in your story..."
