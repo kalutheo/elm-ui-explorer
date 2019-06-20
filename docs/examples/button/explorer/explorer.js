@@ -4322,7 +4322,24 @@ function _Browser_load(url)
 		}
 	}));
 }
-var author$project$Button$Ghost = {$: 'Ghost'};
+
+
+function _Url_percentEncode(string)
+{
+	return encodeURIComponent(string);
+}
+
+function _Url_percentDecode(string)
+{
+	try
+	{
+		return elm$core$Maybe$Just(decodeURIComponent(string));
+	}
+	catch (e)
+	{
+		return elm$core$Maybe$Nothing;
+	}
+}var author$project$Button$Ghost = {$: 'Ghost'};
 var author$project$Button$L = {$: 'L'};
 var author$project$Button$Link = {$: 'Link'};
 var author$project$Button$S = {$: 'S'};
@@ -8565,7 +8582,9 @@ var author$project$UIExplorer$getUIListFromCategories = function (_n0) {
 	var categories = _n1.b;
 	return categories;
 };
-var author$project$UIExplorer$NoOp = {$: 'NoOp'};
+var author$project$UIExplorer$ExternalMsg = function (a) {
+	return {$: 'ExternalMsg', a: a};
+};
 var author$project$UIExplorer$SelectStory = function (a) {
 	return {$: 'SelectStory', a: a};
 };
@@ -8601,6 +8620,7 @@ var elm$html$Html$Events$onClick = function (msg) {
 		'click',
 		elm$json$Json$Decode$succeed(msg));
 };
+var elm$url$Url$percentEncode = _Url_percentEncode;
 var author$project$UIExplorer$renderStory = F3(
 	function (index, _n0, _n1) {
 		var selectedStoryId = _n0.selectedStoryId;
@@ -8612,7 +8632,9 @@ var author$project$UIExplorer$renderStory = F3(
 			A2(
 				elm$core$Maybe$map,
 				function (theId) {
-					return _Utils_eq(id, theId);
+					return _Utils_eq(
+						elm$url$Url$percentEncode(id),
+						theId);
 				},
 				selectedStoryId));
 		var defaultLiClass = _List_fromArray(
@@ -8683,10 +8705,12 @@ var author$project$UIExplorer$renderStories = F4(
 				var selectedId = selectedStoryId.a;
 				return A2(
 					elm$core$List$filter,
-					function (_n5) {
-						var id = _n5.a;
-						var state = _n5.b;
-						return _Utils_eq(id, selectedId);
+					function (_n4) {
+						var id = _n4.a;
+						var state = _n4.b;
+						return _Utils_eq(
+							elm$url$Url$percentEncode(id),
+							selectedId);
 					},
 					stories);
 			} else {
@@ -8701,9 +8725,7 @@ var author$project$UIExplorer$renderStories = F4(
 				var story = _n2.b;
 				return A2(
 					elm$html$Html$map,
-					function (_n3) {
-						return author$project$UIExplorer$NoOp;
-					},
+					author$project$UIExplorer$ExternalMsg,
 					story(model));
 			} else {
 				return elm$html$Html$text('Include somes states in your story...');
