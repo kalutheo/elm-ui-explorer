@@ -209,16 +209,16 @@ type alias Model a b c =
 
 {-| Use this type to customize the appearance of the header
 
-        config =
-            { defaultConfig
-                | customHeader =
-                    Just
-                        { title = "This is my Design System"
-                        , logoUrl = "/some-fancy-logo.png"
-                        , titleColor = Just "#FF6E00"
-                        , bgColor = Just "#FFFFFF"
-                        }
-            }
+    config =
+        { defaultConfig
+            | customHeader =
+                Just
+                    { title = "This is my Design System"
+                    , logoUrl = "/some-fancy-logo.png"
+                    , titleColor = Just "#FF6E00"
+                    , bgColor = Just "#FFFFFF"
+                    }
+        }
 
 -}
 type alias CustomHeader =
