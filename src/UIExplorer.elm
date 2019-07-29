@@ -15,6 +15,7 @@ module UIExplorer exposing
     , category
     , storiesOf
     , createCategories
+    , Logo(..)
     )
 
 {-|
@@ -207,6 +208,13 @@ type alias Model a b c =
     }
 
 
+{-| Use this type to change the log whether using image url or a html element
+-}
+type Logo b
+    = FromUrl String
+    | FromHtml (Html (Msg b))
+
+
 {-| Use this type to customize the appearance of the header
 
     config =
@@ -214,22 +222,22 @@ type alias Model a b c =
             | customHeader =
                 Just
                     { title = "This is my Design System"
-                    , logoUrl = "/some-fancy-logo.png"
+                    , logo = FromUrl "/some-fancy-logo.png"
                     , titleColor = Just "#FF6E00"
                     , bgColor = Just "#FFFFFF"
                     }
         }
 
 -}
-type alias CustomHeader =
-    { title : String, logoUrl : String, titleColor : Maybe String, bgColor : Maybe String }
+type alias CustomHeader b =
+    { title : String, logo : Logo b, titleColor : Maybe String, bgColor : Maybe String }
 
 
 {-| Configuration Type used to extend the UI Explorer appearance and behaviour.
 -}
 type alias Config a b c =
     { customModel : a
-    , customHeader : Maybe CustomHeader
+    , customHeader : Maybe (CustomHeader b)
     , update : b -> Model a b c -> Model a b c
     , viewEnhancer : ViewEnhancer a b c
     , menuViewEnhancer : MenuViewEnhancer a b c
@@ -659,10 +667,10 @@ styleHeader =
     }
 
 
-viewHeader : Maybe CustomHeader -> Html (Msg b)
+viewHeader : Maybe (CustomHeader b) -> Html (Msg b)
 viewHeader customHeader =
     case customHeader of
-        Just { title, logoUrl, titleColor, bgColor } ->
+        Just { title, logo, titleColor, bgColor } ->
             let
                 heightStyle =
                     style "height" "80px"
@@ -672,11 +680,18 @@ viewHeader customHeader =
 
                 headerStyles =
                     bgColor |> Maybe.map (\c -> [ style "background-color" c ]) |> Maybe.withDefault [ toClassName [ colors.bg.primary ] ]
+
+                viewLogo =
+                    case logo of
+                        FromUrl logoUrl ->
+                            img [ src logoUrl, heightStyle ] []
+
+                        FromHtml viewCustom ->
+                            viewCustom
             in
             section
                 ([ toClassName styleHeader.header, heightStyle ] |> List.append headerStyles)
-                [ img [ src logoUrl, heightStyle ]
-                    []
+                [ viewLogo
                 , div
                     [ toClassName [ "flex", "flex-col", "justify-center" ], heightStyle ]
                     [ h3 ([ toClassName [ "ml-4" ] ] |> List.append titleStyles) [ text title ]

@@ -14,7 +14,8 @@ import Html.Attributes exposing (class)
 import Markdown
 import UIExplorer
     exposing
-        ( UIExplorerProgram
+        ( Logo(..)
+        , UIExplorerProgram
         , category
         , createCategories
         , defaultConfig
@@ -31,7 +32,7 @@ config =
         , customHeader =
             Just
                 { title = "Tasty Design System"
-                , logoUrl = "grec-logo-header.png"
+                , logo = FromUrl "grec-logo-header.png"
                 , titleColor = Nothing
                 , bgColor = Nothing
                 }
