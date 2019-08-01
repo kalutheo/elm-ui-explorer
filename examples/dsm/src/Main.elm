@@ -14,13 +14,13 @@ import Html.Attributes exposing (class)
 import Markdown
 import UIExplorer
     exposing
-        ( Logo(..)
-        , UIExplorerProgram
+        ( UIExplorerProgram
         , category
         , createCategories
         , defaultConfig
         , exploreWithCategories
         , getCurrentSelectedStory
+        , logoFromUrl
         , storiesOf
         )
 import UIExplorer.Plugins.MenuVisibility as MenuVisibility
@@ -32,7 +32,7 @@ config =
         , customHeader =
             Just
                 { title = "Tasty Design System"
-                , logo = FromUrl "grec-logo-header.png"
+                , logo = logoFromUrl "grec-logo-header.png"
                 , titleColor = Nothing
                 , bgColor = Nothing
                 }

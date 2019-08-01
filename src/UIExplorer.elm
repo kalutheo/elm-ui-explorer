@@ -15,7 +15,7 @@ module UIExplorer exposing
     , category
     , storiesOf
     , createCategories
-    , Logo(..)
+    , Logo, logoFromHtml, logoFromUrl
     )
 
 {-|
@@ -208,9 +208,13 @@ type alias Model a b c =
     }
 
 
-{-| Use this type to change the log whether using image url or a html element
+{-| Use this type to change the logo whether using image url or a html element
 -}
 type Logo b
+    = Logo (LogoType b)
+
+
+type LogoType b
     = FromUrl String
     | FromHtml (Html (Msg b))
 
@@ -222,7 +226,7 @@ type Logo b
             | customHeader =
                 Just
                     { title = "This is my Design System"
-                    , logo = FromUrl "/some-fancy-logo.png"
+                    , logo = UIExplorer.logoFromUrl "/some-fancy-logo.png"
                     , titleColor = Just "#FF6E00"
                     , bgColor = Just "#FFFFFF"
                     }
@@ -683,10 +687,10 @@ viewHeader customHeader =
 
                 viewLogo =
                     case logo of
-                        FromUrl logoUrl ->
+                        Logo (FromUrl logoUrl) ->
                             img [ src logoUrl, heightStyle ] []
 
-                        FromHtml viewCustom ->
+                        Logo (FromHtml viewCustom) ->
                             viewCustom
             in
             section
@@ -972,3 +976,23 @@ renderStories config stories viewConfig model =
         [ menu
         , div [] [ content ]
         ]
+
+
+{-| Create a logo from a html element
+
+Use this function to set the logo in the CustomHeader
+
+-}
+logoFromHtml : Html (Msg b) -> Logo b
+logoFromHtml logo =
+    Logo <| FromHtml logo
+
+
+{-| Create a logo from a string
+
+Use this function to set the logo in the CustomHeader
+
+-}
+logoFromUrl : String -> Logo b
+logoFromUrl url =
+    Logo <| FromUrl url
