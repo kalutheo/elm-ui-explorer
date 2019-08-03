@@ -21165,7 +21165,7 @@ var author$project$UIExplorer$view = F2(
 				[
 					author$project$UIExplorer$toClassName(
 					_List_fromArray(
-						['h-screen']))
+						['h-screen overflow-hidden']))
 				]),
 			_List_fromArray(
 				[
@@ -21186,7 +21186,7 @@ var author$project$UIExplorer$view = F2(
 								[
 									author$project$UIExplorer$toClassName(
 									_List_fromArray(
-										[author$project$UIExplorer$oneQuarter, 'bg-white', 'h-screen']))
+										[author$project$UIExplorer$oneQuarter, 'bg-white', 'h-screen', 'overflow-scroll']))
 								]),
 							_List_fromArray(
 								[
@@ -21198,7 +21198,7 @@ var author$project$UIExplorer$view = F2(
 								[
 									author$project$UIExplorer$toClassName(
 									_List_fromArray(
-										['p-4', 'bg-white', 'w-screen', 'h-screen']))
+										['p-4', 'bg-white', 'w-screen', 'h-screen', 'overflow-scroll']))
 								]),
 							_List_fromArray(
 								[

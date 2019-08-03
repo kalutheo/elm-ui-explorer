@@ -879,7 +879,7 @@ oneQuarter =
 
 view : Config a b c -> Model a b c -> Html (Msg b)
 view config model =
-    div [ toClassName [ "h-screen" ] ]
+    div [ toClassName [ "h-screen overflow-hidden" ] ]
         [ viewHeader config.customHeader
         , div [ toClassName [ "flex" ] ]
             [ div
@@ -887,6 +887,7 @@ view config model =
                     [ oneQuarter
                     , "bg-white"
                     , "h-screen"
+                    , "overflow-scroll"
                     ]
                 ]
                 [ viewSidebar model ]
@@ -896,6 +897,7 @@ view config model =
                     , "bg-white"
                     , "w-screen"
                     , "h-screen"
+                    , "overflow-scroll"
                     ]
                 ]
                 [ viewContent config model ]

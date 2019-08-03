@@ -1,0 +1,24 @@
+{
+  "name": "elm-ui-explorer",
+  "description": "",
+  "directories": {
+    "doc": "docs",
+    "example": "examples"
+  },
+  "scripts": {
+    "build": "tailwind build src/styles.css --output assets/styles.css --config tailwind.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kalutheo/elm-ui-explorer.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/kalutheo/elm-ui-explorer/issues"
+  },
+  "homepage": "https://github.com/kalutheo/elm-ui-explorer#readme",
+  "dependencies": {
+    "tailwindcss": "^0.7.4"
+  }
+}
