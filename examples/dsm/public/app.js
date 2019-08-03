@@ -3987,6 +3987,23 @@ function _Markdown_formatOptions(options)
 }
 
 
+function _Url_percentEncode(string)
+{
+	return encodeURIComponent(string);
+}
+
+function _Url_percentDecode(string)
+{
+	try
+	{
+		return elm$core$Maybe$Just(decodeURIComponent(string));
+	}
+	catch (e)
+	{
+		return elm$core$Maybe$Nothing;
+	}
+}
+
 
 
 // HELPERS
@@ -16309,17 +16326,29 @@ var author$project$UIExplorer$defaultConfig = {
 			return stories;
 		})
 };
+var author$project$UIExplorer$FromUrl = function (a) {
+	return {$: 'FromUrl', a: a};
+};
+var author$project$UIExplorer$Logo = function (a) {
+	return {$: 'Logo', a: a};
+};
+var author$project$UIExplorer$logoFromUrl = function (url) {
+	return author$project$UIExplorer$Logo(
+		author$project$UIExplorer$FromUrl(url));
+};
 var author$project$UIExplorer$getStoryIdFromStories = function (_n0) {
 	var s = _n0.a;
 	return s;
 };
+var elm$url$Url$percentEncode = _Url_percentEncode;
 var author$project$UIExplorer$findStory = F3(
 	function (uiId, storyId, categories) {
 		var foundStory = A2(
 			elm$core$List$filter,
 			function (s) {
 				return _Utils_eq(
-					author$project$UIExplorer$getStoryIdFromStories(s),
+					elm$url$Url$percentEncode(
+						author$project$UIExplorer$getStoryIdFromStories(s)),
 					storyId);
 			},
 			elm$core$List$concat(
@@ -16408,7 +16437,12 @@ var author$project$Main$config = _Utils_update(
 	author$project$UIExplorer$defaultConfig,
 	{
 		customHeader: elm$core$Maybe$Just(
-			{bgColor: elm$core$Maybe$Nothing, logoUrl: '/grec-logo-header.png', title: 'Tasty Design System', titleColor: elm$core$Maybe$Nothing}),
+			{
+				bgColor: elm$core$Maybe$Nothing,
+				logo: author$project$UIExplorer$logoFromUrl('grec-logo-header.png'),
+				title: 'Tasty Design System',
+				titleColor: elm$core$Maybe$Nothing
+			}),
 		menuViewEnhancer: author$project$UIExplorer$Plugins$MenuVisibility$menuViewEnhancer
 	});
 var author$project$UIExplorer$UICategoryType = function (a) {
@@ -20615,7 +20649,9 @@ var author$project$UIExplorer$getUIListFromCategories = function (_n0) {
 	var categories = _n1.b;
 	return categories;
 };
-var author$project$UIExplorer$NoOp = {$: 'NoOp'};
+var author$project$UIExplorer$ExternalMsg = function (a) {
+	return {$: 'ExternalMsg', a: a};
+};
 var author$project$UIExplorer$SelectStory = function (a) {
 	return {$: 'SelectStory', a: a};
 };
@@ -20643,7 +20679,9 @@ var author$project$UIExplorer$renderStory = F3(
 			A2(
 				elm$core$Maybe$map,
 				function (theId) {
-					return _Utils_eq(id, theId);
+					return _Utils_eq(
+						elm$url$Url$percentEncode(id),
+						theId);
 				},
 				selectedStoryId));
 		var defaultLiClass = _List_fromArray(
@@ -20710,10 +20748,12 @@ var author$project$UIExplorer$renderStories = F4(
 				var selectedId = selectedStoryId.a;
 				return A2(
 					elm$core$List$filter,
-					function (_n5) {
-						var id = _n5.a;
-						var state = _n5.b;
-						return _Utils_eq(id, selectedId);
+					function (_n4) {
+						var id = _n4.a;
+						var state = _n4.b;
+						return _Utils_eq(
+							elm$url$Url$percentEncode(id),
+							selectedId);
 					},
 					stories);
 			} else {
@@ -20728,9 +20768,7 @@ var author$project$UIExplorer$renderStories = F4(
 				var story = _n2.b;
 				return A2(
 					elm$html$Html$map,
-					function (_n3) {
-						return author$project$UIExplorer$NoOp;
-					},
+					author$project$UIExplorer$ExternalMsg,
 					story(model));
 			} else {
 				return elm$html$Html$text('Include somes states in your story...');
@@ -20862,7 +20900,7 @@ var elm$html$Html$Attributes$src = function (url) {
 var author$project$UIExplorer$viewHeader = function (customHeader) {
 	if (customHeader.$ === 'Just') {
 		var title = customHeader.a.title;
-		var logoUrl = customHeader.a.logoUrl;
+		var logo = customHeader.a.logo;
 		var titleColor = customHeader.a.titleColor;
 		var bgColor = customHeader.a.bgColor;
 		var titleStyles = A2(
@@ -20878,6 +20916,22 @@ var author$project$UIExplorer$viewHeader = function (customHeader) {
 				},
 				titleColor));
 		var heightStyle = A2(elm$html$Html$Attributes$style, 'height', '80px');
+		var viewLogo = function () {
+			if (logo.a.$ === 'FromUrl') {
+				var logoUrl = logo.a.a;
+				return A2(
+					elm$html$Html$img,
+					_List_fromArray(
+						[
+							elm$html$Html$Attributes$src(logoUrl),
+							heightStyle
+						]),
+					_List_Nil);
+			} else {
+				var viewCustom = logo.a.a;
+				return viewCustom;
+			}
+		}();
 		var headerStyles = A2(
 			elm$core$Maybe$withDefault,
 			_List_fromArray(
@@ -20907,14 +20961,7 @@ var author$project$UIExplorer$viewHeader = function (customHeader) {
 					])),
 			_List_fromArray(
 				[
-					A2(
-					elm$html$Html$img,
-					_List_fromArray(
-						[
-							elm$html$Html$Attributes$src(logoUrl),
-							heightStyle
-						]),
-					_List_Nil),
+					viewLogo,
 					A2(
 					elm$html$Html$div,
 					_List_fromArray(

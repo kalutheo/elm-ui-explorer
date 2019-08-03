@@ -7,6 +7,7 @@ module UIExplorer exposing
     , Model
     , Msg(..)
     , UIExplorerProgram
+    , Logo
     , Config
     , CustomHeader
     , ViewEnhancer
@@ -15,7 +16,8 @@ module UIExplorer exposing
     , category
     , storiesOf
     , createCategories
-    , Logo, logoFromHtml, logoFromUrl
+    , logoFromHtml
+    , logoFromUrl
     )
 
 {-|
@@ -42,6 +44,7 @@ module UIExplorer exposing
 @docs Model
 @docs Msg
 @docs UIExplorerProgram
+@docs Logo
 
 
 # Advanced
@@ -63,6 +66,8 @@ Functions listed below are related to that.
 @docs category
 @docs storiesOf
 @docs createCategories
+@docs logoFromHtml
+@docs logoFromUrl
 
 -}
 
