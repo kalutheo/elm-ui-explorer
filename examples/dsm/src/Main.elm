@@ -20,6 +20,7 @@ import UIExplorer
         , defaultConfig
         , exploreWithCategories
         , getCurrentSelectedStory
+        , logoFromUrl
         , storiesOf
         )
 import UIExplorer.Plugins.MenuVisibility as MenuVisibility
@@ -31,7 +32,7 @@ config =
         , customHeader =
             Just
                 { title = "Tasty Design System"
-                , logoUrl = "grec-logo-header.png"
+                , logo = logoFromUrl "grec-logo-header.png"
                 , titleColor = Nothing
                 , bgColor = Nothing
                 }
