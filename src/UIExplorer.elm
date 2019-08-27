@@ -886,9 +886,11 @@ view config model =
                 [ toClassName
                     [ oneQuarter
                     , "bg-white"
-                    , "h-screen"
                     , "overflow-scroll"
                     ]
+                , style
+                    "height"
+                    "calc(100vh - 86px)"
                 ]
                 [ viewSidebar model ]
             , div

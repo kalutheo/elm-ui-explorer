@@ -21186,7 +21186,8 @@ var author$project$UIExplorer$view = F2(
 								[
 									author$project$UIExplorer$toClassName(
 									_List_fromArray(
-										[author$project$UIExplorer$oneQuarter, 'bg-white', 'h-screen', 'overflow-scroll']))
+										[author$project$UIExplorer$oneQuarter, 'bg-white', 'overflow-scroll'])),
+									A2(elm$html$Html$Attributes$style, 'height', 'calc(100vh - 86px)')
 								]),
 							_List_fromArray(
 								[
