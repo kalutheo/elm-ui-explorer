@@ -40,7 +40,7 @@ import UIExplorer exposing (ViewEnhancer, explore, getCurrentSelectedStory)
 
 {-| This is the part that allows to display notes underneath the view
 -}
-viewEnhancer : ViewEnhancer {} () { a | note : String }
+viewEnhancer : ViewEnhancer a b { c | note : String }
 viewEnhancer model storiesView =
     let
         note =
