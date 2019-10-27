@@ -6,6 +6,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [4.0.0] - 2019-10-27
+### Fixed
+- More flexible types for the viewEnhancer see https://github.com/kalutheo/elm-ui-explorer/pull/35
+thanks @jouderianjr
+
 
 ## [3.0.2] - 2019-08-27
 ### Fixed
