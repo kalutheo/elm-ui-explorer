@@ -247,7 +247,7 @@ type alias CustomHeader b =
 type alias Config a b c =
     { customModel : a
     , customHeader : Maybe (CustomHeader b)
-    , update : b -> Model a b c -> Model a b c
+    , update : b -> Model a b c -> ( Model a b c, Cmd b )
     , viewEnhancer : ViewEnhancer a b c
     , menuViewEnhancer : MenuViewEnhancer a b c
     }
@@ -260,7 +260,7 @@ defaultConfig =
     { customModel = {}
     , customHeader = Nothing
     , update =
-        \msg m -> m
+        \msg m -> ( m, Cmd.none )
     , viewEnhancer = \m stories -> stories
     , menuViewEnhancer = \m v -> v
     }
@@ -351,10 +351,10 @@ update config msg model =
 
         ExternalMsg subMsg ->
             let
-                newModel =
+                ( newModel, subCmd ) =
                     config.update subMsg model
             in
-            ( newModel, Cmd.none )
+            ( newModel, Cmd.map ExternalMsg subCmd )
 
         SelectStory storyId ->
             case makeStoryUrl model storyId of
