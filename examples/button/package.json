@@ -4,7 +4,9 @@
   "description": "",
   "main": "index.js",
   "dependencies": {},
-  "devDependencies": {},
+  "devDependencies": {
+    "elm-live": "^4.0.1"
+  },
   "scripts": {
     "build": "npm run build:app && npm run build:explorer && npm run build:explorer-with-notes",
     "build:app": "elm make Main.elm --output=../../docs/examples/button/app.js",
