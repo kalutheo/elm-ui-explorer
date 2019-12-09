@@ -12060,1870 +12060,6 @@ var $author$project$UIExplorer$explore = F2(
 			$author$project$UIExplorer$fromUIList(uiList));
 	});
 var $elm$html$Html$hr = _VirtualDom_node('hr');
-var $jfmengels$review_unused$NoUnused$Variables$Port = {$: 'Port'};
-var $jfmengels$review_unused$NoUnused$Variables$TopLevelVariable = {$: 'TopLevelVariable'};
-var $jfmengels$review_unused$NoUnused$Variables$Type = {$: 'Type'};
-var $jfmengels$review_unused$NoUnused$Variables$getModuleName = function (name) {
-	return A2($elm$core$String$join, '.', name);
-};
-var $stil4m$elm_syntax$Elm$Syntax$Node$value = function (_v0) {
-	var v = _v0.b;
-	return v;
-};
-var $jfmengels$review_unused$NoUnused$Variables$collectModuleNamesFromTypeAnnotation = function (node) {
-	var _v0 = $stil4m$elm_syntax$Elm$Syntax$Node$value(node);
-	switch (_v0.$) {
-		case 'FunctionTypeAnnotation':
-			var a = _v0.a;
-			var b = _v0.b;
-			return _Utils_ap(
-				$jfmengels$review_unused$NoUnused$Variables$collectModuleNamesFromTypeAnnotation(a),
-				$jfmengels$review_unused$NoUnused$Variables$collectModuleNamesFromTypeAnnotation(b));
-		case 'Typed':
-			var nameNode = _v0.a;
-			var params = _v0.b;
-			var name = function () {
-				var _v1 = $stil4m$elm_syntax$Elm$Syntax$Node$value(nameNode);
-				if (!_v1.a.b) {
-					var str = _v1.b;
-					return _List_Nil;
-				} else {
-					var moduleName = _v1.a;
-					return _List_fromArray(
-						[
-							$jfmengels$review_unused$NoUnused$Variables$getModuleName(moduleName)
-						]);
-				}
-			}();
-			return _Utils_ap(
-				name,
-				A2($elm$core$List$concatMap, $jfmengels$review_unused$NoUnused$Variables$collectModuleNamesFromTypeAnnotation, params));
-		case 'Record':
-			var list = _v0.a;
-			return A2(
-				$elm$core$List$concatMap,
-				$jfmengels$review_unused$NoUnused$Variables$collectModuleNamesFromTypeAnnotation,
-				A2(
-					$elm$core$List$map,
-					A2($elm$core$Basics$composeR, $stil4m$elm_syntax$Elm$Syntax$Node$value, $elm$core$Tuple$second),
-					list));
-		case 'GenericRecord':
-			var name = _v0.a;
-			var list = _v0.b;
-			return A2(
-				$elm$core$List$concatMap,
-				$jfmengels$review_unused$NoUnused$Variables$collectModuleNamesFromTypeAnnotation,
-				A2(
-					$elm$core$List$map,
-					A2($elm$core$Basics$composeR, $stil4m$elm_syntax$Elm$Syntax$Node$value, $elm$core$Tuple$second),
-					$stil4m$elm_syntax$Elm$Syntax$Node$value(list)));
-		case 'Tupled':
-			var list = _v0.a;
-			return A2($elm$core$List$concatMap, $jfmengels$review_unused$NoUnused$Variables$collectModuleNamesFromTypeAnnotation, list);
-		case 'GenericType':
-			return _List_Nil;
-		default:
-			return _List_Nil;
-	}
-};
-var $jfmengels$review_unused$NoUnused$Variables$collectTypesFromTypeAnnotation = function (node) {
-	var _v0 = $stil4m$elm_syntax$Elm$Syntax$Node$value(node);
-	switch (_v0.$) {
-		case 'FunctionTypeAnnotation':
-			var a = _v0.a;
-			var b = _v0.b;
-			return _Utils_ap(
-				$jfmengels$review_unused$NoUnused$Variables$collectTypesFromTypeAnnotation(a),
-				$jfmengels$review_unused$NoUnused$Variables$collectTypesFromTypeAnnotation(b));
-		case 'Typed':
-			var nameNode = _v0.a;
-			var params = _v0.b;
-			var name = function () {
-				var _v1 = $stil4m$elm_syntax$Elm$Syntax$Node$value(nameNode);
-				if (!_v1.a.b) {
-					var str = _v1.b;
-					return _List_fromArray(
-						[str]);
-				} else {
-					var moduleName = _v1.a;
-					return _List_Nil;
-				}
-			}();
-			return _Utils_ap(
-				name,
-				A2($elm$core$List$concatMap, $jfmengels$review_unused$NoUnused$Variables$collectTypesFromTypeAnnotation, params));
-		case 'Record':
-			var list = _v0.a;
-			return A2(
-				$elm$core$List$concatMap,
-				$jfmengels$review_unused$NoUnused$Variables$collectTypesFromTypeAnnotation,
-				A2(
-					$elm$core$List$map,
-					A2($elm$core$Basics$composeR, $stil4m$elm_syntax$Elm$Syntax$Node$value, $elm$core$Tuple$second),
-					list));
-		case 'GenericRecord':
-			var name = _v0.a;
-			var list = _v0.b;
-			return A2(
-				$elm$core$List$concatMap,
-				$jfmengels$review_unused$NoUnused$Variables$collectTypesFromTypeAnnotation,
-				A2(
-					$elm$core$List$map,
-					A2($elm$core$Basics$composeR, $stil4m$elm_syntax$Elm$Syntax$Node$value, $elm$core$Tuple$second),
-					$stil4m$elm_syntax$Elm$Syntax$Node$value(list)));
-		case 'Tupled':
-			var list = _v0.a;
-			return A2($elm$core$List$concatMap, $jfmengels$review_unused$NoUnused$Variables$collectTypesFromTypeAnnotation, list);
-		case 'GenericType':
-			return _List_Nil;
-		default:
-			return _List_Nil;
-	}
-};
-var $jfmengels$review_unused$NoUnused$Variables$collectNamesFromTypeAnnotation = function (node) {
-	return {
-		modules: $jfmengels$review_unused$NoUnused$Variables$collectModuleNamesFromTypeAnnotation(node),
-		types: $jfmengels$review_unused$NoUnused$Variables$collectTypesFromTypeAnnotation(node)
-	};
-};
-var $jfmengels$review_unused$NoUnused$Variables$foldUsedTypesAndModules = A2(
-	$elm$core$List$foldl,
-	F2(
-		function (a, b) {
-			return {
-				modules: _Utils_ap(a.modules, b.modules),
-				types: _Utils_ap(a.types, b.types)
-			};
-		}),
-	{modules: _List_Nil, types: _List_Nil});
-var $jfmengels$review_unused$NoUnused$Variables$getUsedModulesFromPattern = function (patternNode) {
-	getUsedModulesFromPattern:
-	while (true) {
-		var _v0 = $stil4m$elm_syntax$Elm$Syntax$Node$value(patternNode);
-		switch (_v0.$) {
-			case 'AllPattern':
-				return _List_Nil;
-			case 'UnitPattern':
-				return _List_Nil;
-			case 'CharPattern':
-				return _List_Nil;
-			case 'StringPattern':
-				return _List_Nil;
-			case 'IntPattern':
-				return _List_Nil;
-			case 'HexPattern':
-				return _List_Nil;
-			case 'FloatPattern':
-				return _List_Nil;
-			case 'TuplePattern':
-				var patterns = _v0.a;
-				return A2($elm$core$List$concatMap, $jfmengels$review_unused$NoUnused$Variables$getUsedModulesFromPattern, patterns);
-			case 'RecordPattern':
-				return _List_Nil;
-			case 'UnConsPattern':
-				var pattern1 = _v0.a;
-				var pattern2 = _v0.b;
-				return A2(
-					$elm$core$List$concatMap,
-					$jfmengels$review_unused$NoUnused$Variables$getUsedModulesFromPattern,
-					_List_fromArray(
-						[pattern1, pattern2]));
-			case 'ListPattern':
-				var patterns = _v0.a;
-				return A2($elm$core$List$concatMap, $jfmengels$review_unused$NoUnused$Variables$getUsedModulesFromPattern, patterns);
-			case 'VarPattern':
-				return _List_Nil;
-			case 'NamedPattern':
-				var qualifiedNameRef = _v0.a;
-				var patterns = _v0.b;
-				var usedVariable = function () {
-					var _v1 = qualifiedNameRef.moduleName;
-					if (!_v1.b) {
-						return _List_Nil;
-					} else {
-						var moduleName = _v1;
-						return _List_fromArray(
-							[
-								$jfmengels$review_unused$NoUnused$Variables$getModuleName(moduleName)
-							]);
-					}
-				}();
-				return _Utils_ap(
-					usedVariable,
-					A2($elm$core$List$concatMap, $jfmengels$review_unused$NoUnused$Variables$getUsedModulesFromPattern, patterns));
-			case 'AsPattern':
-				var pattern = _v0.a;
-				var alias_ = _v0.b;
-				var $temp$patternNode = pattern;
-				patternNode = $temp$patternNode;
-				continue getUsedModulesFromPattern;
-			default:
-				var pattern = _v0.a;
-				var $temp$patternNode = pattern;
-				patternNode = $temp$patternNode;
-				continue getUsedModulesFromPattern;
-		}
-	}
-};
-var $jfmengels$review_unused$NoUnused$Variables$getUsedTypesFromPattern = function (patternNode) {
-	getUsedTypesFromPattern:
-	while (true) {
-		var _v0 = $stil4m$elm_syntax$Elm$Syntax$Node$value(patternNode);
-		switch (_v0.$) {
-			case 'AllPattern':
-				return _List_Nil;
-			case 'UnitPattern':
-				return _List_Nil;
-			case 'CharPattern':
-				return _List_Nil;
-			case 'StringPattern':
-				return _List_Nil;
-			case 'IntPattern':
-				return _List_Nil;
-			case 'HexPattern':
-				return _List_Nil;
-			case 'FloatPattern':
-				return _List_Nil;
-			case 'TuplePattern':
-				var patterns = _v0.a;
-				return A2($elm$core$List$concatMap, $jfmengels$review_unused$NoUnused$Variables$getUsedTypesFromPattern, patterns);
-			case 'RecordPattern':
-				return _List_Nil;
-			case 'UnConsPattern':
-				var pattern1 = _v0.a;
-				var pattern2 = _v0.b;
-				return A2(
-					$elm$core$List$concatMap,
-					$jfmengels$review_unused$NoUnused$Variables$getUsedTypesFromPattern,
-					_List_fromArray(
-						[pattern1, pattern2]));
-			case 'ListPattern':
-				var patterns = _v0.a;
-				return A2($elm$core$List$concatMap, $jfmengels$review_unused$NoUnused$Variables$getUsedTypesFromPattern, patterns);
-			case 'VarPattern':
-				return _List_Nil;
-			case 'NamedPattern':
-				var qualifiedNameRef = _v0.a;
-				var patterns = _v0.b;
-				var usedVariable = function () {
-					var _v1 = qualifiedNameRef.moduleName;
-					if (!_v1.b) {
-						return _List_fromArray(
-							[qualifiedNameRef.name]);
-					} else {
-						var moduleName = _v1;
-						return _List_Nil;
-					}
-				}();
-				return _Utils_ap(
-					usedVariable,
-					A2($elm$core$List$concatMap, $jfmengels$review_unused$NoUnused$Variables$getUsedTypesFromPattern, patterns));
-			case 'AsPattern':
-				var pattern = _v0.a;
-				var alias_ = _v0.b;
-				var $temp$patternNode = pattern;
-				patternNode = $temp$patternNode;
-				continue getUsedTypesFromPattern;
-			default:
-				var pattern = _v0.a;
-				var $temp$patternNode = pattern;
-				patternNode = $temp$patternNode;
-				continue getUsedTypesFromPattern;
-		}
-	}
-};
-var $jfmengels$review_unused$NoUnused$Variables$getUsedVariablesFromPattern = function (patternNode) {
-	return {
-		modules: $jfmengels$review_unused$NoUnused$Variables$getUsedModulesFromPattern(patternNode),
-		types: $jfmengels$review_unused$NoUnused$Variables$getUsedTypesFromPattern(patternNode)
-	};
-};
-var $elm$core$Set$Set_elm_builtin = function (a) {
-	return {$: 'Set_elm_builtin', a: a};
-};
-var $elm$core$Set$insert = F2(
-	function (key, _v0) {
-		var dict = _v0.a;
-		return $elm$core$Set$Set_elm_builtin(
-			A3($elm$core$Dict$insert, key, _Utils_Tuple0, dict));
-	});
-var $jfmengels$review_unused$NonemptyList$head = function (_v0) {
-	var x = _v0.a;
-	var xs = _v0.b;
-	return x;
-};
-var $jfmengels$review_unused$NonemptyList$Nonempty = F2(
-	function (a, b) {
-		return {$: 'Nonempty', a: a, b: b};
-	});
-var $jfmengels$review_unused$NonemptyList$replaceHead = F2(
-	function (y, _v0) {
-		var x = _v0.a;
-		var xs = _v0.b;
-		return A2($jfmengels$review_unused$NonemptyList$Nonempty, y, xs);
-	});
-var $jfmengels$review_unused$NonemptyList$mapHead = F2(
-	function (fn, nonempty) {
-		var newHead = fn(
-			$jfmengels$review_unused$NonemptyList$head(nonempty));
-		return A2($jfmengels$review_unused$NonemptyList$replaceHead, newHead, nonempty);
-	});
-var $jfmengels$review_unused$NoUnused$Variables$markAsUsed = F2(
-	function (name, context) {
-		var scopes = A2(
-			$jfmengels$review_unused$NonemptyList$mapHead,
-			function (scope) {
-				return _Utils_update(
-					scope,
-					{
-						used: A2($elm$core$Set$insert, name, scope.used)
-					});
-			},
-			context.scopes);
-		return _Utils_update(
-			context,
-			{scopes: scopes});
-	});
-var $jfmengels$review_unused$NoUnused$Variables$markAllAsUsed = F2(
-	function (names, context) {
-		return A3($elm$core$List$foldl, $jfmengels$review_unused$NoUnused$Variables$markAsUsed, context, names);
-	});
-var $elm$core$Set$empty = $elm$core$Set$Set_elm_builtin($elm$core$Dict$empty);
-var $elm$core$Set$fromList = function (list) {
-	return A3($elm$core$List$foldl, $elm$core$Set$insert, $elm$core$Set$empty, list);
-};
-var $elm$core$Dict$union = F2(
-	function (t1, t2) {
-		return A3($elm$core$Dict$foldl, $elm$core$Dict$insert, t2, t1);
-	});
-var $elm$core$Set$union = F2(
-	function (_v0, _v1) {
-		var dict1 = _v0.a;
-		var dict2 = _v1.a;
-		return $elm$core$Set$Set_elm_builtin(
-			A2($elm$core$Dict$union, dict1, dict2));
-	});
-var $jfmengels$review_unused$NoUnused$Variables$markAllModulesAsUsed = F2(
-	function (names, context) {
-		return _Utils_update(
-			context,
-			{
-				usedModules: A2(
-					$elm$core$Set$union,
-					$elm$core$Set$fromList(names),
-					context.usedModules)
-			});
-	});
-var $jfmengels$review_unused$NoUnused$Variables$markUsedTypesAndModules = F2(
-	function (_v0, context) {
-		var types = _v0.types;
-		var modules = _v0.modules;
-		return A2(
-			$jfmengels$review_unused$NoUnused$Variables$markAllModulesAsUsed,
-			modules,
-			A2($jfmengels$review_unused$NoUnused$Variables$markAllAsUsed, types, context));
-	});
-var $stil4m$elm_syntax$Elm$Syntax$Node$range = function (_v0) {
-	var r = _v0.a;
-	return r;
-};
-var $jfmengels$review_unused$NoUnused$Variables$rangeToRemoveForNodeWithDocumentation = F2(
-	function (_v0, documentation) {
-		var nodeRange = _v0.a;
-		if (documentation.$ === 'Nothing') {
-			return nodeRange;
-		} else {
-			var _v2 = documentation.a;
-			var documentationRange = _v2.a;
-			return {end: nodeRange.end, start: documentationRange.start};
-		}
-	});
-var $jfmengels$review_unused$NoUnused$Variables$registerModule = F3(
-	function (variableInfo, name, context) {
-		return _Utils_update(
-			context,
-			{
-				declaredModules: A3($elm$core$Dict$insert, name, variableInfo, context.declaredModules)
-			});
-	});
-var $jfmengels$review_unused$NoUnused$Variables$registerVariable = F3(
-	function (variableInfo, name, context) {
-		var scopes = A2(
-			$jfmengels$review_unused$NonemptyList$mapHead,
-			function (scope) {
-				return _Utils_update(
-					scope,
-					{
-						declared: A3($elm$core$Dict$insert, name, variableInfo, scope.declared)
-					});
-			},
-			context.scopes);
-		return _Utils_update(
-			context,
-			{scopes: scopes});
-	});
-var $jfmengels$review_unused$NoUnused$Variables$register = F3(
-	function (variableInfo, name, context) {
-		var _v0 = variableInfo.variableType;
-		switch (_v0.$) {
-			case 'TopLevelVariable':
-				return (name === 'main') ? context : A3($jfmengels$review_unused$NoUnused$Variables$registerVariable, variableInfo, name, context);
-			case 'LetVariable':
-				return A3($jfmengels$review_unused$NoUnused$Variables$registerVariable, variableInfo, name, context);
-			case 'ImportedModule':
-				return A3($jfmengels$review_unused$NoUnused$Variables$registerModule, variableInfo, name, context);
-			case 'ImportedItem':
-				return A3($jfmengels$review_unused$NoUnused$Variables$registerVariable, variableInfo, name, context);
-			case 'ModuleAlias':
-				return A3($jfmengels$review_unused$NoUnused$Variables$registerModule, variableInfo, name, context);
-			case 'Type':
-				return A3($jfmengels$review_unused$NoUnused$Variables$registerVariable, variableInfo, name, context);
-			default:
-				return A3($jfmengels$review_unused$NoUnused$Variables$registerVariable, variableInfo, name, context);
-		}
-	});
-var $jfmengels$review_unused$NoUnused$Variables$declarationVisitor = F3(
-	function (node, direction, context) {
-		var _v0 = _Utils_Tuple2(
-			direction,
-			$stil4m$elm_syntax$Elm$Syntax$Node$value(node));
-		if (_v0.a.$ === 'OnEnter') {
-			switch (_v0.b.$) {
-				case 'FunctionDeclaration':
-					var _v1 = _v0.a;
-					var _function = _v0.b.a;
-					var namesUsedInSignature = A2(
-						$elm$core$Maybe$withDefault,
-						{modules: _List_Nil, types: _List_Nil},
-						A2(
-							$elm$core$Maybe$map,
-							A2(
-								$elm$core$Basics$composeR,
-								$stil4m$elm_syntax$Elm$Syntax$Node$value,
-								A2(
-									$elm$core$Basics$composeR,
-									function ($) {
-										return $.typeAnnotation;
-									},
-									$jfmengels$review_unused$NoUnused$Variables$collectNamesFromTypeAnnotation)),
-							_function.signature));
-					var namesUsedInArgumentPatterns = $jfmengels$review_unused$NoUnused$Variables$foldUsedTypesAndModules(
-						A2(
-							$elm$core$List$map,
-							$jfmengels$review_unused$NoUnused$Variables$getUsedVariablesFromPattern,
-							$stil4m$elm_syntax$Elm$Syntax$Node$value(_function.declaration)._arguments));
-					var functionImplementation = $stil4m$elm_syntax$Elm$Syntax$Node$value(_function.declaration);
-					var newContext = A2(
-						$jfmengels$review_unused$NoUnused$Variables$markUsedTypesAndModules,
-						namesUsedInArgumentPatterns,
-						A2(
-							$jfmengels$review_unused$NoUnused$Variables$markUsedTypesAndModules,
-							namesUsedInSignature,
-							A3(
-								$jfmengels$review_unused$NoUnused$Variables$register,
-								{
-									rangeToRemove: A2($jfmengels$review_unused$NoUnused$Variables$rangeToRemoveForNodeWithDocumentation, node, _function.documentation),
-									under: $stil4m$elm_syntax$Elm$Syntax$Node$range(functionImplementation.name),
-									variableType: $jfmengels$review_unused$NoUnused$Variables$TopLevelVariable
-								},
-								$stil4m$elm_syntax$Elm$Syntax$Node$value(functionImplementation.name),
-								context)));
-					return _Utils_Tuple2(_List_Nil, newContext);
-				case 'CustomTypeDeclaration':
-					var _v2 = _v0.a;
-					var name = _v0.b.a.name;
-					var documentation = _v0.b.a.documentation;
-					var constructors = _v0.b.a.constructors;
-					var variablesFromConstructorArguments = $jfmengels$review_unused$NoUnused$Variables$foldUsedTypesAndModules(
-						A2(
-							$elm$core$List$map,
-							$jfmengels$review_unused$NoUnused$Variables$collectNamesFromTypeAnnotation,
-							A2(
-								$elm$core$List$concatMap,
-								A2(
-									$elm$core$Basics$composeR,
-									$stil4m$elm_syntax$Elm$Syntax$Node$value,
-									function ($) {
-										return $._arguments;
-									}),
-								constructors)));
-					var typeName = $stil4m$elm_syntax$Elm$Syntax$Node$value(name);
-					var constructorsForType = $elm$core$Dict$fromList(
-						A2(
-							$elm$core$List$map,
-							function (constructorName) {
-								return _Utils_Tuple2(constructorName, typeName);
-							},
-							A2(
-								$elm$core$List$map,
-								A2(
-									$elm$core$Basics$composeR,
-									$stil4m$elm_syntax$Elm$Syntax$Node$value,
-									A2(
-										$elm$core$Basics$composeR,
-										function ($) {
-											return $.name;
-										},
-										$stil4m$elm_syntax$Elm$Syntax$Node$value)),
-								constructors)));
-					return _Utils_Tuple2(
-						_List_Nil,
-						A2(
-							$jfmengels$review_unused$NoUnused$Variables$markUsedTypesAndModules,
-							variablesFromConstructorArguments,
-							A3(
-								$jfmengels$review_unused$NoUnused$Variables$register,
-								{
-									rangeToRemove: A2($jfmengels$review_unused$NoUnused$Variables$rangeToRemoveForNodeWithDocumentation, node, documentation),
-									under: $stil4m$elm_syntax$Elm$Syntax$Node$range(name),
-									variableType: $jfmengels$review_unused$NoUnused$Variables$Type
-								},
-								$stil4m$elm_syntax$Elm$Syntax$Node$value(name),
-								_Utils_update(
-									context,
-									{
-										constructorNameToTypeName: A2($elm$core$Dict$union, constructorsForType, context.constructorNameToTypeName)
-									}))));
-				case 'AliasDeclaration':
-					var _v3 = _v0.a;
-					var name = _v0.b.a.name;
-					var typeAnnotation = _v0.b.a.typeAnnotation;
-					var documentation = _v0.b.a.documentation;
-					var namesUsedInTypeAnnotation = $jfmengels$review_unused$NoUnused$Variables$collectNamesFromTypeAnnotation(typeAnnotation);
-					return _Utils_Tuple2(
-						_List_Nil,
-						A2(
-							$jfmengels$review_unused$NoUnused$Variables$markUsedTypesAndModules,
-							namesUsedInTypeAnnotation,
-							A3(
-								$jfmengels$review_unused$NoUnused$Variables$register,
-								{
-									rangeToRemove: A2($jfmengels$review_unused$NoUnused$Variables$rangeToRemoveForNodeWithDocumentation, node, documentation),
-									under: $stil4m$elm_syntax$Elm$Syntax$Node$range(name),
-									variableType: $jfmengels$review_unused$NoUnused$Variables$Type
-								},
-								$stil4m$elm_syntax$Elm$Syntax$Node$value(name),
-								context)));
-				case 'PortDeclaration':
-					var _v4 = _v0.a;
-					var name = _v0.b.a.name;
-					var typeAnnotation = _v0.b.a.typeAnnotation;
-					var namesUsedInTypeAnnotation = $jfmengels$review_unused$NoUnused$Variables$collectNamesFromTypeAnnotation(typeAnnotation);
-					return _Utils_Tuple2(
-						_List_Nil,
-						A3(
-							$jfmengels$review_unused$NoUnused$Variables$register,
-							{
-								rangeToRemove: $stil4m$elm_syntax$Elm$Syntax$Node$range(node),
-								under: $stil4m$elm_syntax$Elm$Syntax$Node$range(name),
-								variableType: $jfmengels$review_unused$NoUnused$Variables$Port
-							},
-							$stil4m$elm_syntax$Elm$Syntax$Node$value(name),
-							A2($jfmengels$review_unused$NoUnused$Variables$markUsedTypesAndModules, namesUsedInTypeAnnotation, context)));
-				case 'InfixDeclaration':
-					var _v5 = _v0.a;
-					return _Utils_Tuple2(_List_Nil, context);
-				default:
-					var _v6 = _v0.a;
-					var _v7 = _v0.b;
-					return _Utils_Tuple2(_List_Nil, context);
-			}
-		} else {
-			var _v8 = _v0.a;
-			return _Utils_Tuple2(_List_Nil, context);
-		}
-	});
-var $jfmengels$review_unused$NoUnused$Variables$HasMultipleDeclarations = {$: 'HasMultipleDeclarations'};
-var $jfmengels$review_unused$NoUnused$Variables$HasNoOtherDeclarations = function (a) {
-	return {$: 'HasNoOtherDeclarations', a: a};
-};
-var $jfmengels$review_unused$NonemptyList$cons = F2(
-	function (y, _v0) {
-		var x = _v0.a;
-		var xs = _v0.b;
-		return A2(
-			$jfmengels$review_unused$NonemptyList$Nonempty,
-			y,
-			A2($elm$core$List$cons, x, xs));
-	});
-var $jfmengels$review_unused$NoUnused$Variables$emptyScope = {declared: $elm$core$Dict$empty, used: $elm$core$Set$empty};
-var $elm$core$Dict$diff = F2(
-	function (t1, t2) {
-		return A3(
-			$elm$core$Dict$foldl,
-			F3(
-				function (k, v, t) {
-					return A2($elm$core$Dict$remove, k, t);
-				}),
-			t1,
-			t2);
-	});
-var $elm$core$Set$diff = F2(
-	function (_v0, _v1) {
-		var dict1 = _v0.a;
-		var dict2 = _v1.a;
-		return $elm$core$Set$Set_elm_builtin(
-			A2($elm$core$Dict$diff, dict1, dict2));
-	});
-var $elm$core$Dict$member = F2(
-	function (key, dict) {
-		var _v0 = A2($elm$core$Dict$get, key, dict);
-		if (_v0.$ === 'Just') {
-			return true;
-		} else {
-			return false;
-		}
-	});
-var $jfmengels$elm_review$Review$Fix$Removal = function (a) {
-	return {$: 'Removal', a: a};
-};
-var $jfmengels$elm_review$Review$Fix$removeRange = $jfmengels$elm_review$Review$Fix$Removal;
-var $jfmengels$elm_review$Review$Rule$Error = function (a) {
-	return {$: 'Error', a: a};
-};
-var $jfmengels$elm_review$Review$Rule$withFixes = F2(
-	function (fixes, _v0) {
-		var err = _v0.a;
-		return $elm$core$List$isEmpty(fixes) ? $jfmengels$elm_review$Review$Rule$Error(
-			_Utils_update(
-				err,
-				{fixes: $elm$core$Maybe$Nothing})) : $jfmengels$elm_review$Review$Rule$Error(
-			_Utils_update(
-				err,
-				{
-					fixes: $elm$core$Maybe$Just(fixes)
-				}));
-	});
-var $jfmengels$review_unused$NoUnused$Variables$addFix = F3(
-	function (declaredModules, _v0, error_) {
-		var variableType = _v0.variableType;
-		var rangeToRemove = _v0.rangeToRemove;
-		var shouldOfferFix = function () {
-			switch (variableType.$) {
-				case 'TopLevelVariable':
-					return true;
-				case 'LetVariable':
-					return true;
-				case 'ImportedModule':
-					return true;
-				case 'ImportedItem':
-					return true;
-				case 'ModuleAlias':
-					var originalNameOfTheImport = variableType.a.originalNameOfTheImport;
-					var exposesSomething = variableType.a.exposesSomething;
-					return (!exposesSomething) || (!A2($elm$core$Dict$member, originalNameOfTheImport, declaredModules));
-				case 'Type':
-					return true;
-				default:
-					return true;
-			}
-		}();
-		return shouldOfferFix ? A2(
-			$jfmengels$elm_review$Review$Rule$withFixes,
-			_List_fromArray(
-				[
-					$jfmengels$elm_review$Review$Fix$removeRange(rangeToRemove)
-				]),
-			error_) : error_;
-	});
-var $jfmengels$elm_review$Review$Rule$error = F2(
-	function (_v0, range) {
-		var message = _v0.message;
-		var details = _v0.details;
-		return $jfmengels$elm_review$Review$Rule$Error(
-			{details: details, fixes: $elm$core$Maybe$Nothing, message: message, range: range});
-	});
-var $jfmengels$review_unused$NoUnused$Variables$variableTypeToString = function (variableType) {
-	switch (variableType.$) {
-		case 'TopLevelVariable':
-			return 'Top-level variable';
-		case 'LetVariable':
-			return '`let in` variable';
-		case 'ImportedModule':
-			return 'Imported module';
-		case 'ImportedItem':
-			switch (variableType.a.$) {
-				case 'ImportedVariable':
-					var _v1 = variableType.a;
-					return 'Imported variable';
-				case 'ImportedType':
-					var _v2 = variableType.a;
-					return 'Imported type';
-				default:
-					var _v3 = variableType.a;
-					return 'Imported operator';
-			}
-		case 'ModuleAlias':
-			return 'Module alias';
-		case 'Type':
-			return 'Type';
-		default:
-			return 'Port';
-	}
-};
-var $jfmengels$review_unused$NoUnused$Variables$variableTypeWarning = function (value) {
-	switch (value.$) {
-		case 'TopLevelVariable':
-			return '';
-		case 'LetVariable':
-			return '';
-		case 'ImportedModule':
-			return '';
-		case 'ImportedItem':
-			return '';
-		case 'ModuleAlias':
-			return '';
-		case 'Type':
-			return '';
-		default:
-			return ' (Warning: Removing this port may break your application if it is used in the JS code)';
-	}
-};
-var $jfmengels$review_unused$NoUnused$Variables$error = F3(
-	function (declaredModules, variableInfo, name) {
-		return A3(
-			$jfmengels$review_unused$NoUnused$Variables$addFix,
-			declaredModules,
-			variableInfo,
-			A2(
-				$jfmengels$elm_review$Review$Rule$error,
-				{
-					details: _List_fromArray(
-						['You should either use this value somewhere, or remove it at the location I pointed at.', 'If you remove it, you may find that other pieces of code are never used, and can themselves be removed too. This could end up simplifying your code a lot.']),
-					message: $jfmengels$review_unused$NoUnused$Variables$variableTypeToString(variableInfo.variableType) + (' `' + (name + ('` is not used' + $jfmengels$review_unused$NoUnused$Variables$variableTypeWarning(variableInfo.variableType))))
-				},
-				variableInfo.under));
-	});
-var $elm$core$Dict$filter = F2(
-	function (isGood, dict) {
-		return A3(
-			$elm$core$Dict$foldl,
-			F3(
-				function (k, v, d) {
-					return A2(isGood, k, v) ? A3($elm$core$Dict$insert, k, v, d) : d;
-				}),
-			$elm$core$Dict$empty,
-			dict);
-	});
-var $elm$core$Set$member = F2(
-	function (key, _v0) {
-		var dict = _v0.a;
-		return A2($elm$core$Dict$member, key, dict);
-	});
-var $jfmengels$review_unused$NoUnused$Variables$makeReport = function (_v0) {
-	var declared = _v0.declared;
-	var used = _v0.used;
-	var nonUsedVars = $elm$core$Set$toList(
-		A2(
-			$elm$core$Set$diff,
-			used,
-			$elm$core$Set$fromList(
-				$elm$core$Dict$keys(declared))));
-	var errors = A2(
-		$elm$core$List$map,
-		function (_v2) {
-			var key = _v2.a;
-			var variableInfo = _v2.b;
-			return A3($jfmengels$review_unused$NoUnused$Variables$error, $elm$core$Dict$empty, variableInfo, key);
-		},
-		$elm$core$Dict$toList(
-			A2(
-				$elm$core$Dict$filter,
-				F2(
-					function (key, _v1) {
-						return !A2($elm$core$Set$member, key, used);
-					}),
-				declared)));
-	return _Utils_Tuple2(errors, nonUsedVars);
-};
-var $jfmengels$review_unused$NoUnused$Variables$markModuleAsUsed = F2(
-	function (name, context) {
-		return _Utils_update(
-			context,
-			{
-				usedModules: A2($elm$core$Set$insert, name, context.usedModules)
-			});
-	});
-var $jfmengels$review_unused$NonemptyList$pop = function (_v0) {
-	var x = _v0.a;
-	var xs = _v0.b;
-	if (!xs.b) {
-		return A2($jfmengels$review_unused$NonemptyList$Nonempty, x, xs);
-	} else {
-		var y = xs.a;
-		var ys = xs.b;
-		return A2($jfmengels$review_unused$NonemptyList$Nonempty, y, ys);
-	}
-};
-var $jfmengels$review_unused$NoUnused$Variables$positionAsInt = function (_v0) {
-	var row = _v0.row;
-	var column = _v0.column;
-	return (row * 1000000) + column;
-};
-var $jfmengels$review_unused$NoUnused$Variables$rangeUpUntil = F2(
-	function (range, position) {
-		var positionAsInt_ = $jfmengels$review_unused$NoUnused$Variables$positionAsInt(position);
-		return ((_Utils_cmp(
-			$jfmengels$review_unused$NoUnused$Variables$positionAsInt(range.start),
-			positionAsInt_) < 1) && (_Utils_cmp(
-			$jfmengels$review_unused$NoUnused$Variables$positionAsInt(range.end),
-			positionAsInt_) > -1)) ? _Utils_update(
-			range,
-			{end: position}) : range;
-	});
-var $jfmengels$review_unused$NoUnused$Variables$LetVariable = {$: 'LetVariable'};
-var $jfmengels$review_unused$NoUnused$Variables$comparePosition = F2(
-	function (a, b) {
-		var order = A2($elm$core$Basics$compare, a.row, b.row);
-		if (order.$ === 'EQ') {
-			return A2($elm$core$Basics$compare, a.column, b.column);
-		} else {
-			return order;
-		}
-	});
-var $jfmengels$review_unused$NoUnused$Variables$mergeRanges = F2(
-	function (a, b) {
-		var start = function () {
-			var _v1 = A2($jfmengels$review_unused$NoUnused$Variables$comparePosition, a.start, b.start);
-			switch (_v1.$) {
-				case 'LT':
-					return a.start;
-				case 'EQ':
-					return a.start;
-				default:
-					return b.start;
-			}
-		}();
-		var end = function () {
-			var _v0 = A2($jfmengels$review_unused$NoUnused$Variables$comparePosition, a.end, b.end);
-			switch (_v0.$) {
-				case 'LT':
-					return b.end;
-				case 'EQ':
-					return b.end;
-				default:
-					return a.end;
-			}
-		}();
-		return {end: end, start: start};
-	});
-var $jfmengels$review_unused$NoUnused$Variables$registerFunction = F3(
-	function (letBlockContext, _function, context) {
-		var namesUsedInSignature = function () {
-			var _v2 = A2($elm$core$Maybe$map, $stil4m$elm_syntax$Elm$Syntax$Node$value, _function.signature);
-			if (_v2.$ === 'Just') {
-				var signature = _v2.a;
-				return $jfmengels$review_unused$NoUnused$Variables$collectNamesFromTypeAnnotation(signature.typeAnnotation);
-			} else {
-				return {modules: _List_Nil, types: _List_Nil};
-			}
-		}();
-		var functionRange = function () {
-			var _v1 = _function.signature;
-			if (_v1.$ === 'Just') {
-				var signature = _v1.a;
-				return A2(
-					$jfmengels$review_unused$NoUnused$Variables$mergeRanges,
-					$stil4m$elm_syntax$Elm$Syntax$Node$range(_function.declaration),
-					$stil4m$elm_syntax$Elm$Syntax$Node$range(signature));
-			} else {
-				return $stil4m$elm_syntax$Elm$Syntax$Node$range(_function.declaration);
-			}
-		}();
-		var declaration = $stil4m$elm_syntax$Elm$Syntax$Node$value(_function.declaration);
-		return A2(
-			$jfmengels$review_unused$NoUnused$Variables$markUsedTypesAndModules,
-			namesUsedInSignature,
-			A3(
-				$jfmengels$review_unused$NoUnused$Variables$register,
-				{
-					rangeToRemove: function () {
-						if (letBlockContext.$ === 'HasMultipleDeclarations') {
-							return functionRange;
-						} else {
-							var letDeclarationsRange = letBlockContext.a;
-							return letDeclarationsRange;
-						}
-					}(),
-					under: $stil4m$elm_syntax$Elm$Syntax$Node$range(declaration.name),
-					variableType: $jfmengels$review_unused$NoUnused$Variables$LetVariable
-				},
-				$stil4m$elm_syntax$Elm$Syntax$Node$value(declaration.name),
-				context));
-	});
-var $jfmengels$review_unused$NoUnused$Variables$expressionVisitor = F3(
-	function (_v0, direction, context) {
-		var range = _v0.a;
-		var value = _v0.b;
-		var _v1 = _Utils_Tuple2(direction, value);
-		_v1$9:
-		while (true) {
-			if (_v1.a.$ === 'OnEnter') {
-				switch (_v1.b.$) {
-					case 'FunctionOrValue':
-						if (!_v1.b.a.b) {
-							var _v2 = _v1.a;
-							var _v3 = _v1.b;
-							var name = _v3.b;
-							return _Utils_Tuple2(
-								_List_Nil,
-								A2($jfmengels$review_unused$NoUnused$Variables$markAsUsed, name, context));
-						} else {
-							var _v4 = _v1.a;
-							var _v5 = _v1.b;
-							var moduleName = _v5.a;
-							var name = _v5.b;
-							return _Utils_Tuple2(
-								_List_Nil,
-								A2(
-									$jfmengels$review_unused$NoUnused$Variables$markModuleAsUsed,
-									$jfmengels$review_unused$NoUnused$Variables$getModuleName(moduleName),
-									context));
-						}
-					case 'OperatorApplication':
-						var _v6 = _v1.a;
-						var _v7 = _v1.b;
-						var name = _v7.a;
-						return _Utils_Tuple2(
-							_List_Nil,
-							A2($jfmengels$review_unused$NoUnused$Variables$markAsUsed, name, context));
-					case 'PrefixOperator':
-						var _v8 = _v1.a;
-						var name = _v1.b.a;
-						return _Utils_Tuple2(
-							_List_Nil,
-							A2($jfmengels$review_unused$NoUnused$Variables$markAsUsed, name, context));
-					case 'LetExpression':
-						var _v9 = _v1.a;
-						var declarations = _v1.b.a.declarations;
-						var expression = _v1.b.a.expression;
-						var letBlockContext = ($elm$core$List$length(declarations) === 1) ? $jfmengels$review_unused$NoUnused$Variables$HasNoOtherDeclarations(
-							A2(
-								$jfmengels$review_unused$NoUnused$Variables$rangeUpUntil,
-								range,
-								$stil4m$elm_syntax$Elm$Syntax$Node$range(expression).start)) : $jfmengels$review_unused$NoUnused$Variables$HasMultipleDeclarations;
-						var newContext = A3(
-							$elm$core$List$foldl,
-							F2(
-								function (declaration, context_) {
-									var _v10 = $stil4m$elm_syntax$Elm$Syntax$Node$value(declaration);
-									if (_v10.$ === 'LetFunction') {
-										var _function = _v10.a;
-										var namesUsedInArgumentPatterns = $jfmengels$review_unused$NoUnused$Variables$foldUsedTypesAndModules(
-											A2(
-												$elm$core$List$map,
-												$jfmengels$review_unused$NoUnused$Variables$getUsedVariablesFromPattern,
-												$stil4m$elm_syntax$Elm$Syntax$Node$value(_function.declaration)._arguments));
-										return A2(
-											$jfmengels$review_unused$NoUnused$Variables$markUsedTypesAndModules,
-											namesUsedInArgumentPatterns,
-											A3($jfmengels$review_unused$NoUnused$Variables$registerFunction, letBlockContext, _function, context_));
-									} else {
-										var pattern = _v10.a;
-										return context_;
-									}
-								}),
-							_Utils_update(
-								context,
-								{
-									scopes: A2($jfmengels$review_unused$NonemptyList$cons, $jfmengels$review_unused$NoUnused$Variables$emptyScope, context.scopes)
-								}),
-							declarations);
-						return _Utils_Tuple2(_List_Nil, newContext);
-					case 'LambdaExpression':
-						var _v11 = _v1.a;
-						var args = _v1.b.a.args;
-						var namesUsedInArgumentPatterns = $jfmengels$review_unused$NoUnused$Variables$foldUsedTypesAndModules(
-							A2($elm$core$List$map, $jfmengels$review_unused$NoUnused$Variables$getUsedVariablesFromPattern, args));
-						return _Utils_Tuple2(
-							_List_Nil,
-							A2($jfmengels$review_unused$NoUnused$Variables$markUsedTypesAndModules, namesUsedInArgumentPatterns, context));
-					default:
-						break _v1$9;
-				}
-			} else {
-				switch (_v1.b.$) {
-					case 'RecordUpdateExpression':
-						var _v12 = _v1.a;
-						var _v13 = _v1.b;
-						var expr = _v13.a;
-						return _Utils_Tuple2(
-							_List_Nil,
-							A2(
-								$jfmengels$review_unused$NoUnused$Variables$markAsUsed,
-								$stil4m$elm_syntax$Elm$Syntax$Node$value(expr),
-								context));
-					case 'CaseExpression':
-						var _v14 = _v1.a;
-						var cases = _v1.b.a.cases;
-						var usedVariables = $jfmengels$review_unused$NoUnused$Variables$foldUsedTypesAndModules(
-							A2(
-								$elm$core$List$map,
-								function (_v15) {
-									var patternNode = _v15.a;
-									var expressionNode = _v15.b;
-									return $jfmengels$review_unused$NoUnused$Variables$getUsedVariablesFromPattern(patternNode);
-								},
-								cases));
-						return _Utils_Tuple2(
-							_List_Nil,
-							A2($jfmengels$review_unused$NoUnused$Variables$markUsedTypesAndModules, usedVariables, context));
-					case 'LetExpression':
-						var _v16 = _v1.a;
-						var contextWithPoppedScope = _Utils_update(
-							context,
-							{
-								scopes: $jfmengels$review_unused$NonemptyList$pop(context.scopes)
-							});
-						var _v17 = $jfmengels$review_unused$NoUnused$Variables$makeReport(
-							$jfmengels$review_unused$NonemptyList$head(context.scopes));
-						var errors = _v17.a;
-						var remainingUsed = _v17.b;
-						return _Utils_Tuple2(
-							errors,
-							A2($jfmengels$review_unused$NoUnused$Variables$markAllAsUsed, remainingUsed, contextWithPoppedScope));
-					default:
-						break _v1$9;
-				}
-			}
-		}
-		return _Utils_Tuple2(_List_Nil, context);
-	});
-var $jfmengels$review_unused$NoUnused$Variables$finalEvaluation = function (context) {
-	if (context.exposesEverything) {
-		return _List_Nil;
-	} else {
-		var rootScope = $jfmengels$review_unused$NonemptyList$head(context.scopes);
-		var namesOfCustomTypesUsedByCallingAConstructor = $elm$core$Set$fromList(
-			$elm$core$Dict$values(
-				A2(
-					$elm$core$Dict$filter,
-					F2(
-						function (usedName, _v2) {
-							return A2($elm$core$Set$member, usedName, rootScope.used);
-						}),
-					context.constructorNameToTypeName)));
-		var newRootScope = _Utils_update(
-			rootScope,
-			{
-				used: A2($elm$core$Set$union, namesOfCustomTypesUsedByCallingAConstructor, rootScope.used)
-			});
-		var moduleErrors = A2(
-			$elm$core$List$map,
-			function (_v1) {
-				var key = _v1.a;
-				var variableInfo = _v1.b;
-				return A3($jfmengels$review_unused$NoUnused$Variables$error, context.declaredModules, variableInfo, key);
-			},
-			$elm$core$Dict$toList(
-				A2(
-					$elm$core$Dict$filter,
-					F2(
-						function (key, _v0) {
-							return !A2($elm$core$Set$member, key, context.usedModules);
-						}),
-					context.declaredModules)));
-		return $elm$core$List$concat(
-			_List_fromArray(
-				[
-					$jfmengels$review_unused$NoUnused$Variables$makeReport(newRootScope).a,
-					moduleErrors
-				]));
-	}
-};
-var $jfmengels$elm_review$Review$Rule$Rule = function (a) {
-	return {$: 'Rule', a: a};
-};
-var $jfmengels$elm_review$Review$Rule$accumulate = F2(
-	function (visitor, _v0) {
-		var previousErrors = _v0.a;
-		var previousContext = _v0.b;
-		var _v1 = visitor(previousContext);
-		var newErrors = _v1.a;
-		var newContext = _v1.b;
-		return _Utils_Tuple2(
-			_Utils_ap(newErrors, previousErrors),
-			newContext);
-	});
-var $jfmengels$elm_review$Review$Rule$accumulateList = F3(
-	function (visitor, nodes, _v0) {
-		var previousErrors = _v0.a;
-		var previousContext = _v0.b;
-		return A3(
-			$elm$core$List$foldl,
-			function (node) {
-				return $jfmengels$elm_review$Review$Rule$accumulate(
-					visitor(node));
-			},
-			_Utils_Tuple2(previousErrors, previousContext),
-			nodes);
-	});
-var $jfmengels$elm_review$Review$Project$elmJson = function (_v0) {
-	var data = _v0.a;
-	return data.elmJson;
-};
-var $jfmengels$elm_review$Review$Rule$makeFinalEvaluation = F2(
-	function (finalEvaluationFn, _v0) {
-		var previousErrors = _v0.a;
-		var previousContext = _v0.b;
-		return _Utils_ap(
-			finalEvaluationFn(previousContext),
-			previousErrors);
-	});
-var $jfmengels$elm_review$Review$Rule$OnEnter = {$: 'OnEnter'};
-var $jfmengels$elm_review$Review$Rule$OnExit = {$: 'OnExit'};
-var $jfmengels$elm_review$Review$Rule$functionToExpression = function (_function) {
-	return $stil4m$elm_syntax$Elm$Syntax$Node$value(_function.declaration).expression;
-};
-var $jfmengels$elm_review$Review$Rule$expressionsInDeclaration = function (node) {
-	var _v0 = $stil4m$elm_syntax$Elm$Syntax$Node$value(node);
-	switch (_v0.$) {
-		case 'FunctionDeclaration':
-			var _function = _v0.a;
-			return _List_fromArray(
-				[
-					$jfmengels$elm_review$Review$Rule$functionToExpression(_function)
-				]);
-		case 'CustomTypeDeclaration':
-			return _List_Nil;
-		case 'AliasDeclaration':
-			var typeAnnotation = _v0.a.typeAnnotation;
-			return _List_Nil;
-		case 'Destructuring':
-			var pattern = _v0.a;
-			var expr = _v0.b;
-			return _List_fromArray(
-				[expr]);
-		case 'PortDeclaration':
-			return _List_Nil;
-		default:
-			return _List_Nil;
-	}
-};
-var $jfmengels$elm_review$Review$Rule$expressionChildren = function (node) {
-	var _v0 = $stil4m$elm_syntax$Elm$Syntax$Node$value(node);
-	switch (_v0.$) {
-		case 'Application':
-			var expressions = _v0.a;
-			return expressions;
-		case 'Literal':
-			return _List_Nil;
-		case 'Integer':
-			return _List_Nil;
-		case 'Floatable':
-			return _List_Nil;
-		case 'UnitExpr':
-			return _List_Nil;
-		case 'ListExpr':
-			var elements = _v0.a;
-			return elements;
-		case 'FunctionOrValue':
-			return _List_Nil;
-		case 'RecordExpr':
-			var fields = _v0.a;
-			return A2(
-				$elm$core$List$map,
-				A2(
-					$elm$core$Basics$composeR,
-					$stil4m$elm_syntax$Elm$Syntax$Node$value,
-					function (_v1) {
-						var expr = _v1.b;
-						return expr;
-					}),
-				fields);
-		case 'RecordUpdateExpression':
-			var setters = _v0.b;
-			return A2(
-				$elm$core$List$map,
-				A2(
-					$elm$core$Basics$composeR,
-					$stil4m$elm_syntax$Elm$Syntax$Node$value,
-					function (_v2) {
-						var field = _v2.a;
-						var expr = _v2.b;
-						return expr;
-					}),
-				setters);
-		case 'ParenthesizedExpression':
-			var expr = _v0.a;
-			return _List_fromArray(
-				[expr]);
-		case 'Operator':
-			return _List_Nil;
-		case 'OperatorApplication':
-			var operator = _v0.a;
-			var direction = _v0.b;
-			var left = _v0.c;
-			var right = _v0.d;
-			switch (direction.$) {
-				case 'Left':
-					return _List_fromArray(
-						[left, right]);
-				case 'Right':
-					return _List_fromArray(
-						[right, left]);
-				default:
-					return _List_fromArray(
-						[left, right]);
-			}
-		case 'IfBlock':
-			var cond = _v0.a;
-			var then_ = _v0.b;
-			var else_ = _v0.c;
-			return _List_fromArray(
-				[cond, then_, else_]);
-		case 'LetExpression':
-			var expression = _v0.a.expression;
-			var declarations = _v0.a.declarations;
-			return _Utils_ap(
-				A2(
-					$elm$core$List$map,
-					function (declaration) {
-						var _v4 = $stil4m$elm_syntax$Elm$Syntax$Node$value(declaration);
-						if (_v4.$ === 'LetFunction') {
-							var _function = _v4.a;
-							return $jfmengels$elm_review$Review$Rule$functionToExpression(_function);
-						} else {
-							var pattern = _v4.a;
-							var expr = _v4.b;
-							return expr;
-						}
-					},
-					declarations),
-				_List_fromArray(
-					[expression]));
-		case 'CaseExpression':
-			var expression = _v0.a.expression;
-			var cases = _v0.a.cases;
-			return A2(
-				$elm$core$List$cons,
-				expression,
-				A2(
-					$elm$core$List$map,
-					function (_v5) {
-						var pattern = _v5.a;
-						var caseExpression = _v5.b;
-						return caseExpression;
-					},
-					cases));
-		case 'LambdaExpression':
-			var args = _v0.a.args;
-			var expression = _v0.a.expression;
-			return _List_fromArray(
-				[expression]);
-		case 'TupledExpression':
-			var expressions = _v0.a;
-			return expressions;
-		case 'PrefixOperator':
-			return _List_Nil;
-		case 'Hex':
-			return _List_Nil;
-		case 'Negation':
-			var expr = _v0.a;
-			return _List_fromArray(
-				[expr]);
-		case 'CharLiteral':
-			return _List_Nil;
-		case 'RecordAccess':
-			var expr = _v0.a;
-			var property = _v0.b;
-			return _List_fromArray(
-				[expr]);
-		case 'RecordAccessFunction':
-			return _List_Nil;
-		default:
-			return _List_Nil;
-	}
-};
-var $jfmengels$elm_review$Review$Rule$visitExpression = F3(
-	function (visitor, node, context) {
-		return A2(
-			$jfmengels$elm_review$Review$Rule$accumulate,
-			A2(visitor, node, $jfmengels$elm_review$Review$Rule$OnExit),
-			A3(
-				$jfmengels$elm_review$Review$Rule$accumulateList,
-				$jfmengels$elm_review$Review$Rule$visitExpression(visitor),
-				$jfmengels$elm_review$Review$Rule$expressionChildren(node),
-				A3(visitor, node, $jfmengels$elm_review$Review$Rule$OnEnter, context)));
-	});
-var $jfmengels$elm_review$Review$Rule$visitDeclaration = F4(
-	function (declarationVisitor, expressionVisitor, node, context) {
-		return A2(
-			$jfmengels$elm_review$Review$Rule$accumulate,
-			A2(declarationVisitor, node, $jfmengels$elm_review$Review$Rule$OnExit),
-			A3(
-				$jfmengels$elm_review$Review$Rule$accumulateList,
-				$jfmengels$elm_review$Review$Rule$visitExpression(expressionVisitor),
-				$jfmengels$elm_review$Review$Rule$expressionsInDeclaration(node),
-				A3(declarationVisitor, node, $jfmengels$elm_review$Review$Rule$OnEnter, context)));
-	});
-var $jfmengels$elm_review$Review$Rule$fromSchema = function (_v0) {
-	var schema = _v0.a;
-	return $jfmengels$elm_review$Review$Rule$Rule(
-		{
-			analyzer: F2(
-				function (project, file) {
-					return $elm$core$List$reverse(
-						A2(
-							$jfmengels$elm_review$Review$Rule$makeFinalEvaluation,
-							schema.finalEvaluationFn,
-							A3(
-								$jfmengels$elm_review$Review$Rule$accumulateList,
-								A2($jfmengels$elm_review$Review$Rule$visitDeclaration, schema.declarationVisitor, schema.expressionVisitor),
-								file.declarations,
-								A2(
-									$jfmengels$elm_review$Review$Rule$accumulate,
-									schema.declarationListVisitor(file.declarations),
-									A3(
-										$jfmengels$elm_review$Review$Rule$accumulateList,
-										schema.importVisitor,
-										file.imports,
-										A2(
-											schema.moduleDefinitionVisitor,
-											file.moduleDefinition,
-											A2(
-												schema.elmJsonVisitor,
-												$jfmengels$elm_review$Review$Project$elmJson(project),
-												schema.initialContext)))))));
-				}),
-			name: schema.name
-		});
-};
-var $jfmengels$review_unused$NoUnused$Variables$ImportedModule = {$: 'ImportedModule'};
-var $jfmengels$review_unused$NoUnused$Variables$ModuleAlias = function (a) {
-	return {$: 'ModuleAlias', a: a};
-};
-var $jfmengels$review_unused$NoUnused$Variables$ImportedItem = function (a) {
-	return {$: 'ImportedItem', a: a};
-};
-var $jfmengels$review_unused$NoUnused$Variables$ImportedOperator = {$: 'ImportedOperator'};
-var $jfmengels$review_unused$NoUnused$Variables$ImportedType = {$: 'ImportedType'};
-var $jfmengels$review_unused$NoUnused$Variables$ImportedVariable = {$: 'ImportedVariable'};
-var $elm$core$List$map3 = _List_map3;
-var $elm$core$List$takeReverse = F3(
-	function (n, list, kept) {
-		takeReverse:
-		while (true) {
-			if (n <= 0) {
-				return kept;
-			} else {
-				if (!list.b) {
-					return kept;
-				} else {
-					var x = list.a;
-					var xs = list.b;
-					var $temp$n = n - 1,
-						$temp$list = xs,
-						$temp$kept = A2($elm$core$List$cons, x, kept);
-					n = $temp$n;
-					list = $temp$list;
-					kept = $temp$kept;
-					continue takeReverse;
-				}
-			}
-		}
-	});
-var $elm$core$List$takeTailRec = F2(
-	function (n, list) {
-		return $elm$core$List$reverse(
-			A3($elm$core$List$takeReverse, n, list, _List_Nil));
-	});
-var $elm$core$List$takeFast = F3(
-	function (ctr, n, list) {
-		if (n <= 0) {
-			return _List_Nil;
-		} else {
-			var _v0 = _Utils_Tuple2(n, list);
-			_v0$1:
-			while (true) {
-				_v0$5:
-				while (true) {
-					if (!_v0.b.b) {
-						return list;
-					} else {
-						if (_v0.b.b.b) {
-							switch (_v0.a) {
-								case 1:
-									break _v0$1;
-								case 2:
-									var _v2 = _v0.b;
-									var x = _v2.a;
-									var _v3 = _v2.b;
-									var y = _v3.a;
-									return _List_fromArray(
-										[x, y]);
-								case 3:
-									if (_v0.b.b.b.b) {
-										var _v4 = _v0.b;
-										var x = _v4.a;
-										var _v5 = _v4.b;
-										var y = _v5.a;
-										var _v6 = _v5.b;
-										var z = _v6.a;
-										return _List_fromArray(
-											[x, y, z]);
-									} else {
-										break _v0$5;
-									}
-								default:
-									if (_v0.b.b.b.b && _v0.b.b.b.b.b) {
-										var _v7 = _v0.b;
-										var x = _v7.a;
-										var _v8 = _v7.b;
-										var y = _v8.a;
-										var _v9 = _v8.b;
-										var z = _v9.a;
-										var _v10 = _v9.b;
-										var w = _v10.a;
-										var tl = _v10.b;
-										return (ctr > 1000) ? A2(
-											$elm$core$List$cons,
-											x,
-											A2(
-												$elm$core$List$cons,
-												y,
-												A2(
-													$elm$core$List$cons,
-													z,
-													A2(
-														$elm$core$List$cons,
-														w,
-														A2($elm$core$List$takeTailRec, n - 4, tl))))) : A2(
-											$elm$core$List$cons,
-											x,
-											A2(
-												$elm$core$List$cons,
-												y,
-												A2(
-													$elm$core$List$cons,
-													z,
-													A2(
-														$elm$core$List$cons,
-														w,
-														A3($elm$core$List$takeFast, ctr + 1, n - 4, tl)))));
-									} else {
-										break _v0$5;
-									}
-							}
-						} else {
-							if (_v0.a === 1) {
-								break _v0$1;
-							} else {
-								break _v0$5;
-							}
-						}
-					}
-				}
-				return list;
-			}
-			var _v1 = _v0.b;
-			var x = _v1.a;
-			return _List_fromArray(
-				[x]);
-		}
-	});
-var $elm$core$List$take = F2(
-	function (n, list) {
-		return A3($elm$core$List$takeFast, 0, n, list);
-	});
-var $jfmengels$review_unused$NoUnused$Variables$collectFromExposing = function (exposingNode) {
-	var _v0 = $stil4m$elm_syntax$Elm$Syntax$Node$value(exposingNode);
-	if (_v0.$ === 'All') {
-		return _List_Nil;
-	} else {
-		var list = _v0.a;
-		var listWithPreviousRange = A2(
-			$elm$core$List$cons,
-			$elm$core$Maybe$Nothing,
-			A2(
-				$elm$core$List$take,
-				$elm$core$List$length(list) - 1,
-				A2(
-					$elm$core$List$map,
-					A2($elm$core$Basics$composeR, $stil4m$elm_syntax$Elm$Syntax$Node$range, $elm$core$Maybe$Just),
-					list)));
-		var listWithNextRange = _Utils_ap(
-			A2(
-				$elm$core$List$drop,
-				1,
-				A2($elm$core$List$map, $stil4m$elm_syntax$Elm$Syntax$Node$range, list)),
-			_List_fromArray(
-				[
-					{
-					end: {column: 0, row: 0},
-					start: {column: 0, row: 0}
-				}
-				]));
-		return A2(
-			$elm$core$List$filterMap,
-			$elm$core$Basics$identity,
-			A2(
-				$elm$core$List$indexedMap,
-				F2(
-					function (index, _v1) {
-						var maybePreviousRange = _v1.a;
-						var _v2 = _v1.b;
-						var range = _v2.a;
-						var value = _v2.b;
-						var nextRange = _v1.c;
-						var rangeToRemove = function () {
-							if ($elm$core$List$length(list) === 1) {
-								return $stil4m$elm_syntax$Elm$Syntax$Node$range(exposingNode);
-							} else {
-								if (!index) {
-									return _Utils_update(
-										range,
-										{end: nextRange.start});
-								} else {
-									if (maybePreviousRange.$ === 'Nothing') {
-										return range;
-									} else {
-										var previousRange = maybePreviousRange.a;
-										return _Utils_update(
-											range,
-											{start: previousRange.end});
-									}
-								}
-							}
-						}();
-						switch (value.$) {
-							case 'FunctionExpose':
-								var name = value.a;
-								return $elm$core$Maybe$Just(
-									_Utils_Tuple2(
-										name,
-										{
-											rangeToRemove: rangeToRemove,
-											under: range,
-											variableType: $jfmengels$review_unused$NoUnused$Variables$ImportedItem($jfmengels$review_unused$NoUnused$Variables$ImportedVariable)
-										}));
-							case 'InfixExpose':
-								var name = value.a;
-								return $elm$core$Maybe$Just(
-									_Utils_Tuple2(
-										name,
-										{
-											rangeToRemove: rangeToRemove,
-											under: range,
-											variableType: $jfmengels$review_unused$NoUnused$Variables$ImportedItem($jfmengels$review_unused$NoUnused$Variables$ImportedOperator)
-										}));
-							case 'TypeOrAliasExpose':
-								var name = value.a;
-								return $elm$core$Maybe$Just(
-									_Utils_Tuple2(
-										name,
-										{
-											rangeToRemove: rangeToRemove,
-											under: range,
-											variableType: $jfmengels$review_unused$NoUnused$Variables$ImportedItem($jfmengels$review_unused$NoUnused$Variables$ImportedType)
-										}));
-							default:
-								var name = value.a.name;
-								var open = value.a.open;
-								if (open.$ === 'Just') {
-									var openRange = open.a;
-									return $elm$core$Maybe$Nothing;
-								} else {
-									return $elm$core$Maybe$Just(
-										_Utils_Tuple2(
-											name,
-											{
-												rangeToRemove: rangeToRemove,
-												under: range,
-												variableType: $jfmengels$review_unused$NoUnused$Variables$ImportedItem($jfmengels$review_unused$NoUnused$Variables$ImportedType)
-											}));
-								}
-						}
-					}),
-				A4(
-					$elm$core$List$map3,
-					F3(
-						function (prev, next, current) {
-							return _Utils_Tuple3(prev, current, next);
-						}),
-					listWithPreviousRange,
-					listWithNextRange,
-					list)));
-	}
-};
-var $jfmengels$review_unused$NoUnused$Variables$moduleAliasRange = F2(
-	function (_v0, range) {
-		var moduleName = _v0.b.moduleName;
-		return _Utils_update(
-			range,
-			{
-				start: $stil4m$elm_syntax$Elm$Syntax$Node$range(moduleName).end
-			});
-	});
-var $jfmengels$review_unused$NoUnused$Variables$importVisitor = F2(
-	function (importNode, context) {
-		var range = importNode.a;
-		var exposingList = importNode.b.exposingList;
-		var moduleAlias = importNode.b.moduleAlias;
-		var moduleName = importNode.b.moduleName;
-		if (exposingList.$ === 'Nothing') {
-			var _v1 = function () {
-				if (moduleAlias.$ === 'Just') {
-					var moduleAlias_ = moduleAlias.a;
-					return _Utils_Tuple3(
-						$jfmengels$review_unused$NoUnused$Variables$ModuleAlias(
-							{
-								exposesSomething: false,
-								originalNameOfTheImport: $jfmengels$review_unused$NoUnused$Variables$getModuleName(
-									$stil4m$elm_syntax$Elm$Syntax$Node$value(moduleName))
-							}),
-						moduleAlias_,
-						range);
-				} else {
-					return _Utils_Tuple3($jfmengels$review_unused$NoUnused$Variables$ImportedModule, moduleName, range);
-				}
-			}();
-			var variableType = _v1.a;
-			var _v2 = _v1.b;
-			var nameNodeRange = _v2.a;
-			var nameNodeValue = _v2.b;
-			var rangeToRemove = _v1.c;
-			return _Utils_Tuple2(
-				_List_Nil,
-				A3(
-					$jfmengels$review_unused$NoUnused$Variables$register,
-					{rangeToRemove: rangeToRemove, under: nameNodeRange, variableType: variableType},
-					$jfmengels$review_unused$NoUnused$Variables$getModuleName(nameNodeValue),
-					context));
-		} else {
-			var declaredImports = exposingList.a;
-			var contextWithoutImports = function () {
-				if (moduleAlias.$ === 'Just') {
-					var _v6 = moduleAlias.a;
-					var moduleAliasRange_ = _v6.a;
-					var value = _v6.b;
-					return A3(
-						$jfmengels$review_unused$NoUnused$Variables$register,
-						{
-							rangeToRemove: A2($jfmengels$review_unused$NoUnused$Variables$moduleAliasRange, importNode, moduleAliasRange_),
-							under: moduleAliasRange_,
-							variableType: $jfmengels$review_unused$NoUnused$Variables$ModuleAlias(
-								{
-									exposesSomething: true,
-									originalNameOfTheImport: $jfmengels$review_unused$NoUnused$Variables$getModuleName(
-										$stil4m$elm_syntax$Elm$Syntax$Node$value(moduleName))
-								})
-						},
-						$jfmengels$review_unused$NoUnused$Variables$getModuleName(value),
-						context);
-				} else {
-					return context;
-				}
-			}();
-			return _Utils_Tuple2(
-				_List_Nil,
-				A3(
-					$elm$core$List$foldl,
-					F2(
-						function (_v4, context_) {
-							var name = _v4.a;
-							var variableInfo = _v4.b;
-							return A3($jfmengels$review_unused$NoUnused$Variables$register, variableInfo, name, context_);
-						}),
-					contextWithoutImports,
-					$jfmengels$review_unused$NoUnused$Variables$collectFromExposing(declaredImports)));
-		}
-	});
-var $jfmengels$review_unused$NonemptyList$fromElement = function (x) {
-	return A2($jfmengels$review_unused$NonemptyList$Nonempty, x, _List_Nil);
-};
-var $jfmengels$review_unused$NoUnused$Variables$initialContext = {
-	constructorNameToTypeName: $elm$core$Dict$empty,
-	declaredModules: $elm$core$Dict$empty,
-	exposesEverything: false,
-	scopes: $jfmengels$review_unused$NonemptyList$fromElement($jfmengels$review_unused$NoUnused$Variables$emptyScope),
-	usedModules: $elm$core$Set$empty
-};
-var $stil4m$elm_syntax$Elm$Syntax$Module$exposingList = function (m) {
-	switch (m.$) {
-		case 'NormalModule':
-			var x = m.a;
-			return $stil4m$elm_syntax$Elm$Syntax$Node$value(x.exposingList);
-		case 'PortModule':
-			var x = m.a;
-			return $stil4m$elm_syntax$Elm$Syntax$Node$value(x.exposingList);
-		default:
-			var x = m.a;
-			return $stil4m$elm_syntax$Elm$Syntax$Node$value(x.exposingList);
-	}
-};
-var $jfmengels$review_unused$NoUnused$Variables$moduleDefinitionVisitor = F2(
-	function (_v0, context) {
-		var moduleNode = _v0.b;
-		var _v1 = $stil4m$elm_syntax$Elm$Syntax$Module$exposingList(moduleNode);
-		if (_v1.$ === 'All') {
-			return _Utils_Tuple2(
-				_List_Nil,
-				_Utils_update(
-					context,
-					{exposesEverything: true}));
-		} else {
-			var list = _v1.a;
-			var names = A2(
-				$elm$core$List$filterMap,
-				function (_v2) {
-					var node = _v2.b;
-					switch (node.$) {
-						case 'FunctionExpose':
-							var name = node.a;
-							return $elm$core$Maybe$Just(name);
-						case 'TypeOrAliasExpose':
-							var name = node.a;
-							return $elm$core$Maybe$Just(name);
-						case 'TypeExpose':
-							var name = node.a.name;
-							return $elm$core$Maybe$Just(name);
-						default:
-							var name = node.a;
-							return $elm$core$Maybe$Nothing;
-					}
-				},
-				list);
-			return _Utils_Tuple2(
-				_List_Nil,
-				A2($jfmengels$review_unused$NoUnused$Variables$markAllAsUsed, names, context));
-		}
-	});
-var $jfmengels$elm_review$Review$Rule$Schema = function (a) {
-	return {$: 'Schema', a: a};
-};
-var $jfmengels$elm_review$Review$Rule$newSchema = function (name_) {
-	return $jfmengels$elm_review$Review$Rule$Schema(
-		{
-			declarationListVisitor: F2(
-				function (declarationNodes, context) {
-					return _Utils_Tuple2(_List_Nil, context);
-				}),
-			declarationVisitor: F3(
-				function (node, direction, context) {
-					return _Utils_Tuple2(_List_Nil, context);
-				}),
-			elmJsonVisitor: F2(
-				function (elmJson, context) {
-					return context;
-				}),
-			expressionVisitor: F3(
-				function (node, direction, context) {
-					return _Utils_Tuple2(_List_Nil, context);
-				}),
-			finalEvaluationFn: function (context) {
-				return _List_Nil;
-			},
-			importVisitor: F2(
-				function (node, context) {
-					return _Utils_Tuple2(_List_Nil, context);
-				}),
-			initialContext: _Utils_Tuple0,
-			moduleDefinitionVisitor: F2(
-				function (node, context) {
-					return _Utils_Tuple2(_List_Nil, context);
-				}),
-			name: name_
-		});
-};
-var $jfmengels$elm_review$Review$Rule$withDeclarationVisitor = F2(
-	function (visitor, _v0) {
-		var schema = _v0.a;
-		return $jfmengels$elm_review$Review$Rule$Schema(
-			_Utils_update(
-				schema,
-				{declarationVisitor: visitor}));
-	});
-var $jfmengels$elm_review$Review$Rule$withExpressionVisitor = F2(
-	function (visitor, _v0) {
-		var schema = _v0.a;
-		return $jfmengels$elm_review$Review$Rule$Schema(
-			_Utils_update(
-				schema,
-				{expressionVisitor: visitor}));
-	});
-var $jfmengels$elm_review$Review$Rule$withFinalEvaluation = F2(
-	function (visitor, _v0) {
-		var schema = _v0.a;
-		return $jfmengels$elm_review$Review$Rule$Schema(
-			_Utils_update(
-				schema,
-				{finalEvaluationFn: visitor}));
-	});
-var $jfmengels$elm_review$Review$Rule$withImportVisitor = F2(
-	function (visitor, _v0) {
-		var schema = _v0.a;
-		return $jfmengels$elm_review$Review$Rule$Schema(
-			_Utils_update(
-				schema,
-				{importVisitor: visitor}));
-	});
-var $jfmengels$elm_review$Review$Rule$withInitialContext = F2(
-	function (initialContext_, _v0) {
-		var schema = _v0.a;
-		return $jfmengels$elm_review$Review$Rule$Schema(
-			{
-				declarationListVisitor: F2(
-					function (declarationNodes, context) {
-						return _Utils_Tuple2(_List_Nil, context);
-					}),
-				declarationVisitor: F3(
-					function (node, direction, context) {
-						return _Utils_Tuple2(_List_Nil, context);
-					}),
-				elmJsonVisitor: F2(
-					function (elmJson, context) {
-						return context;
-					}),
-				expressionVisitor: F3(
-					function (node, direction, context) {
-						return _Utils_Tuple2(_List_Nil, context);
-					}),
-				finalEvaluationFn: function (context) {
-					return _List_Nil;
-				},
-				importVisitor: F2(
-					function (node, context) {
-						return _Utils_Tuple2(_List_Nil, context);
-					}),
-				initialContext: initialContext_,
-				moduleDefinitionVisitor: F2(
-					function (node, context) {
-						return _Utils_Tuple2(_List_Nil, context);
-					}),
-				name: schema.name
-			});
-	});
-var $jfmengels$elm_review$Review$Rule$withModuleDefinitionVisitor = F2(
-	function (visitor, _v0) {
-		var schema = _v0.a;
-		return $jfmengels$elm_review$Review$Rule$Schema(
-			_Utils_update(
-				schema,
-				{moduleDefinitionVisitor: visitor}));
-	});
-var $jfmengels$review_unused$NoUnused$Variables$rule = $jfmengels$elm_review$Review$Rule$fromSchema(
-	A2(
-		$jfmengels$elm_review$Review$Rule$withFinalEvaluation,
-		$jfmengels$review_unused$NoUnused$Variables$finalEvaluation,
-		A2(
-			$jfmengels$elm_review$Review$Rule$withDeclarationVisitor,
-			$jfmengels$review_unused$NoUnused$Variables$declarationVisitor,
-			A2(
-				$jfmengels$elm_review$Review$Rule$withExpressionVisitor,
-				$jfmengels$review_unused$NoUnused$Variables$expressionVisitor,
-				A2(
-					$jfmengels$elm_review$Review$Rule$withImportVisitor,
-					$jfmengels$review_unused$NoUnused$Variables$importVisitor,
-					A2(
-						$jfmengels$elm_review$Review$Rule$withModuleDefinitionVisitor,
-						$jfmengels$review_unused$NoUnused$Variables$moduleDefinitionVisitor,
-						A2(
-							$jfmengels$elm_review$Review$Rule$withInitialContext,
-							$jfmengels$review_unused$NoUnused$Variables$initialContext,
-							$jfmengels$elm_review$Review$Rule$newSchema('NoUnused.Variables'))))))));
-var $author$project$ExplorerWithNotes$config = _List_fromArray(
-	[$jfmengels$review_unused$NoUnused$Variables$rule]);
 var $author$project$UIExplorer$Plugins$Review$file = function (source) {
 	return {path: 'SOURCE CODE', source: source};
 };
@@ -14915,9 +13051,36 @@ var $stil4m$elm_syntax$Combine$between = F3(
 			rp,
 			A2($stil4m$elm_syntax$Combine$continueWith, p, lp));
 	});
+var $elm$core$Set$Set_elm_builtin = function (a) {
+	return {$: 'Set_elm_builtin', a: a};
+};
+var $elm$core$Set$empty = $elm$core$Set$Set_elm_builtin($elm$core$Dict$empty);
+var $elm$core$Set$insert = F2(
+	function (key, _v0) {
+		var dict = _v0.a;
+		return $elm$core$Set$Set_elm_builtin(
+			A3($elm$core$Dict$insert, key, _Utils_Tuple0, dict));
+	});
+var $elm$core$Set$fromList = function (list) {
+	return A3($elm$core$List$foldl, $elm$core$Set$insert, $elm$core$Set$empty, list);
+};
 var $stil4m$elm_syntax$Elm$Parser$Tokens$reservedList = _List_fromArray(
 	['module', 'exposing', 'import', 'as', 'if', 'then', 'else', 'let', 'in', 'case', 'of', 'port', 'infixr', 'infixl', 'type', 'where']);
 var $elm$parser$Parser$ExpectingVariable = {$: 'ExpectingVariable'};
+var $elm$core$Dict$member = F2(
+	function (key, dict) {
+		var _v0 = A2($elm$core$Dict$get, key, dict);
+		if (_v0.$ === 'Just') {
+			return true;
+		} else {
+			return false;
+		}
+	});
+var $elm$core$Set$member = F2(
+	function (key, _v0) {
+		var dict = _v0.a;
+		return A2($elm$core$Dict$member, key, dict);
+	});
 var $elm$parser$Parser$Advanced$varHelp = F7(
 	function (isGood, offset, row, col, src, indent, context) {
 		varHelp:
@@ -16824,6 +14987,10 @@ var $stil4m$elm_syntax$Elm$Parser$Tokens$allowedPrefixOperatorTokens = A2(
 	_Utils_chr(','),
 	$stil4m$elm_syntax$Elm$Parser$Tokens$allowedOperatorTokens);
 var $stil4m$elm_syntax$Elm$Parser$Tokens$prefixOperatorToken = $stil4m$elm_syntax$Elm$Parser$Tokens$operatorTokenFromList($stil4m$elm_syntax$Elm$Parser$Tokens$allowedPrefixOperatorTokens);
+var $stil4m$elm_syntax$Elm$Syntax$Node$range = function (_v0) {
+	var r = _v0.a;
+	return r;
+};
 var $stil4m$elm_syntax$Elm$Syntax$Expression$RecordAccessFunction = function (a) {
 	return {$: 'RecordAccessFunction', a: a};
 };
@@ -17733,6 +15900,10 @@ var $stil4m$elm_syntax$Elm$Parser$Declarations$destructuringDeclaration = $stil4
 	});
 var $stil4m$elm_syntax$Elm$Syntax$Declaration$FunctionDeclaration = function (a) {
 	return {$: 'FunctionDeclaration', a: a};
+};
+var $stil4m$elm_syntax$Elm$Syntax$Node$value = function (_v0) {
+	var v = _v0.b;
+	return v;
 };
 var $stil4m$elm_syntax$Elm$Syntax$Expression$functionRange = function (_function) {
 	return $stil4m$elm_syntax$Elm$Syntax$Range$combine(
@@ -20136,12 +18307,1844 @@ var $author$project$UIExplorer$Plugins$Review$initErrors = F2(
 			$jfmengels$elm_review$Review$Project$new,
 			$author$project$UIExplorer$Plugins$Review$file(sourceCode));
 	});
-var $author$project$ExplorerWithNotes$sourceCode = 'module Main exposing (f)\nimport NotUsed\nimport SomeModule exposing (notUsed)\ntype SomeCustomType\n  = UsedConstructor\n  | NotUsedConstructor\nf : Int -> SomeCustomType\nf x =\n  let\n    _ = Debug.log "x" x\n  in\n  UsedConstructor\ng n = n + 1\n';
-var $author$project$ExplorerWithNotes$note = {
-	note: '\n# Modules\n- [Button](#button)\n\n# Button\n- [Config](#config)\n- [Size](#size)\n- [Kind](#kind)\n- [Appearance](#appearance)\n- [defaultButtonConfig](#defaultbuttonconfig)\n- [view](#view)\n\n## Button\nThe Button should be used to trigger user actions.\nSome examples of interactions:\n  - Submit a form\n  - Cancel an order\n  - Toggle a menu visibility\n  - Play a media\n```elm\nimport Button exposing (..)\nButton.view "Submit" defaultButtonConfig ()\n```\n## Links:\n  - [UX Planet - Basic rules for button](https://uxplanet.org/7-basic-rules-for-button-design-63dcdf5676b4)\n\n### `Config`\n```elm\ntype alias Config  =\n    { appearance : Button.Appearance, size : Button.Size, kind : Button.Kind, class : String.String, theme : Button.Theme }\n```\n Option to customize the Button\n\n\n---\n\n\n### `Size`\n```elm\ntype Size\n    = S\n    | M\n    | L\n```\n Define the size of the Button\n\n\n---\n\n\n### `Kind`\n```elm\ntype Kind\n    = Link\n    | Filled\n    | Ghost\n```\n Look and feel of the Button\n\n\n---\n\n\n### `Appearance`\n```elm\ntype Appearance\n    = Primary\n    | Secondary\n```\n Define the appearance of the Button\n\n\n---\n\n\n### `defaultButtonConfig`\n```elm\ndefaultButtonConfig : Config\n```\n Default Configurations\n\n\n---\n\n\n### `view`\n```elm\nview : String.String -> Config -> msg -> Html.Html msg\n```\n Renders the button\n\n\n---\n\n\n> Generated with elm: 0.19.0 and elm-docs: 0.4.0\n\n',
+var $author$project$RawContent$note = '\n# Modules\n- [Button](#button)\n\n# Button\n- [Config](#config)\n- [Size](#size)\n- [Kind](#kind)\n- [Appearance](#appearance)\n- [defaultButtonConfig](#defaultbuttonconfig)\n- [view](#view)\n\n## Button\nThe Button should be used to trigger user actions.\nSome examples of interactions:\n- Submit a form\n- Cancel an order\n- Toggle a menu visibility\n- Play a media\n```elm\nimport Button exposing (..)\nButton.view "Submit" defaultButtonConfig ()\n```\n## Links:\n- [UX Planet - Basic rules for button](https://uxplanet.org/7-basic-rules-for-button-design-63dcdf5676b4)\n\n### `Config`\n```elm\ntype alias Config  =\n{ appearance : Button.Appearance, size : Button.Size, kind : Button.Kind, class : String.String, theme : Button.Theme }\n```\nOption to customize the Button\n\n\n---\n\n\n### `Size`\n```elm\ntype Size\n= S\n| M\n| L\n```\nDefine the size of the Button\n\n\n---\n\n\n### `Kind`\n```elm\ntype Kind\n= Link\n| Filled\n| Ghost\n```\nLook and feel of the Button\n\n\n---\n\n\n### `Appearance`\n```elm\ntype Appearance\n= Primary\n| Secondary\n```\nDefine the appearance of the Button\n\n\n---\n\n\n### `defaultButtonConfig`\n```elm\ndefaultButtonConfig : Config\n```\nDefault Configurations\n\n\n---\n\n\n### `view`\n```elm\nview : String.String -> Config -> msg -> Html.Html msg\n```\nRenders the button\n\n\n---\n\n\n> Generated with elm: 0.19.0 and elm-docs: 0.4.0\n\n';
+var $jfmengels$review_unused$NoUnused$Variables$Port = {$: 'Port'};
+var $jfmengels$review_unused$NoUnused$Variables$TopLevelVariable = {$: 'TopLevelVariable'};
+var $jfmengels$review_unused$NoUnused$Variables$Type = {$: 'Type'};
+var $jfmengels$review_unused$NoUnused$Variables$getModuleName = function (name) {
+	return A2($elm$core$String$join, '.', name);
+};
+var $jfmengels$review_unused$NoUnused$Variables$collectModuleNamesFromTypeAnnotation = function (node) {
+	var _v0 = $stil4m$elm_syntax$Elm$Syntax$Node$value(node);
+	switch (_v0.$) {
+		case 'FunctionTypeAnnotation':
+			var a = _v0.a;
+			var b = _v0.b;
+			return _Utils_ap(
+				$jfmengels$review_unused$NoUnused$Variables$collectModuleNamesFromTypeAnnotation(a),
+				$jfmengels$review_unused$NoUnused$Variables$collectModuleNamesFromTypeAnnotation(b));
+		case 'Typed':
+			var nameNode = _v0.a;
+			var params = _v0.b;
+			var name = function () {
+				var _v1 = $stil4m$elm_syntax$Elm$Syntax$Node$value(nameNode);
+				if (!_v1.a.b) {
+					var str = _v1.b;
+					return _List_Nil;
+				} else {
+					var moduleName = _v1.a;
+					return _List_fromArray(
+						[
+							$jfmengels$review_unused$NoUnused$Variables$getModuleName(moduleName)
+						]);
+				}
+			}();
+			return _Utils_ap(
+				name,
+				A2($elm$core$List$concatMap, $jfmengels$review_unused$NoUnused$Variables$collectModuleNamesFromTypeAnnotation, params));
+		case 'Record':
+			var list = _v0.a;
+			return A2(
+				$elm$core$List$concatMap,
+				$jfmengels$review_unused$NoUnused$Variables$collectModuleNamesFromTypeAnnotation,
+				A2(
+					$elm$core$List$map,
+					A2($elm$core$Basics$composeR, $stil4m$elm_syntax$Elm$Syntax$Node$value, $elm$core$Tuple$second),
+					list));
+		case 'GenericRecord':
+			var name = _v0.a;
+			var list = _v0.b;
+			return A2(
+				$elm$core$List$concatMap,
+				$jfmengels$review_unused$NoUnused$Variables$collectModuleNamesFromTypeAnnotation,
+				A2(
+					$elm$core$List$map,
+					A2($elm$core$Basics$composeR, $stil4m$elm_syntax$Elm$Syntax$Node$value, $elm$core$Tuple$second),
+					$stil4m$elm_syntax$Elm$Syntax$Node$value(list)));
+		case 'Tupled':
+			var list = _v0.a;
+			return A2($elm$core$List$concatMap, $jfmengels$review_unused$NoUnused$Variables$collectModuleNamesFromTypeAnnotation, list);
+		case 'GenericType':
+			return _List_Nil;
+		default:
+			return _List_Nil;
+	}
+};
+var $jfmengels$review_unused$NoUnused$Variables$collectTypesFromTypeAnnotation = function (node) {
+	var _v0 = $stil4m$elm_syntax$Elm$Syntax$Node$value(node);
+	switch (_v0.$) {
+		case 'FunctionTypeAnnotation':
+			var a = _v0.a;
+			var b = _v0.b;
+			return _Utils_ap(
+				$jfmengels$review_unused$NoUnused$Variables$collectTypesFromTypeAnnotation(a),
+				$jfmengels$review_unused$NoUnused$Variables$collectTypesFromTypeAnnotation(b));
+		case 'Typed':
+			var nameNode = _v0.a;
+			var params = _v0.b;
+			var name = function () {
+				var _v1 = $stil4m$elm_syntax$Elm$Syntax$Node$value(nameNode);
+				if (!_v1.a.b) {
+					var str = _v1.b;
+					return _List_fromArray(
+						[str]);
+				} else {
+					var moduleName = _v1.a;
+					return _List_Nil;
+				}
+			}();
+			return _Utils_ap(
+				name,
+				A2($elm$core$List$concatMap, $jfmengels$review_unused$NoUnused$Variables$collectTypesFromTypeAnnotation, params));
+		case 'Record':
+			var list = _v0.a;
+			return A2(
+				$elm$core$List$concatMap,
+				$jfmengels$review_unused$NoUnused$Variables$collectTypesFromTypeAnnotation,
+				A2(
+					$elm$core$List$map,
+					A2($elm$core$Basics$composeR, $stil4m$elm_syntax$Elm$Syntax$Node$value, $elm$core$Tuple$second),
+					list));
+		case 'GenericRecord':
+			var name = _v0.a;
+			var list = _v0.b;
+			return A2(
+				$elm$core$List$concatMap,
+				$jfmengels$review_unused$NoUnused$Variables$collectTypesFromTypeAnnotation,
+				A2(
+					$elm$core$List$map,
+					A2($elm$core$Basics$composeR, $stil4m$elm_syntax$Elm$Syntax$Node$value, $elm$core$Tuple$second),
+					$stil4m$elm_syntax$Elm$Syntax$Node$value(list)));
+		case 'Tupled':
+			var list = _v0.a;
+			return A2($elm$core$List$concatMap, $jfmengels$review_unused$NoUnused$Variables$collectTypesFromTypeAnnotation, list);
+		case 'GenericType':
+			return _List_Nil;
+		default:
+			return _List_Nil;
+	}
+};
+var $jfmengels$review_unused$NoUnused$Variables$collectNamesFromTypeAnnotation = function (node) {
+	return {
+		modules: $jfmengels$review_unused$NoUnused$Variables$collectModuleNamesFromTypeAnnotation(node),
+		types: $jfmengels$review_unused$NoUnused$Variables$collectTypesFromTypeAnnotation(node)
+	};
+};
+var $jfmengels$review_unused$NoUnused$Variables$foldUsedTypesAndModules = A2(
+	$elm$core$List$foldl,
+	F2(
+		function (a, b) {
+			return {
+				modules: _Utils_ap(a.modules, b.modules),
+				types: _Utils_ap(a.types, b.types)
+			};
+		}),
+	{modules: _List_Nil, types: _List_Nil});
+var $jfmengels$review_unused$NoUnused$Variables$getUsedModulesFromPattern = function (patternNode) {
+	getUsedModulesFromPattern:
+	while (true) {
+		var _v0 = $stil4m$elm_syntax$Elm$Syntax$Node$value(patternNode);
+		switch (_v0.$) {
+			case 'AllPattern':
+				return _List_Nil;
+			case 'UnitPattern':
+				return _List_Nil;
+			case 'CharPattern':
+				return _List_Nil;
+			case 'StringPattern':
+				return _List_Nil;
+			case 'IntPattern':
+				return _List_Nil;
+			case 'HexPattern':
+				return _List_Nil;
+			case 'FloatPattern':
+				return _List_Nil;
+			case 'TuplePattern':
+				var patterns = _v0.a;
+				return A2($elm$core$List$concatMap, $jfmengels$review_unused$NoUnused$Variables$getUsedModulesFromPattern, patterns);
+			case 'RecordPattern':
+				return _List_Nil;
+			case 'UnConsPattern':
+				var pattern1 = _v0.a;
+				var pattern2 = _v0.b;
+				return A2(
+					$elm$core$List$concatMap,
+					$jfmengels$review_unused$NoUnused$Variables$getUsedModulesFromPattern,
+					_List_fromArray(
+						[pattern1, pattern2]));
+			case 'ListPattern':
+				var patterns = _v0.a;
+				return A2($elm$core$List$concatMap, $jfmengels$review_unused$NoUnused$Variables$getUsedModulesFromPattern, patterns);
+			case 'VarPattern':
+				return _List_Nil;
+			case 'NamedPattern':
+				var qualifiedNameRef = _v0.a;
+				var patterns = _v0.b;
+				var usedVariable = function () {
+					var _v1 = qualifiedNameRef.moduleName;
+					if (!_v1.b) {
+						return _List_Nil;
+					} else {
+						var moduleName = _v1;
+						return _List_fromArray(
+							[
+								$jfmengels$review_unused$NoUnused$Variables$getModuleName(moduleName)
+							]);
+					}
+				}();
+				return _Utils_ap(
+					usedVariable,
+					A2($elm$core$List$concatMap, $jfmengels$review_unused$NoUnused$Variables$getUsedModulesFromPattern, patterns));
+			case 'AsPattern':
+				var pattern = _v0.a;
+				var alias_ = _v0.b;
+				var $temp$patternNode = pattern;
+				patternNode = $temp$patternNode;
+				continue getUsedModulesFromPattern;
+			default:
+				var pattern = _v0.a;
+				var $temp$patternNode = pattern;
+				patternNode = $temp$patternNode;
+				continue getUsedModulesFromPattern;
+		}
+	}
+};
+var $jfmengels$review_unused$NoUnused$Variables$getUsedTypesFromPattern = function (patternNode) {
+	getUsedTypesFromPattern:
+	while (true) {
+		var _v0 = $stil4m$elm_syntax$Elm$Syntax$Node$value(patternNode);
+		switch (_v0.$) {
+			case 'AllPattern':
+				return _List_Nil;
+			case 'UnitPattern':
+				return _List_Nil;
+			case 'CharPattern':
+				return _List_Nil;
+			case 'StringPattern':
+				return _List_Nil;
+			case 'IntPattern':
+				return _List_Nil;
+			case 'HexPattern':
+				return _List_Nil;
+			case 'FloatPattern':
+				return _List_Nil;
+			case 'TuplePattern':
+				var patterns = _v0.a;
+				return A2($elm$core$List$concatMap, $jfmengels$review_unused$NoUnused$Variables$getUsedTypesFromPattern, patterns);
+			case 'RecordPattern':
+				return _List_Nil;
+			case 'UnConsPattern':
+				var pattern1 = _v0.a;
+				var pattern2 = _v0.b;
+				return A2(
+					$elm$core$List$concatMap,
+					$jfmengels$review_unused$NoUnused$Variables$getUsedTypesFromPattern,
+					_List_fromArray(
+						[pattern1, pattern2]));
+			case 'ListPattern':
+				var patterns = _v0.a;
+				return A2($elm$core$List$concatMap, $jfmengels$review_unused$NoUnused$Variables$getUsedTypesFromPattern, patterns);
+			case 'VarPattern':
+				return _List_Nil;
+			case 'NamedPattern':
+				var qualifiedNameRef = _v0.a;
+				var patterns = _v0.b;
+				var usedVariable = function () {
+					var _v1 = qualifiedNameRef.moduleName;
+					if (!_v1.b) {
+						return _List_fromArray(
+							[qualifiedNameRef.name]);
+					} else {
+						var moduleName = _v1;
+						return _List_Nil;
+					}
+				}();
+				return _Utils_ap(
+					usedVariable,
+					A2($elm$core$List$concatMap, $jfmengels$review_unused$NoUnused$Variables$getUsedTypesFromPattern, patterns));
+			case 'AsPattern':
+				var pattern = _v0.a;
+				var alias_ = _v0.b;
+				var $temp$patternNode = pattern;
+				patternNode = $temp$patternNode;
+				continue getUsedTypesFromPattern;
+			default:
+				var pattern = _v0.a;
+				var $temp$patternNode = pattern;
+				patternNode = $temp$patternNode;
+				continue getUsedTypesFromPattern;
+		}
+	}
+};
+var $jfmengels$review_unused$NoUnused$Variables$getUsedVariablesFromPattern = function (patternNode) {
+	return {
+		modules: $jfmengels$review_unused$NoUnused$Variables$getUsedModulesFromPattern(patternNode),
+		types: $jfmengels$review_unused$NoUnused$Variables$getUsedTypesFromPattern(patternNode)
+	};
+};
+var $jfmengels$review_unused$NonemptyList$head = function (_v0) {
+	var x = _v0.a;
+	var xs = _v0.b;
+	return x;
+};
+var $jfmengels$review_unused$NonemptyList$Nonempty = F2(
+	function (a, b) {
+		return {$: 'Nonempty', a: a, b: b};
+	});
+var $jfmengels$review_unused$NonemptyList$replaceHead = F2(
+	function (y, _v0) {
+		var x = _v0.a;
+		var xs = _v0.b;
+		return A2($jfmengels$review_unused$NonemptyList$Nonempty, y, xs);
+	});
+var $jfmengels$review_unused$NonemptyList$mapHead = F2(
+	function (fn, nonempty) {
+		var newHead = fn(
+			$jfmengels$review_unused$NonemptyList$head(nonempty));
+		return A2($jfmengels$review_unused$NonemptyList$replaceHead, newHead, nonempty);
+	});
+var $jfmengels$review_unused$NoUnused$Variables$markAsUsed = F2(
+	function (name, context) {
+		var scopes = A2(
+			$jfmengels$review_unused$NonemptyList$mapHead,
+			function (scope) {
+				return _Utils_update(
+					scope,
+					{
+						used: A2($elm$core$Set$insert, name, scope.used)
+					});
+			},
+			context.scopes);
+		return _Utils_update(
+			context,
+			{scopes: scopes});
+	});
+var $jfmengels$review_unused$NoUnused$Variables$markAllAsUsed = F2(
+	function (names, context) {
+		return A3($elm$core$List$foldl, $jfmengels$review_unused$NoUnused$Variables$markAsUsed, context, names);
+	});
+var $elm$core$Dict$union = F2(
+	function (t1, t2) {
+		return A3($elm$core$Dict$foldl, $elm$core$Dict$insert, t2, t1);
+	});
+var $elm$core$Set$union = F2(
+	function (_v0, _v1) {
+		var dict1 = _v0.a;
+		var dict2 = _v1.a;
+		return $elm$core$Set$Set_elm_builtin(
+			A2($elm$core$Dict$union, dict1, dict2));
+	});
+var $jfmengels$review_unused$NoUnused$Variables$markAllModulesAsUsed = F2(
+	function (names, context) {
+		return _Utils_update(
+			context,
+			{
+				usedModules: A2(
+					$elm$core$Set$union,
+					$elm$core$Set$fromList(names),
+					context.usedModules)
+			});
+	});
+var $jfmengels$review_unused$NoUnused$Variables$markUsedTypesAndModules = F2(
+	function (_v0, context) {
+		var types = _v0.types;
+		var modules = _v0.modules;
+		return A2(
+			$jfmengels$review_unused$NoUnused$Variables$markAllModulesAsUsed,
+			modules,
+			A2($jfmengels$review_unused$NoUnused$Variables$markAllAsUsed, types, context));
+	});
+var $jfmengels$review_unused$NoUnused$Variables$rangeToRemoveForNodeWithDocumentation = F2(
+	function (_v0, documentation) {
+		var nodeRange = _v0.a;
+		if (documentation.$ === 'Nothing') {
+			return nodeRange;
+		} else {
+			var _v2 = documentation.a;
+			var documentationRange = _v2.a;
+			return {end: nodeRange.end, start: documentationRange.start};
+		}
+	});
+var $jfmengels$review_unused$NoUnused$Variables$registerModule = F3(
+	function (variableInfo, name, context) {
+		return _Utils_update(
+			context,
+			{
+				declaredModules: A3($elm$core$Dict$insert, name, variableInfo, context.declaredModules)
+			});
+	});
+var $jfmengels$review_unused$NoUnused$Variables$registerVariable = F3(
+	function (variableInfo, name, context) {
+		var scopes = A2(
+			$jfmengels$review_unused$NonemptyList$mapHead,
+			function (scope) {
+				return _Utils_update(
+					scope,
+					{
+						declared: A3($elm$core$Dict$insert, name, variableInfo, scope.declared)
+					});
+			},
+			context.scopes);
+		return _Utils_update(
+			context,
+			{scopes: scopes});
+	});
+var $jfmengels$review_unused$NoUnused$Variables$register = F3(
+	function (variableInfo, name, context) {
+		var _v0 = variableInfo.variableType;
+		switch (_v0.$) {
+			case 'TopLevelVariable':
+				return (name === 'main') ? context : A3($jfmengels$review_unused$NoUnused$Variables$registerVariable, variableInfo, name, context);
+			case 'LetVariable':
+				return A3($jfmengels$review_unused$NoUnused$Variables$registerVariable, variableInfo, name, context);
+			case 'ImportedModule':
+				return A3($jfmengels$review_unused$NoUnused$Variables$registerModule, variableInfo, name, context);
+			case 'ImportedItem':
+				return A3($jfmengels$review_unused$NoUnused$Variables$registerVariable, variableInfo, name, context);
+			case 'ModuleAlias':
+				return A3($jfmengels$review_unused$NoUnused$Variables$registerModule, variableInfo, name, context);
+			case 'Type':
+				return A3($jfmengels$review_unused$NoUnused$Variables$registerVariable, variableInfo, name, context);
+			default:
+				return A3($jfmengels$review_unused$NoUnused$Variables$registerVariable, variableInfo, name, context);
+		}
+	});
+var $jfmengels$review_unused$NoUnused$Variables$declarationVisitor = F3(
+	function (node, direction, context) {
+		var _v0 = _Utils_Tuple2(
+			direction,
+			$stil4m$elm_syntax$Elm$Syntax$Node$value(node));
+		if (_v0.a.$ === 'OnEnter') {
+			switch (_v0.b.$) {
+				case 'FunctionDeclaration':
+					var _v1 = _v0.a;
+					var _function = _v0.b.a;
+					var namesUsedInSignature = A2(
+						$elm$core$Maybe$withDefault,
+						{modules: _List_Nil, types: _List_Nil},
+						A2(
+							$elm$core$Maybe$map,
+							A2(
+								$elm$core$Basics$composeR,
+								$stil4m$elm_syntax$Elm$Syntax$Node$value,
+								A2(
+									$elm$core$Basics$composeR,
+									function ($) {
+										return $.typeAnnotation;
+									},
+									$jfmengels$review_unused$NoUnused$Variables$collectNamesFromTypeAnnotation)),
+							_function.signature));
+					var namesUsedInArgumentPatterns = $jfmengels$review_unused$NoUnused$Variables$foldUsedTypesAndModules(
+						A2(
+							$elm$core$List$map,
+							$jfmengels$review_unused$NoUnused$Variables$getUsedVariablesFromPattern,
+							$stil4m$elm_syntax$Elm$Syntax$Node$value(_function.declaration)._arguments));
+					var functionImplementation = $stil4m$elm_syntax$Elm$Syntax$Node$value(_function.declaration);
+					var newContext = A2(
+						$jfmengels$review_unused$NoUnused$Variables$markUsedTypesAndModules,
+						namesUsedInArgumentPatterns,
+						A2(
+							$jfmengels$review_unused$NoUnused$Variables$markUsedTypesAndModules,
+							namesUsedInSignature,
+							A3(
+								$jfmengels$review_unused$NoUnused$Variables$register,
+								{
+									rangeToRemove: A2($jfmengels$review_unused$NoUnused$Variables$rangeToRemoveForNodeWithDocumentation, node, _function.documentation),
+									under: $stil4m$elm_syntax$Elm$Syntax$Node$range(functionImplementation.name),
+									variableType: $jfmengels$review_unused$NoUnused$Variables$TopLevelVariable
+								},
+								$stil4m$elm_syntax$Elm$Syntax$Node$value(functionImplementation.name),
+								context)));
+					return _Utils_Tuple2(_List_Nil, newContext);
+				case 'CustomTypeDeclaration':
+					var _v2 = _v0.a;
+					var name = _v0.b.a.name;
+					var documentation = _v0.b.a.documentation;
+					var constructors = _v0.b.a.constructors;
+					var variablesFromConstructorArguments = $jfmengels$review_unused$NoUnused$Variables$foldUsedTypesAndModules(
+						A2(
+							$elm$core$List$map,
+							$jfmengels$review_unused$NoUnused$Variables$collectNamesFromTypeAnnotation,
+							A2(
+								$elm$core$List$concatMap,
+								A2(
+									$elm$core$Basics$composeR,
+									$stil4m$elm_syntax$Elm$Syntax$Node$value,
+									function ($) {
+										return $._arguments;
+									}),
+								constructors)));
+					var typeName = $stil4m$elm_syntax$Elm$Syntax$Node$value(name);
+					var constructorsForType = $elm$core$Dict$fromList(
+						A2(
+							$elm$core$List$map,
+							function (constructorName) {
+								return _Utils_Tuple2(constructorName, typeName);
+							},
+							A2(
+								$elm$core$List$map,
+								A2(
+									$elm$core$Basics$composeR,
+									$stil4m$elm_syntax$Elm$Syntax$Node$value,
+									A2(
+										$elm$core$Basics$composeR,
+										function ($) {
+											return $.name;
+										},
+										$stil4m$elm_syntax$Elm$Syntax$Node$value)),
+								constructors)));
+					return _Utils_Tuple2(
+						_List_Nil,
+						A2(
+							$jfmengels$review_unused$NoUnused$Variables$markUsedTypesAndModules,
+							variablesFromConstructorArguments,
+							A3(
+								$jfmengels$review_unused$NoUnused$Variables$register,
+								{
+									rangeToRemove: A2($jfmengels$review_unused$NoUnused$Variables$rangeToRemoveForNodeWithDocumentation, node, documentation),
+									under: $stil4m$elm_syntax$Elm$Syntax$Node$range(name),
+									variableType: $jfmengels$review_unused$NoUnused$Variables$Type
+								},
+								$stil4m$elm_syntax$Elm$Syntax$Node$value(name),
+								_Utils_update(
+									context,
+									{
+										constructorNameToTypeName: A2($elm$core$Dict$union, constructorsForType, context.constructorNameToTypeName)
+									}))));
+				case 'AliasDeclaration':
+					var _v3 = _v0.a;
+					var name = _v0.b.a.name;
+					var typeAnnotation = _v0.b.a.typeAnnotation;
+					var documentation = _v0.b.a.documentation;
+					var namesUsedInTypeAnnotation = $jfmengels$review_unused$NoUnused$Variables$collectNamesFromTypeAnnotation(typeAnnotation);
+					return _Utils_Tuple2(
+						_List_Nil,
+						A2(
+							$jfmengels$review_unused$NoUnused$Variables$markUsedTypesAndModules,
+							namesUsedInTypeAnnotation,
+							A3(
+								$jfmengels$review_unused$NoUnused$Variables$register,
+								{
+									rangeToRemove: A2($jfmengels$review_unused$NoUnused$Variables$rangeToRemoveForNodeWithDocumentation, node, documentation),
+									under: $stil4m$elm_syntax$Elm$Syntax$Node$range(name),
+									variableType: $jfmengels$review_unused$NoUnused$Variables$Type
+								},
+								$stil4m$elm_syntax$Elm$Syntax$Node$value(name),
+								context)));
+				case 'PortDeclaration':
+					var _v4 = _v0.a;
+					var name = _v0.b.a.name;
+					var typeAnnotation = _v0.b.a.typeAnnotation;
+					var namesUsedInTypeAnnotation = $jfmengels$review_unused$NoUnused$Variables$collectNamesFromTypeAnnotation(typeAnnotation);
+					return _Utils_Tuple2(
+						_List_Nil,
+						A3(
+							$jfmengels$review_unused$NoUnused$Variables$register,
+							{
+								rangeToRemove: $stil4m$elm_syntax$Elm$Syntax$Node$range(node),
+								under: $stil4m$elm_syntax$Elm$Syntax$Node$range(name),
+								variableType: $jfmengels$review_unused$NoUnused$Variables$Port
+							},
+							$stil4m$elm_syntax$Elm$Syntax$Node$value(name),
+							A2($jfmengels$review_unused$NoUnused$Variables$markUsedTypesAndModules, namesUsedInTypeAnnotation, context)));
+				case 'InfixDeclaration':
+					var _v5 = _v0.a;
+					return _Utils_Tuple2(_List_Nil, context);
+				default:
+					var _v6 = _v0.a;
+					var _v7 = _v0.b;
+					return _Utils_Tuple2(_List_Nil, context);
+			}
+		} else {
+			var _v8 = _v0.a;
+			return _Utils_Tuple2(_List_Nil, context);
+		}
+	});
+var $jfmengels$review_unused$NoUnused$Variables$HasMultipleDeclarations = {$: 'HasMultipleDeclarations'};
+var $jfmengels$review_unused$NoUnused$Variables$HasNoOtherDeclarations = function (a) {
+	return {$: 'HasNoOtherDeclarations', a: a};
+};
+var $jfmengels$review_unused$NonemptyList$cons = F2(
+	function (y, _v0) {
+		var x = _v0.a;
+		var xs = _v0.b;
+		return A2(
+			$jfmengels$review_unused$NonemptyList$Nonempty,
+			y,
+			A2($elm$core$List$cons, x, xs));
+	});
+var $jfmengels$review_unused$NoUnused$Variables$emptyScope = {declared: $elm$core$Dict$empty, used: $elm$core$Set$empty};
+var $elm$core$Dict$diff = F2(
+	function (t1, t2) {
+		return A3(
+			$elm$core$Dict$foldl,
+			F3(
+				function (k, v, t) {
+					return A2($elm$core$Dict$remove, k, t);
+				}),
+			t1,
+			t2);
+	});
+var $elm$core$Set$diff = F2(
+	function (_v0, _v1) {
+		var dict1 = _v0.a;
+		var dict2 = _v1.a;
+		return $elm$core$Set$Set_elm_builtin(
+			A2($elm$core$Dict$diff, dict1, dict2));
+	});
+var $jfmengels$elm_review$Review$Fix$Removal = function (a) {
+	return {$: 'Removal', a: a};
+};
+var $jfmengels$elm_review$Review$Fix$removeRange = $jfmengels$elm_review$Review$Fix$Removal;
+var $jfmengels$elm_review$Review$Rule$Error = function (a) {
+	return {$: 'Error', a: a};
+};
+var $jfmengels$elm_review$Review$Rule$withFixes = F2(
+	function (fixes, _v0) {
+		var err = _v0.a;
+		return $elm$core$List$isEmpty(fixes) ? $jfmengels$elm_review$Review$Rule$Error(
+			_Utils_update(
+				err,
+				{fixes: $elm$core$Maybe$Nothing})) : $jfmengels$elm_review$Review$Rule$Error(
+			_Utils_update(
+				err,
+				{
+					fixes: $elm$core$Maybe$Just(fixes)
+				}));
+	});
+var $jfmengels$review_unused$NoUnused$Variables$addFix = F3(
+	function (declaredModules, _v0, error_) {
+		var variableType = _v0.variableType;
+		var rangeToRemove = _v0.rangeToRemove;
+		var shouldOfferFix = function () {
+			switch (variableType.$) {
+				case 'TopLevelVariable':
+					return true;
+				case 'LetVariable':
+					return true;
+				case 'ImportedModule':
+					return true;
+				case 'ImportedItem':
+					return true;
+				case 'ModuleAlias':
+					var originalNameOfTheImport = variableType.a.originalNameOfTheImport;
+					var exposesSomething = variableType.a.exposesSomething;
+					return (!exposesSomething) || (!A2($elm$core$Dict$member, originalNameOfTheImport, declaredModules));
+				case 'Type':
+					return true;
+				default:
+					return true;
+			}
+		}();
+		return shouldOfferFix ? A2(
+			$jfmengels$elm_review$Review$Rule$withFixes,
+			_List_fromArray(
+				[
+					$jfmengels$elm_review$Review$Fix$removeRange(rangeToRemove)
+				]),
+			error_) : error_;
+	});
+var $jfmengels$elm_review$Review$Rule$error = F2(
+	function (_v0, range) {
+		var message = _v0.message;
+		var details = _v0.details;
+		return $jfmengels$elm_review$Review$Rule$Error(
+			{details: details, fixes: $elm$core$Maybe$Nothing, message: message, range: range});
+	});
+var $jfmengels$review_unused$NoUnused$Variables$variableTypeToString = function (variableType) {
+	switch (variableType.$) {
+		case 'TopLevelVariable':
+			return 'Top-level variable';
+		case 'LetVariable':
+			return '`let in` variable';
+		case 'ImportedModule':
+			return 'Imported module';
+		case 'ImportedItem':
+			switch (variableType.a.$) {
+				case 'ImportedVariable':
+					var _v1 = variableType.a;
+					return 'Imported variable';
+				case 'ImportedType':
+					var _v2 = variableType.a;
+					return 'Imported type';
+				default:
+					var _v3 = variableType.a;
+					return 'Imported operator';
+			}
+		case 'ModuleAlias':
+			return 'Module alias';
+		case 'Type':
+			return 'Type';
+		default:
+			return 'Port';
+	}
+};
+var $jfmengels$review_unused$NoUnused$Variables$variableTypeWarning = function (value) {
+	switch (value.$) {
+		case 'TopLevelVariable':
+			return '';
+		case 'LetVariable':
+			return '';
+		case 'ImportedModule':
+			return '';
+		case 'ImportedItem':
+			return '';
+		case 'ModuleAlias':
+			return '';
+		case 'Type':
+			return '';
+		default:
+			return ' (Warning: Removing this port may break your application if it is used in the JS code)';
+	}
+};
+var $jfmengels$review_unused$NoUnused$Variables$error = F3(
+	function (declaredModules, variableInfo, name) {
+		return A3(
+			$jfmengels$review_unused$NoUnused$Variables$addFix,
+			declaredModules,
+			variableInfo,
+			A2(
+				$jfmengels$elm_review$Review$Rule$error,
+				{
+					details: _List_fromArray(
+						['You should either use this value somewhere, or remove it at the location I pointed at.', 'If you remove it, you may find that other pieces of code are never used, and can themselves be removed too. This could end up simplifying your code a lot.']),
+					message: $jfmengels$review_unused$NoUnused$Variables$variableTypeToString(variableInfo.variableType) + (' `' + (name + ('` is not used' + $jfmengels$review_unused$NoUnused$Variables$variableTypeWarning(variableInfo.variableType))))
+				},
+				variableInfo.under));
+	});
+var $elm$core$Dict$filter = F2(
+	function (isGood, dict) {
+		return A3(
+			$elm$core$Dict$foldl,
+			F3(
+				function (k, v, d) {
+					return A2(isGood, k, v) ? A3($elm$core$Dict$insert, k, v, d) : d;
+				}),
+			$elm$core$Dict$empty,
+			dict);
+	});
+var $jfmengels$review_unused$NoUnused$Variables$makeReport = function (_v0) {
+	var declared = _v0.declared;
+	var used = _v0.used;
+	var nonUsedVars = $elm$core$Set$toList(
+		A2(
+			$elm$core$Set$diff,
+			used,
+			$elm$core$Set$fromList(
+				$elm$core$Dict$keys(declared))));
+	var errors = A2(
+		$elm$core$List$map,
+		function (_v2) {
+			var key = _v2.a;
+			var variableInfo = _v2.b;
+			return A3($jfmengels$review_unused$NoUnused$Variables$error, $elm$core$Dict$empty, variableInfo, key);
+		},
+		$elm$core$Dict$toList(
+			A2(
+				$elm$core$Dict$filter,
+				F2(
+					function (key, _v1) {
+						return !A2($elm$core$Set$member, key, used);
+					}),
+				declared)));
+	return _Utils_Tuple2(errors, nonUsedVars);
+};
+var $jfmengels$review_unused$NoUnused$Variables$markModuleAsUsed = F2(
+	function (name, context) {
+		return _Utils_update(
+			context,
+			{
+				usedModules: A2($elm$core$Set$insert, name, context.usedModules)
+			});
+	});
+var $jfmengels$review_unused$NonemptyList$pop = function (_v0) {
+	var x = _v0.a;
+	var xs = _v0.b;
+	if (!xs.b) {
+		return A2($jfmengels$review_unused$NonemptyList$Nonempty, x, xs);
+	} else {
+		var y = xs.a;
+		var ys = xs.b;
+		return A2($jfmengels$review_unused$NonemptyList$Nonempty, y, ys);
+	}
+};
+var $jfmengels$review_unused$NoUnused$Variables$positionAsInt = function (_v0) {
+	var row = _v0.row;
+	var column = _v0.column;
+	return (row * 1000000) + column;
+};
+var $jfmengels$review_unused$NoUnused$Variables$rangeUpUntil = F2(
+	function (range, position) {
+		var positionAsInt_ = $jfmengels$review_unused$NoUnused$Variables$positionAsInt(position);
+		return ((_Utils_cmp(
+			$jfmengels$review_unused$NoUnused$Variables$positionAsInt(range.start),
+			positionAsInt_) < 1) && (_Utils_cmp(
+			$jfmengels$review_unused$NoUnused$Variables$positionAsInt(range.end),
+			positionAsInt_) > -1)) ? _Utils_update(
+			range,
+			{end: position}) : range;
+	});
+var $jfmengels$review_unused$NoUnused$Variables$LetVariable = {$: 'LetVariable'};
+var $jfmengels$review_unused$NoUnused$Variables$comparePosition = F2(
+	function (a, b) {
+		var order = A2($elm$core$Basics$compare, a.row, b.row);
+		if (order.$ === 'EQ') {
+			return A2($elm$core$Basics$compare, a.column, b.column);
+		} else {
+			return order;
+		}
+	});
+var $jfmengels$review_unused$NoUnused$Variables$mergeRanges = F2(
+	function (a, b) {
+		var start = function () {
+			var _v1 = A2($jfmengels$review_unused$NoUnused$Variables$comparePosition, a.start, b.start);
+			switch (_v1.$) {
+				case 'LT':
+					return a.start;
+				case 'EQ':
+					return a.start;
+				default:
+					return b.start;
+			}
+		}();
+		var end = function () {
+			var _v0 = A2($jfmengels$review_unused$NoUnused$Variables$comparePosition, a.end, b.end);
+			switch (_v0.$) {
+				case 'LT':
+					return b.end;
+				case 'EQ':
+					return b.end;
+				default:
+					return a.end;
+			}
+		}();
+		return {end: end, start: start};
+	});
+var $jfmengels$review_unused$NoUnused$Variables$registerFunction = F3(
+	function (letBlockContext, _function, context) {
+		var namesUsedInSignature = function () {
+			var _v2 = A2($elm$core$Maybe$map, $stil4m$elm_syntax$Elm$Syntax$Node$value, _function.signature);
+			if (_v2.$ === 'Just') {
+				var signature = _v2.a;
+				return $jfmengels$review_unused$NoUnused$Variables$collectNamesFromTypeAnnotation(signature.typeAnnotation);
+			} else {
+				return {modules: _List_Nil, types: _List_Nil};
+			}
+		}();
+		var functionRange = function () {
+			var _v1 = _function.signature;
+			if (_v1.$ === 'Just') {
+				var signature = _v1.a;
+				return A2(
+					$jfmengels$review_unused$NoUnused$Variables$mergeRanges,
+					$stil4m$elm_syntax$Elm$Syntax$Node$range(_function.declaration),
+					$stil4m$elm_syntax$Elm$Syntax$Node$range(signature));
+			} else {
+				return $stil4m$elm_syntax$Elm$Syntax$Node$range(_function.declaration);
+			}
+		}();
+		var declaration = $stil4m$elm_syntax$Elm$Syntax$Node$value(_function.declaration);
+		return A2(
+			$jfmengels$review_unused$NoUnused$Variables$markUsedTypesAndModules,
+			namesUsedInSignature,
+			A3(
+				$jfmengels$review_unused$NoUnused$Variables$register,
+				{
+					rangeToRemove: function () {
+						if (letBlockContext.$ === 'HasMultipleDeclarations') {
+							return functionRange;
+						} else {
+							var letDeclarationsRange = letBlockContext.a;
+							return letDeclarationsRange;
+						}
+					}(),
+					under: $stil4m$elm_syntax$Elm$Syntax$Node$range(declaration.name),
+					variableType: $jfmengels$review_unused$NoUnused$Variables$LetVariable
+				},
+				$stil4m$elm_syntax$Elm$Syntax$Node$value(declaration.name),
+				context));
+	});
+var $jfmengels$review_unused$NoUnused$Variables$expressionVisitor = F3(
+	function (_v0, direction, context) {
+		var range = _v0.a;
+		var value = _v0.b;
+		var _v1 = _Utils_Tuple2(direction, value);
+		_v1$9:
+		while (true) {
+			if (_v1.a.$ === 'OnEnter') {
+				switch (_v1.b.$) {
+					case 'FunctionOrValue':
+						if (!_v1.b.a.b) {
+							var _v2 = _v1.a;
+							var _v3 = _v1.b;
+							var name = _v3.b;
+							return _Utils_Tuple2(
+								_List_Nil,
+								A2($jfmengels$review_unused$NoUnused$Variables$markAsUsed, name, context));
+						} else {
+							var _v4 = _v1.a;
+							var _v5 = _v1.b;
+							var moduleName = _v5.a;
+							var name = _v5.b;
+							return _Utils_Tuple2(
+								_List_Nil,
+								A2(
+									$jfmengels$review_unused$NoUnused$Variables$markModuleAsUsed,
+									$jfmengels$review_unused$NoUnused$Variables$getModuleName(moduleName),
+									context));
+						}
+					case 'OperatorApplication':
+						var _v6 = _v1.a;
+						var _v7 = _v1.b;
+						var name = _v7.a;
+						return _Utils_Tuple2(
+							_List_Nil,
+							A2($jfmengels$review_unused$NoUnused$Variables$markAsUsed, name, context));
+					case 'PrefixOperator':
+						var _v8 = _v1.a;
+						var name = _v1.b.a;
+						return _Utils_Tuple2(
+							_List_Nil,
+							A2($jfmengels$review_unused$NoUnused$Variables$markAsUsed, name, context));
+					case 'LetExpression':
+						var _v9 = _v1.a;
+						var declarations = _v1.b.a.declarations;
+						var expression = _v1.b.a.expression;
+						var letBlockContext = ($elm$core$List$length(declarations) === 1) ? $jfmengels$review_unused$NoUnused$Variables$HasNoOtherDeclarations(
+							A2(
+								$jfmengels$review_unused$NoUnused$Variables$rangeUpUntil,
+								range,
+								$stil4m$elm_syntax$Elm$Syntax$Node$range(expression).start)) : $jfmengels$review_unused$NoUnused$Variables$HasMultipleDeclarations;
+						var newContext = A3(
+							$elm$core$List$foldl,
+							F2(
+								function (declaration, context_) {
+									var _v10 = $stil4m$elm_syntax$Elm$Syntax$Node$value(declaration);
+									if (_v10.$ === 'LetFunction') {
+										var _function = _v10.a;
+										var namesUsedInArgumentPatterns = $jfmengels$review_unused$NoUnused$Variables$foldUsedTypesAndModules(
+											A2(
+												$elm$core$List$map,
+												$jfmengels$review_unused$NoUnused$Variables$getUsedVariablesFromPattern,
+												$stil4m$elm_syntax$Elm$Syntax$Node$value(_function.declaration)._arguments));
+										return A2(
+											$jfmengels$review_unused$NoUnused$Variables$markUsedTypesAndModules,
+											namesUsedInArgumentPatterns,
+											A3($jfmengels$review_unused$NoUnused$Variables$registerFunction, letBlockContext, _function, context_));
+									} else {
+										var pattern = _v10.a;
+										return context_;
+									}
+								}),
+							_Utils_update(
+								context,
+								{
+									scopes: A2($jfmengels$review_unused$NonemptyList$cons, $jfmengels$review_unused$NoUnused$Variables$emptyScope, context.scopes)
+								}),
+							declarations);
+						return _Utils_Tuple2(_List_Nil, newContext);
+					case 'LambdaExpression':
+						var _v11 = _v1.a;
+						var args = _v1.b.a.args;
+						var namesUsedInArgumentPatterns = $jfmengels$review_unused$NoUnused$Variables$foldUsedTypesAndModules(
+							A2($elm$core$List$map, $jfmengels$review_unused$NoUnused$Variables$getUsedVariablesFromPattern, args));
+						return _Utils_Tuple2(
+							_List_Nil,
+							A2($jfmengels$review_unused$NoUnused$Variables$markUsedTypesAndModules, namesUsedInArgumentPatterns, context));
+					default:
+						break _v1$9;
+				}
+			} else {
+				switch (_v1.b.$) {
+					case 'RecordUpdateExpression':
+						var _v12 = _v1.a;
+						var _v13 = _v1.b;
+						var expr = _v13.a;
+						return _Utils_Tuple2(
+							_List_Nil,
+							A2(
+								$jfmengels$review_unused$NoUnused$Variables$markAsUsed,
+								$stil4m$elm_syntax$Elm$Syntax$Node$value(expr),
+								context));
+					case 'CaseExpression':
+						var _v14 = _v1.a;
+						var cases = _v1.b.a.cases;
+						var usedVariables = $jfmengels$review_unused$NoUnused$Variables$foldUsedTypesAndModules(
+							A2(
+								$elm$core$List$map,
+								function (_v15) {
+									var patternNode = _v15.a;
+									var expressionNode = _v15.b;
+									return $jfmengels$review_unused$NoUnused$Variables$getUsedVariablesFromPattern(patternNode);
+								},
+								cases));
+						return _Utils_Tuple2(
+							_List_Nil,
+							A2($jfmengels$review_unused$NoUnused$Variables$markUsedTypesAndModules, usedVariables, context));
+					case 'LetExpression':
+						var _v16 = _v1.a;
+						var contextWithPoppedScope = _Utils_update(
+							context,
+							{
+								scopes: $jfmengels$review_unused$NonemptyList$pop(context.scopes)
+							});
+						var _v17 = $jfmengels$review_unused$NoUnused$Variables$makeReport(
+							$jfmengels$review_unused$NonemptyList$head(context.scopes));
+						var errors = _v17.a;
+						var remainingUsed = _v17.b;
+						return _Utils_Tuple2(
+							errors,
+							A2($jfmengels$review_unused$NoUnused$Variables$markAllAsUsed, remainingUsed, contextWithPoppedScope));
+					default:
+						break _v1$9;
+				}
+			}
+		}
+		return _Utils_Tuple2(_List_Nil, context);
+	});
+var $jfmengels$review_unused$NoUnused$Variables$finalEvaluation = function (context) {
+	if (context.exposesEverything) {
+		return _List_Nil;
+	} else {
+		var rootScope = $jfmengels$review_unused$NonemptyList$head(context.scopes);
+		var namesOfCustomTypesUsedByCallingAConstructor = $elm$core$Set$fromList(
+			$elm$core$Dict$values(
+				A2(
+					$elm$core$Dict$filter,
+					F2(
+						function (usedName, _v2) {
+							return A2($elm$core$Set$member, usedName, rootScope.used);
+						}),
+					context.constructorNameToTypeName)));
+		var newRootScope = _Utils_update(
+			rootScope,
+			{
+				used: A2($elm$core$Set$union, namesOfCustomTypesUsedByCallingAConstructor, rootScope.used)
+			});
+		var moduleErrors = A2(
+			$elm$core$List$map,
+			function (_v1) {
+				var key = _v1.a;
+				var variableInfo = _v1.b;
+				return A3($jfmengels$review_unused$NoUnused$Variables$error, context.declaredModules, variableInfo, key);
+			},
+			$elm$core$Dict$toList(
+				A2(
+					$elm$core$Dict$filter,
+					F2(
+						function (key, _v0) {
+							return !A2($elm$core$Set$member, key, context.usedModules);
+						}),
+					context.declaredModules)));
+		return $elm$core$List$concat(
+			_List_fromArray(
+				[
+					$jfmengels$review_unused$NoUnused$Variables$makeReport(newRootScope).a,
+					moduleErrors
+				]));
+	}
+};
+var $jfmengels$elm_review$Review$Rule$Rule = function (a) {
+	return {$: 'Rule', a: a};
+};
+var $jfmengels$elm_review$Review$Rule$accumulate = F2(
+	function (visitor, _v0) {
+		var previousErrors = _v0.a;
+		var previousContext = _v0.b;
+		var _v1 = visitor(previousContext);
+		var newErrors = _v1.a;
+		var newContext = _v1.b;
+		return _Utils_Tuple2(
+			_Utils_ap(newErrors, previousErrors),
+			newContext);
+	});
+var $jfmengels$elm_review$Review$Rule$accumulateList = F3(
+	function (visitor, nodes, _v0) {
+		var previousErrors = _v0.a;
+		var previousContext = _v0.b;
+		return A3(
+			$elm$core$List$foldl,
+			function (node) {
+				return $jfmengels$elm_review$Review$Rule$accumulate(
+					visitor(node));
+			},
+			_Utils_Tuple2(previousErrors, previousContext),
+			nodes);
+	});
+var $jfmengels$elm_review$Review$Project$elmJson = function (_v0) {
+	var data = _v0.a;
+	return data.elmJson;
+};
+var $jfmengels$elm_review$Review$Rule$makeFinalEvaluation = F2(
+	function (finalEvaluationFn, _v0) {
+		var previousErrors = _v0.a;
+		var previousContext = _v0.b;
+		return _Utils_ap(
+			finalEvaluationFn(previousContext),
+			previousErrors);
+	});
+var $jfmengels$elm_review$Review$Rule$OnEnter = {$: 'OnEnter'};
+var $jfmengels$elm_review$Review$Rule$OnExit = {$: 'OnExit'};
+var $jfmengels$elm_review$Review$Rule$functionToExpression = function (_function) {
+	return $stil4m$elm_syntax$Elm$Syntax$Node$value(_function.declaration).expression;
+};
+var $jfmengels$elm_review$Review$Rule$expressionsInDeclaration = function (node) {
+	var _v0 = $stil4m$elm_syntax$Elm$Syntax$Node$value(node);
+	switch (_v0.$) {
+		case 'FunctionDeclaration':
+			var _function = _v0.a;
+			return _List_fromArray(
+				[
+					$jfmengels$elm_review$Review$Rule$functionToExpression(_function)
+				]);
+		case 'CustomTypeDeclaration':
+			return _List_Nil;
+		case 'AliasDeclaration':
+			var typeAnnotation = _v0.a.typeAnnotation;
+			return _List_Nil;
+		case 'Destructuring':
+			var pattern = _v0.a;
+			var expr = _v0.b;
+			return _List_fromArray(
+				[expr]);
+		case 'PortDeclaration':
+			return _List_Nil;
+		default:
+			return _List_Nil;
+	}
+};
+var $jfmengels$elm_review$Review$Rule$expressionChildren = function (node) {
+	var _v0 = $stil4m$elm_syntax$Elm$Syntax$Node$value(node);
+	switch (_v0.$) {
+		case 'Application':
+			var expressions = _v0.a;
+			return expressions;
+		case 'Literal':
+			return _List_Nil;
+		case 'Integer':
+			return _List_Nil;
+		case 'Floatable':
+			return _List_Nil;
+		case 'UnitExpr':
+			return _List_Nil;
+		case 'ListExpr':
+			var elements = _v0.a;
+			return elements;
+		case 'FunctionOrValue':
+			return _List_Nil;
+		case 'RecordExpr':
+			var fields = _v0.a;
+			return A2(
+				$elm$core$List$map,
+				A2(
+					$elm$core$Basics$composeR,
+					$stil4m$elm_syntax$Elm$Syntax$Node$value,
+					function (_v1) {
+						var expr = _v1.b;
+						return expr;
+					}),
+				fields);
+		case 'RecordUpdateExpression':
+			var setters = _v0.b;
+			return A2(
+				$elm$core$List$map,
+				A2(
+					$elm$core$Basics$composeR,
+					$stil4m$elm_syntax$Elm$Syntax$Node$value,
+					function (_v2) {
+						var field = _v2.a;
+						var expr = _v2.b;
+						return expr;
+					}),
+				setters);
+		case 'ParenthesizedExpression':
+			var expr = _v0.a;
+			return _List_fromArray(
+				[expr]);
+		case 'Operator':
+			return _List_Nil;
+		case 'OperatorApplication':
+			var operator = _v0.a;
+			var direction = _v0.b;
+			var left = _v0.c;
+			var right = _v0.d;
+			switch (direction.$) {
+				case 'Left':
+					return _List_fromArray(
+						[left, right]);
+				case 'Right':
+					return _List_fromArray(
+						[right, left]);
+				default:
+					return _List_fromArray(
+						[left, right]);
+			}
+		case 'IfBlock':
+			var cond = _v0.a;
+			var then_ = _v0.b;
+			var else_ = _v0.c;
+			return _List_fromArray(
+				[cond, then_, else_]);
+		case 'LetExpression':
+			var expression = _v0.a.expression;
+			var declarations = _v0.a.declarations;
+			return _Utils_ap(
+				A2(
+					$elm$core$List$map,
+					function (declaration) {
+						var _v4 = $stil4m$elm_syntax$Elm$Syntax$Node$value(declaration);
+						if (_v4.$ === 'LetFunction') {
+							var _function = _v4.a;
+							return $jfmengels$elm_review$Review$Rule$functionToExpression(_function);
+						} else {
+							var pattern = _v4.a;
+							var expr = _v4.b;
+							return expr;
+						}
+					},
+					declarations),
+				_List_fromArray(
+					[expression]));
+		case 'CaseExpression':
+			var expression = _v0.a.expression;
+			var cases = _v0.a.cases;
+			return A2(
+				$elm$core$List$cons,
+				expression,
+				A2(
+					$elm$core$List$map,
+					function (_v5) {
+						var pattern = _v5.a;
+						var caseExpression = _v5.b;
+						return caseExpression;
+					},
+					cases));
+		case 'LambdaExpression':
+			var args = _v0.a.args;
+			var expression = _v0.a.expression;
+			return _List_fromArray(
+				[expression]);
+		case 'TupledExpression':
+			var expressions = _v0.a;
+			return expressions;
+		case 'PrefixOperator':
+			return _List_Nil;
+		case 'Hex':
+			return _List_Nil;
+		case 'Negation':
+			var expr = _v0.a;
+			return _List_fromArray(
+				[expr]);
+		case 'CharLiteral':
+			return _List_Nil;
+		case 'RecordAccess':
+			var expr = _v0.a;
+			var property = _v0.b;
+			return _List_fromArray(
+				[expr]);
+		case 'RecordAccessFunction':
+			return _List_Nil;
+		default:
+			return _List_Nil;
+	}
+};
+var $jfmengels$elm_review$Review$Rule$visitExpression = F3(
+	function (visitor, node, context) {
+		return A2(
+			$jfmengels$elm_review$Review$Rule$accumulate,
+			A2(visitor, node, $jfmengels$elm_review$Review$Rule$OnExit),
+			A3(
+				$jfmengels$elm_review$Review$Rule$accumulateList,
+				$jfmengels$elm_review$Review$Rule$visitExpression(visitor),
+				$jfmengels$elm_review$Review$Rule$expressionChildren(node),
+				A3(visitor, node, $jfmengels$elm_review$Review$Rule$OnEnter, context)));
+	});
+var $jfmengels$elm_review$Review$Rule$visitDeclaration = F4(
+	function (declarationVisitor, expressionVisitor, node, context) {
+		return A2(
+			$jfmengels$elm_review$Review$Rule$accumulate,
+			A2(declarationVisitor, node, $jfmengels$elm_review$Review$Rule$OnExit),
+			A3(
+				$jfmengels$elm_review$Review$Rule$accumulateList,
+				$jfmengels$elm_review$Review$Rule$visitExpression(expressionVisitor),
+				$jfmengels$elm_review$Review$Rule$expressionsInDeclaration(node),
+				A3(declarationVisitor, node, $jfmengels$elm_review$Review$Rule$OnEnter, context)));
+	});
+var $jfmengels$elm_review$Review$Rule$fromSchema = function (_v0) {
+	var schema = _v0.a;
+	return $jfmengels$elm_review$Review$Rule$Rule(
+		{
+			analyzer: F2(
+				function (project, file) {
+					return $elm$core$List$reverse(
+						A2(
+							$jfmengels$elm_review$Review$Rule$makeFinalEvaluation,
+							schema.finalEvaluationFn,
+							A3(
+								$jfmengels$elm_review$Review$Rule$accumulateList,
+								A2($jfmengels$elm_review$Review$Rule$visitDeclaration, schema.declarationVisitor, schema.expressionVisitor),
+								file.declarations,
+								A2(
+									$jfmengels$elm_review$Review$Rule$accumulate,
+									schema.declarationListVisitor(file.declarations),
+									A3(
+										$jfmengels$elm_review$Review$Rule$accumulateList,
+										schema.importVisitor,
+										file.imports,
+										A2(
+											schema.moduleDefinitionVisitor,
+											file.moduleDefinition,
+											A2(
+												schema.elmJsonVisitor,
+												$jfmengels$elm_review$Review$Project$elmJson(project),
+												schema.initialContext)))))));
+				}),
+			name: schema.name
+		});
+};
+var $jfmengels$review_unused$NoUnused$Variables$ImportedModule = {$: 'ImportedModule'};
+var $jfmengels$review_unused$NoUnused$Variables$ModuleAlias = function (a) {
+	return {$: 'ModuleAlias', a: a};
+};
+var $jfmengels$review_unused$NoUnused$Variables$ImportedItem = function (a) {
+	return {$: 'ImportedItem', a: a};
+};
+var $jfmengels$review_unused$NoUnused$Variables$ImportedOperator = {$: 'ImportedOperator'};
+var $jfmengels$review_unused$NoUnused$Variables$ImportedType = {$: 'ImportedType'};
+var $jfmengels$review_unused$NoUnused$Variables$ImportedVariable = {$: 'ImportedVariable'};
+var $elm$core$List$map3 = _List_map3;
+var $elm$core$List$takeReverse = F3(
+	function (n, list, kept) {
+		takeReverse:
+		while (true) {
+			if (n <= 0) {
+				return kept;
+			} else {
+				if (!list.b) {
+					return kept;
+				} else {
+					var x = list.a;
+					var xs = list.b;
+					var $temp$n = n - 1,
+						$temp$list = xs,
+						$temp$kept = A2($elm$core$List$cons, x, kept);
+					n = $temp$n;
+					list = $temp$list;
+					kept = $temp$kept;
+					continue takeReverse;
+				}
+			}
+		}
+	});
+var $elm$core$List$takeTailRec = F2(
+	function (n, list) {
+		return $elm$core$List$reverse(
+			A3($elm$core$List$takeReverse, n, list, _List_Nil));
+	});
+var $elm$core$List$takeFast = F3(
+	function (ctr, n, list) {
+		if (n <= 0) {
+			return _List_Nil;
+		} else {
+			var _v0 = _Utils_Tuple2(n, list);
+			_v0$1:
+			while (true) {
+				_v0$5:
+				while (true) {
+					if (!_v0.b.b) {
+						return list;
+					} else {
+						if (_v0.b.b.b) {
+							switch (_v0.a) {
+								case 1:
+									break _v0$1;
+								case 2:
+									var _v2 = _v0.b;
+									var x = _v2.a;
+									var _v3 = _v2.b;
+									var y = _v3.a;
+									return _List_fromArray(
+										[x, y]);
+								case 3:
+									if (_v0.b.b.b.b) {
+										var _v4 = _v0.b;
+										var x = _v4.a;
+										var _v5 = _v4.b;
+										var y = _v5.a;
+										var _v6 = _v5.b;
+										var z = _v6.a;
+										return _List_fromArray(
+											[x, y, z]);
+									} else {
+										break _v0$5;
+									}
+								default:
+									if (_v0.b.b.b.b && _v0.b.b.b.b.b) {
+										var _v7 = _v0.b;
+										var x = _v7.a;
+										var _v8 = _v7.b;
+										var y = _v8.a;
+										var _v9 = _v8.b;
+										var z = _v9.a;
+										var _v10 = _v9.b;
+										var w = _v10.a;
+										var tl = _v10.b;
+										return (ctr > 1000) ? A2(
+											$elm$core$List$cons,
+											x,
+											A2(
+												$elm$core$List$cons,
+												y,
+												A2(
+													$elm$core$List$cons,
+													z,
+													A2(
+														$elm$core$List$cons,
+														w,
+														A2($elm$core$List$takeTailRec, n - 4, tl))))) : A2(
+											$elm$core$List$cons,
+											x,
+											A2(
+												$elm$core$List$cons,
+												y,
+												A2(
+													$elm$core$List$cons,
+													z,
+													A2(
+														$elm$core$List$cons,
+														w,
+														A3($elm$core$List$takeFast, ctr + 1, n - 4, tl)))));
+									} else {
+										break _v0$5;
+									}
+							}
+						} else {
+							if (_v0.a === 1) {
+								break _v0$1;
+							} else {
+								break _v0$5;
+							}
+						}
+					}
+				}
+				return list;
+			}
+			var _v1 = _v0.b;
+			var x = _v1.a;
+			return _List_fromArray(
+				[x]);
+		}
+	});
+var $elm$core$List$take = F2(
+	function (n, list) {
+		return A3($elm$core$List$takeFast, 0, n, list);
+	});
+var $jfmengels$review_unused$NoUnused$Variables$collectFromExposing = function (exposingNode) {
+	var _v0 = $stil4m$elm_syntax$Elm$Syntax$Node$value(exposingNode);
+	if (_v0.$ === 'All') {
+		return _List_Nil;
+	} else {
+		var list = _v0.a;
+		var listWithPreviousRange = A2(
+			$elm$core$List$cons,
+			$elm$core$Maybe$Nothing,
+			A2(
+				$elm$core$List$take,
+				$elm$core$List$length(list) - 1,
+				A2(
+					$elm$core$List$map,
+					A2($elm$core$Basics$composeR, $stil4m$elm_syntax$Elm$Syntax$Node$range, $elm$core$Maybe$Just),
+					list)));
+		var listWithNextRange = _Utils_ap(
+			A2(
+				$elm$core$List$drop,
+				1,
+				A2($elm$core$List$map, $stil4m$elm_syntax$Elm$Syntax$Node$range, list)),
+			_List_fromArray(
+				[
+					{
+					end: {column: 0, row: 0},
+					start: {column: 0, row: 0}
+				}
+				]));
+		return A2(
+			$elm$core$List$filterMap,
+			$elm$core$Basics$identity,
+			A2(
+				$elm$core$List$indexedMap,
+				F2(
+					function (index, _v1) {
+						var maybePreviousRange = _v1.a;
+						var _v2 = _v1.b;
+						var range = _v2.a;
+						var value = _v2.b;
+						var nextRange = _v1.c;
+						var rangeToRemove = function () {
+							if ($elm$core$List$length(list) === 1) {
+								return $stil4m$elm_syntax$Elm$Syntax$Node$range(exposingNode);
+							} else {
+								if (!index) {
+									return _Utils_update(
+										range,
+										{end: nextRange.start});
+								} else {
+									if (maybePreviousRange.$ === 'Nothing') {
+										return range;
+									} else {
+										var previousRange = maybePreviousRange.a;
+										return _Utils_update(
+											range,
+											{start: previousRange.end});
+									}
+								}
+							}
+						}();
+						switch (value.$) {
+							case 'FunctionExpose':
+								var name = value.a;
+								return $elm$core$Maybe$Just(
+									_Utils_Tuple2(
+										name,
+										{
+											rangeToRemove: rangeToRemove,
+											under: range,
+											variableType: $jfmengels$review_unused$NoUnused$Variables$ImportedItem($jfmengels$review_unused$NoUnused$Variables$ImportedVariable)
+										}));
+							case 'InfixExpose':
+								var name = value.a;
+								return $elm$core$Maybe$Just(
+									_Utils_Tuple2(
+										name,
+										{
+											rangeToRemove: rangeToRemove,
+											under: range,
+											variableType: $jfmengels$review_unused$NoUnused$Variables$ImportedItem($jfmengels$review_unused$NoUnused$Variables$ImportedOperator)
+										}));
+							case 'TypeOrAliasExpose':
+								var name = value.a;
+								return $elm$core$Maybe$Just(
+									_Utils_Tuple2(
+										name,
+										{
+											rangeToRemove: rangeToRemove,
+											under: range,
+											variableType: $jfmengels$review_unused$NoUnused$Variables$ImportedItem($jfmengels$review_unused$NoUnused$Variables$ImportedType)
+										}));
+							default:
+								var name = value.a.name;
+								var open = value.a.open;
+								if (open.$ === 'Just') {
+									var openRange = open.a;
+									return $elm$core$Maybe$Nothing;
+								} else {
+									return $elm$core$Maybe$Just(
+										_Utils_Tuple2(
+											name,
+											{
+												rangeToRemove: rangeToRemove,
+												under: range,
+												variableType: $jfmengels$review_unused$NoUnused$Variables$ImportedItem($jfmengels$review_unused$NoUnused$Variables$ImportedType)
+											}));
+								}
+						}
+					}),
+				A4(
+					$elm$core$List$map3,
+					F3(
+						function (prev, next, current) {
+							return _Utils_Tuple3(prev, current, next);
+						}),
+					listWithPreviousRange,
+					listWithNextRange,
+					list)));
+	}
+};
+var $jfmengels$review_unused$NoUnused$Variables$moduleAliasRange = F2(
+	function (_v0, range) {
+		var moduleName = _v0.b.moduleName;
+		return _Utils_update(
+			range,
+			{
+				start: $stil4m$elm_syntax$Elm$Syntax$Node$range(moduleName).end
+			});
+	});
+var $jfmengels$review_unused$NoUnused$Variables$importVisitor = F2(
+	function (importNode, context) {
+		var range = importNode.a;
+		var exposingList = importNode.b.exposingList;
+		var moduleAlias = importNode.b.moduleAlias;
+		var moduleName = importNode.b.moduleName;
+		if (exposingList.$ === 'Nothing') {
+			var _v1 = function () {
+				if (moduleAlias.$ === 'Just') {
+					var moduleAlias_ = moduleAlias.a;
+					return _Utils_Tuple3(
+						$jfmengels$review_unused$NoUnused$Variables$ModuleAlias(
+							{
+								exposesSomething: false,
+								originalNameOfTheImport: $jfmengels$review_unused$NoUnused$Variables$getModuleName(
+									$stil4m$elm_syntax$Elm$Syntax$Node$value(moduleName))
+							}),
+						moduleAlias_,
+						range);
+				} else {
+					return _Utils_Tuple3($jfmengels$review_unused$NoUnused$Variables$ImportedModule, moduleName, range);
+				}
+			}();
+			var variableType = _v1.a;
+			var _v2 = _v1.b;
+			var nameNodeRange = _v2.a;
+			var nameNodeValue = _v2.b;
+			var rangeToRemove = _v1.c;
+			return _Utils_Tuple2(
+				_List_Nil,
+				A3(
+					$jfmengels$review_unused$NoUnused$Variables$register,
+					{rangeToRemove: rangeToRemove, under: nameNodeRange, variableType: variableType},
+					$jfmengels$review_unused$NoUnused$Variables$getModuleName(nameNodeValue),
+					context));
+		} else {
+			var declaredImports = exposingList.a;
+			var contextWithoutImports = function () {
+				if (moduleAlias.$ === 'Just') {
+					var _v6 = moduleAlias.a;
+					var moduleAliasRange_ = _v6.a;
+					var value = _v6.b;
+					return A3(
+						$jfmengels$review_unused$NoUnused$Variables$register,
+						{
+							rangeToRemove: A2($jfmengels$review_unused$NoUnused$Variables$moduleAliasRange, importNode, moduleAliasRange_),
+							under: moduleAliasRange_,
+							variableType: $jfmengels$review_unused$NoUnused$Variables$ModuleAlias(
+								{
+									exposesSomething: true,
+									originalNameOfTheImport: $jfmengels$review_unused$NoUnused$Variables$getModuleName(
+										$stil4m$elm_syntax$Elm$Syntax$Node$value(moduleName))
+								})
+						},
+						$jfmengels$review_unused$NoUnused$Variables$getModuleName(value),
+						context);
+				} else {
+					return context;
+				}
+			}();
+			return _Utils_Tuple2(
+				_List_Nil,
+				A3(
+					$elm$core$List$foldl,
+					F2(
+						function (_v4, context_) {
+							var name = _v4.a;
+							var variableInfo = _v4.b;
+							return A3($jfmengels$review_unused$NoUnused$Variables$register, variableInfo, name, context_);
+						}),
+					contextWithoutImports,
+					$jfmengels$review_unused$NoUnused$Variables$collectFromExposing(declaredImports)));
+		}
+	});
+var $jfmengels$review_unused$NonemptyList$fromElement = function (x) {
+	return A2($jfmengels$review_unused$NonemptyList$Nonempty, x, _List_Nil);
+};
+var $jfmengels$review_unused$NoUnused$Variables$initialContext = {
+	constructorNameToTypeName: $elm$core$Dict$empty,
+	declaredModules: $elm$core$Dict$empty,
+	exposesEverything: false,
+	scopes: $jfmengels$review_unused$NonemptyList$fromElement($jfmengels$review_unused$NoUnused$Variables$emptyScope),
+	usedModules: $elm$core$Set$empty
+};
+var $stil4m$elm_syntax$Elm$Syntax$Module$exposingList = function (m) {
+	switch (m.$) {
+		case 'NormalModule':
+			var x = m.a;
+			return $stil4m$elm_syntax$Elm$Syntax$Node$value(x.exposingList);
+		case 'PortModule':
+			var x = m.a;
+			return $stil4m$elm_syntax$Elm$Syntax$Node$value(x.exposingList);
+		default:
+			var x = m.a;
+			return $stil4m$elm_syntax$Elm$Syntax$Node$value(x.exposingList);
+	}
+};
+var $jfmengels$review_unused$NoUnused$Variables$moduleDefinitionVisitor = F2(
+	function (_v0, context) {
+		var moduleNode = _v0.b;
+		var _v1 = $stil4m$elm_syntax$Elm$Syntax$Module$exposingList(moduleNode);
+		if (_v1.$ === 'All') {
+			return _Utils_Tuple2(
+				_List_Nil,
+				_Utils_update(
+					context,
+					{exposesEverything: true}));
+		} else {
+			var list = _v1.a;
+			var names = A2(
+				$elm$core$List$filterMap,
+				function (_v2) {
+					var node = _v2.b;
+					switch (node.$) {
+						case 'FunctionExpose':
+							var name = node.a;
+							return $elm$core$Maybe$Just(name);
+						case 'TypeOrAliasExpose':
+							var name = node.a;
+							return $elm$core$Maybe$Just(name);
+						case 'TypeExpose':
+							var name = node.a.name;
+							return $elm$core$Maybe$Just(name);
+						default:
+							var name = node.a;
+							return $elm$core$Maybe$Nothing;
+					}
+				},
+				list);
+			return _Utils_Tuple2(
+				_List_Nil,
+				A2($jfmengels$review_unused$NoUnused$Variables$markAllAsUsed, names, context));
+		}
+	});
+var $jfmengels$elm_review$Review$Rule$Schema = function (a) {
+	return {$: 'Schema', a: a};
+};
+var $jfmengels$elm_review$Review$Rule$newSchema = function (name_) {
+	return $jfmengels$elm_review$Review$Rule$Schema(
+		{
+			declarationListVisitor: F2(
+				function (declarationNodes, context) {
+					return _Utils_Tuple2(_List_Nil, context);
+				}),
+			declarationVisitor: F3(
+				function (node, direction, context) {
+					return _Utils_Tuple2(_List_Nil, context);
+				}),
+			elmJsonVisitor: F2(
+				function (elmJson, context) {
+					return context;
+				}),
+			expressionVisitor: F3(
+				function (node, direction, context) {
+					return _Utils_Tuple2(_List_Nil, context);
+				}),
+			finalEvaluationFn: function (context) {
+				return _List_Nil;
+			},
+			importVisitor: F2(
+				function (node, context) {
+					return _Utils_Tuple2(_List_Nil, context);
+				}),
+			initialContext: _Utils_Tuple0,
+			moduleDefinitionVisitor: F2(
+				function (node, context) {
+					return _Utils_Tuple2(_List_Nil, context);
+				}),
+			name: name_
+		});
+};
+var $jfmengels$elm_review$Review$Rule$withDeclarationVisitor = F2(
+	function (visitor, _v0) {
+		var schema = _v0.a;
+		return $jfmengels$elm_review$Review$Rule$Schema(
+			_Utils_update(
+				schema,
+				{declarationVisitor: visitor}));
+	});
+var $jfmengels$elm_review$Review$Rule$withExpressionVisitor = F2(
+	function (visitor, _v0) {
+		var schema = _v0.a;
+		return $jfmengels$elm_review$Review$Rule$Schema(
+			_Utils_update(
+				schema,
+				{expressionVisitor: visitor}));
+	});
+var $jfmengels$elm_review$Review$Rule$withFinalEvaluation = F2(
+	function (visitor, _v0) {
+		var schema = _v0.a;
+		return $jfmengels$elm_review$Review$Rule$Schema(
+			_Utils_update(
+				schema,
+				{finalEvaluationFn: visitor}));
+	});
+var $jfmengels$elm_review$Review$Rule$withImportVisitor = F2(
+	function (visitor, _v0) {
+		var schema = _v0.a;
+		return $jfmengels$elm_review$Review$Rule$Schema(
+			_Utils_update(
+				schema,
+				{importVisitor: visitor}));
+	});
+var $jfmengels$elm_review$Review$Rule$withInitialContext = F2(
+	function (initialContext_, _v0) {
+		var schema = _v0.a;
+		return $jfmengels$elm_review$Review$Rule$Schema(
+			{
+				declarationListVisitor: F2(
+					function (declarationNodes, context) {
+						return _Utils_Tuple2(_List_Nil, context);
+					}),
+				declarationVisitor: F3(
+					function (node, direction, context) {
+						return _Utils_Tuple2(_List_Nil, context);
+					}),
+				elmJsonVisitor: F2(
+					function (elmJson, context) {
+						return context;
+					}),
+				expressionVisitor: F3(
+					function (node, direction, context) {
+						return _Utils_Tuple2(_List_Nil, context);
+					}),
+				finalEvaluationFn: function (context) {
+					return _List_Nil;
+				},
+				importVisitor: F2(
+					function (node, context) {
+						return _Utils_Tuple2(_List_Nil, context);
+					}),
+				initialContext: initialContext_,
+				moduleDefinitionVisitor: F2(
+					function (node, context) {
+						return _Utils_Tuple2(_List_Nil, context);
+					}),
+				name: schema.name
+			});
+	});
+var $jfmengels$elm_review$Review$Rule$withModuleDefinitionVisitor = F2(
+	function (visitor, _v0) {
+		var schema = _v0.a;
+		return $jfmengels$elm_review$Review$Rule$Schema(
+			_Utils_update(
+				schema,
+				{moduleDefinitionVisitor: visitor}));
+	});
+var $jfmengels$review_unused$NoUnused$Variables$rule = $jfmengels$elm_review$Review$Rule$fromSchema(
+	A2(
+		$jfmengels$elm_review$Review$Rule$withFinalEvaluation,
+		$jfmengels$review_unused$NoUnused$Variables$finalEvaluation,
+		A2(
+			$jfmengels$elm_review$Review$Rule$withDeclarationVisitor,
+			$jfmengels$review_unused$NoUnused$Variables$declarationVisitor,
+			A2(
+				$jfmengels$elm_review$Review$Rule$withExpressionVisitor,
+				$jfmengels$review_unused$NoUnused$Variables$expressionVisitor,
+				A2(
+					$jfmengels$elm_review$Review$Rule$withImportVisitor,
+					$jfmengels$review_unused$NoUnused$Variables$importVisitor,
+					A2(
+						$jfmengels$elm_review$Review$Rule$withModuleDefinitionVisitor,
+						$jfmengels$review_unused$NoUnused$Variables$moduleDefinitionVisitor,
+						A2(
+							$jfmengels$elm_review$Review$Rule$withInitialContext,
+							$jfmengels$review_unused$NoUnused$Variables$initialContext,
+							$jfmengels$elm_review$Review$Rule$newSchema('NoUnused.Variables'))))))));
+var $author$project$RawContent$sourceCode = 'module Main exposing (f)\nimport NotUsed\nimport SomeModule exposing (notUsed)\ntype SomeCustomType\n  = UsedConstructor\n  | NotUsedConstructor\nf : Int -> SomeCustomType\nf x =\n  let\n    _ = Debug.log "x" x\n  in\n  UsedConstructor\ng n = n + 1\n';
+var $author$project$ExplorerWithNotes$options = {
+	note: $author$project$RawContent$note,
 	review: {
-		errors: A2($author$project$UIExplorer$Plugins$Review$initErrors, $author$project$ExplorerWithNotes$config, $author$project$ExplorerWithNotes$sourceCode),
-		sourceCode: $author$project$ExplorerWithNotes$sourceCode
+		errors: A2(
+			$author$project$UIExplorer$Plugins$Review$initErrors,
+			_List_fromArray(
+				[$jfmengels$review_unused$NoUnused$Variables$rule]),
+			$author$project$RawContent$sourceCode),
+		sourceCode: $author$project$RawContent$sourceCode
 	}
 };
 var $author$project$UIExplorer$UIType = function (a) {
@@ -23094,7 +23097,7 @@ var $author$project$ExplorerWithNotes$main = A2(
 					function (_v0) {
 						return A3($author$project$Button$view, 'Submit', $author$project$Button$defaultButtonConfig, _Utils_Tuple0);
 					},
-					$author$project$ExplorerWithNotes$note),
+					$author$project$ExplorerWithNotes$options),
 					_Utils_Tuple3(
 					'Secondary',
 					function (_v1) {
@@ -23106,7 +23109,7 @@ var $author$project$ExplorerWithNotes$main = A2(
 								{appearance: $author$project$Button$Secondary}),
 							_Utils_Tuple0);
 					},
-					$author$project$ExplorerWithNotes$note),
+					$author$project$ExplorerWithNotes$options),
 					_Utils_Tuple3(
 					'Small',
 					function (_v2) {
@@ -23118,7 +23121,7 @@ var $author$project$ExplorerWithNotes$main = A2(
 								{size: $author$project$Button$S}),
 							_Utils_Tuple0);
 					},
-					$author$project$ExplorerWithNotes$note),
+					$author$project$ExplorerWithNotes$options),
 					_Utils_Tuple3(
 					'Large',
 					function (_v3) {
@@ -23130,7 +23133,7 @@ var $author$project$ExplorerWithNotes$main = A2(
 								{size: $author$project$Button$L}),
 							_Utils_Tuple0);
 					},
-					$author$project$ExplorerWithNotes$note),
+					$author$project$ExplorerWithNotes$options),
 					_Utils_Tuple3(
 					'Link',
 					function (_v4) {
@@ -23142,7 +23145,7 @@ var $author$project$ExplorerWithNotes$main = A2(
 								{appearance: $author$project$Button$Secondary, kind: $author$project$Button$Link}),
 							_Utils_Tuple0);
 					},
-					$author$project$ExplorerWithNotes$note),
+					$author$project$ExplorerWithNotes$options),
 					_Utils_Tuple3(
 					'Ghost Primary',
 					function (_v5) {
@@ -23154,7 +23157,7 @@ var $author$project$ExplorerWithNotes$main = A2(
 								{kind: $author$project$Button$Ghost}),
 							_Utils_Tuple0);
 					},
-					$author$project$ExplorerWithNotes$note),
+					$author$project$ExplorerWithNotes$options),
 					_Utils_Tuple3(
 					'GhostSecondary',
 					function (_v6) {
@@ -23166,7 +23169,7 @@ var $author$project$ExplorerWithNotes$main = A2(
 								{appearance: $author$project$Button$Secondary, kind: $author$project$Button$Ghost}),
 							_Utils_Tuple0);
 					},
-					$author$project$ExplorerWithNotes$note)
+					$author$project$ExplorerWithNotes$options)
 				]))
 		]));
 _Platform_export({'ExplorerWithNotes':{'init':$author$project$ExplorerWithNotes$main(

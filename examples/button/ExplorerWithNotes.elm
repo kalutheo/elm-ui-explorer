@@ -4,7 +4,7 @@ import Button exposing (..)
 import Html exposing (Html, hr)
 import Html.Attributes as Attr
 import NoUnused.Variables
-import Review.Rule exposing (Rule)
+import RawContent
 import UIExplorer
     exposing
         ( UIExplorerProgram
@@ -23,132 +23,11 @@ type alias PluginOption =
     }
 
 
-config : List Rule
-config =
-    [ NoUnused.Variables.rule
-    ]
-
-
-sourceCode : String
-sourceCode =
-    """module Main exposing (f)
-import NotUsed
-import SomeModule exposing (notUsed)
-type SomeCustomType
-  = UsedConstructor
-  | NotUsedConstructor
-f : Int -> SomeCustomType
-f x =
-  let
-    _ = Debug.log "x" x
-  in
-  UsedConstructor
-g n = n + 1
-"""
-
-
-note =
-    { note = """
-# Modules
-- [Button](#button)
-
-# Button
-- [Config](#config)
-- [Size](#size)
-- [Kind](#kind)
-- [Appearance](#appearance)
-- [defaultButtonConfig](#defaultbuttonconfig)
-- [view](#view)
-
-## Button
-The Button should be used to trigger user actions.
-Some examples of interactions:
-  - Submit a form
-  - Cancel an order
-  - Toggle a menu visibility
-  - Play a media
-```elm
-import Button exposing (..)
-Button.view "Submit" defaultButtonConfig ()
-```
-## Links:
-  - [UX Planet - Basic rules for button](https://uxplanet.org/7-basic-rules-for-button-design-63dcdf5676b4)
-
-### `Config`
-```elm
-type alias Config  =
-    { appearance : Button.Appearance, size : Button.Size, kind : Button.Kind, class : String.String, theme : Button.Theme }
-```
- Option to customize the Button
-
-
----
-
-
-### `Size`
-```elm
-type Size
-    = S
-    | M
-    | L
-```
- Define the size of the Button
-
-
----
-
-
-### `Kind`
-```elm
-type Kind
-    = Link
-    | Filled
-    | Ghost
-```
- Look and feel of the Button
-
-
----
-
-
-### `Appearance`
-```elm
-type Appearance
-    = Primary
-    | Secondary
-```
- Define the appearance of the Button
-
-
----
-
-
-### `defaultButtonConfig`
-```elm
-defaultButtonConfig : Config
-```
- Default Configurations
-
-
----
-
-
-### `view`
-```elm
-view : String.String -> Config -> msg -> Html.Html msg
-```
- Renders the button
-
-
----
-
-
-> Generated with elm: 0.19.0 and elm-docs: 0.4.0
-
-"""
+options =
+    { note = RawContent.note
     , review =
-        { errors = ReviewPlugin.initErrors config sourceCode
-        , sourceCode = sourceCode
+        { errors = ReviewPlugin.initErrors [ NoUnused.Variables.rule ] RawContent.sourceCode
+        , sourceCode = RawContent.sourceCode
         }
     }
 
@@ -169,12 +48,12 @@ main =
         }
         [ storiesOf
             "Button"
-            [ ( "Primary", \_ -> Button.view "Submit" defaultButtonConfig (), note )
-            , ( "Secondary", \_ -> Button.view "Submit" { defaultButtonConfig | appearance = Secondary } (), note )
-            , ( "Small", \_ -> Button.view "Submit" { defaultButtonConfig | size = S } (), note )
-            , ( "Large", \_ -> Button.view "Submit" { defaultButtonConfig | size = L } (), note )
-            , ( "Link", \_ -> Button.view "Submit" { defaultButtonConfig | kind = Link, appearance = Secondary } (), note )
-            , ( "Ghost Primary", \_ -> Button.view "Submit" { defaultButtonConfig | kind = Ghost } (), note )
-            , ( "GhostSecondary", \_ -> Button.view "Submit" { defaultButtonConfig | appearance = Secondary, kind = Ghost } (), note )
+            [ ( "Primary", \_ -> Button.view "Submit" defaultButtonConfig (), options )
+            , ( "Secondary", \_ -> Button.view "Submit" { defaultButtonConfig | appearance = Secondary } (), options )
+            , ( "Small", \_ -> Button.view "Submit" { defaultButtonConfig | size = S } (), options )
+            , ( "Large", \_ -> Button.view "Submit" { defaultButtonConfig | size = L } (), options )
+            , ( "Link", \_ -> Button.view "Submit" { defaultButtonConfig | kind = Link, appearance = Secondary } (), options )
+            , ( "Ghost Primary", \_ -> Button.view "Submit" { defaultButtonConfig | kind = Ghost } (), options )
+            , ( "GhostSecondary", \_ -> Button.view "Submit" { defaultButtonConfig | appearance = Secondary, kind = Ghost } (), options )
             ]
         ]
