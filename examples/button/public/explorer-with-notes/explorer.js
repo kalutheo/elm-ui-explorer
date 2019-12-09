@@ -5218,15 +5218,19 @@ var $elm$core$Basics$LT = {$: 'LT'};
 var $author$project$Button$Ghost = {$: 'Ghost'};
 var $author$project$Button$L = {$: 'L'};
 var $author$project$Button$Link = {$: 'Link'};
+var $author$project$ExplorerWithNotes$NoOp = {$: 'NoOp'};
+var $elm$core$Maybe$Nothing = {$: 'Nothing'};
 var $author$project$Button$S = {$: 'S'};
 var $author$project$Button$Secondary = {$: 'Secondary'};
+var $author$project$ExplorerWithNotes$TabMsg = function (a) {
+	return {$: 'TabMsg', a: a};
+};
 var $author$project$Button$Filled = {$: 'Filled'};
 var $author$project$Button$M = {$: 'M'};
 var $author$project$Button$Primary = {$: 'Primary'};
 var $elm$core$Maybe$Just = function (a) {
 	return {$: 'Just', a: a};
 };
-var $elm$core$Maybe$Nothing = {$: 'Nothing'};
 var $elm$core$String$length = _String_length;
 var $elm$core$Basics$lt = _Utils_lt;
 var $elm$core$String$slice = _String_slice;
@@ -5710,22 +5714,6 @@ var $author$project$Button$defaultButtonConfig = {
 		primary: $rtfeldman$elm_css$Css$hex('00d1b2'),
 		secondary: $rtfeldman$elm_css$Css$hex('333333')
 	}
-};
-var $author$project$UIExplorer$defaultConfig = {
-	customHeader: $elm$core$Maybe$Nothing,
-	customModel: {},
-	menuViewEnhancer: F2(
-		function (m, v) {
-			return v;
-		}),
-	update: F2(
-		function (msg, m) {
-			return m;
-		}),
-	viewEnhancer: F2(
-		function (m, stories) {
-			return stories;
-		})
 };
 var $elm$json$Json$Decode$Failure = F2(
 	function (a, b) {
@@ -12059,7 +12047,6 @@ var $author$project$UIExplorer$explore = F2(
 			config,
 			$author$project$UIExplorer$fromUIList(uiList));
 	});
-var $elm$html$Html$hr = _VirtualDom_node('hr');
 var $author$project$UIExplorer$Plugins$Review$file = function (source) {
 	return {path: 'SOURCE CODE', source: source};
 };
@@ -20155,6 +20142,13 @@ var $author$project$UIExplorer$storiesOf = F2(
 		return $author$project$UIExplorer$UIType(
 			{description: '', id: id, viewStories: stories});
 	});
+var $author$project$UIExplorer$Plugins$Tabs$update = F2(
+	function (msg, m) {
+		var index = msg.a;
+		return _Utils_update(
+			m,
+			{displayedTab: index});
+	});
 var $rtfeldman$elm_css$VirtualDom$Styled$Attribute = F3(
 	function (a, b, c) {
 		return {$: 'Attribute', a: a, b: b, c: c};
@@ -22474,6 +22468,71 @@ var $author$project$Button$view = F3(
 						$rtfeldman$elm_css$Html$Styled$text(label)
 					])));
 	});
+var $author$project$UIExplorer$Plugins$Tabs$TabOpened = function (a) {
+	return {$: 'TabOpened', a: a};
+};
+var $elm$html$Html$hr = _VirtualDom_node('hr');
+var $elm$html$Html$nav = _VirtualDom_node('nav');
+var $author$project$UIExplorer$Plugins$Tabs$view = F3(
+	function (tabs, items, onTabOpened) {
+		return A2(
+			$elm$html$Html$div,
+			_List_Nil,
+			_List_fromArray(
+				[
+					A2(
+					$elm$html$Html$nav,
+					_List_Nil,
+					A2(
+						$elm$core$List$indexedMap,
+						F2(
+							function (index, _v0) {
+								var title = _v0.a;
+								return A2(
+									$elm$html$Html$button,
+									_List_fromArray(
+										[
+											$elm$html$Html$Events$onClick(
+											$author$project$UIExplorer$ExternalMsg(
+												onTabOpened(
+													$author$project$UIExplorer$Plugins$Tabs$TabOpened(index))))
+										]),
+									_List_fromArray(
+										[
+											$elm$html$Html$text(title)
+										]));
+							}),
+						items)),
+					A2(
+					$elm$html$Html$section,
+					_List_Nil,
+					A2(
+						$elm$core$List$indexedMap,
+						F2(
+							function (index, item) {
+								var _v1 = _Utils_eq(tabs.displayedTab, index);
+								if (_v1) {
+									return A2(
+										$elm$html$Html$div,
+										_List_Nil,
+										_List_fromArray(
+											[
+												A2(
+												$elm$html$Html$hr,
+												_List_fromArray(
+													[
+														A2($elm$html$Html$Attributes$style, 'height', '1px')
+													]),
+												_List_Nil),
+												item.b
+											]));
+								} else {
+									return $elm$html$Html$text('');
+								}
+							}),
+						items))
+				]));
+	});
 var $author$project$UIExplorer$findStory = F3(
 	function (uiId, storyId, categories) {
 		var foundStory = A2(
@@ -23055,36 +23114,56 @@ var $author$project$UIExplorer$Plugins$Review$viewEnhancer = function (model) {
 };
 var $author$project$ExplorerWithNotes$main = A2(
 	$author$project$UIExplorer$explore,
-	_Utils_update(
-		$author$project$UIExplorer$defaultConfig,
-		{
-			viewEnhancer: F2(
-				function (m, stories) {
-					return A2(
-						$elm$html$Html$div,
-						_List_Nil,
-						_List_fromArray(
-							[
-								stories,
-								A2(
-								$elm$html$Html$hr,
-								_List_fromArray(
-									[
-										A2($elm$html$Html$Attributes$style, 'height', '1px')
-									]),
-								_List_Nil),
-								$author$project$UIExplorer$Plugins$Note$viewEnhancer(m),
-								A2(
-								$elm$html$Html$hr,
-								_List_fromArray(
-									[
-										A2($elm$html$Html$Attributes$style, 'height', '1px')
-									]),
-								_List_Nil),
-								$author$project$UIExplorer$Plugins$Review$viewEnhancer(m)
-							]));
-				})
-		}),
+	{
+		customHeader: $elm$core$Maybe$Nothing,
+		customModel: {
+			tabs: {displayedTab: 0}
+		},
+		menuViewEnhancer: F2(
+			function (m, v) {
+				return v;
+			}),
+		update: F2(
+			function (msg, m) {
+				if (msg.$ === 'TabMsg') {
+					var submsg = msg.a;
+					var tabs = m.customModel.tabs;
+					var newTab = A2($author$project$UIExplorer$Plugins$Tabs$update, submsg, tabs);
+					var customModel = m.customModel;
+					var newCustomModel = _Utils_update(
+						customModel,
+						{tabs: newTab});
+					return _Utils_update(
+						m,
+						{customModel: newCustomModel});
+				} else {
+					return m;
+				}
+			}),
+		viewEnhancer: F2(
+			function (m, stories) {
+				return A2(
+					$elm$html$Html$div,
+					_List_Nil,
+					_List_fromArray(
+						[
+							stories,
+							A3(
+							$author$project$UIExplorer$Plugins$Tabs$view,
+							m.customModel.tabs,
+							_List_fromArray(
+								[
+									_Utils_Tuple2(
+									'Notes',
+									$author$project$UIExplorer$Plugins$Note$viewEnhancer(m)),
+									_Utils_Tuple2(
+									'Review',
+									$author$project$UIExplorer$Plugins$Review$viewEnhancer(m))
+								]),
+							$author$project$ExplorerWithNotes$TabMsg)
+						]));
+			})
+	},
 	_List_fromArray(
 		[
 			A2(
@@ -23094,83 +23173,83 @@ var $author$project$ExplorerWithNotes$main = A2(
 				[
 					_Utils_Tuple3(
 					'Primary',
-					function (_v0) {
-						return A3($author$project$Button$view, 'Submit', $author$project$Button$defaultButtonConfig, _Utils_Tuple0);
+					function (_v1) {
+						return A3($author$project$Button$view, 'Submit', $author$project$Button$defaultButtonConfig, $author$project$ExplorerWithNotes$NoOp);
 					},
 					$author$project$ExplorerWithNotes$options),
 					_Utils_Tuple3(
 					'Secondary',
-					function (_v1) {
-						return A3(
-							$author$project$Button$view,
-							'Submit',
-							_Utils_update(
-								$author$project$Button$defaultButtonConfig,
-								{appearance: $author$project$Button$Secondary}),
-							_Utils_Tuple0);
-					},
-					$author$project$ExplorerWithNotes$options),
-					_Utils_Tuple3(
-					'Small',
 					function (_v2) {
 						return A3(
 							$author$project$Button$view,
 							'Submit',
 							_Utils_update(
 								$author$project$Button$defaultButtonConfig,
-								{size: $author$project$Button$S}),
-							_Utils_Tuple0);
+								{appearance: $author$project$Button$Secondary}),
+							$author$project$ExplorerWithNotes$NoOp);
 					},
 					$author$project$ExplorerWithNotes$options),
 					_Utils_Tuple3(
-					'Large',
+					'Small',
 					function (_v3) {
 						return A3(
 							$author$project$Button$view,
 							'Submit',
 							_Utils_update(
 								$author$project$Button$defaultButtonConfig,
-								{size: $author$project$Button$L}),
-							_Utils_Tuple0);
+								{size: $author$project$Button$S}),
+							$author$project$ExplorerWithNotes$NoOp);
 					},
 					$author$project$ExplorerWithNotes$options),
 					_Utils_Tuple3(
-					'Link',
+					'Large',
 					function (_v4) {
 						return A3(
 							$author$project$Button$view,
 							'Submit',
 							_Utils_update(
 								$author$project$Button$defaultButtonConfig,
-								{appearance: $author$project$Button$Secondary, kind: $author$project$Button$Link}),
-							_Utils_Tuple0);
+								{size: $author$project$Button$L}),
+							$author$project$ExplorerWithNotes$NoOp);
 					},
 					$author$project$ExplorerWithNotes$options),
 					_Utils_Tuple3(
-					'Ghost Primary',
+					'Link',
 					function (_v5) {
 						return A3(
 							$author$project$Button$view,
 							'Submit',
 							_Utils_update(
 								$author$project$Button$defaultButtonConfig,
-								{kind: $author$project$Button$Ghost}),
-							_Utils_Tuple0);
+								{appearance: $author$project$Button$Secondary, kind: $author$project$Button$Link}),
+							$author$project$ExplorerWithNotes$NoOp);
 					},
 					$author$project$ExplorerWithNotes$options),
 					_Utils_Tuple3(
-					'GhostSecondary',
+					'Ghost Primary',
 					function (_v6) {
 						return A3(
 							$author$project$Button$view,
 							'Submit',
 							_Utils_update(
 								$author$project$Button$defaultButtonConfig,
+								{kind: $author$project$Button$Ghost}),
+							$author$project$ExplorerWithNotes$NoOp);
+					},
+					$author$project$ExplorerWithNotes$options),
+					_Utils_Tuple3(
+					'GhostSecondary',
+					function (_v7) {
+						return A3(
+							$author$project$Button$view,
+							'Submit',
+							_Utils_update(
+								$author$project$Button$defaultButtonConfig,
 								{appearance: $author$project$Button$Secondary, kind: $author$project$Button$Ghost}),
-							_Utils_Tuple0);
+							$author$project$ExplorerWithNotes$NoOp);
 					},
 					$author$project$ExplorerWithNotes$options)
 				]))
 		]));
 _Platform_export({'ExplorerWithNotes':{'init':$author$project$ExplorerWithNotes$main(
-	$elm$json$Json$Decode$succeed(_Utils_Tuple0))({"versions":{"elm":"0.19.1"},"types":{"message":"UIExplorer.Msg ()","aliases":{"Url.Url":{"args":[],"type":"{ protocol : Url.Protocol, host : String.String, port_ : Maybe.Maybe Basics.Int, path : String.String, query : Maybe.Maybe String.String, fragment : Maybe.Maybe String.String }"}},"unions":{"UIExplorer.Msg":{"args":["a"],"tags":{"ExternalMsg":["a"],"SelectStory":["String.String"],"UrlChange":["Url.Url"],"LinkClicked":["Browser.UrlRequest"],"NoOp":[]}},"Basics.Int":{"args":[],"tags":{"Int":[]}},"Maybe.Maybe":{"args":["a"],"tags":{"Just":["a"],"Nothing":[]}},"Url.Protocol":{"args":[],"tags":{"Http":[],"Https":[]}},"String.String":{"args":[],"tags":{"String":[]}},"Browser.UrlRequest":{"args":[],"tags":{"Internal":["Url.Url"],"External":["String.String"]}}}}})}});}(this));
+	$elm$json$Json$Decode$succeed(_Utils_Tuple0))({"versions":{"elm":"0.19.1"},"types":{"message":"UIExplorer.Msg ExplorerWithNotes.Msg","aliases":{"Url.Url":{"args":[],"type":"{ protocol : Url.Protocol, host : String.String, port_ : Maybe.Maybe Basics.Int, path : String.String, query : Maybe.Maybe String.String, fragment : Maybe.Maybe String.String }"}},"unions":{"ExplorerWithNotes.Msg":{"args":[],"tags":{"TabMsg":["UIExplorer.Plugins.Tabs.Msg"],"NoOp":[]}},"UIExplorer.Msg":{"args":["a"],"tags":{"ExternalMsg":["a"],"SelectStory":["String.String"],"UrlChange":["Url.Url"],"LinkClicked":["Browser.UrlRequest"],"NoOp":[]}},"Basics.Int":{"args":[],"tags":{"Int":[]}},"Maybe.Maybe":{"args":["a"],"tags":{"Just":["a"],"Nothing":[]}},"UIExplorer.Plugins.Tabs.Msg":{"args":[],"tags":{"TabOpened":["Basics.Int"]}},"Url.Protocol":{"args":[],"tags":{"Http":[],"Https":[]}},"String.String":{"args":[],"tags":{"String":[]}},"Browser.UrlRequest":{"args":[],"tags":{"Internal":["Url.Url"],"External":["String.String"]}}}}})}});}(this));
