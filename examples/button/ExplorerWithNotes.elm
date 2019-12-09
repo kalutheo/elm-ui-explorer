@@ -53,19 +53,10 @@ main =
                 case msg of
                     TabMsg submsg ->
                         let
-                            tabs =
-                                m.customModel.tabs
-
-                            customModel =
+                            cm =
                                 m.customModel
-
-                            newTab =
-                                TabsPlugin.update submsg tabs
-
-                            newCustomModel =
-                                { customModel | tabs = newTab }
                         in
-                        { m | customModel = newCustomModel }
+                        { m | customModel = { cm | tabs = TabsPlugin.update submsg m.customModel.tabs } }
 
                     _ ->
                         m

@@ -23127,15 +23127,16 @@ var $author$project$ExplorerWithNotes$main = A2(
 			function (msg, m) {
 				if (msg.$ === 'TabMsg') {
 					var submsg = msg.a;
-					var tabs = m.customModel.tabs;
-					var newTab = A2($author$project$UIExplorer$Plugins$Tabs$update, submsg, tabs);
-					var customModel = m.customModel;
-					var newCustomModel = _Utils_update(
-						customModel,
-						{tabs: newTab});
+					var cm = m.customModel;
 					return _Utils_update(
 						m,
-						{customModel: newCustomModel});
+						{
+							customModel: _Utils_update(
+								cm,
+								{
+									tabs: A2($author$project$UIExplorer$Plugins$Tabs$update, submsg, m.customModel.tabs)
+								})
+						});
 				} else {
 					return m;
 				}
