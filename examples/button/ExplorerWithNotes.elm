@@ -1,20 +1,50 @@
 module ExplorerWithNotes exposing (main)
 
 import Button exposing (..)
-import Html
+import Html exposing (Html, hr)
+import Html.Attributes as Attr
+import NoUnused.Variables
+import Review.Rule exposing (Rule)
 import UIExplorer
     exposing
         ( UIExplorerProgram
+        , ViewEnhancer
         , defaultConfig
         , explore
         , storiesOf
         )
-import UIExplorer.Plugins.Note as Note
+import UIExplorer.Plugins.Note as NotePlugin
+import UIExplorer.Plugins.Review as ReviewPlugin
 
 
 type alias PluginOption =
     { note : String
+    , review : ReviewPlugin.PluginOption
     }
+
+
+config : List Rule
+config =
+    [ NoUnused.Variables.rule
+    ]
+
+
+sourceCode : String
+sourceCode =
+    """module Main exposing (f)
+import NotUsed
+import SomeModule exposing (notUsed)
+type SomeCustomType
+  = UsedConstructor
+  | NotUsedConstructor
+f : Int -> SomeCustomType
+f x =
+  let
+    _ = Debug.log "x" x
+  in
+  UsedConstructor
+g n = n + 1
+"""
 
 
 note =
@@ -115,13 +145,28 @@ view : String.String -> Config -> msg -> Html.Html msg
 
 > Generated with elm: 0.19.0 and elm-docs: 0.4.0
 
-""" }
+"""
+    , review =
+        { errors = ReviewPlugin.initErrors config sourceCode
+        , sourceCode = sourceCode
+        }
+    }
 
 
 main : UIExplorerProgram {} () PluginOption
 main =
     explore
-        { defaultConfig | viewEnhancer = Note.viewEnhancer }
+        { defaultConfig
+            | viewEnhancer =
+                \m stories ->
+                    Html.div []
+                        [ stories
+                        , Html.hr [ Attr.style "height" "1px" ] []
+                        , NotePlugin.viewEnhancer m
+                        , Html.hr [ Attr.style "height" "1px" ] []
+                        , ReviewPlugin.viewEnhancer m
+                        ]
+        }
         [ storiesOf
             "Button"
             [ ( "Primary", \_ -> Button.view "Submit" defaultButtonConfig (), note )
