@@ -21,32 +21,40 @@ update msg m =
             { m | displayedTab = index }
 
 
-view :
-    { b | displayedTab : Int }
-    -> List ( String, Html.Html (UIExplorer.Msg a) )
-    -> (Msg -> a)
-    -> Html.Html (UIExplorer.Msg a)
 view tabs items onTabOpened =
-    Html.div []
-        [ Html.nav []
+    Html.div [ Attr.class "uie-bg-grey-lightest uie-border uie-mt-8  uie-border-solid uie-border-grey-dark-light" ]
+        [ Html.nav [ Attr.class "uie-pl-8 uie-bg-white uie-p-2   uie-border-b uie-shadow  uie-border-grey-light" ]
             (List.indexedMap
-                (\index ( title, _ ) ->
+                (\index ( title, _, icon ) ->
+                    let
+                        borders =
+                            if index == (List.length items - 1) then
+                                []
+
+                            else
+                                [ ( "uie-border-r", True ) ]
+                    in
                     Html.button
-                        [ Events.onClick (UIExplorer.ExternalMsg (onTabOpened (TabOpened index)))
+                        [ Attr.classList borders
+                        , Attr.class "uie-text-grey uie-text-xs uie-border-grey-light uie-border-solid  uie-p-1 uie-pr-4 uie-mr-2"
+                        , Events.onClick (UIExplorer.ExternalMsg (onTabOpened (TabOpened index)))
                         ]
-                        [ Html.text title ]
+                        [ Html.div [ Attr.class "uie-flex items-center" ]
+                            [ Html.div [ Attr.class "uie-mr-1" ] [ icon ]
+                            , Html.div [] [ Html.text title ]
+                            ]
+                        ]
                 )
                 items
             )
         , Html.section
-            []
+            [ Attr.class "uie-pl-8 uie-pr-8 uie-pt-4 uie-pb-4" ]
             (List.indexedMap
-                (\index item ->
+                (\index ( _, content, _ ) ->
                     case tabs.displayedTab == index of
                         True ->
-                            Html.div []
-                                [ Html.hr [ Attr.style "height" "1px" ] []
-                                , item |> Tuple.second
+                            Html.div [ Attr.class "uie-pb-8 uie-mb-4" ]
+                                [ content
                                 ]
 
                         False ->

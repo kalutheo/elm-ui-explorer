@@ -1,4 +1,7 @@
-module UIExplorer.Plugins.Note exposing (viewEnhancer)
+module UIExplorer.Plugins.Note exposing
+    ( viewEnhancer
+    , viewTabIcon
+    )
 
 {-|
 
@@ -32,10 +35,18 @@ Example:
 
 -}
 
+import FeatherIcons
 import Html
 import Html.Attributes exposing (class, style)
 import Markdown
 import UIExplorer exposing (ViewEnhancer, explore, getCurrentSelectedStory)
+
+
+viewTabIcon : Html.Html msg
+viewTabIcon =
+    FeatherIcons.eye
+        |> FeatherIcons.withSize 14
+        |> FeatherIcons.toHtml []
 
 
 {-| This is the part that allows to display notes underneath the view

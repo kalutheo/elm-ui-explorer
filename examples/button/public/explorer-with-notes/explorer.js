@@ -22471,27 +22471,41 @@ var $author$project$Button$view = F3(
 var $author$project$UIExplorer$Plugins$Tabs$TabOpened = function (a) {
 	return {$: 'TabOpened', a: a};
 };
-var $elm$html$Html$hr = _VirtualDom_node('hr');
 var $elm$html$Html$nav = _VirtualDom_node('nav');
 var $author$project$UIExplorer$Plugins$Tabs$view = F3(
 	function (tabs, items, onTabOpened) {
 		return A2(
 			$elm$html$Html$div,
-			_List_Nil,
+			_List_fromArray(
+				[
+					$elm$html$Html$Attributes$class('uie-bg-grey-lightest uie-border uie-mt-8  uie-border-solid uie-border-grey-dark-light')
+				]),
 			_List_fromArray(
 				[
 					A2(
 					$elm$html$Html$nav,
-					_List_Nil,
+					_List_fromArray(
+						[
+							$elm$html$Html$Attributes$class('uie-pl-8 uie-bg-white uie-p-2   uie-border-b uie-shadow  uie-border-grey-light')
+						]),
 					A2(
 						$elm$core$List$indexedMap,
 						F2(
 							function (index, _v0) {
 								var title = _v0.a;
+								var icon = _v0.c;
+								var borders = _Utils_eq(
+									index,
+									$elm$core$List$length(items) - 1) ? _List_Nil : _List_fromArray(
+									[
+										_Utils_Tuple2('uie-border-r', true)
+									]);
 								return A2(
 									$elm$html$Html$button,
 									_List_fromArray(
 										[
+											$elm$html$Html$Attributes$classList(borders),
+											$elm$html$Html$Attributes$class('uie-text-grey uie-text-xs uie-border-grey-light uie-border-solid  uie-p-1 uie-pr-4 uie-mr-2'),
 											$elm$html$Html$Events$onClick(
 											$author$project$UIExplorer$ExternalMsg(
 												onTabOpened(
@@ -22499,33 +22513,54 @@ var $author$project$UIExplorer$Plugins$Tabs$view = F3(
 										]),
 									_List_fromArray(
 										[
-											$elm$html$Html$text(title)
+											A2(
+											$elm$html$Html$div,
+											_List_fromArray(
+												[
+													$elm$html$Html$Attributes$class('uie-flex items-center')
+												]),
+											_List_fromArray(
+												[
+													A2(
+													$elm$html$Html$div,
+													_List_fromArray(
+														[
+															$elm$html$Html$Attributes$class('uie-mr-1')
+														]),
+													_List_fromArray(
+														[icon])),
+													A2(
+													$elm$html$Html$div,
+													_List_Nil,
+													_List_fromArray(
+														[
+															$elm$html$Html$text(title)
+														]))
+												]))
 										]));
 							}),
 						items)),
 					A2(
 					$elm$html$Html$section,
-					_List_Nil,
+					_List_fromArray(
+						[
+							$elm$html$Html$Attributes$class('uie-pl-8 uie-pr-8 uie-pt-4 uie-pb-4')
+						]),
 					A2(
 						$elm$core$List$indexedMap,
 						F2(
-							function (index, item) {
-								var _v1 = _Utils_eq(tabs.displayedTab, index);
-								if (_v1) {
+							function (index, _v1) {
+								var content = _v1.b;
+								var _v2 = _Utils_eq(tabs.displayedTab, index);
+								if (_v2) {
 									return A2(
 										$elm$html$Html$div,
-										_List_Nil,
 										_List_fromArray(
 											[
-												A2(
-												$elm$html$Html$hr,
-												_List_fromArray(
-													[
-														A2($elm$html$Html$Attributes$style, 'height', '1px')
-													]),
-												_List_Nil),
-												item.b
-											]));
+												$elm$html$Html$Attributes$class('uie-pb-8 uie-mb-4')
+											]),
+										_List_fromArray(
+											[content]));
 								} else {
 									return $elm$html$Html$text('');
 								}
@@ -23112,6 +23147,189 @@ var $author$project$UIExplorer$Plugins$Review$viewEnhancer = function (model) {
 		return $elm$html$Html$text('');
 	}
 };
+var $elm$svg$Svg$trustedNode = _VirtualDom_nodeNS('http://www.w3.org/2000/svg');
+var $elm$svg$Svg$circle = $elm$svg$Svg$trustedNode('circle');
+var $elm$svg$Svg$Attributes$class = _VirtualDom_attribute('class');
+var $elm$svg$Svg$Attributes$cx = _VirtualDom_attribute('cx');
+var $elm$svg$Svg$Attributes$cy = _VirtualDom_attribute('cy');
+var $elm$svg$Svg$Attributes$d = _VirtualDom_attribute('d');
+var $elm$svg$Svg$Attributes$fill = _VirtualDom_attribute('fill');
+var $elm$svg$Svg$Attributes$height = _VirtualDom_attribute('height');
+var $1602$elm_feather$FeatherIcons$Icon = function (a) {
+	return {$: 'Icon', a: a};
+};
+var $1602$elm_feather$FeatherIcons$defaultAttributes = function (name) {
+	return {
+		_class: $elm$core$Maybe$Just('feather feather-' + name),
+		size: 24,
+		sizeUnit: '',
+		strokeWidth: 2,
+		viewBox: '0 0 24 24'
+	};
+};
+var $1602$elm_feather$FeatherIcons$makeBuilder = F2(
+	function (name, src) {
+		return $1602$elm_feather$FeatherIcons$Icon(
+			{
+				attrs: $1602$elm_feather$FeatherIcons$defaultAttributes(name),
+				src: src
+			});
+	});
+var $elm$svg$Svg$path = $elm$svg$Svg$trustedNode('path');
+var $elm$svg$Svg$Attributes$r = _VirtualDom_attribute('r');
+var $elm$svg$Svg$Attributes$stroke = _VirtualDom_attribute('stroke');
+var $elm$svg$Svg$Attributes$strokeLinecap = _VirtualDom_attribute('stroke-linecap');
+var $elm$svg$Svg$Attributes$strokeLinejoin = _VirtualDom_attribute('stroke-linejoin');
+var $elm$svg$Svg$Attributes$strokeWidth = _VirtualDom_attribute('stroke-width');
+var $elm$svg$Svg$svg = $elm$svg$Svg$trustedNode('svg');
+var $elm$svg$Svg$Attributes$viewBox = _VirtualDom_attribute('viewBox');
+var $elm$svg$Svg$Attributes$width = _VirtualDom_attribute('width');
+var $1602$elm_feather$FeatherIcons$xmlns = function (s) {
+	return A2(
+		$elm$virtual_dom$VirtualDom$property,
+		'xmlns',
+		$elm$json$Json$Encode$string(s));
+};
+var $1602$elm_feather$FeatherIcons$eye = A2(
+	$1602$elm_feather$FeatherIcons$makeBuilder,
+	'eye',
+	_List_fromArray(
+		[
+			A2(
+			$elm$svg$Svg$svg,
+			_List_fromArray(
+				[
+					$1602$elm_feather$FeatherIcons$xmlns('http://www.w3.org/2000/svg'),
+					$elm$svg$Svg$Attributes$width('24'),
+					$elm$svg$Svg$Attributes$height('24'),
+					$elm$svg$Svg$Attributes$viewBox('0 0 24 24'),
+					$elm$svg$Svg$Attributes$fill('none'),
+					$elm$svg$Svg$Attributes$stroke('currentColor'),
+					$elm$svg$Svg$Attributes$strokeWidth('2'),
+					$elm$svg$Svg$Attributes$strokeLinecap('round'),
+					$elm$svg$Svg$Attributes$strokeLinejoin('round'),
+					$elm$svg$Svg$Attributes$class('feather feather-eye')
+				]),
+			_List_fromArray(
+				[
+					A2(
+					$elm$svg$Svg$path,
+					_List_fromArray(
+						[
+							$elm$svg$Svg$Attributes$d('M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z')
+						]),
+					_List_Nil),
+					A2(
+					$elm$svg$Svg$circle,
+					_List_fromArray(
+						[
+							$elm$svg$Svg$Attributes$cx('12'),
+							$elm$svg$Svg$Attributes$cy('12'),
+							$elm$svg$Svg$Attributes$r('3')
+						]),
+					_List_Nil)
+				]))
+		]));
+var $elm$svg$Svg$map = $elm$virtual_dom$VirtualDom$map;
+var $1602$elm_feather$FeatherIcons$toHtml = F2(
+	function (attributes, _v0) {
+		var src = _v0.a.src;
+		var attrs = _v0.a.attrs;
+		var strSize = $elm$core$String$fromFloat(attrs.size);
+		var baseAttributes = _List_fromArray(
+			[
+				$elm$svg$Svg$Attributes$fill('none'),
+				$elm$svg$Svg$Attributes$height(
+				_Utils_ap(strSize, attrs.sizeUnit)),
+				$elm$svg$Svg$Attributes$width(
+				_Utils_ap(strSize, attrs.sizeUnit)),
+				$elm$svg$Svg$Attributes$stroke('currentColor'),
+				$elm$svg$Svg$Attributes$strokeLinecap('round'),
+				$elm$svg$Svg$Attributes$strokeLinejoin('round'),
+				$elm$svg$Svg$Attributes$strokeWidth(
+				$elm$core$String$fromFloat(attrs.strokeWidth)),
+				$elm$svg$Svg$Attributes$viewBox(attrs.viewBox)
+			]);
+		var combinedAttributes = _Utils_ap(
+			function () {
+				var _v1 = attrs._class;
+				if (_v1.$ === 'Just') {
+					var c = _v1.a;
+					return A2(
+						$elm$core$List$cons,
+						$elm$svg$Svg$Attributes$class(c),
+						baseAttributes);
+				} else {
+					return baseAttributes;
+				}
+			}(),
+			attributes);
+		return A2(
+			$elm$svg$Svg$svg,
+			combinedAttributes,
+			A2(
+				$elm$core$List$map,
+				$elm$svg$Svg$map($elm$core$Basics$never),
+				src));
+	});
+var $1602$elm_feather$FeatherIcons$withSize = F2(
+	function (size, _v0) {
+		var attrs = _v0.a.attrs;
+		var src = _v0.a.src;
+		return $1602$elm_feather$FeatherIcons$Icon(
+			{
+				attrs: _Utils_update(
+					attrs,
+					{size: size}),
+				src: src
+			});
+	});
+var $author$project$UIExplorer$Plugins$Note$viewTabIcon = A2(
+	$1602$elm_feather$FeatherIcons$toHtml,
+	_List_Nil,
+	A2($1602$elm_feather$FeatherIcons$withSize, 14, $1602$elm_feather$FeatherIcons$eye));
+var $1602$elm_feather$FeatherIcons$book = A2(
+	$1602$elm_feather$FeatherIcons$makeBuilder,
+	'book',
+	_List_fromArray(
+		[
+			A2(
+			$elm$svg$Svg$svg,
+			_List_fromArray(
+				[
+					$1602$elm_feather$FeatherIcons$xmlns('http://www.w3.org/2000/svg'),
+					$elm$svg$Svg$Attributes$width('24'),
+					$elm$svg$Svg$Attributes$height('24'),
+					$elm$svg$Svg$Attributes$viewBox('0 0 24 24'),
+					$elm$svg$Svg$Attributes$fill('none'),
+					$elm$svg$Svg$Attributes$stroke('currentColor'),
+					$elm$svg$Svg$Attributes$strokeWidth('2'),
+					$elm$svg$Svg$Attributes$strokeLinecap('round'),
+					$elm$svg$Svg$Attributes$strokeLinejoin('round'),
+					$elm$svg$Svg$Attributes$class('feather feather-book')
+				]),
+			_List_fromArray(
+				[
+					A2(
+					$elm$svg$Svg$path,
+					_List_fromArray(
+						[
+							$elm$svg$Svg$Attributes$d('M4 19.5A2.5 2.5 0 0 1 6.5 17H20')
+						]),
+					_List_Nil),
+					A2(
+					$elm$svg$Svg$path,
+					_List_fromArray(
+						[
+							$elm$svg$Svg$Attributes$d('M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z')
+						]),
+					_List_Nil)
+				]))
+		]));
+var $author$project$UIExplorer$Plugins$Review$viewTabIcon = A2(
+	$1602$elm_feather$FeatherIcons$toHtml,
+	_List_Nil,
+	A2($1602$elm_feather$FeatherIcons$withSize, 14, $1602$elm_feather$FeatherIcons$book));
 var $author$project$ExplorerWithNotes$main = A2(
 	$author$project$UIExplorer$explore,
 	{
@@ -23154,12 +23372,14 @@ var $author$project$ExplorerWithNotes$main = A2(
 							m.customModel.tabs,
 							_List_fromArray(
 								[
-									_Utils_Tuple2(
+									_Utils_Tuple3(
 									'Notes',
-									$author$project$UIExplorer$Plugins$Note$viewEnhancer(m)),
-									_Utils_Tuple2(
+									$author$project$UIExplorer$Plugins$Note$viewEnhancer(m),
+									$author$project$UIExplorer$Plugins$Review$viewTabIcon),
+									_Utils_Tuple3(
 									'Review',
-									$author$project$UIExplorer$Plugins$Review$viewEnhancer(m))
+									$author$project$UIExplorer$Plugins$Review$viewEnhancer(m),
+									$author$project$UIExplorer$Plugins$Note$viewTabIcon)
 								]),
 							$author$project$ExplorerWithNotes$TabMsg)
 						]));

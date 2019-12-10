@@ -8,6 +8,7 @@
     "elm-version": "0.19.1",
     "dependencies": {
         "direct": {
+            "1602/elm-feather": "2.3.5",
             "elm/browser": "1.0.2",
             "elm/core": "1.0.2",
             "elm/html": "1.0.0",
@@ -24,6 +25,7 @@
             "elm/parser": "1.1.0",
             "elm/project-metadata-utils": "1.0.0",
             "elm/random": "1.0.0",
+            "elm/svg": "1.0.1",
             "elm/time": "1.0.0",
             "elm/virtual-dom": "1.0.2",
             "elm-community/json-extra": "4.2.0",

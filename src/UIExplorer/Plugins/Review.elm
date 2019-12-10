@@ -1,5 +1,6 @@
-module UIExplorer.Plugins.Review exposing (PluginOption, initErrors, viewEnhancer)
+module UIExplorer.Plugins.Review exposing (PluginOption, initErrors, viewEnhancer, viewTabIcon)
 
+import FeatherIcons
 import Html exposing (Html)
 import Html.Attributes as Attr
 import Reporter
@@ -13,6 +14,13 @@ type alias PluginOption =
     { errors : List Review.Error
     , sourceCode : String
     }
+
+
+viewTabIcon : Html msg
+viewTabIcon =
+    FeatherIcons.book
+        |> FeatherIcons.withSize 14
+        |> FeatherIcons.toHtml []
 
 
 initErrors : List Rule -> String -> List Review.Error

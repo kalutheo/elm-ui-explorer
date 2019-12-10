@@ -65,8 +65,8 @@ main =
                 Html.div []
                     [ stories
                     , TabsPlugin.view m.customModel.tabs
-                        [ ( "Notes", NotePlugin.viewEnhancer m )
-                        , ( "Review", ReviewPlugin.viewEnhancer m )
+                        [ ( "Notes", NotePlugin.viewEnhancer m, ReviewPlugin.viewTabIcon )
+                        , ( "Review", ReviewPlugin.viewEnhancer m, NotePlugin.viewTabIcon )
                         ]
                         TabMsg
                     ]
