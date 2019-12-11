@@ -14,23 +14,17 @@ import UIExplorer
         , explore
         , storiesOf
         )
+import UIExplorer.Plugins.Code as CodePlugin
 import UIExplorer.Plugins.Note as NotePlugin
 import UIExplorer.Plugins.Review as ReviewPlugin
 import UIExplorer.Plugins.Tabs as TabsPlugin
+import UIExplorer.Plugins.Tabs.Icons as TabsIconsPlugin
 
 
 type alias PluginOption =
     { note : String
     , review : ReviewPlugin.PluginOption
-    }
-
-
-options =
-    { note = RawContent.note
-    , review =
-        { errors = ReviewPlugin.initErrors [ NoUnused.Variables.rule ] RawContent.sourceCode
-        , sourceCode = RawContent.sourceCode
-        }
+    , code : String
     }
 
 
@@ -40,13 +34,23 @@ type Msg
 
 
 type alias Model =
-    { tabs : { displayedTab : Int } }
+    { tabs : TabsPlugin.Model }
+
+
+options =
+    { note = RawContent.note
+    , review =
+        { errors = ReviewPlugin.initErrors [ NoUnused.Variables.rule ] RawContent.sourceCode
+        , sourceCode = RawContent.sourceCode
+        }
+    , code = RawContent.storySourceCode
+    }
 
 
 main : UIExplorerProgram Model Msg PluginOption
 main =
     explore
-        { customModel = { tabs = { displayedTab = 0 } }
+        { customModel = { tabs = TabsPlugin.initialModel }
         , customHeader = Nothing
         , update =
             \msg m ->
@@ -65,8 +69,9 @@ main =
                 Html.div []
                     [ stories
                     , TabsPlugin.view m.customModel.tabs
-                        [ ( "Notes", NotePlugin.viewEnhancer m, ReviewPlugin.viewTabIcon )
-                        , ( "Review", ReviewPlugin.viewEnhancer m, NotePlugin.viewTabIcon )
+                        [ ( "Notes", NotePlugin.viewEnhancer m, TabsIconsPlugin.note )
+                        , ( "Story Code", CodePlugin.viewEnhancer m, TabsIconsPlugin.code )
+                        , ( "Review", ReviewPlugin.viewEnhancer m, TabsIconsPlugin.review )
                         ]
                         TabMsg
                     ]
