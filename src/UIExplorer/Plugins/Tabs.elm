@@ -1,4 +1,4 @@
-module UIExplorer.Plugins.Tabs exposing (Msg(..), update, view)
+module UIExplorer.Plugins.Tabs exposing (Model, Msg(..), initialModel, update, view)
 
 import Html
 import Html.Attributes as Attr
@@ -12,6 +12,11 @@ type Msg
 
 type alias Model =
     { displayedTab : Int }
+
+
+initialModel : Model
+initialModel =
+    { displayedTab = 0 }
 
 
 update : Msg -> Model -> Model
