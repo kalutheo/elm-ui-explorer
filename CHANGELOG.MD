@@ -6,6 +6,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [5.0.0] - 2020-01-22
+### Fixed
+- Allow special characters on UI names: https://github.com/kalutheo/elm-ui-explorer/pull/37.
+Thanks @lemol
+
+### Added
+- Possibility to pass commands to the update function: https://github.com/kalutheo/elm-ui-explorer/pull/36.
+Thanks @salvarubiomartinez
+
+
+
 ## [4.0.0] - 2019-10-27
 ### Fixed
 - More flexible types for the viewEnhancer see https://github.com/kalutheo/elm-ui-explorer/pull/35
