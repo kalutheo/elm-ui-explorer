@@ -271,6 +271,7 @@ fragmentToArray fragment =
     fragment
         |> String.split "/"
         |> Array.fromList
+        |> Array.map (Url.percentDecode >> Maybe.withDefault "")
 
 
 getFragmentSegmentByIndex : Maybe String -> Int -> Maybe String
@@ -326,7 +327,7 @@ findStory uiId storyId categories =
                 |> List.filter (\(UIType ui) -> ui.id == uiId)
                 |> List.map (\(UIType ui) -> ui.viewStories)
                 |> List.concat
-                |> List.filter (\s -> (s |> getStoryIdFromStories |> Url.percentEncode) == storyId)
+                |> List.filter (\s -> (s |> getStoryIdFromStories) == storyId)
     in
     List.head foundStory
 
@@ -912,9 +913,7 @@ renderStory index { selectedStoryId } ( id, state, _ ) =
     let
         isActive =
             Maybe.map
-                (\theId ->
-                    (id |> Url.percentEncode) == theId
-                )
+                ((==) id)
                 selectedStoryId
                 |> Maybe.withDefault (index == 0)
 
@@ -968,7 +967,7 @@ renderStories config stories viewConfig model =
         currentStories =
             case selectedStoryId of
                 Just selectedId ->
-                    List.filter (\( id, state, _ ) -> (id |> Url.percentEncode) == selectedId) stories
+                    List.filter (\( id, state, _ ) -> id == selectedId) stories
 
                 Nothing ->
                     stories
