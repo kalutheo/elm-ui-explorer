@@ -248,6 +248,7 @@ type alias Config a b c =
     { customModel : a
     , customHeader : Maybe (CustomHeader b)
     , update : b -> Model a b c -> ( Model a b c, Cmd b )
+    , subscriptions : Model a b c -> Sub b
     , viewEnhancer : ViewEnhancer a b c
     , menuViewEnhancer : MenuViewEnhancer a b c
     }
@@ -261,6 +262,8 @@ defaultConfig =
     , customHeader = Nothing
     , update =
         \msg m -> ( m, Cmd.none )
+    , subscriptions =
+        \m -> Sub.none
     , viewEnhancer = \m stories -> stories
     , menuViewEnhancer = \m v -> v
     }
@@ -537,7 +540,7 @@ app config categories =
         , update = update config
         , onUrlChange = UrlChange
         , onUrlRequest = LinkClicked
-        , subscriptions = \_ -> Sub.none
+        , subscriptions = \model -> Sub.map ExternalMsg (config.subscriptions model)
         }
 
 
