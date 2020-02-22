@@ -4,7 +4,6 @@ import Button exposing (..)
 import Html exposing (Html, hr)
 import Html.Attributes as Attr
 import Html.Events as Events
-import NoUnused.Variables
 import RawContent
 import UIExplorer
     exposing
@@ -16,14 +15,12 @@ import UIExplorer
         )
 import UIExplorer.Plugins.Code as CodePlugin
 import UIExplorer.Plugins.Note as NotePlugin
-import UIExplorer.Plugins.Review as ReviewPlugin
 import UIExplorer.Plugins.Tabs as TabsPlugin
 import UIExplorer.Plugins.Tabs.Icons as TabsIconsPlugin
 
 
 type alias PluginOption =
     { note : String
-    , review : ReviewPlugin.PluginOption
     , code : String
     }
 
@@ -39,10 +36,6 @@ type alias Model =
 
 options =
     { note = RawContent.note
-    , review =
-        { errors = ReviewPlugin.initErrors [ NoUnused.Variables.rule ] RawContent.sourceCode
-        , sourceCode = RawContent.sourceCode
-        }
     , code = RawContent.storySourceCode
     }
 
@@ -71,7 +64,6 @@ main =
                     , TabsPlugin.view m.customModel.tabs
                         [ ( "Notes", NotePlugin.viewEnhancer m, TabsIconsPlugin.note )
                         , ( "Story Code", CodePlugin.viewEnhancer m, TabsIconsPlugin.code )
-                        , ( "Review", ReviewPlugin.viewEnhancer m, TabsIconsPlugin.review )
                         ]
                         TabMsg
                     ]

@@ -5482,28 +5482,6 @@ var $author$project$Button$defaultButtonConfig = {
 		secondary: $rtfeldman$elm_css$Css$hex('333333')
 	}
 };
-var $author$project$UIExplorer$defaultConfig = {
-	customHeader: $elm$core$Maybe$Nothing,
-	customModel: {},
-	menuViewEnhancer: F2(
-		function (m, v) {
-			return v;
-		}),
-	update: F2(
-		function (msg, m) {
-			return m;
-		}),
-	viewEnhancer: F2(
-		function (m, stories) {
-			return stories;
-		})
-};
-var $author$project$UIExplorer$LinkClicked = function (a) {
-	return {$: 'LinkClicked', a: a};
-};
-var $author$project$UIExplorer$UrlChange = function (a) {
-	return {$: 'UrlChange', a: a};
-};
 var $elm$json$Json$Decode$Failure = F2(
 	function (a, b) {
 		return {$: 'Failure', a: a, b: b};
@@ -5840,6 +5818,30 @@ var $elm$core$Result$isOk = function (result) {
 	} else {
 		return false;
 	}
+};
+var $elm$core$Platform$Cmd$batch = _Platform_batch;
+var $elm$core$Platform$Cmd$none = $elm$core$Platform$Cmd$batch(_List_Nil);
+var $author$project$UIExplorer$defaultConfig = {
+	customHeader: $elm$core$Maybe$Nothing,
+	customModel: {},
+	menuViewEnhancer: F2(
+		function (m, v) {
+			return v;
+		}),
+	update: F2(
+		function (msg, m) {
+			return _Utils_Tuple2(m, $elm$core$Platform$Cmd$none);
+		}),
+	viewEnhancer: F2(
+		function (m, stories) {
+			return stories;
+		})
+};
+var $author$project$UIExplorer$LinkClicked = function (a) {
+	return {$: 'LinkClicked', a: a};
+};
+var $author$project$UIExplorer$UrlChange = function (a) {
+	return {$: 'UrlChange', a: a};
 };
 var $elm$json$Json$Decode$map = _Json_map1;
 var $elm$json$Json$Decode$map2 = _Json_map2;
@@ -9387,7 +9389,6 @@ var $elm$browser$Debugger$Overlay$assessImport = F2(
 			}
 		}
 	});
-var $elm$core$Platform$Cmd$batch = _Platform_batch;
 var $elm$browser$Debugger$Overlay$close = F2(
 	function (msg, state) {
 		switch (state.$) {
@@ -9935,7 +9936,6 @@ var $elm$browser$Debugger$History$getInitialModel = function (_v0) {
 		return recent.model;
 	}
 };
-var $elm$core$Platform$Cmd$none = $elm$core$Platform$Cmd$batch(_List_Nil);
 var $elm$browser$Debugger$Main$loadNewHistory = F3(
 	function (rawHistory, update, model) {
 		var pureUserUpdate = F2(
@@ -10991,9 +10991,41 @@ var $author$project$UIExplorer$getDefaultUrlFromCategories = function (categorie
 			},
 			$elm$core$List$head(categories)));
 };
+var $elm$core$Elm$JsArray$map = _JsArray_map;
+var $elm$core$Array$map = F2(
+	function (func, _v0) {
+		var len = _v0.a;
+		var startShift = _v0.b;
+		var tree = _v0.c;
+		var tail = _v0.d;
+		var helper = function (node) {
+			if (node.$ === 'SubTree') {
+				var subTree = node.a;
+				return $elm$core$Array$SubTree(
+					A2($elm$core$Elm$JsArray$map, helper, subTree));
+			} else {
+				var values = node.a;
+				return $elm$core$Array$Leaf(
+					A2($elm$core$Elm$JsArray$map, func, values));
+			}
+		};
+		return A4(
+			$elm$core$Array$Array_elm_builtin,
+			len,
+			startShift,
+			A2($elm$core$Elm$JsArray$map, helper, tree),
+			A2($elm$core$Elm$JsArray$map, func, tail));
+	});
+var $elm$url$Url$percentDecode = _Url_percentDecode;
 var $author$project$UIExplorer$fragmentToArray = function (fragment) {
-	return $elm$core$Array$fromList(
-		A2($elm$core$String$split, '/', fragment));
+	return A2(
+		$elm$core$Array$map,
+		A2(
+			$elm$core$Basics$composeR,
+			$elm$url$Url$percentDecode,
+			$elm$core$Maybe$withDefault('')),
+		$elm$core$Array$fromList(
+			A2($elm$core$String$split, '/', fragment)));
 };
 var $author$project$UIExplorer$getFragmentSegmentByIndex = F2(
 	function (fragment, index) {
@@ -11059,6 +11091,9 @@ var $author$project$UIExplorer$init = F5(
 	});
 var $elm$core$Platform$Sub$batch = _Platform_batch;
 var $elm$core$Platform$Sub$none = $elm$core$Platform$Sub$batch(_List_Nil);
+var $author$project$UIExplorer$ExternalMsg = function (a) {
+	return {$: 'ExternalMsg', a: a};
+};
 var $elm$browser$Browser$Navigation$load = _Browser_load;
 var $elm$core$Maybe$map2 = F3(
 	function (func, ma, mb) {
@@ -11141,13 +11176,17 @@ var $author$project$UIExplorer$update = F3(
 				return _Utils_Tuple2(model, $elm$core$Platform$Cmd$none);
 			case 'ExternalMsg':
 				var subMsg = msg.a;
-				var newModel = A2(config.update, subMsg, model);
-				return _Utils_Tuple2(newModel, $elm$core$Platform$Cmd$none);
+				var _v1 = A2(config.update, subMsg, model);
+				var newModel = _v1.a;
+				var subCmd = _v1.b;
+				return _Utils_Tuple2(
+					newModel,
+					A2($elm$core$Platform$Cmd$map, $author$project$UIExplorer$ExternalMsg, subCmd));
 			case 'SelectStory':
 				var storyId = msg.a;
-				var _v1 = A2($author$project$UIExplorer$makeStoryUrl, model, storyId);
-				if (_v1.$ === 'Just') {
-					var url = _v1.a;
+				var _v2 = A2($author$project$UIExplorer$makeStoryUrl, model, storyId);
+				if (_v2.$ === 'Just') {
+					var url = _v2.a;
 					return _Utils_Tuple2(
 						model,
 						A2($elm$browser$Browser$Navigation$pushUrl, model.key, url));
@@ -11228,10 +11267,6 @@ var $author$project$UIExplorer$getUIListFromCategories = function (_v0) {
 	var categories = _v1.b;
 	return categories;
 };
-var $author$project$UIExplorer$ExternalMsg = function (a) {
-	return {$: 'ExternalMsg', a: a};
-};
-var $elm$url$Url$percentEncode = _Url_percentEncode;
 var $author$project$UIExplorer$SelectStory = function (a) {
 	return {$: 'SelectStory', a: a};
 };
@@ -11258,11 +11293,7 @@ var $author$project$UIExplorer$renderStory = F3(
 			!index,
 			A2(
 				$elm$core$Maybe$map,
-				function (theId) {
-					return _Utils_eq(
-						$elm$url$Url$percentEncode(id),
-						theId);
-				},
+				$elm$core$Basics$eq(id),
 				selectedStoryId));
 		var defaultLiClass = _List_fromArray(
 			['mr-2', 'mb-2', 'rounded', 'p-2', 'text-xs']);
@@ -11331,9 +11362,7 @@ var $author$project$UIExplorer$renderStories = F4(
 					function (_v4) {
 						var id = _v4.a;
 						var state = _v4.b;
-						return _Utils_eq(
-							$elm$url$Url$percentEncode(id),
-							selectedId);
+						return _Utils_eq(id, selectedId);
 					},
 					stories);
 			} else {

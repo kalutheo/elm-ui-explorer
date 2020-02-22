@@ -1,4 +1,4 @@
-module UIExplorer.Plugins.Tabs.Icons exposing (code, note, review)
+module UIExplorer.Plugins.Tabs.Icons exposing (code, note)
 
 import FeatherIcons
 import Html
@@ -16,11 +16,6 @@ note =
     FeatherIcons.eye
         |> renderIcon
 
-
-review : Html.Html msg
-review =
-    FeatherIcons.book
-        |> renderIcon
 
 
 code : Html.Html msg

@@ -5,12 +5,7 @@
   "main": "index.js",
   "dependencies": {},
   "devDependencies": {
-<<<<<<< HEAD
     "elm-live": "^4.0.1"
-=======
-    "elm-live": "^4.0.1",
-    "elm-review": "^1.0.1"
->>>>>>> origin/elm-review
   },
   "scripts": {
     "build": "npm run build:app && npm run build:explorer && npm run build:explorer-with-notes",

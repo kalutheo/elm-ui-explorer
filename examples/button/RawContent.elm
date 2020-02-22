@@ -1,4 +1,4 @@
-module RawContent exposing (note, sourceCode, storySourceCode)
+module RawContent exposing (note, storySourceCode)
 
 
 storySourceCode : String
@@ -30,22 +30,6 @@ storySourceCode =
 """
 
 
-sourceCode : String
-sourceCode =
-    """module Main exposing (f)
-import NotUsed
-import SomeModule exposing (notUsed)
-type SomeCustomType
-  = UsedConstructor
-  | NotUsedConstructor
-f : Int -> SomeCustomType
-f x =
-  let
-    _ = Debug.log "x" x
-  in
-  UsedConstructor
-g n = n + 1
-"""
 
 
 note : String
