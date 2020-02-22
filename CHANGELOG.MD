@@ -6,6 +6,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [6.0.0] - 2020-02-15
+### Added
+-  allow the use of subscriptions: https://github.com/kalutheo/elm-ui-explorer/pull/40
+Thanks @jgrenat 
+
+
 ## [5.0.0] - 2020-01-22
 ### Fixed
 - Allow special characters on UI names: https://github.com/kalutheo/elm-ui-explorer/pull/37.
