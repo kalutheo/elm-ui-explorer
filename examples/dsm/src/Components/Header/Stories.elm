@@ -8,7 +8,7 @@ import Element.Background as Background
 import Html
 import Theme.Color exposing (color, getColor)
 import UIExplorer exposing (storiesOf)
-import Utils exposing (toRgb)
+import Utils
 
 
 stories : UIExplorer.UI a b { hasMenu : Bool }
@@ -31,7 +31,7 @@ stories =
 toHtml : Element msg -> Html.Html msg
 toHtml =
     Element.layout
-        [ Background.color (toRgb color.neutral.greyLightest)
+        [ Background.color (Utils.toRgb color.neutral.greyLightest)
         , width fill
         , height (px 400)
         , padding 20

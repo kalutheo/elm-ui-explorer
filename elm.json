@@ -3,14 +3,18 @@
     "name": "kalutheo/elm-ui-explorer",
     "summary": "Explore your views and their states in a single tool.",
     "license": "BSD-3-Clause",
-    "version": "6.0.0",
+    "version": "7.0.0",
     "exposed-modules": [
         "UIExplorer",
         "UIExplorer.Plugins.Note",
-        "UIExplorer.Plugins.MenuVisibility"
+        "UIExplorer.Plugins.MenuVisibility",
+        "UIExplorer.Plugins.Tabs",
+        "UIExplorer.Plugins.Tabs.Icons",
+        "UIExplorer.Plugins.Code"
     ],
     "elm-version": "0.19.0 <= v < 0.20.0",
     "dependencies": {
+        "1602/elm-feather": "1.0.0 <= v < 2.3.5",
         "elm/browser": "1.0.1 <= v < 2.0.0",
         "elm/core": "1.0.2 <= v < 2.0.0",
         "elm/html": "1.0.0 <= v < 2.0.0",

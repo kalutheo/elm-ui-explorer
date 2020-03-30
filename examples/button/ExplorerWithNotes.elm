@@ -1,135 +1,83 @@
 module ExplorerWithNotes exposing (main)
 
 import Button exposing (..)
-import Html
+import Html exposing (Html, hr)
+import Html.Attributes as Attr
+import Html.Events as Events
+import RawContent
 import UIExplorer
     exposing
         ( UIExplorerProgram
+        , ViewEnhancer
         , defaultConfig
         , explore
         , storiesOf
         )
-import UIExplorer.Plugins.Note as Note
+import UIExplorer.Plugins.Code as CodePlugin
+import UIExplorer.Plugins.Note as NotePlugin
+import UIExplorer.Plugins.Tabs as TabsPlugin
+import UIExplorer.Plugins.Tabs.Icons as TabsIconsPlugin
 
 
 type alias PluginOption =
     { note : String
+    , code : String
     }
 
 
-note =
-    { note = """
-# Modules
-- [Button](#button)
-
-# Button
-- [Config](#config)
-- [Size](#size)
-- [Kind](#kind)
-- [Appearance](#appearance)
-- [defaultButtonConfig](#defaultbuttonconfig)
-- [view](#view)
-
-## Button
-The Button should be used to trigger user actions.
-Some examples of interactions:
-  - Submit a form
-  - Cancel an order
-  - Toggle a menu visibility
-  - Play a media
-```elm
-import Button exposing (..)
-Button.view "Submit" defaultButtonConfig ()
-```
-## Links:
-  - [UX Planet - Basic rules for button](https://uxplanet.org/7-basic-rules-for-button-design-63dcdf5676b4)
-
-### `Config`
-```elm
-type alias Config  =
-    { appearance : Button.Appearance, size : Button.Size, kind : Button.Kind, class : String.String, theme : Button.Theme }
-```
- Option to customize the Button
+type Msg
+    = TabMsg TabsPlugin.Msg
+    | NoOp
 
 
----
+type alias Model =
+    { tabs : TabsPlugin.Model }
 
 
-### `Size`
-```elm
-type Size
-    = S
-    | M
-    | L
-```
- Define the size of the Button
+options =
+    { note = RawContent.note
+    , code = RawContent.storySourceCode
+    }
 
 
----
-
-
-### `Kind`
-```elm
-type Kind
-    = Link
-    | Filled
-    | Ghost
-```
- Look and feel of the Button
-
-
----
-
-
-### `Appearance`
-```elm
-type Appearance
-    = Primary
-    | Secondary
-```
- Define the appearance of the Button
-
-
----
-
-
-### `defaultButtonConfig`
-```elm
-defaultButtonConfig : Config
-```
- Default Configurations
-
-
----
-
-
-### `view`
-```elm
-view : String.String -> Config -> msg -> Html.Html msg
-```
- Renders the button
-
-
----
-
-
-> Generated with elm: 0.19.0 and elm-docs: 0.4.0
-
-""" }
-
-
-main : UIExplorerProgram {} () PluginOption
+main : UIExplorerProgram Model Msg PluginOption
 main =
     explore
-        { defaultConfig | viewEnhancer = Note.viewEnhancer }
+        { customModel = { tabs = TabsPlugin.initialModel }
+        , customHeader = Nothing
+        , subscriptions = \_ -> Sub.none
+        , update =
+            \msg m ->
+                case msg of
+                    TabMsg submsg ->
+                        let
+                            cm =
+                                m.customModel
+                        in
+                        ( { m | customModel = { cm | tabs = TabsPlugin.update submsg m.customModel.tabs } }, Cmd.none )
+
+                    _ ->
+                        ( m, Cmd.none )
+        , viewEnhancer =
+            \m stories ->
+                Html.div []
+                    [ stories
+                    , TabsPlugin.view m.customModel.tabs
+                        [ ( "Notes", NotePlugin.viewEnhancer m, TabsIconsPlugin.note )
+                        , ( "Story Code", CodePlugin.viewEnhancer m, TabsIconsPlugin.code )
+                        ]
+                        TabMsg
+                    ]
+        , menuViewEnhancer = \m v -> v
+        }
         [ storiesOf
             "Button"
-            [ ( "Primary", \_ -> Button.view "Submit" defaultButtonConfig (), note )
-            , ( "Secondary", \_ -> Button.view "Submit" { defaultButtonConfig | appearance = Secondary } (), note )
-            , ( "Small", \_ -> Button.view "Submit" { defaultButtonConfig | size = S } (), note )
-            , ( "Large", \_ -> Button.view "Submit" { defaultButtonConfig | size = L } (), note )
-            , ( "Link", \_ -> Button.view "Submit" { defaultButtonConfig | kind = Link, appearance = Secondary } (), note )
-            , ( "Ghost Primary", \_ -> Button.view "Submit" { defaultButtonConfig | kind = Ghost } (), note )
-            , ( "GhostSecondary", \_ -> Button.view "Submit" { defaultButtonConfig | appearance = Secondary, kind = Ghost } (), note )
+            [ ( "Primary", \_ -> Button.view "Submit" defaultButtonConfig NoOp, options )
+            , ( "Secondary", \_ -> Button.view "Submit" { defaultButtonConfig | appearance = Secondary } NoOp, options )
+            , ( "Small", \_ -> Button.view "Submit" { defaultButtonConfig | size = S } NoOp, options )
+            , ( "Large", \_ -> Button.view "Submit" { defaultButtonConfig | size = L } NoOp, options )
+            , ( "Link", \_ -> Button.view "Submit" { defaultButtonConfig | kind = Link, appearance = Secondary } NoOp, options )
+            , ( "Ghost Primary", \_ -> Button.view "Submit" { defaultButtonConfig | kind = Ghost } NoOp, options )
+            , ( "GhostSecondary", \_ -> Button.view "Submit" { defaultButtonConfig | appearance = Secondary, kind = Ghost } NoOp, options )
             ]
         ]

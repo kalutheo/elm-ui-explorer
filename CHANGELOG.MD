@@ -6,10 +6,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [7.0.0] - 2020-03-30
+### Added
+- Added the code plugin for displaying elm code in your stories
+- Added the tab plugin in order to facilitate the navigation within plugins
+
+### Updated
+- Simplified the API of the Notes viewEnhancer
+
+
+
 ## [6.0.0] - 2020-02-15
 ### Added
 -  allow the use of subscriptions: https://github.com/kalutheo/elm-ui-explorer/pull/40
-Thanks @jgrenat 
+Thanks @jgrenat
 
 
 ## [5.0.0] - 2020-01-22
