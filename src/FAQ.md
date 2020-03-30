@@ -42,6 +42,25 @@ The Stories type is parametrized by three values:
 
 ## Why is there a lamba in the definition of the story and what are the arguments it takes  ?
 
-When defining a story, elm-ui-explorer allows to define a lamba function that can help you to use the content of your Custom Model in the story.
+When defining a story, `elm-ui-explorer` allows to define a lambda function that can help you to use the some Custom Model to bring interactivity to your stories.
 
-Let's say that you have a language setting in you Explorer :
+Let's say that you defined some locale in your model:
+
+```elm
+type Locale
+    = En
+    | Fr
+    | De
+
+type alias Model =
+    { locale : Locale }
+```
+
+Then you can use the current locale in your stories:
+```elm
+storiesOf
+    "Button"
+    [ ( "Primary", \m -> button (buttonLabel m.customModel.locale) "pink", {} )
+    , ( "Secondary", \m -> button (buttonLabel m.customModel.locale) "violet", {} )
+    ]
+```
