@@ -25,6 +25,8 @@ toHtml =
     Element.layout []
 ```
 
+See more detail here: [examples/dsm/src/Components/Header/Stories.elm](examples/dsm/src/Components/Header/Stories.elm)
+
 
 ## Why is the Stories type opaque ?
 
@@ -64,3 +66,5 @@ storiesOf
     , ( "Secondary", \m -> button (buttonLabel m.customModel.locale) "violet", {} )
     ]
 ```
+
+See more detail here: [examples/button/ExplorerWithLocale.elm](examples/button/ExplorerWithLocale.elm)
