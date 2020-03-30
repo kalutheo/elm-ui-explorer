@@ -89,3 +89,9 @@ You can now run the `Main.elm` application with the tool of your choice.
 
 
 - All ids (Story names and categories) should be unique (ex:  DropDown Menu, Loading, Loaded etc... )
+
+
+### FAQ
+
+For further informations, you can check the
+[Frequently Asked Questions (FAQ)](FAQ.md) section.
