@@ -6167,6 +6167,9 @@ var $author$project$Button$defaultButtonConfig = {
 	}
 };
 var $elm$html$Html$div = _VirtualDom_node('div');
+var $author$project$UIExplorer$ExternalMsg = function (a) {
+	return {$: 'ExternalMsg', a: a};
+};
 var $author$project$UIExplorer$LinkClicked = function (a) {
 	return {$: 'LinkClicked', a: a};
 };
@@ -11321,11 +11324,6 @@ var $author$project$UIExplorer$init = F5(
 			{categories: categories, customModel: customModel, key: key, selectedCategory: selectedCategory, selectedStoryId: selectedStoryId, selectedUIId: selectedUIId, url: url},
 			A2($elm$browser$Browser$Navigation$pushUrl, key, firstUrl));
 	});
-var $elm$core$Platform$Sub$batch = _Platform_batch;
-var $elm$core$Platform$Sub$none = $elm$core$Platform$Sub$batch(_List_Nil);
-var $author$project$UIExplorer$ExternalMsg = function (a) {
-	return {$: 'ExternalMsg', a: a};
-};
 var $elm$browser$Browser$Navigation$load = _Browser_load;
 var $elm$core$Maybe$map2 = F3(
 	function (func, ma, mb) {
@@ -12055,8 +12053,11 @@ var $author$project$UIExplorer$app = F2(
 				init: A2($author$project$UIExplorer$init, config.customModel, categories),
 				onUrlChange: $author$project$UIExplorer$UrlChange,
 				onUrlRequest: $author$project$UIExplorer$LinkClicked,
-				subscriptions: function (_v0) {
-					return $elm$core$Platform$Sub$none;
+				subscriptions: function (model) {
+					return A2(
+						$elm$core$Platform$Sub$map,
+						$author$project$UIExplorer$ExternalMsg,
+						config.subscriptions(model));
 				},
 				update: $author$project$UIExplorer$update(config),
 				view: function (model) {
@@ -12092,6 +12093,8 @@ var $author$project$UIExplorer$explore = F2(
 			$author$project$UIExplorer$fromUIList(uiList));
 	});
 var $author$project$UIExplorer$Plugins$Tabs$initialModel = {displayedTab: 0};
+var $elm$core$Platform$Sub$batch = _Platform_batch;
+var $elm$core$Platform$Sub$none = $elm$core$Platform$Sub$batch(_List_Nil);
 var $elm$svg$Svg$circle = $elm$svg$Svg$trustedNode('circle');
 var $elm$svg$Svg$Attributes$cx = _VirtualDom_attribute('cx');
 var $elm$svg$Svg$Attributes$cy = _VirtualDom_attribute('cy');
@@ -14842,6 +14845,9 @@ var $author$project$ExplorerWithNotes$main = A2(
 			function (m, v) {
 				return v;
 			}),
+		subscriptions: function (_v0) {
+			return $elm$core$Platform$Sub$none;
+		},
 		update: F2(
 			function (msg, m) {
 				if (msg.$ === 'TabMsg') {
@@ -14897,13 +14903,13 @@ var $author$project$ExplorerWithNotes$main = A2(
 				[
 					_Utils_Tuple3(
 					'Primary',
-					function (_v1) {
+					function (_v2) {
 						return A3($author$project$Button$view, 'Submit', $author$project$Button$defaultButtonConfig, $author$project$ExplorerWithNotes$NoOp);
 					},
 					$author$project$ExplorerWithNotes$options),
 					_Utils_Tuple3(
 					'Secondary',
-					function (_v2) {
+					function (_v3) {
 						return A3(
 							$author$project$Button$view,
 							'Submit',
@@ -14915,7 +14921,7 @@ var $author$project$ExplorerWithNotes$main = A2(
 					$author$project$ExplorerWithNotes$options),
 					_Utils_Tuple3(
 					'Small',
-					function (_v3) {
+					function (_v4) {
 						return A3(
 							$author$project$Button$view,
 							'Submit',
@@ -14927,7 +14933,7 @@ var $author$project$ExplorerWithNotes$main = A2(
 					$author$project$ExplorerWithNotes$options),
 					_Utils_Tuple3(
 					'Large',
-					function (_v4) {
+					function (_v5) {
 						return A3(
 							$author$project$Button$view,
 							'Submit',
@@ -14939,7 +14945,7 @@ var $author$project$ExplorerWithNotes$main = A2(
 					$author$project$ExplorerWithNotes$options),
 					_Utils_Tuple3(
 					'Link',
-					function (_v5) {
+					function (_v6) {
 						return A3(
 							$author$project$Button$view,
 							'Submit',
@@ -14951,7 +14957,7 @@ var $author$project$ExplorerWithNotes$main = A2(
 					$author$project$ExplorerWithNotes$options),
 					_Utils_Tuple3(
 					'Ghost Primary',
-					function (_v6) {
+					function (_v7) {
 						return A3(
 							$author$project$Button$view,
 							'Submit',
@@ -14963,7 +14969,7 @@ var $author$project$ExplorerWithNotes$main = A2(
 					$author$project$ExplorerWithNotes$options),
 					_Utils_Tuple3(
 					'GhostSecondary',
-					function (_v7) {
+					function (_v8) {
 						return A3(
 							$author$project$Button$view,
 							'Submit',

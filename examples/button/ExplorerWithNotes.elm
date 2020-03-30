@@ -45,6 +45,7 @@ main =
     explore
         { customModel = { tabs = TabsPlugin.initialModel }
         , customHeader = Nothing
+        , subscriptions = \_ -> Sub.none
         , update =
             \msg m ->
                 case msg of

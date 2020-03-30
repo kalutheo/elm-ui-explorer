@@ -5821,6 +5821,8 @@ var $elm$core$Result$isOk = function (result) {
 };
 var $elm$core$Platform$Cmd$batch = _Platform_batch;
 var $elm$core$Platform$Cmd$none = $elm$core$Platform$Cmd$batch(_List_Nil);
+var $elm$core$Platform$Sub$batch = _Platform_batch;
+var $elm$core$Platform$Sub$none = $elm$core$Platform$Sub$batch(_List_Nil);
 var $author$project$UIExplorer$defaultConfig = {
 	customHeader: $elm$core$Maybe$Nothing,
 	customModel: {},
@@ -5828,6 +5830,9 @@ var $author$project$UIExplorer$defaultConfig = {
 		function (m, v) {
 			return v;
 		}),
+	subscriptions: function (m) {
+		return $elm$core$Platform$Sub$none;
+	},
 	update: F2(
 		function (msg, m) {
 			return _Utils_Tuple2(m, $elm$core$Platform$Cmd$none);
@@ -5836,6 +5841,9 @@ var $author$project$UIExplorer$defaultConfig = {
 		function (m, stories) {
 			return stories;
 		})
+};
+var $author$project$UIExplorer$ExternalMsg = function (a) {
+	return {$: 'ExternalMsg', a: a};
 };
 var $author$project$UIExplorer$LinkClicked = function (a) {
 	return {$: 'LinkClicked', a: a};
@@ -11089,11 +11097,6 @@ var $author$project$UIExplorer$init = F5(
 			{categories: categories, customModel: customModel, key: key, selectedCategory: selectedCategory, selectedStoryId: selectedStoryId, selectedUIId: selectedUIId, url: url},
 			A2($elm$browser$Browser$Navigation$pushUrl, key, firstUrl));
 	});
-var $elm$core$Platform$Sub$batch = _Platform_batch;
-var $elm$core$Platform$Sub$none = $elm$core$Platform$Sub$batch(_List_Nil);
-var $author$project$UIExplorer$ExternalMsg = function (a) {
-	return {$: 'ExternalMsg', a: a};
-};
 var $elm$browser$Browser$Navigation$load = _Browser_load;
 var $elm$core$Maybe$map2 = F3(
 	function (func, ma, mb) {
@@ -11823,8 +11826,11 @@ var $author$project$UIExplorer$app = F2(
 				init: A2($author$project$UIExplorer$init, config.customModel, categories),
 				onUrlChange: $author$project$UIExplorer$UrlChange,
 				onUrlRequest: $author$project$UIExplorer$LinkClicked,
-				subscriptions: function (_v0) {
-					return $elm$core$Platform$Sub$none;
+				subscriptions: function (model) {
+					return A2(
+						$elm$core$Platform$Sub$map,
+						$author$project$UIExplorer$ExternalMsg,
+						config.subscriptions(model));
 				},
 				update: $author$project$UIExplorer$update(config),
 				view: function (model) {
