@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Added the code plugin for displaying elm code in your stories
 - Added the tab plugin in order to facilitate the navigation within plugins
+- Added a new button example that shows how to interact with the customModel and how to trigger custom events with `ExternalMsg`
 
 ### Updated
 - Simplified the API of the Notes viewEnhancer
