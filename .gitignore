@@ -6,3 +6,4 @@ node_modules
 .stencil
 .env
 elm-docs
+.DS_Store

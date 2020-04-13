@@ -58,7 +58,7 @@ You can now run the `Main.elm` application with the tool of your choice.
 
 [Checkout more examples here](https://github.com/kalutheo/elm-ui-explorer/tree/master/examples)
 - Button Example [source](https://github.com/kalutheo/elm-ui-explorer/tree/master/examples/button)| [explorer demo](https://kalutheo.github.io/elm-ui-explorer/examples/button/explorer/index.html) |
-[explorer with notes demo](https://kalutheo.github.io/elm-ui-explorer/examples/button/explorer-with-notes/index.html) | [app demo](https://kalutheo.github.io/elm-ui-explorer/examples/button/index.html)
+[explorer with notes demo](https://kalutheo.github.io/elm-ui-explorer/examples/button/explorer-with-notes/index.html) | [explorer with locale demo](https://kalutheo.github.io/elm-ui-explorer/examples/button/explorer-with-locale/index.html) | [app demo](https://kalutheo.github.io/elm-ui-explorer/examples/button/index.html)
 
 - Design system [source](https://github.com/kalutheo/elm-ui-explorer/tree/master/examples/dsm/) | [explorer demo](https://kalutheo.github.io/elm-ui-explorer/examples/dsm/index.html)
 
