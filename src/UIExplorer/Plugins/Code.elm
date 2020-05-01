@@ -17,7 +17,7 @@ See usage [here](https://github.com/kalutheo/elm-ui-explorer/blob/master/example
 import Html
 import Html.Attributes exposing (class, style)
 import Markdown
-import UIExplorer exposing (ViewEnhancer, explore, getCurrentSelectedStory)
+import UIExplorer exposing (getCurrentSelectedStory)
 
 
 {-| Code view enhancer
