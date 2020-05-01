@@ -35,7 +35,7 @@ Example:
 import Html
 import Html.Attributes exposing (class, style)
 import Markdown
-import UIExplorer exposing (ViewEnhancer, explore, getCurrentSelectedStory)
+import UIExplorer exposing (getCurrentSelectedStory)
 
 
 {-| This is the part that allows to display notes underneath the view

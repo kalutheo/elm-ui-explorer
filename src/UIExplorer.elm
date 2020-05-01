@@ -74,8 +74,8 @@ Functions listed below are related to that.
 import Array exposing (Array)
 import Browser
 import Browser.Navigation as Navigation
-import Html exposing (Html, a, article, aside, div, h1, h2, h3, img, li, node, section, span, text, ul)
-import Html.Attributes exposing (class, classList, href, rel, src, style)
+import Html exposing (Html, a, article, aside, div, h3, img, li, section, span, text, ul)
+import Html.Attributes exposing (class, classList, href, src, style)
 import Html.Events exposing (onClick)
 import Url
 
@@ -239,7 +239,11 @@ type LogoType b
 
 -}
 type alias CustomHeader b =
-    { title : String, logo : Logo b, titleColor : Maybe String, bgColor : Maybe String }
+    { title : String
+    , logo : Logo b
+    , titleColor : Maybe String
+    , bgColor : Maybe String
+    }
 
 
 {-| Configuration Type used to extend the UI Explorer appearance and behaviour.
@@ -261,11 +265,11 @@ defaultConfig =
     { customModel = {}
     , customHeader = Nothing
     , update =
-        \msg m -> ( m, Cmd.none )
+        \_ m -> ( m, Cmd.none )
     , subscriptions =
-        \m -> Sub.none
-    , viewEnhancer = \m stories -> stories
-    , menuViewEnhancer = \m v -> v
+        \_ -> Sub.none
+    , viewEnhancer = \_ stories -> stories
+    , menuViewEnhancer = \_ v -> v
     }
 
 
@@ -298,13 +302,8 @@ getSelectedStoryfromPath { fragment } =
 
 
 join : Maybe (Maybe a) -> Maybe a
-join mx =
-    case mx of
-        Just x ->
-            x
-
-        Nothing ->
-            Nothing
+join =
+    Maybe.andThen identity
 
 
 {-| Get the Current Selected Story.
@@ -324,7 +323,7 @@ findStory uiId storyId categories =
     let
         foundStory =
             List.map
-                (\(UICategoryType ( a, b )) -> b)
+                (\(UICategoryType ( _, b )) -> b)
                 categories
                 |> List.concat
                 |> List.filter (\(UIType ui) -> ui.id == uiId)
@@ -387,9 +386,12 @@ update config msg model =
                     ( model, Navigation.load href )
 
 
+
+{--
 toCategories : List (InternalUICategory a b c) -> List (UICategory a b c)
 toCategories list =
     List.map UICategoryType list
+--}
 
 
 {-| Creates an empty list of UI Categories
@@ -496,7 +498,7 @@ getDefaultUrlFromCategories categories =
 
 
 init : a -> List (UICategory a b c) -> () -> Url.Url -> Navigation.Key -> ( Model a b c, Cmd (Msg b) )
-init customModel categories flags url key =
+init customModel categories _ url key =
     let
         selectedUIId =
             getSelectedUIfromPath url
@@ -793,7 +795,7 @@ styleMenuCategoryLink =
 
 
 viewMenuCategory : UIViewConfig -> UICategory a b c -> Html (Msg b)
-viewMenuCategory { selectedUIId, selectedStoryId } (UICategoryType ( title, categories )) =
+viewMenuCategory { selectedUIId } (UICategoryType ( title, categories )) =
     div [ toClassName [] ]
         [ a
             [ toClassName styleMenuCategoryLink
@@ -821,7 +823,7 @@ filterSelectedUI (UIType ui) model =
 
 
 getUIListFromCategories : UICategory a b c -> List (UI a b c)
-getUIListFromCategories (UICategoryType ( title, categories )) =
+getUIListFromCategories (UICategoryType ( _, categories )) =
     categories
 
 
@@ -871,9 +873,12 @@ viewContent config model =
         ]
 
 
+
+{--
 oneThird : String
 oneThird =
     "w-1/3"
+--}
 
 
 oneQuarter : String
@@ -912,7 +917,7 @@ view config model =
 
 
 renderStory : Int -> UIViewConfig -> ( String, a, c ) -> Html (Msg b)
-renderStory index { selectedStoryId } ( id, state, _ ) =
+renderStory index { selectedStoryId } ( id, _, _ ) =
     let
         isActive =
             Maybe.map
@@ -970,14 +975,14 @@ renderStories config stories viewConfig model =
         currentStories =
             case selectedStoryId of
                 Just selectedId ->
-                    List.filter (\( id, state, _ ) -> id == selectedId) stories
+                    List.filter (\( id, _, _ ) -> id == selectedId) stories
 
                 Nothing ->
                     stories
 
         content =
             case currentStories |> List.head of
-                Just ( id, story, _ ) ->
+                Just ( _, story, _ ) ->
                     story model |> Html.map ExternalMsg
 
                 Nothing ->
