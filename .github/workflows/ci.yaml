@@ -44,3 +44,51 @@ jobs:
       - name: Elm-analyse it
         run: |
           npx elm-analyse
+
+  lint-examples:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout the code
+        uses: actions/checkout@v2
+
+      - name: Use Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: 12
+
+      - name: Setup Node cache
+        uses: actions/cache@v1
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+
+      - name: Setup Elm cache
+        uses: actions/cache@v1
+        with:
+          path: ~/.elm
+          key: ${{ runner.os }}-elm-home-${{ hashFiles('**/elm.json') }}
+          restore-keys: |
+            ${{ runner.os }}-elm-home-
+
+      - name: install deps
+        run: |
+          cd /examples/button/ && npm ci
+
+      - name: Build Button Main Example
+        run: |
+          cd /examples/button/ && npx elm make Main.elm
+
+      - name: Build Button Explorer Example
+        run: |
+          cd /examples/button/ && npx elm make Explorer.elm
+
+      - name: Build Button ExplorerWithNote Example
+        run: |
+          cd /examples/button/ && npx elm make ExplorerWithNotes.elm
+
+      - name: Build Button ExplorerWithLocale Example
+        run: |
+          cd /examples/button/ && npx elm make ExplorerWithLocale.elm
