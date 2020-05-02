@@ -1,0 +1,44 @@
+name: build, lint and analyse
+
+on:
+  push:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout the code
+        uses: actions/checkout@v2
+
+      - name: Use Node.js
+        uses: actions/setup-node@v1.1.0
+
+      - name: Setup Node cache
+        uses: actions/cache@v1
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+
+      - name: Setup Elm cache
+        uses: actions/cache@v1
+        with:
+          path: ~/.elm
+          key: ${{ runner.os }}-elm-home-${{ hashFiles('**/elm.json') }}
+          restore-keys: |
+            ${{ runner.os }}-elm-home-
+
+      - name: install deps
+        run: |
+          npm ci
+
+      - name: Run elm
+        run: |
+          npx elm make src/UIExplorer.elm --output /dev/null
+
+      - name: Elm-analyse it
+        run: |
+          ./node_modules/.bin/elm-analyse
