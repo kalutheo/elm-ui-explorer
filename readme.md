@@ -2,8 +2,6 @@
 
 ![logo](https://raw.githubusercontent.com/kalutheo/elm-ui-explorer/master/explorer-logo-small.png)
 
-[![Build Status](https://travis-ci.org/kalutheo/elm-ui-explorer.svg?branch=master)](https://travis-ci.org/kalutheo/elm-ui-explorer)
-
 ![Build Status](https://github.com/kalutheo/elm-ui-explorer/workflows/Elm%20CI/badge.svg)
 
 [UI Component Explorers](https://blog.hichroma.com/the-crucial-tool-for-modern-frontend-engineers-fb849b06187a) and [Style Guides](http://styleguides.io/) have been around for a while now.
