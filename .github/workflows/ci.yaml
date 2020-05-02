@@ -1,0 +1,137 @@
+name: Elm CI
+
+on:
+  push:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout the code
+        uses: actions/checkout@v2
+
+      - name: Use Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: 12
+
+      - name: Setup Node cache
+        uses: actions/cache@v1
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+
+      - name: Setup Elm cache
+        uses: actions/cache@v1
+        with:
+          path: ~/.elm
+          key: ${{ runner.os }}-elm-home-${{ hashFiles('**/elm.json') }}
+          restore-keys: |
+            ${{ runner.os }}-elm-home-
+
+      - name: install deps
+        run: |
+          npm ci
+
+      - name: Run elm
+        run: |
+          npx elm make src/UIExplorer.elm --output /dev/null
+
+      - name: Elm-analyse it
+        run: |
+          npx elm-analyse
+
+  lint-button-examples:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout the code
+        uses: actions/checkout@v2
+
+      - name: Use Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: 12
+
+      - name: Setup Node cache
+        uses: actions/cache@v1
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+
+      - name: Setup Elm cache
+        uses: actions/cache@v1
+        with:
+          path: ~/.elm
+          key: ${{ runner.os }}-elm-home-${{ hashFiles('**/elm.json') }}
+          restore-keys: |
+            ${{ runner.os }}-elm-home-
+
+      - name: install deps for button example
+        working-directory: examples/button/
+        run: |
+          npm ci
+
+      - name: Build Button Main Example
+        working-directory: examples/button/
+        run: |
+          npx elm make Main.elm
+
+      - name: Build Button Explorer Example
+        working-directory: examples/button/
+        run: |
+          npx elm make Explorer.elm
+
+      - name: Build Button ExplorerWithNote Example
+        working-directory: examples/button/
+        run: |
+          npx elm make ExplorerWithNotes.elm
+
+      - name: Build Button ExplorerWithLocale Example
+        working-directory: examples/button/
+        run: |
+          npx elm make ExplorerWithLocale.elm
+
+  lint-dsm-examples:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout the code
+        uses: actions/checkout@v2
+
+      - name: Use Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: 12
+
+      - name: Setup Node cache
+        uses: actions/cache@v1
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+
+      - name: Setup Elm cache
+        uses: actions/cache@v1
+        with:
+          path: ~/.elm
+          key: ${{ runner.os }}-elm-home-${{ hashFiles('**/elm.json') }}
+          restore-keys: |
+            ${{ runner.os }}-elm-home-
+
+      - name: install deps for dsm example
+        working-directory: examples/dsm/
+        run: |
+          npm ci
+
+      - name: Build Button Main Example
+        working-directory: examples/dsm/
+        run: |
+          npx elm make src/Main.elm
