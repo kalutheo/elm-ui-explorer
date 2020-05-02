@@ -74,21 +74,26 @@ jobs:
             ${{ runner.os }}-elm-home-
 
       - name: install deps
+        working-directory: examples/button/
         run: |
-          cd /examples/button/ && npm ci
+          npm ci
 
       - name: Build Button Main Example
+        working-directory: examples/button/
         run: |
-          cd /examples/button/ && npx elm make Main.elm
+          npx elm make Main.elm
 
       - name: Build Button Explorer Example
+        working-directory: examples/button/
         run: |
-          cd /examples/button/ && npx elm make Explorer.elm
+          npx elm make Explorer.elm
 
       - name: Build Button ExplorerWithNote Example
+        working-directory: examples/button/
         run: |
-          cd /examples/button/ && npx elm make ExplorerWithNotes.elm
+          npx elm make ExplorerWithNotes.elm
 
       - name: Build Button ExplorerWithLocale Example
+        working-directory: examples/button/
         run: |
-          cd /examples/button/ && npx elm make ExplorerWithLocale.elm
+          npx elm make ExplorerWithLocale.elm
