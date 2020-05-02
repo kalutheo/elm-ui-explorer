@@ -97,10 +97,6 @@ jobs:
         working-directory: examples/button/
         run: |
           npx elm make ExplorerWithLocale.elm
-      - name: Build Dsm  Example
-        working-directory: examples/dsm/
-        run: |
-          npx elm make Main.elm
 
   lint-dsm-examples:
     runs-on: ubuntu-latest
