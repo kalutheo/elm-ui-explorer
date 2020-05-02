@@ -19,8 +19,9 @@
   },
   "homepage": "https://github.com/kalutheo/elm-ui-explorer#readme",
   "dependencies": {
-    "elm-analyse": "^0.16.5",
-    "minimist": "^1.2.5",
     "tailwindcss": "^0.7.4"
+  },
+  "devDependencies": {
+    "elm-analyse": "^0.16.5"
   }
 }
