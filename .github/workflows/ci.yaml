@@ -1,4 +1,4 @@
-name: build, lint and analyse
+name: Elm CI
 
 on:
   push:
