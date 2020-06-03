@@ -74,7 +74,7 @@ Functions listed below are related to that.
 import Array exposing (Array)
 import Browser
 import Browser.Navigation as Navigation
-import Html exposing (Html, a, article, aside, div, h3, img, li, section, span, text, ul)
+import Html exposing (Html, a, article, aside, div, h3, header, img, li, span, text, ul)
 import Html.Attributes exposing (class, classList, href, src, style)
 import Html.Events exposing (onClick)
 import Url
@@ -704,7 +704,7 @@ viewHeader customHeader =
                         Logo (FromHtml viewCustom) ->
                             viewCustom
             in
-            section
+            header
                 ([ toClassName styleHeader.header, heightStyle ] |> List.append headerStyles)
                 [ viewLogo
                 , div
@@ -718,7 +718,7 @@ viewHeader customHeader =
                 heightStyle =
                     style "height" "86px"
             in
-            section
+            header
                 ([ toClassName styleHeader.header, heightStyle ] |> List.append [ toClassName [ colors.bg.primary, "pb-3" ] ])
                 [ div [ toClassName [ "bg-cover", "cursor-default", "logo" ] ]
                     []
@@ -735,6 +735,7 @@ styleMenuItem isSelected =
             , "pt-2"
             , "pb-2"
             , "text-xs"
+            , "no-underline"
             , hover "bg-grey-lighter"
             , hover "text-black"
             ]
@@ -791,17 +792,17 @@ styleMenuCategoryLink =
     , "pb-2"
     , "pt-2"
     , "text-sm"
+    , "no-underline"
     ]
 
 
 viewMenuCategory : UIViewConfig -> UICategory a b c -> Html (Msg b)
 viewMenuCategory { selectedUIId } (UICategoryType ( title, categories )) =
     div [ toClassName [] ]
-        [ a
+        [ span
             [ toClassName styleMenuCategoryLink
-            , href "#"
             ]
-            [ span [ toClassName [ "font-bold", "text-grey-darker", "text-xs" ] ] [ text ("> " ++ title) ] ]
+            [ span [ toClassName [ "font-bold", "text-grey-darker", "text-xs" ] ] [ text title ] ]
         , ul [ toClassName [ "list-reset" ] ]
             (List.map (viewMenuItem title selectedUIId) categories)
         ]

@@ -11717,8 +11717,8 @@ var $author$project$UIExplorer$colors = {
 	bg: {primary: 'bg-black'}
 };
 var $elm$html$Html$h3 = _VirtualDom_node('h3');
+var $elm$html$Html$header = _VirtualDom_node('header');
 var $elm$html$Html$img = _VirtualDom_node('img');
-var $elm$html$Html$section = _VirtualDom_node('section');
 var $elm$html$Html$Attributes$src = function (url) {
 	return A2(
 		$elm$html$Html$Attributes$stringProperty,
@@ -11788,7 +11788,7 @@ var $author$project$UIExplorer$viewHeader = function (customHeader) {
 				},
 				bgColor));
 		return A2(
-			$elm$html$Html$section,
+			$elm$html$Html$header,
 			A2(
 				$elm$core$List$append,
 				headerStyles,
@@ -11831,7 +11831,7 @@ var $author$project$UIExplorer$viewHeader = function (customHeader) {
 	} else {
 		var heightStyle = A2($elm$html$Html$Attributes$style, 'height', '86px');
 		return A2(
-			$elm$html$Html$section,
+			$elm$html$Html$header,
 			A2(
 				$elm$core$List$append,
 				_List_fromArray(
@@ -11861,7 +11861,7 @@ var $author$project$UIExplorer$viewHeader = function (customHeader) {
 };
 var $elm$html$Html$aside = _VirtualDom_node('aside');
 var $author$project$UIExplorer$styleMenuCategoryLink = _List_fromArray(
-	['text-grey-darkest', 'uppercase', 'border-b', 'border-grey-light', 'w-full', 'flex', 'cursor-default', 'pl-4', 'pb-2', 'pt-2', 'text-sm']);
+	['text-grey-darkest', 'uppercase', 'border-b', 'border-grey-light', 'w-full', 'flex', 'cursor-default', 'pl-4', 'pb-2', 'pt-2', 'text-sm', 'no-underline']);
 var $author$project$UIExplorer$styleMenuItem = function (isSelected) {
 	var defaultClass = _List_fromArray(
 		[
@@ -11871,6 +11871,7 @@ var $author$project$UIExplorer$styleMenuItem = function (isSelected) {
 			'pt-2',
 			'pb-2',
 			'text-xs',
+			'no-underline',
 			$author$project$UIExplorer$hover('bg-grey-lighter'),
 			$author$project$UIExplorer$hover('text-black')
 		]);
@@ -11941,11 +11942,10 @@ var $author$project$UIExplorer$viewMenuCategory = F2(
 			_List_fromArray(
 				[
 					A2(
-					$elm$html$Html$a,
+					$elm$html$Html$span,
 					_List_fromArray(
 						[
-							$author$project$UIExplorer$toClassName($author$project$UIExplorer$styleMenuCategoryLink),
-							$elm$html$Html$Attributes$href('#')
+							$author$project$UIExplorer$toClassName($author$project$UIExplorer$styleMenuCategoryLink)
 						]),
 					_List_fromArray(
 						[
@@ -11959,7 +11959,7 @@ var $author$project$UIExplorer$viewMenuCategory = F2(
 								]),
 							_List_fromArray(
 								[
-									$elm$html$Html$text('> ' + title)
+									$elm$html$Html$text(title)
 								]))
 						])),
 					A2(
@@ -14627,6 +14627,7 @@ var $author$project$UIExplorer$Plugins$Tabs$TabOpened = function (a) {
 	return {$: 'TabOpened', a: a};
 };
 var $elm$html$Html$nav = _VirtualDom_node('nav');
+var $elm$html$Html$section = _VirtualDom_node('section');
 var $author$project$UIExplorer$Plugins$Tabs$view = F3(
 	function (tabs, items, onTabOpened) {
 		return A2(
@@ -14811,7 +14812,7 @@ var $author$project$UIExplorer$Plugins$Code$viewEnhancer = function (model) {
 			$elm_explorations$markdown$Markdown$toHtml,
 			_List_fromArray(
 				[
-					$elm$html$Html$Attributes$class('content uie-text-sm'),
+					$elm$html$Html$Attributes$class('content uie-text-sm uie-overflow-auto'),
 					A2($elm$html$Html$Attributes$style, 'width', '100%')
 				]),
 			option.code);
@@ -14828,7 +14829,7 @@ var $author$project$UIExplorer$Plugins$Note$viewEnhancer = function (model) {
 			$elm_explorations$markdown$Markdown$toHtml,
 			_List_fromArray(
 				[
-					$elm$html$Html$Attributes$class('content uie-text-sm'),
+					$elm$html$Html$Attributes$class('content uie-text-sm markdown-body'),
 					A2($elm$html$Html$Attributes$style, 'width', '100%')
 				]),
 			option.note);
