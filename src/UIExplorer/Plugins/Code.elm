@@ -26,7 +26,7 @@ viewEnhancer : UIExplorer.Model a b { c | code : String } -> Html.Html (UIExplor
 viewEnhancer model =
     case getCurrentSelectedStory model of
         Just ( _, _, option ) ->
-            Markdown.toHtml [ class "content uie-text-sm", style "width" "100%" ] option.code
+            Markdown.toHtml [ class "content uie-text-sm uie-overflow-auto", style "width" "100%" ] option.code
 
         Nothing ->
             Html.text ""
