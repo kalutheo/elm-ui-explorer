@@ -794,12 +794,20 @@ styleHeader =
     }
 
 
-viewToggleMobileMenu : Theme -> Html (Msg a)
-viewToggleMobileMenu theme =
+viewToggleMobileMenu : Theme -> List (Html.Attribute (Msg a)) -> Html (Msg a)
+viewToggleMobileMenu theme styles =
+    let
+        defaultColor =
+            if List.length styles == 0 then
+                [ class ("uie-" ++ theme.iconColor) ]
+
+            else
+                []
+    in
     div
         [ class "uie-block md:uie-hidden uie-flex uie-flex-col uie-justify-center uie-items-end uie-mr-4"
         ]
-        [ button [ class ("uie-" ++ theme.iconColor), onClick MobileMenuToggled ]
+        [ button (defaultColor ++ [ onClick MobileMenuToggled ] ++ styles)
             [ FeatherIcons.menu
                 |> FeatherIcons.withSize 22
                 |> FeatherIcons.toHtml []
@@ -807,8 +815,8 @@ viewToggleMobileMenu theme =
         ]
 
 
-viewToggleDarkMode : ColorMode -> Theme -> Html (Msg a)
-viewToggleDarkMode colorMode theme =
+viewToggleDarkMode : ColorMode -> Theme -> List (Html.Attribute (Msg a)) -> Html (Msg a)
+viewToggleDarkMode colorMode theme styles =
     let
         icon =
             case colorMode of
@@ -817,11 +825,18 @@ viewToggleDarkMode colorMode theme =
 
                 Light ->
                     FeatherIcons.moon
+
+        defaultColor =
+            if List.length styles == 0 then
+                [ class ("uie-" ++ theme.iconColor) ]
+
+            else
+                []
     in
     div
         [ class "uie-flex uie-flex-1 uie-flex-col uie-justify-center  uie-items-end uie-mr-4"
         ]
-        [ button [ class ("uie-" ++ theme.iconColor), onClick ColorModeToggled ]
+        [ button (defaultColor ++ [ onClick ColorModeToggled ] ++ styles)
             [ icon
                 |> FeatherIcons.withSize 22
                 |> FeatherIcons.toHtml []
@@ -829,10 +844,10 @@ viewToggleDarkMode colorMode theme =
         ]
 
 
-viewActionButtons : ColorMode -> Theme -> Html (Msg a)
-viewActionButtons colorMode theme =
+viewActionButtons : ColorMode -> Theme -> List (Html.Attribute (Msg a)) -> Html (Msg a)
+viewActionButtons colorMode theme titleStyles =
     div [ class "uie-flex  uie-flex-1" ]
-        [ viewToggleDarkMode colorMode theme, viewToggleMobileMenu theme ]
+        [ viewToggleDarkMode colorMode theme titleStyles, viewToggleMobileMenu theme titleStyles ]
 
 
 viewHeader : ColorMode -> Theme -> Maybe (CustomHeader b) -> Html (Msg b)
@@ -868,7 +883,7 @@ viewHeader colorMode theme customHeader =
                     [ toClassName [ "flex", "flex-col", "justify-center" ], heightStyle ]
                     [ h3 ([ classList [ ( "md:uie-ml-4", True ) ] ] |> List.append titleStyles) [ text title ]
                     ]
-                , viewActionButtons colorMode theme
+                , viewActionButtons colorMode theme titleStyles
                 ]
 
         Nothing ->
@@ -899,7 +914,7 @@ viewHeader colorMode theme customHeader =
                            )
                     )
                     []
-                , viewActionButtons colorMode theme
+                , viewActionButtons colorMode theme []
                 ]
 
 

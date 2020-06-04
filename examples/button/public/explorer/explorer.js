@@ -11807,8 +11807,8 @@ var $1602$elm_feather$FeatherIcons$withSize = F2(
 				src: src
 			});
 	});
-var $author$project$UIExplorer$viewToggleDarkMode = F2(
-	function (colorMode, theme) {
+var $author$project$UIExplorer$viewToggleDarkMode = F3(
+	function (colorMode, theme, styles) {
 		var icon = function () {
 			if (colorMode.$ === 'Dark') {
 				return $1602$elm_feather$FeatherIcons$sun;
@@ -11816,6 +11816,10 @@ var $author$project$UIExplorer$viewToggleDarkMode = F2(
 				return $1602$elm_feather$FeatherIcons$moon;
 			}
 		}();
+		var defaultColor = (!$elm$core$List$length(styles)) ? _List_fromArray(
+			[
+				$elm$html$Html$Attributes$class('uie-' + theme.iconColor)
+			]) : _List_Nil;
 		return A2(
 			$elm$html$Html$div,
 			_List_fromArray(
@@ -11826,11 +11830,14 @@ var $author$project$UIExplorer$viewToggleDarkMode = F2(
 				[
 					A2(
 					$elm$html$Html$button,
-					_List_fromArray(
-						[
-							$elm$html$Html$Attributes$class('uie-' + theme.iconColor),
-							$elm$html$Html$Events$onClick($author$project$UIExplorer$ColorModeToggled)
-						]),
+					_Utils_ap(
+						defaultColor,
+						_Utils_ap(
+							_List_fromArray(
+								[
+									$elm$html$Html$Events$onClick($author$project$UIExplorer$ColorModeToggled)
+								]),
+							styles)),
 					_List_fromArray(
 						[
 							A2(
@@ -11895,33 +11902,41 @@ var $1602$elm_feather$FeatherIcons$menu = A2(
 					_List_Nil)
 				]))
 		]));
-var $author$project$UIExplorer$viewToggleMobileMenu = function (theme) {
-	return A2(
-		$elm$html$Html$div,
-		_List_fromArray(
+var $author$project$UIExplorer$viewToggleMobileMenu = F2(
+	function (theme, styles) {
+		var defaultColor = (!$elm$core$List$length(styles)) ? _List_fromArray(
 			[
-				$elm$html$Html$Attributes$class('uie-block md:uie-hidden uie-flex uie-flex-col uie-justify-center uie-items-end uie-mr-4')
-			]),
-		_List_fromArray(
-			[
-				A2(
-				$elm$html$Html$button,
-				_List_fromArray(
-					[
-						$elm$html$Html$Attributes$class('uie-' + theme.iconColor),
-						$elm$html$Html$Events$onClick($author$project$UIExplorer$MobileMenuToggled)
-					]),
-				_List_fromArray(
-					[
-						A2(
-						$1602$elm_feather$FeatherIcons$toHtml,
-						_List_Nil,
-						A2($1602$elm_feather$FeatherIcons$withSize, 22, $1602$elm_feather$FeatherIcons$menu))
-					]))
-			]));
-};
-var $author$project$UIExplorer$viewActionButtons = F2(
-	function (colorMode, theme) {
+				$elm$html$Html$Attributes$class('uie-' + theme.iconColor)
+			]) : _List_Nil;
+		return A2(
+			$elm$html$Html$div,
+			_List_fromArray(
+				[
+					$elm$html$Html$Attributes$class('uie-block md:uie-hidden uie-flex uie-flex-col uie-justify-center uie-items-end uie-mr-4')
+				]),
+			_List_fromArray(
+				[
+					A2(
+					$elm$html$Html$button,
+					_Utils_ap(
+						defaultColor,
+						_Utils_ap(
+							_List_fromArray(
+								[
+									$elm$html$Html$Events$onClick($author$project$UIExplorer$MobileMenuToggled)
+								]),
+							styles)),
+					_List_fromArray(
+						[
+							A2(
+							$1602$elm_feather$FeatherIcons$toHtml,
+							_List_Nil,
+							A2($1602$elm_feather$FeatherIcons$withSize, 22, $1602$elm_feather$FeatherIcons$menu))
+						]))
+				]));
+	});
+var $author$project$UIExplorer$viewActionButtons = F3(
+	function (colorMode, theme, titleStyles) {
 		return A2(
 			$elm$html$Html$div,
 			_List_fromArray(
@@ -11930,8 +11945,8 @@ var $author$project$UIExplorer$viewActionButtons = F2(
 				]),
 			_List_fromArray(
 				[
-					A2($author$project$UIExplorer$viewToggleDarkMode, colorMode, theme),
-					$author$project$UIExplorer$viewToggleMobileMenu(theme)
+					A3($author$project$UIExplorer$viewToggleDarkMode, colorMode, theme, titleStyles),
+					A2($author$project$UIExplorer$viewToggleMobileMenu, theme, titleStyles)
 				]));
 	});
 var $author$project$UIExplorer$viewHeader = F3(
@@ -12029,7 +12044,7 @@ var $author$project$UIExplorer$viewHeader = F3(
 										$elm$html$Html$text(title)
 									]))
 							])),
-						A2($author$project$UIExplorer$viewActionButtons, colorMode, theme)
+						A3($author$project$UIExplorer$viewActionButtons, colorMode, theme, titleStyles)
 					]));
 		} else {
 			var heightStyle = A2($elm$html$Html$Attributes$style, 'height', '86px');
@@ -12070,7 +12085,7 @@ var $author$project$UIExplorer$viewHeader = F3(
 								}
 							}()),
 						_List_Nil),
-						A2($author$project$UIExplorer$viewActionButtons, colorMode, theme)
+						A3($author$project$UIExplorer$viewActionButtons, colorMode, theme, _List_Nil)
 					]));
 		}
 	});
