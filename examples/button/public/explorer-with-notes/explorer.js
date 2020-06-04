@@ -11321,7 +11321,7 @@ var $author$project$UIExplorer$init = F5(
 				selectedUIId,
 				selectedStoryId));
 		return _Utils_Tuple2(
-			{categories: categories, customModel: customModel, key: key, selectedCategory: selectedCategory, selectedStoryId: selectedStoryId, selectedUIId: selectedUIId, url: url},
+			{categories: categories, customModel: customModel, key: key, mobileMenuIsOpen: false, selectedCategory: selectedCategory, selectedStoryId: selectedStoryId, selectedUIId: selectedUIId, url: url},
 			A2($elm$browser$Browser$Navigation$pushUrl, key, firstUrl));
 	});
 var $elm$browser$Browser$Navigation$load = _Browser_load;
@@ -11435,7 +11435,7 @@ var $author$project$UIExplorer$update = F3(
 							url: location
 						}),
 					$elm$core$Platform$Cmd$none);
-			default:
+			case 'LinkClicked':
 				var urlRequest = msg.a;
 				if (urlRequest.$ === 'Internal') {
 					var url = urlRequest.a;
@@ -11451,6 +11451,12 @@ var $author$project$UIExplorer$update = F3(
 						model,
 						$elm$browser$Browser$Navigation$load(href));
 				}
+			default:
+				return _Utils_Tuple2(
+					_Utils_update(
+						model,
+						{mobileMenuIsOpen: !model.mobileMenuIsOpen}),
+					$elm$core$Platform$Cmd$none);
 		}
 	});
 var $author$project$UIExplorer$oneQuarter = 'w-1/4';
@@ -11574,7 +11580,7 @@ var $author$project$UIExplorer$renderStories = F4(
 					[
 						$author$project$UIExplorer$toClassName(
 						_List_fromArray(
-							['list-reset', 'flex', 'mb-4']))
+							['flex-wrap', 'list-reset', 'flex', 'mb-4']))
 					]),
 				A2(
 					$elm$core$List$indexedMap,
@@ -11735,6 +11741,89 @@ var $author$project$UIExplorer$styleHeader = {
 	title: _List_fromArray(
 		['font-normal', 'text-3xl', 'text-black'])
 };
+var $author$project$UIExplorer$MobileMenuToggled = {$: 'MobileMenuToggled'};
+var $elm$svg$Svg$line = $elm$svg$Svg$trustedNode('line');
+var $elm$svg$Svg$Attributes$x1 = _VirtualDom_attribute('x1');
+var $elm$svg$Svg$Attributes$x2 = _VirtualDom_attribute('x2');
+var $elm$svg$Svg$Attributes$y1 = _VirtualDom_attribute('y1');
+var $elm$svg$Svg$Attributes$y2 = _VirtualDom_attribute('y2');
+var $1602$elm_feather$FeatherIcons$menu = A2(
+	$1602$elm_feather$FeatherIcons$makeBuilder,
+	'menu',
+	_List_fromArray(
+		[
+			A2(
+			$elm$svg$Svg$svg,
+			_List_fromArray(
+				[
+					$1602$elm_feather$FeatherIcons$xmlns('http://www.w3.org/2000/svg'),
+					$elm$svg$Svg$Attributes$width('24'),
+					$elm$svg$Svg$Attributes$height('24'),
+					$elm$svg$Svg$Attributes$viewBox('0 0 24 24'),
+					$elm$svg$Svg$Attributes$fill('none'),
+					$elm$svg$Svg$Attributes$stroke('currentColor'),
+					$elm$svg$Svg$Attributes$strokeWidth('2'),
+					$elm$svg$Svg$Attributes$strokeLinecap('round'),
+					$elm$svg$Svg$Attributes$strokeLinejoin('round'),
+					$elm$svg$Svg$Attributes$class('feather feather-menu')
+				]),
+			_List_fromArray(
+				[
+					A2(
+					$elm$svg$Svg$line,
+					_List_fromArray(
+						[
+							$elm$svg$Svg$Attributes$x1('3'),
+							$elm$svg$Svg$Attributes$y1('12'),
+							$elm$svg$Svg$Attributes$x2('21'),
+							$elm$svg$Svg$Attributes$y2('12')
+						]),
+					_List_Nil),
+					A2(
+					$elm$svg$Svg$line,
+					_List_fromArray(
+						[
+							$elm$svg$Svg$Attributes$x1('3'),
+							$elm$svg$Svg$Attributes$y1('6'),
+							$elm$svg$Svg$Attributes$x2('21'),
+							$elm$svg$Svg$Attributes$y2('6')
+						]),
+					_List_Nil),
+					A2(
+					$elm$svg$Svg$line,
+					_List_fromArray(
+						[
+							$elm$svg$Svg$Attributes$x1('3'),
+							$elm$svg$Svg$Attributes$y1('18'),
+							$elm$svg$Svg$Attributes$x2('21'),
+							$elm$svg$Svg$Attributes$y2('18')
+						]),
+					_List_Nil)
+				]))
+		]));
+var $author$project$UIExplorer$viewToggleMobileMenu = A2(
+	$elm$html$Html$div,
+	_List_fromArray(
+		[
+			$elm$html$Html$Attributes$class('uie-text-white uie-visible md:uie-invisible uie-flex uie-flex-col uie-justify-center uie-flex-1 uie-items-end uie-mr-4')
+		]),
+	_List_fromArray(
+		[
+			A2(
+			$elm$html$Html$button,
+			_List_fromArray(
+				[
+					$elm$html$Html$Attributes$class('uie-text-white'),
+					$elm$html$Html$Events$onClick($author$project$UIExplorer$MobileMenuToggled)
+				]),
+			_List_fromArray(
+				[
+					A2(
+					$1602$elm_feather$FeatherIcons$toHtml,
+					_List_Nil,
+					A2($1602$elm_feather$FeatherIcons$withSize, 22, $1602$elm_feather$FeatherIcons$menu))
+				]))
+		]));
 var $author$project$UIExplorer$viewHeader = function (customHeader) {
 	if (customHeader.$ === 'Just') {
 		var title = customHeader.a.title;
@@ -11818,15 +11907,18 @@ var $author$project$UIExplorer$viewHeader = function (customHeader) {
 								titleStyles,
 								_List_fromArray(
 									[
-										$author$project$UIExplorer$toClassName(
+										$elm$html$Html$Attributes$classList(
 										_List_fromArray(
-											['ml-4']))
+											[
+												_Utils_Tuple2('md:uie-ml-4', true)
+											]))
 									])),
 							_List_fromArray(
 								[
 									$elm$html$Html$text(title)
 								]))
-						]))
+						])),
+					$author$project$UIExplorer$viewToggleMobileMenu
 				]));
 	} else {
 		var heightStyle = A2($elm$html$Html$Attributes$style, 'height', '86px');
@@ -11855,7 +11947,8 @@ var $author$project$UIExplorer$viewHeader = function (customHeader) {
 							_List_fromArray(
 								['bg-cover', 'cursor-default', 'logo']))
 						]),
-					_List_Nil)
+					_List_Nil),
+					$author$project$UIExplorer$viewToggleMobileMenu
 				]));
 	}
 };
@@ -12024,8 +12117,9 @@ var $author$project$UIExplorer$view = F2(
 								[
 									$author$project$UIExplorer$toClassName(
 									_List_fromArray(
-										[$author$project$UIExplorer$oneQuarter, 'bg-white', 'overflow-scroll'])),
-									A2($elm$html$Html$Attributes$style, 'height', 'calc(100vh - 86px)')
+										[$author$project$UIExplorer$oneQuarter, 'bg-white', 'overflow-scroll', 'sm:hidden'])),
+									A2($elm$html$Html$Attributes$style, 'height', 'calc(100vh - 86px)'),
+									$elm$html$Html$Attributes$class('uie-hidden md:uie-block')
 								]),
 							_List_fromArray(
 								[
@@ -12046,6 +12140,55 @@ var $author$project$UIExplorer$view = F2(
 						]))
 				]));
 	});
+var $author$project$UIExplorer$viewMobileMenu = F2(
+	function (model, isOpen) {
+		return A2(
+			$elm$html$Html$div,
+			_List_fromArray(
+				[
+					$elm$html$Html$Attributes$classList(
+					_List_fromArray(
+						[
+							_Utils_Tuple2('uie-bg-white', true),
+							_Utils_Tuple2('uie-h-full', true),
+							_Utils_Tuple2('uie-w-48', true),
+							_Utils_Tuple2('uie-absolute', true),
+							_Utils_Tuple2('uie-block', true),
+							_Utils_Tuple2('md:uie-hidden', true),
+							_Utils_Tuple2('uie-z-50', true),
+							_Utils_Tuple2('uie-overflow-y-auto', true)
+						])),
+					$elm$html$Html$Events$onClick($author$project$UIExplorer$MobileMenuToggled),
+					isOpen ? A2($elm$html$Html$Attributes$style, 'transform', 'translate(0%)') : A2($elm$html$Html$Attributes$style, 'transform', 'translate(-100%)')
+				]),
+			_List_fromArray(
+				[
+					$author$project$UIExplorer$viewSidebar(model)
+				]));
+	});
+var $author$project$UIExplorer$viewMobileOverlay = function (isOpen) {
+	return A2(
+		$elm$html$Html$div,
+		_List_fromArray(
+			[
+				$elm$html$Html$Attributes$classList(
+				_List_fromArray(
+					[
+						_Utils_Tuple2('uie-bg-black', true),
+						_Utils_Tuple2('uie-h-full', true),
+						_Utils_Tuple2('uie-w-full', true),
+						_Utils_Tuple2('uie-absolute', true),
+						_Utils_Tuple2('uie-opacity-75', true),
+						_Utils_Tuple2('uie-block', true),
+						_Utils_Tuple2('md:uie-hidden', true),
+						_Utils_Tuple2('uie-z-40', true),
+						_Utils_Tuple2('uie-visible', isOpen),
+						_Utils_Tuple2('uie-invisible', !isOpen)
+					])),
+				$elm$html$Html$Events$onClick($author$project$UIExplorer$MobileMenuToggled)
+			]),
+		_List_Nil);
+};
 var $author$project$UIExplorer$app = F2(
 	function (config, categories) {
 		return $elm$browser$Browser$application(
@@ -12064,6 +12207,8 @@ var $author$project$UIExplorer$app = F2(
 					return {
 						body: _List_fromArray(
 							[
+								$author$project$UIExplorer$viewMobileOverlay(model.mobileMenuIsOpen),
+								A2($author$project$UIExplorer$viewMobileMenu, model, model.mobileMenuIsOpen),
 								A2($author$project$UIExplorer$view, config, model)
 							]),
 						title: 'Storybook Elm'
@@ -14983,4 +15128,4 @@ var $author$project$ExplorerWithNotes$main = A2(
 				]))
 		]));
 _Platform_export({'ExplorerWithNotes':{'init':$author$project$ExplorerWithNotes$main(
-	$elm$json$Json$Decode$succeed(_Utils_Tuple0))({"versions":{"elm":"0.19.1"},"types":{"message":"UIExplorer.Msg ExplorerWithNotes.Msg","aliases":{"Url.Url":{"args":[],"type":"{ protocol : Url.Protocol, host : String.String, port_ : Maybe.Maybe Basics.Int, path : String.String, query : Maybe.Maybe String.String, fragment : Maybe.Maybe String.String }"}},"unions":{"ExplorerWithNotes.Msg":{"args":[],"tags":{"TabMsg":["UIExplorer.Plugins.Tabs.Msg"],"NoOp":[]}},"UIExplorer.Msg":{"args":["a"],"tags":{"ExternalMsg":["a"],"SelectStory":["String.String"],"UrlChange":["Url.Url"],"LinkClicked":["Browser.UrlRequest"],"NoOp":[]}},"Basics.Int":{"args":[],"tags":{"Int":[]}},"Maybe.Maybe":{"args":["a"],"tags":{"Just":["a"],"Nothing":[]}},"UIExplorer.Plugins.Tabs.Msg":{"args":[],"tags":{"TabOpened":["Basics.Int"]}},"Url.Protocol":{"args":[],"tags":{"Http":[],"Https":[]}},"String.String":{"args":[],"tags":{"String":[]}},"Browser.UrlRequest":{"args":[],"tags":{"Internal":["Url.Url"],"External":["String.String"]}}}}})}});}(this));
+	$elm$json$Json$Decode$succeed(_Utils_Tuple0))({"versions":{"elm":"0.19.1"},"types":{"message":"UIExplorer.Msg ExplorerWithNotes.Msg","aliases":{"Url.Url":{"args":[],"type":"{ protocol : Url.Protocol, host : String.String, port_ : Maybe.Maybe Basics.Int, path : String.String, query : Maybe.Maybe String.String, fragment : Maybe.Maybe String.String }"}},"unions":{"ExplorerWithNotes.Msg":{"args":[],"tags":{"TabMsg":["UIExplorer.Plugins.Tabs.Msg"],"NoOp":[]}},"UIExplorer.Msg":{"args":["a"],"tags":{"ExternalMsg":["a"],"SelectStory":["String.String"],"UrlChange":["Url.Url"],"LinkClicked":["Browser.UrlRequest"],"NoOp":[],"MobileMenuToggled":[]}},"Basics.Int":{"args":[],"tags":{"Int":[]}},"Maybe.Maybe":{"args":["a"],"tags":{"Just":["a"],"Nothing":[]}},"UIExplorer.Plugins.Tabs.Msg":{"args":[],"tags":{"TabOpened":["Basics.Int"]}},"Url.Protocol":{"args":[],"tags":{"Http":[],"Https":[]}},"String.String":{"args":[],"tags":{"String":[]}},"Browser.UrlRequest":{"args":[],"tags":{"Internal":["Url.Url"],"External":["String.String"]}}}}})}});}(this));

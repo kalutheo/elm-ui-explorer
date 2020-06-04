@@ -74,8 +74,9 @@ Functions listed below are related to that.
 import Array exposing (Array)
 import Browser
 import Browser.Navigation as Navigation
-import Html exposing (Html, a, article, aside, div, h3, header, img, li, span, text, ul)
-import Html.Attributes exposing (class, classList, href, src, style)
+import FeatherIcons
+import Html exposing (Html, a, article, aside, button, div, h1, h2, h3, header, img, li, node, section, span, text, ul)
+import Html.Attributes exposing (class, classList, href, rel, src, style)
 import Html.Events exposing (onClick)
 import Url
 
@@ -163,6 +164,7 @@ type Msg a
     | UrlChange Url.Url
     | LinkClicked Browser.UrlRequest
     | NoOp
+    | MobileMenuToggled
 
 
 
@@ -210,6 +212,7 @@ type alias Model a b c =
     , url : Url.Url
     , key : Navigation.Key
     , customModel : a
+    , mobileMenuIsOpen : Bool
     }
 
 
@@ -385,6 +388,9 @@ update config msg model =
                 Browser.External href ->
                     ( model, Navigation.load href )
 
+        MobileMenuToggled ->
+            ( { model | mobileMenuIsOpen = not model.mobileMenuIsOpen }, Cmd.none )
+
 
 
 {--
@@ -523,6 +529,7 @@ init customModel categories _ url key =
       , url = url
       , key = key
       , customModel = customModel
+      , mobileMenuIsOpen = False
       }
     , Navigation.pushUrl key firstUrl
     )
@@ -536,7 +543,9 @@ app config categories =
             \model ->
                 { title = "Storybook Elm"
                 , body =
-                    [ view config model
+                    [ viewMobileOverlay model.mobileMenuIsOpen
+                    , viewMobileMenu model model.mobileMenuIsOpen
+                    , view config model
                     ]
                 }
         , update = update config
@@ -682,6 +691,18 @@ styleHeader =
     }
 
 
+viewToggleMobileMenu =
+    div
+        [ class "uie-text-white uie-visible md:uie-invisible uie-flex uie-flex-col uie-justify-center uie-flex-1 uie-items-end uie-mr-4"
+        ]
+        [ button [ class "uie-text-white", onClick MobileMenuToggled ]
+            [ FeatherIcons.menu
+                |> FeatherIcons.withSize 22
+                |> FeatherIcons.toHtml []
+            ]
+        ]
+
+
 viewHeader : Maybe (CustomHeader b) -> Html (Msg b)
 viewHeader customHeader =
     case customHeader of
@@ -709,8 +730,9 @@ viewHeader customHeader =
                 [ viewLogo
                 , div
                     [ toClassName [ "flex", "flex-col", "justify-center" ], heightStyle ]
-                    [ h3 ([ toClassName [ "ml-4" ] ] |> List.append titleStyles) [ text title ]
+                    [ h3 ([ classList [ ( "md:uie-ml-4", True ) ] ] |> List.append titleStyles) [ text title ]
                     ]
+                , viewToggleMobileMenu
                 ]
 
         Nothing ->
@@ -722,6 +744,7 @@ viewHeader customHeader =
                 ([ toClassName styleHeader.header, heightStyle ] |> List.append [ toClassName [ colors.bg.primary, "pb-3" ] ])
                 [ div [ toClassName [ "bg-cover", "cursor-default", "logo" ] ]
                     []
+                , viewToggleMobileMenu
                 ]
 
 
@@ -887,6 +910,47 @@ oneQuarter =
     "w-1/4"
 
 
+viewMobileMenu model isOpen =
+    div
+        [ classList
+            [ ( "uie-bg-white", True )
+            , ( "uie-h-full", True )
+            , ( "uie-w-48", True )
+            , ( "uie-absolute", True )
+            , ( "uie-block", True )
+            , ( "md:uie-hidden", True )
+            , ( "uie-z-50", True )
+            , ( "uie-overflow-y-auto", True )
+            ]
+        , onClick MobileMenuToggled
+        , if isOpen then
+            style "transform" "translate(0%)"
+
+          else
+            style "transform" "translate(-100%)"
+        ]
+        [ viewSidebar model ]
+
+
+viewMobileOverlay isOpen =
+    div
+        [ classList
+            [ ( "uie-bg-black", True )
+            , ( "uie-h-full", True )
+            , ( "uie-w-full", True )
+            , ( "uie-absolute", True )
+            , ( "uie-opacity-75", True )
+            , ( "uie-block", True )
+            , ( "md:uie-hidden", True )
+            , ( "uie-z-40", True )
+            , ( "uie-visible", isOpen )
+            , ( "uie-invisible", not isOpen )
+            ]
+        , onClick MobileMenuToggled
+        ]
+        []
+
+
 view : Config a b c -> Model a b c -> Html (Msg b)
 view config model =
     div [ toClassName [ "h-screen overflow-hidden" ] ]
@@ -897,10 +961,12 @@ view config model =
                     [ oneQuarter
                     , "bg-white"
                     , "overflow-scroll"
+                    , "sm:hidden"
                     ]
                 , style
                     "height"
                     "calc(100vh - 86px)"
+                , class "uie-hidden md:uie-block"
                 ]
                 [ viewSidebar model ]
             , div
@@ -971,7 +1037,7 @@ renderStories config stories viewConfig model =
             viewConfig
 
         menu =
-            config.menuViewEnhancer model (ul [ toClassName [ "list-reset", "flex", "mb-4" ] ] (List.indexedMap (\index -> renderStory index viewConfig) stories))
+            config.menuViewEnhancer model (ul [ toClassName [ "flex-wrap", "list-reset", "flex", "mb-4" ] ] (List.indexedMap (\index -> renderStory index viewConfig) stories))
 
         currentStories =
             case selectedStoryId of
