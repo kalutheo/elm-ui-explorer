@@ -12030,7 +12030,8 @@ var $author$project$UIExplorer$viewMobileMenu = F2(
 							_Utils_Tuple2('uie-overflow-y-auto', true)
 						])),
 					$elm$html$Html$Events$onClick($author$project$UIExplorer$MobileMenuToggled),
-					isOpen ? A2($elm$html$Html$Attributes$style, 'transform', 'translate(0%)') : A2($elm$html$Html$Attributes$style, 'transform', 'translate(-100%)')
+					isOpen ? A2($elm$html$Html$Attributes$style, 'transform', 'translate(0%)') : A2($elm$html$Html$Attributes$style, 'transform', 'translate(-100%)'),
+					A2($elm$html$Html$Attributes$style, 'transition', 'transform 0.3s ease-out')
 				]),
 			_List_fromArray(
 				[

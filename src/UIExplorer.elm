@@ -928,6 +928,7 @@ viewMobileMenu model isOpen =
 
           else
             style "transform" "translate(-100%)"
+        , style "transition" "transform 0.3s ease-out"
         ]
         [ viewSidebar model ]
 
