@@ -10941,6 +10941,7 @@ var $elm$core$Basics$never = function (_v0) {
 	}
 };
 var $elm$browser$Browser$application = _Browser_application;
+var $author$project$UIExplorer$Light = {$: 'Light'};
 var $author$project$UIExplorer$getStoryIdFromStories = function (_v0) {
 	var s = _v0.a;
 	return s;
@@ -11094,9 +11095,10 @@ var $author$project$UIExplorer$init = F5(
 				selectedUIId,
 				selectedStoryId));
 		return _Utils_Tuple2(
-			{categories: categories, customModel: customModel, key: key, mobileMenuIsOpen: false, selectedCategory: selectedCategory, selectedStoryId: selectedStoryId, selectedUIId: selectedUIId, url: url},
+			{categories: categories, colorMode: $author$project$UIExplorer$Light, customModel: customModel, key: key, mobileMenuIsOpen: false, selectedCategory: selectedCategory, selectedStoryId: selectedStoryId, selectedUIId: selectedUIId, url: url},
 			A2($elm$browser$Browser$Navigation$pushUrl, key, firstUrl));
 	});
+var $author$project$UIExplorer$Dark = {$: 'Dark'};
 var $elm$browser$Browser$Navigation$load = _Browser_load;
 var $elm$core$Maybe$map2 = F3(
 	function (func, ma, mb) {
@@ -11224,16 +11226,55 @@ var $author$project$UIExplorer$update = F3(
 						model,
 						$elm$browser$Browser$Navigation$load(href));
 				}
-			default:
+			case 'MobileMenuToggled':
 				return _Utils_Tuple2(
 					_Utils_update(
 						model,
 						{mobileMenuIsOpen: !model.mobileMenuIsOpen}),
 					$elm$core$Platform$Cmd$none);
+			default:
+				return _Utils_Tuple2(
+					_Utils_update(
+						model,
+						{
+							colorMode: function () {
+								var _v4 = model.colorMode;
+								if (_v4.$ === 'Dark') {
+									return $author$project$UIExplorer$Light;
+								} else {
+									return $author$project$UIExplorer$Dark;
+								}
+							}()
+						}),
+					$elm$core$Platform$Cmd$none);
 		}
 	});
+var $author$project$UIExplorer$darkTheme = {
+	headerColor: 'bg-black',
+	iconColor: 'text-white',
+	menu: {hoverBg: 'bg-white', hoverText: 'text-black', selectedBg: 'bg-grey-darkest', text: 'text-white'},
+	primaryBgColor: 'bg-black',
+	primaryTextColor: 'text-white',
+	sidebar: {background: 'bg-black', borderColor: 'border-grey-darkest'},
+	storyMenu: {border: 'border-grey-dark', hoverBg: 'bg-white', selectedBorder: 'border-white', selectedText: 'text-white', text: 'text-grey-dark'}
+};
+var $author$project$UIExplorer$lightTheme = {
+	headerColor: 'bg-white',
+	iconColor: 'text-black',
+	menu: {hoverBg: 'bg-grey-lighter', hoverText: 'text-black', selectedBg: 'bg-grey-light', text: 'text-black'},
+	primaryBgColor: 'bg-white',
+	primaryTextColor: 'text-grey-darker',
+	sidebar: {background: 'bg-white', borderColor: 'border-transparent'},
+	storyMenu: {border: 'border-grey', hoverBg: 'bg-grey-lighter', selectedBorder: 'border-black', selectedText: 'text-black', text: 'text-grey'}
+};
+var $author$project$UIExplorer$getTheme = function (colorMode) {
+	if (colorMode.$ === 'Dark') {
+		return $author$project$UIExplorer$darkTheme;
+	} else {
+		return $author$project$UIExplorer$lightTheme;
+	}
+};
 var $author$project$UIExplorer$oneQuarter = 'w-1/4';
-var $author$project$UIExplorer$primaryBgColor = 'bg-black';
 var $author$project$UIExplorer$toClassName = function (list) {
 	return $elm$html$Html$Attributes$class(
 		A2(
@@ -11276,7 +11317,6 @@ var $author$project$UIExplorer$getUIListFromCategories = function (_v0) {
 	var categories = _v1.b;
 	return categories;
 };
-var $author$project$UIExplorer$primaryTextColor = 'text-white';
 var $author$project$UIExplorer$SelectStory = function (a) {
 	return {$: 'SelectStory', a: a};
 };
@@ -11293,11 +11333,12 @@ var $elm$html$Html$Attributes$classList = function (classes) {
 var $author$project$UIExplorer$hover = function (className) {
 	return 'hover:uie-' + className;
 };
-var $author$project$UIExplorer$storyMenuTokens = {border: 'border-grey-dark', hoverBg: 'bg-white', selectedBorder: 'border-white', selectedText: 'text-white', text: 'text-grey-dark'};
-var $author$project$UIExplorer$renderStory = F3(
-	function (index, _v0, _v1) {
-		var selectedStoryId = _v0.selectedStoryId;
-		var id = _v1.a;
+var $author$project$UIExplorer$renderStory = F4(
+	function (_v0, index, _v1, _v2) {
+		var storyMenu = _v0.storyMenu;
+		var primaryBgColor = _v0.primaryBgColor;
+		var selectedStoryId = _v1.selectedStoryId;
+		var id = _v2.a;
 		var isActive = A2(
 			$elm$core$Maybe$withDefault,
 			!index,
@@ -11311,17 +11352,17 @@ var $author$project$UIExplorer$renderStory = F3(
 			$elm$core$List$append,
 			defaultLiClass,
 			_List_fromArray(
-				['border', $author$project$UIExplorer$storyMenuTokens.selectedBorder, $author$project$UIExplorer$storyMenuTokens.selectedText, 'cursor-default', 'active'])) : A2(
+				['border', storyMenu.selectedBorder, storyMenu.selectedText, 'cursor-default', 'active'])) : A2(
 			$elm$core$List$append,
 			defaultLiClass,
 			_List_fromArray(
 				[
 					'border',
-					$author$project$UIExplorer$storyMenuTokens.border,
-					$author$project$UIExplorer$primaryBgColor,
-					$author$project$UIExplorer$storyMenuTokens.text,
+					storyMenu.border,
+					primaryBgColor,
+					storyMenu.text,
 					'cursor-pointer',
-					$author$project$UIExplorer$hover($author$project$UIExplorer$storyMenuTokens.hoverBg)
+					$author$project$UIExplorer$hover(storyMenu.hoverBg)
 				]));
 		var buttonClass = $elm$html$Html$Attributes$classList(
 			_List_fromArray(
@@ -11345,6 +11386,7 @@ var $author$project$UIExplorer$renderStory = F3(
 	});
 var $author$project$UIExplorer$renderStories = F4(
 	function (config, stories, viewConfig, model) {
+		var theme = $author$project$UIExplorer$getTheme(model.colorMode);
 		var menu = A2(
 			config.menuViewEnhancer,
 			model,
@@ -11359,7 +11401,7 @@ var $author$project$UIExplorer$renderStories = F4(
 				A2(
 					$elm$core$List$indexedMap,
 					function (index) {
-						return A2($author$project$UIExplorer$renderStory, index, viewConfig);
+						return A3($author$project$UIExplorer$renderStory, theme, index, viewConfig);
 					},
 					stories)));
 		var _v0 = viewConfig;
@@ -11407,6 +11449,7 @@ var $author$project$UIExplorer$renderStories = F4(
 var $author$project$UIExplorer$viewContent = F2(
 	function (config, model) {
 		var viewConfig = {selectedStoryId: model.selectedStoryId, selectedUIId: model.selectedUIId};
+		var theme = $author$project$UIExplorer$getTheme(model.colorMode);
 		var filteredUIs = A2(
 			$elm$core$List$filter,
 			function (ui) {
@@ -11455,7 +11498,7 @@ var $author$project$UIExplorer$viewContent = F2(
 									[
 										$author$project$UIExplorer$toClassName(
 										_List_fromArray(
-											['text-lg', 'flex', $author$project$UIExplorer$primaryTextColor]))
+											['text-lg', 'flex', theme.primaryTextColor]))
 									]),
 								_List_fromArray(
 									[
@@ -11491,9 +11534,6 @@ var $author$project$UIExplorer$viewContent = F2(
 						filteredUIs))
 				]));
 	});
-var $author$project$UIExplorer$colors = {
-	bg: {primary: 'bg-black'}
-};
 var $elm$html$Html$h3 = _VirtualDom_node('h3');
 var $elm$html$Html$header = _VirtualDom_node('header');
 var $elm$html$Html$img = _VirtualDom_node('img');
@@ -11513,12 +11553,11 @@ var $author$project$UIExplorer$styleHeader = {
 	title: _List_fromArray(
 		['font-normal', 'text-3xl', 'text-black'])
 };
-var $author$project$UIExplorer$MobileMenuToggled = {$: 'MobileMenuToggled'};
+var $author$project$UIExplorer$ColorModeToggled = {$: 'ColorModeToggled'};
 var $elm$svg$Svg$Attributes$class = _VirtualDom_attribute('class');
+var $elm$svg$Svg$Attributes$d = _VirtualDom_attribute('d');
 var $elm$svg$Svg$Attributes$fill = _VirtualDom_attribute('fill');
 var $elm$svg$Svg$Attributes$height = _VirtualDom_attribute('height');
-var $elm$svg$Svg$trustedNode = _VirtualDom_nodeNS('http://www.w3.org/2000/svg');
-var $elm$svg$Svg$line = $elm$svg$Svg$trustedNode('line');
 var $1602$elm_feather$FeatherIcons$Icon = function (a) {
 	return {$: 'Icon', a: a};
 };
@@ -11539,6 +11578,8 @@ var $1602$elm_feather$FeatherIcons$makeBuilder = F2(
 				src: src
 			});
 	});
+var $elm$svg$Svg$trustedNode = _VirtualDom_nodeNS('http://www.w3.org/2000/svg');
+var $elm$svg$Svg$path = $elm$svg$Svg$trustedNode('path');
 var $elm$svg$Svg$Attributes$stroke = _VirtualDom_attribute('stroke');
 var $elm$svg$Svg$Attributes$strokeLinecap = _VirtualDom_attribute('stroke-linecap');
 var $elm$svg$Svg$Attributes$strokeLinejoin = _VirtualDom_attribute('stroke-linejoin');
@@ -11546,8 +11587,6 @@ var $elm$svg$Svg$Attributes$strokeWidth = _VirtualDom_attribute('stroke-width');
 var $elm$svg$Svg$svg = $elm$svg$Svg$trustedNode('svg');
 var $elm$svg$Svg$Attributes$viewBox = _VirtualDom_attribute('viewBox');
 var $elm$svg$Svg$Attributes$width = _VirtualDom_attribute('width');
-var $elm$svg$Svg$Attributes$x1 = _VirtualDom_attribute('x1');
-var $elm$svg$Svg$Attributes$x2 = _VirtualDom_attribute('x2');
 var $elm$virtual_dom$VirtualDom$property = F2(
 	function (key, value) {
 		return A2(
@@ -11561,11 +11600,9 @@ var $1602$elm_feather$FeatherIcons$xmlns = function (s) {
 		'xmlns',
 		$elm$json$Json$Encode$string(s));
 };
-var $elm$svg$Svg$Attributes$y1 = _VirtualDom_attribute('y1');
-var $elm$svg$Svg$Attributes$y2 = _VirtualDom_attribute('y2');
-var $1602$elm_feather$FeatherIcons$menu = A2(
+var $1602$elm_feather$FeatherIcons$moon = A2(
 	$1602$elm_feather$FeatherIcons$makeBuilder,
-	'menu',
+	'moon',
 	_List_fromArray(
 		[
 			A2(
@@ -11581,17 +11618,106 @@ var $1602$elm_feather$FeatherIcons$menu = A2(
 					$elm$svg$Svg$Attributes$strokeWidth('2'),
 					$elm$svg$Svg$Attributes$strokeLinecap('round'),
 					$elm$svg$Svg$Attributes$strokeLinejoin('round'),
-					$elm$svg$Svg$Attributes$class('feather feather-menu')
+					$elm$svg$Svg$Attributes$class('feather feather-moon')
 				]),
 			_List_fromArray(
 				[
 					A2(
+					$elm$svg$Svg$path,
+					_List_fromArray(
+						[
+							$elm$svg$Svg$Attributes$d('M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z')
+						]),
+					_List_Nil)
+				]))
+		]));
+var $elm$svg$Svg$circle = $elm$svg$Svg$trustedNode('circle');
+var $elm$svg$Svg$Attributes$cx = _VirtualDom_attribute('cx');
+var $elm$svg$Svg$Attributes$cy = _VirtualDom_attribute('cy');
+var $elm$svg$Svg$line = $elm$svg$Svg$trustedNode('line');
+var $elm$svg$Svg$Attributes$r = _VirtualDom_attribute('r');
+var $elm$svg$Svg$Attributes$x1 = _VirtualDom_attribute('x1');
+var $elm$svg$Svg$Attributes$x2 = _VirtualDom_attribute('x2');
+var $elm$svg$Svg$Attributes$y1 = _VirtualDom_attribute('y1');
+var $elm$svg$Svg$Attributes$y2 = _VirtualDom_attribute('y2');
+var $1602$elm_feather$FeatherIcons$sun = A2(
+	$1602$elm_feather$FeatherIcons$makeBuilder,
+	'sun',
+	_List_fromArray(
+		[
+			A2(
+			$elm$svg$Svg$svg,
+			_List_fromArray(
+				[
+					$1602$elm_feather$FeatherIcons$xmlns('http://www.w3.org/2000/svg'),
+					$elm$svg$Svg$Attributes$width('24'),
+					$elm$svg$Svg$Attributes$height('24'),
+					$elm$svg$Svg$Attributes$viewBox('0 0 24 24'),
+					$elm$svg$Svg$Attributes$fill('none'),
+					$elm$svg$Svg$Attributes$stroke('currentColor'),
+					$elm$svg$Svg$Attributes$strokeWidth('2'),
+					$elm$svg$Svg$Attributes$strokeLinecap('round'),
+					$elm$svg$Svg$Attributes$strokeLinejoin('round'),
+					$elm$svg$Svg$Attributes$class('feather feather-sun')
+				]),
+			_List_fromArray(
+				[
+					A2(
+					$elm$svg$Svg$circle,
+					_List_fromArray(
+						[
+							$elm$svg$Svg$Attributes$cx('12'),
+							$elm$svg$Svg$Attributes$cy('12'),
+							$elm$svg$Svg$Attributes$r('5')
+						]),
+					_List_Nil),
+					A2(
 					$elm$svg$Svg$line,
 					_List_fromArray(
 						[
-							$elm$svg$Svg$Attributes$x1('3'),
+							$elm$svg$Svg$Attributes$x1('12'),
+							$elm$svg$Svg$Attributes$y1('1'),
+							$elm$svg$Svg$Attributes$x2('12'),
+							$elm$svg$Svg$Attributes$y2('3')
+						]),
+					_List_Nil),
+					A2(
+					$elm$svg$Svg$line,
+					_List_fromArray(
+						[
+							$elm$svg$Svg$Attributes$x1('12'),
+							$elm$svg$Svg$Attributes$y1('21'),
+							$elm$svg$Svg$Attributes$x2('12'),
+							$elm$svg$Svg$Attributes$y2('23')
+						]),
+					_List_Nil),
+					A2(
+					$elm$svg$Svg$line,
+					_List_fromArray(
+						[
+							$elm$svg$Svg$Attributes$x1('4.22'),
+							$elm$svg$Svg$Attributes$y1('4.22'),
+							$elm$svg$Svg$Attributes$x2('5.64'),
+							$elm$svg$Svg$Attributes$y2('5.64')
+						]),
+					_List_Nil),
+					A2(
+					$elm$svg$Svg$line,
+					_List_fromArray(
+						[
+							$elm$svg$Svg$Attributes$x1('18.36'),
+							$elm$svg$Svg$Attributes$y1('18.36'),
+							$elm$svg$Svg$Attributes$x2('19.78'),
+							$elm$svg$Svg$Attributes$y2('19.78')
+						]),
+					_List_Nil),
+					A2(
+					$elm$svg$Svg$line,
+					_List_fromArray(
+						[
+							$elm$svg$Svg$Attributes$x1('1'),
 							$elm$svg$Svg$Attributes$y1('12'),
-							$elm$svg$Svg$Attributes$x2('21'),
+							$elm$svg$Svg$Attributes$x2('3'),
 							$elm$svg$Svg$Attributes$y2('12')
 						]),
 					_List_Nil),
@@ -11599,20 +11725,30 @@ var $1602$elm_feather$FeatherIcons$menu = A2(
 					$elm$svg$Svg$line,
 					_List_fromArray(
 						[
-							$elm$svg$Svg$Attributes$x1('3'),
-							$elm$svg$Svg$Attributes$y1('6'),
-							$elm$svg$Svg$Attributes$x2('21'),
-							$elm$svg$Svg$Attributes$y2('6')
+							$elm$svg$Svg$Attributes$x1('21'),
+							$elm$svg$Svg$Attributes$y1('12'),
+							$elm$svg$Svg$Attributes$x2('23'),
+							$elm$svg$Svg$Attributes$y2('12')
 						]),
 					_List_Nil),
 					A2(
 					$elm$svg$Svg$line,
 					_List_fromArray(
 						[
-							$elm$svg$Svg$Attributes$x1('3'),
-							$elm$svg$Svg$Attributes$y1('18'),
-							$elm$svg$Svg$Attributes$x2('21'),
-							$elm$svg$Svg$Attributes$y2('18')
+							$elm$svg$Svg$Attributes$x1('4.22'),
+							$elm$svg$Svg$Attributes$y1('19.78'),
+							$elm$svg$Svg$Attributes$x2('5.64'),
+							$elm$svg$Svg$Attributes$y2('18.36')
+						]),
+					_List_Nil),
+					A2(
+					$elm$svg$Svg$line,
+					_List_fromArray(
+						[
+							$elm$svg$Svg$Attributes$x1('18.36'),
+							$elm$svg$Svg$Attributes$y1('5.64'),
+							$elm$svg$Svg$Attributes$x2('19.78'),
+							$elm$svg$Svg$Attributes$y2('4.22')
 						]),
 					_List_Nil)
 				]))
@@ -11671,186 +11807,304 @@ var $1602$elm_feather$FeatherIcons$withSize = F2(
 				src: src
 			});
 	});
-var $author$project$UIExplorer$viewToggleMobileMenu = A2(
-	$elm$html$Html$div,
-	_List_fromArray(
-		[
-			$elm$html$Html$Attributes$class('uie-text-white uie-visible md:uie-invisible uie-flex uie-flex-col uie-justify-center uie-flex-1 uie-items-end uie-mr-4')
-		]),
-	_List_fromArray(
-		[
-			A2(
-			$elm$html$Html$button,
-			_List_fromArray(
-				[
-					$elm$html$Html$Attributes$class('uie-text-white'),
-					$elm$html$Html$Events$onClick($author$project$UIExplorer$MobileMenuToggled)
-				]),
-			_List_fromArray(
-				[
-					A2(
-					$1602$elm_feather$FeatherIcons$toHtml,
-					_List_Nil,
-					A2($1602$elm_feather$FeatherIcons$withSize, 22, $1602$elm_feather$FeatherIcons$menu))
-				]))
-		]));
-var $author$project$UIExplorer$viewHeader = function (customHeader) {
-	if (customHeader.$ === 'Just') {
-		var title = customHeader.a.title;
-		var logo = customHeader.a.logo;
-		var titleColor = customHeader.a.titleColor;
-		var bgColor = customHeader.a.bgColor;
-		var titleStyles = A2(
-			$elm$core$Maybe$withDefault,
-			_List_Nil,
-			A2(
-				$elm$core$Maybe$map,
-				function (c) {
-					return _List_fromArray(
-						[
-							A2($elm$html$Html$Attributes$style, 'color', c)
-						]);
-				},
-				titleColor));
-		var heightStyle = A2($elm$html$Html$Attributes$style, 'height', '80px');
-		var viewLogo = function () {
-			if (logo.a.$ === 'FromUrl') {
-				var logoUrl = logo.a.a;
-				return A2(
-					$elm$html$Html$img,
-					_List_fromArray(
-						[
-							$elm$html$Html$Attributes$src(logoUrl),
-							heightStyle
-						]),
-					_List_Nil);
+var $author$project$UIExplorer$viewToggleDarkMode = F2(
+	function (colorMode, theme) {
+		var icon = function () {
+			if (colorMode.$ === 'Dark') {
+				return $1602$elm_feather$FeatherIcons$sun;
 			} else {
-				var viewCustom = logo.a.a;
-				return viewCustom;
+				return $1602$elm_feather$FeatherIcons$moon;
 			}
 		}();
-		var headerStyles = A2(
-			$elm$core$Maybe$withDefault,
-			_List_fromArray(
-				[
-					$author$project$UIExplorer$toClassName(
-					_List_fromArray(
-						[$author$project$UIExplorer$colors.bg.primary]))
-				]),
-			A2(
-				$elm$core$Maybe$map,
-				function (c) {
-					return _List_fromArray(
-						[
-							A2($elm$html$Html$Attributes$style, 'background-color', c)
-						]);
-				},
-				bgColor));
 		return A2(
-			$elm$html$Html$header,
-			A2(
-				$elm$core$List$append,
-				headerStyles,
-				_List_fromArray(
-					[
-						$author$project$UIExplorer$toClassName($author$project$UIExplorer$styleHeader.header),
-						heightStyle
-					])),
+			$elm$html$Html$div,
 			_List_fromArray(
 				[
-					viewLogo,
+					$elm$html$Html$Attributes$class('uie-flex uie-flex-1 uie-flex-col uie-justify-center  uie-items-end uie-mr-4')
+				]),
+			_List_fromArray(
+				[
 					A2(
-					$elm$html$Html$div,
+					$elm$html$Html$button,
 					_List_fromArray(
 						[
-							$author$project$UIExplorer$toClassName(
-							_List_fromArray(
-								['flex', 'flex-col', 'justify-center'])),
-							heightStyle
+							$elm$html$Html$Attributes$class('uie-' + theme.iconColor),
+							$elm$html$Html$Events$onClick($author$project$UIExplorer$ColorModeToggled)
 						]),
 					_List_fromArray(
 						[
 							A2(
-							$elm$html$Html$h3,
-							A2(
-								$elm$core$List$append,
-								titleStyles,
-								_List_fromArray(
-									[
-										$elm$html$Html$Attributes$classList(
-										_List_fromArray(
-											[
-												_Utils_Tuple2('md:uie-ml-4', true)
-											]))
-									])),
-							_List_fromArray(
-								[
-									$elm$html$Html$text(title)
-								]))
-						])),
-					$author$project$UIExplorer$viewToggleMobileMenu
+							$1602$elm_feather$FeatherIcons$toHtml,
+							_List_Nil,
+							A2($1602$elm_feather$FeatherIcons$withSize, 22, icon))
+						]))
 				]));
-	} else {
-		var heightStyle = A2($elm$html$Html$Attributes$style, 'height', '86px');
-		return A2(
-			$elm$html$Html$header,
+	});
+var $author$project$UIExplorer$MobileMenuToggled = {$: 'MobileMenuToggled'};
+var $1602$elm_feather$FeatherIcons$menu = A2(
+	$1602$elm_feather$FeatherIcons$makeBuilder,
+	'menu',
+	_List_fromArray(
+		[
 			A2(
-				$elm$core$List$append,
+			$elm$svg$Svg$svg,
+			_List_fromArray(
+				[
+					$1602$elm_feather$FeatherIcons$xmlns('http://www.w3.org/2000/svg'),
+					$elm$svg$Svg$Attributes$width('24'),
+					$elm$svg$Svg$Attributes$height('24'),
+					$elm$svg$Svg$Attributes$viewBox('0 0 24 24'),
+					$elm$svg$Svg$Attributes$fill('none'),
+					$elm$svg$Svg$Attributes$stroke('currentColor'),
+					$elm$svg$Svg$Attributes$strokeWidth('2'),
+					$elm$svg$Svg$Attributes$strokeLinecap('round'),
+					$elm$svg$Svg$Attributes$strokeLinejoin('round'),
+					$elm$svg$Svg$Attributes$class('feather feather-menu')
+				]),
+			_List_fromArray(
+				[
+					A2(
+					$elm$svg$Svg$line,
+					_List_fromArray(
+						[
+							$elm$svg$Svg$Attributes$x1('3'),
+							$elm$svg$Svg$Attributes$y1('12'),
+							$elm$svg$Svg$Attributes$x2('21'),
+							$elm$svg$Svg$Attributes$y2('12')
+						]),
+					_List_Nil),
+					A2(
+					$elm$svg$Svg$line,
+					_List_fromArray(
+						[
+							$elm$svg$Svg$Attributes$x1('3'),
+							$elm$svg$Svg$Attributes$y1('6'),
+							$elm$svg$Svg$Attributes$x2('21'),
+							$elm$svg$Svg$Attributes$y2('6')
+						]),
+					_List_Nil),
+					A2(
+					$elm$svg$Svg$line,
+					_List_fromArray(
+						[
+							$elm$svg$Svg$Attributes$x1('3'),
+							$elm$svg$Svg$Attributes$y1('18'),
+							$elm$svg$Svg$Attributes$x2('21'),
+							$elm$svg$Svg$Attributes$y2('18')
+						]),
+					_List_Nil)
+				]))
+		]));
+var $author$project$UIExplorer$viewToggleMobileMenu = function (theme) {
+	return A2(
+		$elm$html$Html$div,
+		_List_fromArray(
+			[
+				$elm$html$Html$Attributes$class('uie-block md:uie-hidden uie-flex uie-flex-col uie-justify-center uie-items-end uie-mr-4')
+			]),
+		_List_fromArray(
+			[
+				A2(
+				$elm$html$Html$button,
+				_List_fromArray(
+					[
+						$elm$html$Html$Attributes$class('uie-' + theme.iconColor),
+						$elm$html$Html$Events$onClick($author$project$UIExplorer$MobileMenuToggled)
+					]),
+				_List_fromArray(
+					[
+						A2(
+						$1602$elm_feather$FeatherIcons$toHtml,
+						_List_Nil,
+						A2($1602$elm_feather$FeatherIcons$withSize, 22, $1602$elm_feather$FeatherIcons$menu))
+					]))
+			]));
+};
+var $author$project$UIExplorer$viewActionButtons = F2(
+	function (colorMode, theme) {
+		return A2(
+			$elm$html$Html$div,
+			_List_fromArray(
+				[
+					$elm$html$Html$Attributes$class('uie-flex  uie-flex-1')
+				]),
+			_List_fromArray(
+				[
+					A2($author$project$UIExplorer$viewToggleDarkMode, colorMode, theme),
+					$author$project$UIExplorer$viewToggleMobileMenu(theme)
+				]));
+	});
+var $author$project$UIExplorer$viewHeader = F3(
+	function (colorMode, theme, customHeader) {
+		if (customHeader.$ === 'Just') {
+			var title = customHeader.a.title;
+			var logo = customHeader.a.logo;
+			var titleColor = customHeader.a.titleColor;
+			var bgColor = customHeader.a.bgColor;
+			var titleStyles = A2(
+				$elm$core$Maybe$withDefault,
+				_List_Nil,
+				A2(
+					$elm$core$Maybe$map,
+					function (c) {
+						return _List_fromArray(
+							[
+								A2($elm$html$Html$Attributes$style, 'color', c)
+							]);
+					},
+					titleColor));
+			var heightStyle = A2($elm$html$Html$Attributes$style, 'height', '80px');
+			var viewLogo = function () {
+				if (logo.a.$ === 'FromUrl') {
+					var logoUrl = logo.a.a;
+					return A2(
+						$elm$html$Html$img,
+						_List_fromArray(
+							[
+								$elm$html$Html$Attributes$src(logoUrl),
+								heightStyle
+							]),
+						_List_Nil);
+				} else {
+					var viewCustom = logo.a.a;
+					return viewCustom;
+				}
+			}();
+			var headerStyles = A2(
+				$elm$core$Maybe$withDefault,
 				_List_fromArray(
 					[
 						$author$project$UIExplorer$toClassName(
 						_List_fromArray(
-							[$author$project$UIExplorer$colors.bg.primary, 'border-grey-darker', 'border-b', 'pb-3']))
+							[theme.headerColor]))
 					]),
+				A2(
+					$elm$core$Maybe$map,
+					function (c) {
+						return _List_fromArray(
+							[
+								A2($elm$html$Html$Attributes$style, 'background-color', c)
+							]);
+					},
+					bgColor));
+			return A2(
+				$elm$html$Html$header,
+				A2(
+					$elm$core$List$append,
+					headerStyles,
+					_List_fromArray(
+						[
+							$author$project$UIExplorer$toClassName($author$project$UIExplorer$styleHeader.header),
+							heightStyle
+						])),
 				_List_fromArray(
 					[
-						$author$project$UIExplorer$toClassName($author$project$UIExplorer$styleHeader.header),
-						heightStyle
-					])),
-			_List_fromArray(
-				[
-					A2(
-					$elm$html$Html$div,
+						viewLogo,
+						A2(
+						$elm$html$Html$div,
+						_List_fromArray(
+							[
+								$author$project$UIExplorer$toClassName(
+								_List_fromArray(
+									['flex', 'flex-col', 'justify-center'])),
+								heightStyle
+							]),
+						_List_fromArray(
+							[
+								A2(
+								$elm$html$Html$h3,
+								A2(
+									$elm$core$List$append,
+									titleStyles,
+									_List_fromArray(
+										[
+											$elm$html$Html$Attributes$classList(
+											_List_fromArray(
+												[
+													_Utils_Tuple2('md:uie-ml-4', true)
+												]))
+										])),
+								_List_fromArray(
+									[
+										$elm$html$Html$text(title)
+									]))
+							])),
+						A2($author$project$UIExplorer$viewActionButtons, colorMode, theme)
+					]));
+		} else {
+			var heightStyle = A2($elm$html$Html$Attributes$style, 'height', '86px');
+			return A2(
+				$elm$html$Html$header,
+				A2(
+					$elm$core$List$append,
 					_List_fromArray(
 						[
 							$author$project$UIExplorer$toClassName(
 							_List_fromArray(
-								['bg-cover', 'cursor-default', 'logo']))
+								[theme.headerColor, 'border-grey-darker', 'border-b', 'pb-3']))
 						]),
-					_List_Nil),
-					$author$project$UIExplorer$viewToggleMobileMenu
-				]));
-	}
-};
+					_List_fromArray(
+						[
+							$author$project$UIExplorer$toClassName($author$project$UIExplorer$styleHeader.header),
+							heightStyle
+						])),
+				_List_fromArray(
+					[
+						A2(
+						$elm$html$Html$div,
+						_Utils_ap(
+							_List_fromArray(
+								[
+									$author$project$UIExplorer$toClassName(
+									_List_fromArray(
+										['bg-cover', 'cursor-default', 'logo']))
+								]),
+							function () {
+								if (colorMode.$ === 'Dark') {
+									return _List_Nil;
+								} else {
+									return _List_fromArray(
+										[
+											A2($elm$html$Html$Attributes$style, 'filter', 'invert(1)')
+										]);
+								}
+							}()),
+						_List_Nil),
+						A2($author$project$UIExplorer$viewActionButtons, colorMode, theme)
+					]));
+		}
+	});
 var $elm$html$Html$aside = _VirtualDom_node('aside');
 var $author$project$UIExplorer$styleMenuCategoryLink = _List_fromArray(
 	['text-grey-darkest', 'font-bold', 'w-full', 'flex', 'cursor-default', 'pl-4', 'pb-2', 'pt-2', 'text-sm', 'no-underline']);
-var $author$project$UIExplorer$menuDesignToken = {hoverBg: 'bg-white', hoverText: 'text-black', selectedBg: 'bg-grey-darkest', text: 'text-white'};
-var $author$project$UIExplorer$styleMenuItem = function (isSelected) {
-	var defaultClass = _List_fromArray(
-		[
-			'w-full',
-			'flex',
-			'pl-6',
-			'pt-2',
-			'pb-2',
-			'text-xs',
-			'no-underline',
-			$author$project$UIExplorer$hover($author$project$UIExplorer$menuDesignToken.hoverBg),
-			$author$project$UIExplorer$hover($author$project$UIExplorer$menuDesignToken.hoverText)
-		]);
-	return isSelected ? A2(
-		$elm$core$List$append,
-		_List_fromArray(
-			['selected', $author$project$UIExplorer$menuDesignToken.text, $author$project$UIExplorer$menuDesignToken.selectedBg]),
-		defaultClass) : A2(
-		$elm$core$List$append,
-		_List_fromArray(
-			[$author$project$UIExplorer$primaryTextColor]),
-		defaultClass);
-};
-var $author$project$UIExplorer$viewMenuItem = F3(
-	function (cat, selectedUIId, _v0) {
+var $author$project$UIExplorer$styleMenuItem = F2(
+	function (_v0, isSelected) {
+		var primaryTextColor = _v0.primaryTextColor;
+		var menu = _v0.menu;
+		var defaultClass = _List_fromArray(
+			[
+				'w-full',
+				'flex',
+				'pl-6',
+				'pt-2',
+				'pb-2',
+				'text-xs',
+				'no-underline',
+				$author$project$UIExplorer$hover(menu.hoverBg),
+				$author$project$UIExplorer$hover(menu.hoverText)
+			]);
+		return isSelected ? A2(
+			$elm$core$List$append,
+			_List_fromArray(
+				['selected', menu.text, menu.selectedBg]),
+			defaultClass) : A2(
+			$elm$core$List$append,
+			_List_fromArray(
+				[primaryTextColor]),
+			defaultClass);
+	});
+var $author$project$UIExplorer$viewMenuItem = F4(
+	function (theme, cat, selectedUIId, _v0) {
 		var ui = _v0.a;
 		var isSelected = A2(
 			$elm$core$Maybe$withDefault,
@@ -11859,7 +12113,7 @@ var $author$project$UIExplorer$viewMenuItem = F3(
 				$elm$core$Maybe$map,
 				$elm$core$Basics$eq(ui.id),
 				selectedUIId));
-		var linkClass = $author$project$UIExplorer$styleMenuItem(isSelected);
+		var linkClass = A2($author$project$UIExplorer$styleMenuItem, theme, isSelected);
 		var defaultLink = function () {
 			var _v1 = $elm$core$List$head(ui.viewStories);
 			if (_v1.$ === 'Just') {
@@ -11890,8 +12144,8 @@ var $author$project$UIExplorer$viewMenuItem = F3(
 						]))
 				]));
 	});
-var $author$project$UIExplorer$viewMenuCategory = F2(
-	function (_v0, _v1) {
+var $author$project$UIExplorer$viewMenuCategory = F3(
+	function (theme, _v0, _v1) {
 		var selectedUIId = _v0.selectedUIId;
 		var _v2 = _v1.a;
 		var title = _v2.a;
@@ -11918,7 +12172,7 @@ var $author$project$UIExplorer$viewMenuCategory = F2(
 								[
 									$author$project$UIExplorer$toClassName(
 									_List_fromArray(
-										['font-bold', $author$project$UIExplorer$primaryTextColor, 'text-sm']))
+										['font-bold', theme.primaryTextColor, 'text-sm']))
 								]),
 							_List_fromArray(
 								[
@@ -11935,12 +12189,12 @@ var $author$project$UIExplorer$viewMenuCategory = F2(
 						]),
 					A2(
 						$elm$core$List$map,
-						A2($author$project$UIExplorer$viewMenuItem, title, selectedUIId),
+						A3($author$project$UIExplorer$viewMenuItem, theme, title, selectedUIId),
 						categories))
 				]));
 	});
-var $author$project$UIExplorer$viewMenu = F2(
-	function (categories, config) {
+var $author$project$UIExplorer$viewMenu = F3(
+	function (theme, categories, config) {
 		return A2(
 			$elm$html$Html$aside,
 			_List_fromArray(
@@ -11951,15 +12205,17 @@ var $author$project$UIExplorer$viewMenu = F2(
 				]),
 			A2(
 				$elm$core$List$map,
-				$author$project$UIExplorer$viewMenuCategory(config),
+				A2($author$project$UIExplorer$viewMenuCategory, theme, config),
 				categories));
 	});
 var $author$project$UIExplorer$viewSidebar = function (model) {
 	var viewConfig = {selectedStoryId: model.selectedStoryId, selectedUIId: model.selectedUIId};
-	return A2($author$project$UIExplorer$viewMenu, model.categories, viewConfig);
+	var theme = $author$project$UIExplorer$getTheme(model.colorMode);
+	return A3($author$project$UIExplorer$viewMenu, theme, model.categories, viewConfig);
 };
 var $author$project$UIExplorer$view = F2(
 	function (config, model) {
+		var theme = $author$project$UIExplorer$getTheme(model.colorMode);
 		return A2(
 			$elm$html$Html$div,
 			_List_fromArray(
@@ -11970,7 +12226,7 @@ var $author$project$UIExplorer$view = F2(
 				]),
 			_List_fromArray(
 				[
-					$author$project$UIExplorer$viewHeader(config.customHeader),
+					A3($author$project$UIExplorer$viewHeader, model.colorMode, theme, config.customHeader),
 					A2(
 					$elm$html$Html$div,
 					_List_fromArray(
@@ -11987,7 +12243,7 @@ var $author$project$UIExplorer$view = F2(
 								[
 									$author$project$UIExplorer$toClassName(
 									_List_fromArray(
-										[$author$project$UIExplorer$oneQuarter, 'bg-black', 'border-grey-darkest', 'overflow-scroll', 'sm:hidden'])),
+										[$author$project$UIExplorer$oneQuarter, theme.sidebar.background, theme.sidebar.borderColor, 'overflow-scroll', 'sm:hidden'])),
 									A2($elm$html$Html$Attributes$style, 'height', 'calc(100vh - 86px)'),
 									$elm$html$Html$Attributes$class('uie-hidden md:uie-block')
 								]),
@@ -12001,7 +12257,7 @@ var $author$project$UIExplorer$view = F2(
 								[
 									$author$project$UIExplorer$toClassName(
 									_List_fromArray(
-										['p-4', $author$project$UIExplorer$primaryBgColor, 'w-screen', 'h-screen', 'overflow-scroll', 'main-content']))
+										['p-4', theme.primaryBgColor, 'w-screen', 'h-screen', 'overflow-scroll', 'main-content']))
 								]),
 							_List_fromArray(
 								[
@@ -12012,6 +12268,7 @@ var $author$project$UIExplorer$view = F2(
 	});
 var $author$project$UIExplorer$viewMobileMenu = F2(
 	function (model, isOpen) {
+		var theme = $author$project$UIExplorer$getTheme(model.colorMode);
 		return A2(
 			$elm$html$Html$div,
 			_List_fromArray(
@@ -12019,7 +12276,7 @@ var $author$project$UIExplorer$viewMobileMenu = F2(
 					$elm$html$Html$Attributes$classList(
 					_List_fromArray(
 						[
-							_Utils_Tuple2('uie-' + $author$project$UIExplorer$primaryBgColor, true),
+							_Utils_Tuple2('uie-' + theme.sidebar.background, true),
 							_Utils_Tuple2('uie-h-full', true),
 							_Utils_Tuple2('uie-w-48', true),
 							_Utils_Tuple2('uie-absolute', true),
@@ -12028,7 +12285,7 @@ var $author$project$UIExplorer$viewMobileMenu = F2(
 							_Utils_Tuple2('uie-z-50', true),
 							_Utils_Tuple2('uie-overflow-y-auto', true),
 							_Utils_Tuple2('uie-border-r', true),
-							_Utils_Tuple2('uie-border-grey-darkest', true)
+							_Utils_Tuple2(theme.sidebar.borderColor, true)
 						])),
 					$elm$html$Html$Events$onClick($author$project$UIExplorer$MobileMenuToggled),
 					isOpen ? A2($elm$html$Html$Attributes$style, 'transform', 'translate(0%)') : A2($elm$html$Html$Attributes$style, 'transform', 'translate(-100%)'),
@@ -14672,4 +14929,4 @@ var $author$project$Explorer$main = A2(
 				]))
 		]));
 _Platform_export({'Explorer':{'init':$author$project$Explorer$main(
-	$elm$json$Json$Decode$succeed(_Utils_Tuple0))({"versions":{"elm":"0.19.1"},"types":{"message":"UIExplorer.Msg ()","aliases":{"Url.Url":{"args":[],"type":"{ protocol : Url.Protocol, host : String.String, port_ : Maybe.Maybe Basics.Int, path : String.String, query : Maybe.Maybe String.String, fragment : Maybe.Maybe String.String }"}},"unions":{"UIExplorer.Msg":{"args":["a"],"tags":{"ExternalMsg":["a"],"SelectStory":["String.String"],"UrlChange":["Url.Url"],"LinkClicked":["Browser.UrlRequest"],"NoOp":[],"MobileMenuToggled":[]}},"Basics.Int":{"args":[],"tags":{"Int":[]}},"Maybe.Maybe":{"args":["a"],"tags":{"Just":["a"],"Nothing":[]}},"Url.Protocol":{"args":[],"tags":{"Http":[],"Https":[]}},"String.String":{"args":[],"tags":{"String":[]}},"Browser.UrlRequest":{"args":[],"tags":{"Internal":["Url.Url"],"External":["String.String"]}}}}})}});}(this));
+	$elm$json$Json$Decode$succeed(_Utils_Tuple0))({"versions":{"elm":"0.19.1"},"types":{"message":"UIExplorer.Msg ()","aliases":{"Url.Url":{"args":[],"type":"{ protocol : Url.Protocol, host : String.String, port_ : Maybe.Maybe Basics.Int, path : String.String, query : Maybe.Maybe String.String, fragment : Maybe.Maybe String.String }"}},"unions":{"UIExplorer.Msg":{"args":["a"],"tags":{"ExternalMsg":["a"],"SelectStory":["String.String"],"UrlChange":["Url.Url"],"LinkClicked":["Browser.UrlRequest"],"NoOp":[],"MobileMenuToggled":[],"ColorModeToggled":[]}},"Basics.Int":{"args":[],"tags":{"Int":[]}},"Maybe.Maybe":{"args":["a"],"tags":{"Just":["a"],"Nothing":[]}},"Url.Protocol":{"args":[],"tags":{"Http":[],"Https":[]}},"String.String":{"args":[],"tags":{"String":[]}},"Browser.UrlRequest":{"args":[],"tags":{"Internal":["Url.Url"],"External":["String.String"]}}}}})}});}(this));
