@@ -1,7 +1,6 @@
 module UIExplorer.Plugins.Tabs.Icons exposing
     ( note
     , code
-    , menu
     )
 
 {-|
@@ -33,14 +32,6 @@ renderIcon icon =
 note : Html.Html msg
 note =
     FeatherIcons.eye
-        |> renderIcon
-
-
-{-| Icon for menu
--}
-menu : Html.Html msg
-menu =
-    FeatherIcons.menu
         |> renderIcon
 
 
