@@ -75,8 +75,8 @@ import Array exposing (Array)
 import Browser
 import Browser.Navigation as Navigation
 import FeatherIcons
-import Html exposing (Html, a, article, aside, button, div, h1, h2, h3, header, img, li, node, section, span, text, ul)
-import Html.Attributes exposing (class, classList, href, rel, src, style)
+import Html exposing (Html, a, article, aside, button, div, h3, header, img, li, span, text, ul)
+import Html.Attributes exposing (class, classList, href, src, style)
 import Html.Events exposing (onClick)
 import Url
 
