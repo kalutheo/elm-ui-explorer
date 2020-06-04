@@ -11094,7 +11094,7 @@ var $author$project$UIExplorer$init = F5(
 				selectedUIId,
 				selectedStoryId));
 		return _Utils_Tuple2(
-			{categories: categories, customModel: customModel, key: key, selectedCategory: selectedCategory, selectedStoryId: selectedStoryId, selectedUIId: selectedUIId, url: url},
+			{categories: categories, customModel: customModel, key: key, mobileMenuIsOpen: false, selectedCategory: selectedCategory, selectedStoryId: selectedStoryId, selectedUIId: selectedUIId, url: url},
 			A2($elm$browser$Browser$Navigation$pushUrl, key, firstUrl));
 	});
 var $elm$browser$Browser$Navigation$load = _Browser_load;
@@ -11208,7 +11208,7 @@ var $author$project$UIExplorer$update = F3(
 							url: location
 						}),
 					$elm$core$Platform$Cmd$none);
-			default:
+			case 'LinkClicked':
 				var urlRequest = msg.a;
 				if (urlRequest.$ === 'Internal') {
 					var url = urlRequest.a;
@@ -11224,6 +11224,12 @@ var $author$project$UIExplorer$update = F3(
 						model,
 						$elm$browser$Browser$Navigation$load(href));
 				}
+			default:
+				return _Utils_Tuple2(
+					_Utils_update(
+						model,
+						{mobileMenuIsOpen: !model.mobileMenuIsOpen}),
+					$elm$core$Platform$Cmd$none);
 		}
 	});
 var $author$project$UIExplorer$oneQuarter = 'w-1/4';
@@ -11347,7 +11353,7 @@ var $author$project$UIExplorer$renderStories = F4(
 					[
 						$author$project$UIExplorer$toClassName(
 						_List_fromArray(
-							['list-reset', 'flex', 'mb-4']))
+							['flex-wrap', 'list-reset', 'flex', 'mb-4']))
 					]),
 				A2(
 					$elm$core$List$indexedMap,
@@ -11490,8 +11496,8 @@ var $author$project$UIExplorer$colors = {
 	bg: {primary: 'bg-black'}
 };
 var $elm$html$Html$h3 = _VirtualDom_node('h3');
+var $elm$html$Html$header = _VirtualDom_node('header');
 var $elm$html$Html$img = _VirtualDom_node('img');
-var $elm$html$Html$section = _VirtualDom_node('section');
 var $elm$html$Html$Attributes$src = function (url) {
 	return A2(
 		$elm$html$Html$Attributes$stringProperty,
@@ -11508,6 +11514,187 @@ var $author$project$UIExplorer$styleHeader = {
 	title: _List_fromArray(
 		['font-normal', 'text-3xl', 'text-black'])
 };
+var $author$project$UIExplorer$MobileMenuToggled = {$: 'MobileMenuToggled'};
+var $elm$svg$Svg$Attributes$class = _VirtualDom_attribute('class');
+var $elm$svg$Svg$Attributes$fill = _VirtualDom_attribute('fill');
+var $elm$svg$Svg$Attributes$height = _VirtualDom_attribute('height');
+var $elm$svg$Svg$trustedNode = _VirtualDom_nodeNS('http://www.w3.org/2000/svg');
+var $elm$svg$Svg$line = $elm$svg$Svg$trustedNode('line');
+var $1602$elm_feather$FeatherIcons$Icon = function (a) {
+	return {$: 'Icon', a: a};
+};
+var $1602$elm_feather$FeatherIcons$defaultAttributes = function (name) {
+	return {
+		_class: $elm$core$Maybe$Just('feather feather-' + name),
+		size: 24,
+		sizeUnit: '',
+		strokeWidth: 2,
+		viewBox: '0 0 24 24'
+	};
+};
+var $1602$elm_feather$FeatherIcons$makeBuilder = F2(
+	function (name, src) {
+		return $1602$elm_feather$FeatherIcons$Icon(
+			{
+				attrs: $1602$elm_feather$FeatherIcons$defaultAttributes(name),
+				src: src
+			});
+	});
+var $elm$svg$Svg$Attributes$stroke = _VirtualDom_attribute('stroke');
+var $elm$svg$Svg$Attributes$strokeLinecap = _VirtualDom_attribute('stroke-linecap');
+var $elm$svg$Svg$Attributes$strokeLinejoin = _VirtualDom_attribute('stroke-linejoin');
+var $elm$svg$Svg$Attributes$strokeWidth = _VirtualDom_attribute('stroke-width');
+var $elm$svg$Svg$svg = $elm$svg$Svg$trustedNode('svg');
+var $elm$svg$Svg$Attributes$viewBox = _VirtualDom_attribute('viewBox');
+var $elm$svg$Svg$Attributes$width = _VirtualDom_attribute('width');
+var $elm$svg$Svg$Attributes$x1 = _VirtualDom_attribute('x1');
+var $elm$svg$Svg$Attributes$x2 = _VirtualDom_attribute('x2');
+var $elm$virtual_dom$VirtualDom$property = F2(
+	function (key, value) {
+		return A2(
+			_VirtualDom_property,
+			_VirtualDom_noInnerHtmlOrFormAction(key),
+			_VirtualDom_noJavaScriptOrHtmlUri(value));
+	});
+var $1602$elm_feather$FeatherIcons$xmlns = function (s) {
+	return A2(
+		$elm$virtual_dom$VirtualDom$property,
+		'xmlns',
+		$elm$json$Json$Encode$string(s));
+};
+var $elm$svg$Svg$Attributes$y1 = _VirtualDom_attribute('y1');
+var $elm$svg$Svg$Attributes$y2 = _VirtualDom_attribute('y2');
+var $1602$elm_feather$FeatherIcons$menu = A2(
+	$1602$elm_feather$FeatherIcons$makeBuilder,
+	'menu',
+	_List_fromArray(
+		[
+			A2(
+			$elm$svg$Svg$svg,
+			_List_fromArray(
+				[
+					$1602$elm_feather$FeatherIcons$xmlns('http://www.w3.org/2000/svg'),
+					$elm$svg$Svg$Attributes$width('24'),
+					$elm$svg$Svg$Attributes$height('24'),
+					$elm$svg$Svg$Attributes$viewBox('0 0 24 24'),
+					$elm$svg$Svg$Attributes$fill('none'),
+					$elm$svg$Svg$Attributes$stroke('currentColor'),
+					$elm$svg$Svg$Attributes$strokeWidth('2'),
+					$elm$svg$Svg$Attributes$strokeLinecap('round'),
+					$elm$svg$Svg$Attributes$strokeLinejoin('round'),
+					$elm$svg$Svg$Attributes$class('feather feather-menu')
+				]),
+			_List_fromArray(
+				[
+					A2(
+					$elm$svg$Svg$line,
+					_List_fromArray(
+						[
+							$elm$svg$Svg$Attributes$x1('3'),
+							$elm$svg$Svg$Attributes$y1('12'),
+							$elm$svg$Svg$Attributes$x2('21'),
+							$elm$svg$Svg$Attributes$y2('12')
+						]),
+					_List_Nil),
+					A2(
+					$elm$svg$Svg$line,
+					_List_fromArray(
+						[
+							$elm$svg$Svg$Attributes$x1('3'),
+							$elm$svg$Svg$Attributes$y1('6'),
+							$elm$svg$Svg$Attributes$x2('21'),
+							$elm$svg$Svg$Attributes$y2('6')
+						]),
+					_List_Nil),
+					A2(
+					$elm$svg$Svg$line,
+					_List_fromArray(
+						[
+							$elm$svg$Svg$Attributes$x1('3'),
+							$elm$svg$Svg$Attributes$y1('18'),
+							$elm$svg$Svg$Attributes$x2('21'),
+							$elm$svg$Svg$Attributes$y2('18')
+						]),
+					_List_Nil)
+				]))
+		]));
+var $elm$svg$Svg$map = $elm$virtual_dom$VirtualDom$map;
+var $1602$elm_feather$FeatherIcons$toHtml = F2(
+	function (attributes, _v0) {
+		var src = _v0.a.src;
+		var attrs = _v0.a.attrs;
+		var strSize = $elm$core$String$fromFloat(attrs.size);
+		var baseAttributes = _List_fromArray(
+			[
+				$elm$svg$Svg$Attributes$fill('none'),
+				$elm$svg$Svg$Attributes$height(
+				_Utils_ap(strSize, attrs.sizeUnit)),
+				$elm$svg$Svg$Attributes$width(
+				_Utils_ap(strSize, attrs.sizeUnit)),
+				$elm$svg$Svg$Attributes$stroke('currentColor'),
+				$elm$svg$Svg$Attributes$strokeLinecap('round'),
+				$elm$svg$Svg$Attributes$strokeLinejoin('round'),
+				$elm$svg$Svg$Attributes$strokeWidth(
+				$elm$core$String$fromFloat(attrs.strokeWidth)),
+				$elm$svg$Svg$Attributes$viewBox(attrs.viewBox)
+			]);
+		var combinedAttributes = _Utils_ap(
+			function () {
+				var _v1 = attrs._class;
+				if (_v1.$ === 'Just') {
+					var c = _v1.a;
+					return A2(
+						$elm$core$List$cons,
+						$elm$svg$Svg$Attributes$class(c),
+						baseAttributes);
+				} else {
+					return baseAttributes;
+				}
+			}(),
+			attributes);
+		return A2(
+			$elm$svg$Svg$svg,
+			combinedAttributes,
+			A2(
+				$elm$core$List$map,
+				$elm$svg$Svg$map($elm$core$Basics$never),
+				src));
+	});
+var $1602$elm_feather$FeatherIcons$withSize = F2(
+	function (size, _v0) {
+		var attrs = _v0.a.attrs;
+		var src = _v0.a.src;
+		return $1602$elm_feather$FeatherIcons$Icon(
+			{
+				attrs: _Utils_update(
+					attrs,
+					{size: size}),
+				src: src
+			});
+	});
+var $author$project$UIExplorer$viewToggleMobileMenu = A2(
+	$elm$html$Html$div,
+	_List_fromArray(
+		[
+			$elm$html$Html$Attributes$class('uie-text-white uie-visible md:uie-invisible uie-flex uie-flex-col uie-justify-center uie-flex-1 uie-items-end uie-mr-4')
+		]),
+	_List_fromArray(
+		[
+			A2(
+			$elm$html$Html$button,
+			_List_fromArray(
+				[
+					$elm$html$Html$Attributes$class('uie-text-white'),
+					$elm$html$Html$Events$onClick($author$project$UIExplorer$MobileMenuToggled)
+				]),
+			_List_fromArray(
+				[
+					A2(
+					$1602$elm_feather$FeatherIcons$toHtml,
+					_List_Nil,
+					A2($1602$elm_feather$FeatherIcons$withSize, 22, $1602$elm_feather$FeatherIcons$menu))
+				]))
+		]));
 var $author$project$UIExplorer$viewHeader = function (customHeader) {
 	if (customHeader.$ === 'Just') {
 		var title = customHeader.a.title;
@@ -11561,7 +11748,7 @@ var $author$project$UIExplorer$viewHeader = function (customHeader) {
 				},
 				bgColor));
 		return A2(
-			$elm$html$Html$section,
+			$elm$html$Html$header,
 			A2(
 				$elm$core$List$append,
 				headerStyles,
@@ -11591,20 +11778,23 @@ var $author$project$UIExplorer$viewHeader = function (customHeader) {
 								titleStyles,
 								_List_fromArray(
 									[
-										$author$project$UIExplorer$toClassName(
+										$elm$html$Html$Attributes$classList(
 										_List_fromArray(
-											['ml-4']))
+											[
+												_Utils_Tuple2('md:uie-ml-4', true)
+											]))
 									])),
 							_List_fromArray(
 								[
 									$elm$html$Html$text(title)
 								]))
-						]))
+						])),
+					$author$project$UIExplorer$viewToggleMobileMenu
 				]));
 	} else {
 		var heightStyle = A2($elm$html$Html$Attributes$style, 'height', '86px');
 		return A2(
-			$elm$html$Html$section,
+			$elm$html$Html$header,
 			A2(
 				$elm$core$List$append,
 				_List_fromArray(
@@ -11628,13 +11818,14 @@ var $author$project$UIExplorer$viewHeader = function (customHeader) {
 							_List_fromArray(
 								['bg-cover', 'cursor-default', 'logo']))
 						]),
-					_List_Nil)
+					_List_Nil),
+					$author$project$UIExplorer$viewToggleMobileMenu
 				]));
 	}
 };
 var $elm$html$Html$aside = _VirtualDom_node('aside');
 var $author$project$UIExplorer$styleMenuCategoryLink = _List_fromArray(
-	['text-grey-darkest', 'uppercase', 'border-b', 'border-grey-light', 'w-full', 'flex', 'cursor-default', 'pl-4', 'pb-2', 'pt-2', 'text-sm']);
+	['text-grey-darkest', 'uppercase', 'border-b', 'border-grey-light', 'w-full', 'flex', 'cursor-default', 'pl-4', 'pb-2', 'pt-2', 'text-sm', 'no-underline']);
 var $author$project$UIExplorer$styleMenuItem = function (isSelected) {
 	var defaultClass = _List_fromArray(
 		[
@@ -11644,6 +11835,7 @@ var $author$project$UIExplorer$styleMenuItem = function (isSelected) {
 			'pt-2',
 			'pb-2',
 			'text-xs',
+			'no-underline',
 			$author$project$UIExplorer$hover('bg-grey-lighter'),
 			$author$project$UIExplorer$hover('text-black')
 		]);
@@ -11714,11 +11906,10 @@ var $author$project$UIExplorer$viewMenuCategory = F2(
 			_List_fromArray(
 				[
 					A2(
-					$elm$html$Html$a,
+					$elm$html$Html$span,
 					_List_fromArray(
 						[
-							$author$project$UIExplorer$toClassName($author$project$UIExplorer$styleMenuCategoryLink),
-							$elm$html$Html$Attributes$href('#')
+							$author$project$UIExplorer$toClassName($author$project$UIExplorer$styleMenuCategoryLink)
 						]),
 					_List_fromArray(
 						[
@@ -11732,7 +11923,7 @@ var $author$project$UIExplorer$viewMenuCategory = F2(
 								]),
 							_List_fromArray(
 								[
-									$elm$html$Html$text('> ' + title)
+									$elm$html$Html$text(title)
 								]))
 						])),
 					A2(
@@ -11797,8 +11988,9 @@ var $author$project$UIExplorer$view = F2(
 								[
 									$author$project$UIExplorer$toClassName(
 									_List_fromArray(
-										[$author$project$UIExplorer$oneQuarter, 'bg-white', 'overflow-scroll'])),
-									A2($elm$html$Html$Attributes$style, 'height', 'calc(100vh - 86px)')
+										[$author$project$UIExplorer$oneQuarter, 'bg-white', 'overflow-scroll', 'sm:hidden'])),
+									A2($elm$html$Html$Attributes$style, 'height', 'calc(100vh - 86px)'),
+									$elm$html$Html$Attributes$class('uie-hidden md:uie-block')
 								]),
 							_List_fromArray(
 								[
@@ -11819,6 +12011,55 @@ var $author$project$UIExplorer$view = F2(
 						]))
 				]));
 	});
+var $author$project$UIExplorer$viewMobileMenu = F2(
+	function (model, isOpen) {
+		return A2(
+			$elm$html$Html$div,
+			_List_fromArray(
+				[
+					$elm$html$Html$Attributes$classList(
+					_List_fromArray(
+						[
+							_Utils_Tuple2('uie-bg-white', true),
+							_Utils_Tuple2('uie-h-full', true),
+							_Utils_Tuple2('uie-w-48', true),
+							_Utils_Tuple2('uie-absolute', true),
+							_Utils_Tuple2('uie-block', true),
+							_Utils_Tuple2('md:uie-hidden', true),
+							_Utils_Tuple2('uie-z-50', true),
+							_Utils_Tuple2('uie-overflow-y-auto', true)
+						])),
+					$elm$html$Html$Events$onClick($author$project$UIExplorer$MobileMenuToggled),
+					isOpen ? A2($elm$html$Html$Attributes$style, 'transform', 'translate(0%)') : A2($elm$html$Html$Attributes$style, 'transform', 'translate(-100%)')
+				]),
+			_List_fromArray(
+				[
+					$author$project$UIExplorer$viewSidebar(model)
+				]));
+	});
+var $author$project$UIExplorer$viewMobileOverlay = function (isOpen) {
+	return A2(
+		$elm$html$Html$div,
+		_List_fromArray(
+			[
+				$elm$html$Html$Attributes$classList(
+				_List_fromArray(
+					[
+						_Utils_Tuple2('uie-bg-black', true),
+						_Utils_Tuple2('uie-h-full', true),
+						_Utils_Tuple2('uie-w-full', true),
+						_Utils_Tuple2('uie-absolute', true),
+						_Utils_Tuple2('uie-opacity-75', true),
+						_Utils_Tuple2('uie-block', true),
+						_Utils_Tuple2('md:uie-hidden', true),
+						_Utils_Tuple2('uie-z-40', true),
+						_Utils_Tuple2('uie-visible', isOpen),
+						_Utils_Tuple2('uie-invisible', !isOpen)
+					])),
+				$elm$html$Html$Events$onClick($author$project$UIExplorer$MobileMenuToggled)
+			]),
+		_List_Nil);
+};
 var $author$project$UIExplorer$app = F2(
 	function (config, categories) {
 		return $elm$browser$Browser$application(
@@ -11837,6 +12078,8 @@ var $author$project$UIExplorer$app = F2(
 					return {
 						body: _List_fromArray(
 							[
+								$author$project$UIExplorer$viewMobileOverlay(model.mobileMenuIsOpen),
+								A2($author$project$UIExplorer$viewMobileMenu, model, model.mobileMenuIsOpen),
 								A2($author$project$UIExplorer$view, config, model)
 							]),
 						title: 'Storybook Elm'
@@ -11876,13 +12119,6 @@ var $author$project$UIExplorer$storiesOf = F2(
 var $rtfeldman$elm_css$VirtualDom$Styled$Attribute = F3(
 	function (a, b, c) {
 		return {$: 'Attribute', a: a, b: b, c: c};
-	});
-var $elm$virtual_dom$VirtualDom$property = F2(
-	function (key, value) {
-		return A2(
-			_VirtualDom_property,
-			_VirtualDom_noInnerHtmlOrFormAction(key),
-			_VirtualDom_noJavaScriptOrHtmlUri(value));
 	});
 var $rtfeldman$elm_css$VirtualDom$Styled$property = F2(
 	function (key, value) {
@@ -14434,4 +14670,4 @@ var $author$project$Explorer$main = A2(
 				]))
 		]));
 _Platform_export({'Explorer':{'init':$author$project$Explorer$main(
-	$elm$json$Json$Decode$succeed(_Utils_Tuple0))({"versions":{"elm":"0.19.1"},"types":{"message":"UIExplorer.Msg ()","aliases":{"Url.Url":{"args":[],"type":"{ protocol : Url.Protocol, host : String.String, port_ : Maybe.Maybe Basics.Int, path : String.String, query : Maybe.Maybe String.String, fragment : Maybe.Maybe String.String }"}},"unions":{"UIExplorer.Msg":{"args":["a"],"tags":{"ExternalMsg":["a"],"SelectStory":["String.String"],"UrlChange":["Url.Url"],"LinkClicked":["Browser.UrlRequest"],"NoOp":[]}},"Basics.Int":{"args":[],"tags":{"Int":[]}},"Maybe.Maybe":{"args":["a"],"tags":{"Just":["a"],"Nothing":[]}},"Url.Protocol":{"args":[],"tags":{"Http":[],"Https":[]}},"String.String":{"args":[],"tags":{"String":[]}},"Browser.UrlRequest":{"args":[],"tags":{"Internal":["Url.Url"],"External":["String.String"]}}}}})}});}(this));
+	$elm$json$Json$Decode$succeed(_Utils_Tuple0))({"versions":{"elm":"0.19.1"},"types":{"message":"UIExplorer.Msg ()","aliases":{"Url.Url":{"args":[],"type":"{ protocol : Url.Protocol, host : String.String, port_ : Maybe.Maybe Basics.Int, path : String.String, query : Maybe.Maybe String.String, fragment : Maybe.Maybe String.String }"}},"unions":{"UIExplorer.Msg":{"args":["a"],"tags":{"ExternalMsg":["a"],"SelectStory":["String.String"],"UrlChange":["Url.Url"],"LinkClicked":["Browser.UrlRequest"],"NoOp":[],"MobileMenuToggled":[]}},"Basics.Int":{"args":[],"tags":{"Int":[]}},"Maybe.Maybe":{"args":["a"],"tags":{"Just":["a"],"Nothing":[]}},"Url.Protocol":{"args":[],"tags":{"Http":[],"Https":[]}},"String.String":{"args":[],"tags":{"String":[]}},"Browser.UrlRequest":{"args":[],"tags":{"Internal":["Url.Url"],"External":["String.String"]}}}}})}});}(this));

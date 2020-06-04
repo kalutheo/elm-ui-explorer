@@ -8,6 +8,7 @@
   },
   "devDependencies": {
     "dotenv": "^6.2.0",
+    "elm-live": "^4.0.2",
     "figma-js": "^1.6.0",
     "handlebars": "^4.1.0",
     "ramda": "^0.26.1",
