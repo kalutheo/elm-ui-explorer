@@ -11255,7 +11255,7 @@ var $author$project$UIExplorer$darkTheme = {
 	menu: {hoverBg: 'bg-white', hoverText: 'text-black', selectedBg: 'bg-grey-darkest', text: 'text-white'},
 	primaryBgColor: 'bg-black',
 	primaryTextColor: 'text-white',
-	sidebar: {background: 'bg-black', borderColor: 'border-grey-darkest'},
+	sidebar: {background: 'bg-black', borderColor: 'border-transparent'},
 	storyMenu: {border: 'border-grey-dark', hoverBg: 'bg-white', selectedBorder: 'border-white', selectedText: 'text-white', text: 'text-grey-dark'}
 };
 var $author$project$UIExplorer$lightTheme = {
@@ -12299,7 +12299,7 @@ var $author$project$UIExplorer$viewMobileMenu = F2(
 							_Utils_Tuple2('md:uie-hidden', true),
 							_Utils_Tuple2('uie-z-50', true),
 							_Utils_Tuple2('uie-overflow-y-auto', true),
-							_Utils_Tuple2('uie-border-r', true),
+							_Utils_Tuple2('uie-border-r', false),
 							_Utils_Tuple2(theme.sidebar.borderColor, true)
 						])),
 					$elm$html$Html$Events$onClick($author$project$UIExplorer$MobileMenuToggled),

@@ -214,7 +214,7 @@ darkTheme =
     , iconColor = "text-white"
     , sidebar =
         { background = "bg-black"
-        , borderColor = "border-grey-darkest"
+        , borderColor = "border-transparent"
         }
     , menu =
         { selectedBg = "bg-grey-darkest"
@@ -1096,7 +1096,7 @@ viewMobileMenu model isOpen =
             , ( "md:uie-hidden", True )
             , ( "uie-z-50", True )
             , ( "uie-overflow-y-auto", True )
-            , ( "uie-border-r", True )
+            , ( "uie-border-r", False )
             , ( theme.sidebar.borderColor, True )
             ]
         , onClick MobileMenuToggled
