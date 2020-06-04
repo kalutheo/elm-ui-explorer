@@ -5827,18 +5827,18 @@ var $author$project$UIExplorer$defaultConfig = {
 	customHeader: $elm$core$Maybe$Nothing,
 	customModel: {},
 	menuViewEnhancer: F2(
-		function (m, v) {
+		function (_v0, v) {
 			return v;
 		}),
-	subscriptions: function (m) {
+	subscriptions: function (_v1) {
 		return $elm$core$Platform$Sub$none;
 	},
 	update: F2(
-		function (msg, m) {
+		function (_v2, m) {
 			return _Utils_Tuple2(m, $elm$core$Platform$Cmd$none);
 		}),
 	viewEnhancer: F2(
-		function (m, stories) {
+		function (_v3, stories) {
 			return stories;
 		})
 };
@@ -11077,7 +11077,7 @@ var $elm$core$Maybe$map3 = F4(
 	});
 var $elm$browser$Browser$Navigation$pushUrl = _Browser_pushUrl;
 var $author$project$UIExplorer$init = F5(
-	function (customModel, categories, flags, url, key) {
+	function (customModel, categories, _v0, url, key) {
 		var selectedUIId = $author$project$UIExplorer$getSelectedUIfromPath(url);
 		var selectedStoryId = $author$project$UIExplorer$getSelectedStoryfromPath(url);
 		var selectedCategory = $author$project$UIExplorer$getSelectedCategoryfromPath(url);
@@ -11272,7 +11272,6 @@ var $author$project$UIExplorer$filterSelectedUI = F2(
 	});
 var $author$project$UIExplorer$getUIListFromCategories = function (_v0) {
 	var _v1 = _v0.a;
-	var title = _v1.a;
 	var categories = _v1.b;
 	return categories;
 };
@@ -11296,7 +11295,6 @@ var $author$project$UIExplorer$renderStory = F3(
 	function (index, _v0, _v1) {
 		var selectedStoryId = _v0.selectedStoryId;
 		var id = _v1.a;
-		var state = _v1.b;
 		var isActive = A2(
 			$elm$core$Maybe$withDefault,
 			!index,
@@ -11370,7 +11368,6 @@ var $author$project$UIExplorer$renderStories = F4(
 					$elm$core$List$filter,
 					function (_v4) {
 						var id = _v4.a;
-						var state = _v4.b;
 						return _Utils_eq(id, selectedId);
 					},
 					stories);
@@ -11382,7 +11379,6 @@ var $author$project$UIExplorer$renderStories = F4(
 			var _v1 = $elm$core$List$head(currentStories);
 			if (_v1.$ === 'Just') {
 				var _v2 = _v1.a;
-				var id = _v2.a;
 				var story = _v2.b;
 				return A2(
 					$elm$html$Html$map,
@@ -11893,7 +11889,6 @@ var $author$project$UIExplorer$viewMenuItem = F3(
 var $author$project$UIExplorer$viewMenuCategory = F2(
 	function (_v0, _v1) {
 		var selectedUIId = _v0.selectedUIId;
-		var selectedStoryId = _v0.selectedStoryId;
 		var _v2 = _v1.a;
 		var title = _v2.a;
 		var categories = _v2.b;
