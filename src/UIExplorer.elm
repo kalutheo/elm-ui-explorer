@@ -150,6 +150,49 @@ type alias Stories a b c =
     List (Story a b c)
 
 
+primaryBgColor =
+    -- "bg-white"
+    "bg-black"
+
+
+primaryTextColor =
+    -- "text-grey-darker"
+    "text-white"
+
+
+menuDesignToken =
+    { selectedBg = "bg-grey-darkest"
+    , hoverBg = "bg-white"
+    , hoverText = "text-black"
+    , text = "text-white"
+    }
+
+
+
+{--{ selectedBg = "bg-grey-light"
+    , hoverBg = "bg-grey-lighter"
+    , hoverText = "text-black"
+    } --}
+
+
+storyMenuTokens =
+    { selectedBorder = "border-white"
+    , selectedText = "text-white"
+    , border = "border-grey-dark"
+    , text = "text-grey-dark"
+    , hoverBg = "bg-white"
+    }
+
+
+
+{--{ selectedBorder = "border-black"
+    , selectedText = "text-black"
+    , border = "border-grey"
+    , text = "text-grey"
+    , hoverBg = "bg-grey-lighter"
+    } --}
+
+
 getStoryIdFromStories : ( String, Model a b c -> Html b, c ) -> String
 getStoryIdFromStories ( s, _, _ ) =
     s
@@ -726,7 +769,11 @@ viewHeader customHeader =
                             viewCustom
             in
             header
-                ([ toClassName styleHeader.header, heightStyle ] |> List.append headerStyles)
+                ([ toClassName styleHeader.header
+                 , heightStyle
+                 ]
+                    |> List.append headerStyles
+                )
                 [ viewLogo
                 , div
                     [ toClassName [ "flex", "flex-col", "justify-center" ], heightStyle ]
@@ -741,7 +788,16 @@ viewHeader customHeader =
                     style "height" "86px"
             in
             header
-                ([ toClassName styleHeader.header, heightStyle ] |> List.append [ toClassName [ colors.bg.primary, "pb-3" ] ])
+                ([ toClassName styleHeader.header, heightStyle ]
+                    |> List.append
+                        [ toClassName
+                            [ colors.bg.primary
+                            , "border-grey-darker"
+                            , "border-b"
+                            , "pb-3"
+                            ]
+                        ]
+                )
                 [ div [ toClassName [ "bg-cover", "cursor-default", "logo" ] ]
                     []
                 , viewToggleMobileMenu
@@ -759,19 +815,19 @@ styleMenuItem isSelected =
             , "pb-2"
             , "text-xs"
             , "no-underline"
-            , hover "bg-grey-lighter"
-            , hover "text-black"
+            , hover menuDesignToken.hoverBg
+            , hover menuDesignToken.hoverText
             ]
     in
     if isSelected then
         defaultClass
             |> List.append
-                [ "text-black", "bg-grey-light" ]
+                [ "selected", menuDesignToken.text, menuDesignToken.selectedBg ]
 
     else
         defaultClass
             |> List.append
-                [ "text-grey-darker" ]
+                [ primaryTextColor ]
 
 
 viewMenuItem : String -> Maybe String -> UI a b c -> Html (Msg b)
@@ -805,9 +861,7 @@ viewMenuItem cat selectedUIId (UIType ui) =
 styleMenuCategoryLink : List String
 styleMenuCategoryLink =
     [ "text-grey-darkest"
-    , "uppercase"
-    , "border-b"
-    , "border-grey-light"
+    , "font-bold"
     , "w-full"
     , "flex"
     , "cursor-default"
@@ -825,8 +879,8 @@ viewMenuCategory { selectedUIId } (UICategoryType ( title, categories )) =
         [ span
             [ toClassName styleMenuCategoryLink
             ]
-            [ span [ toClassName [ "font-bold", "text-grey-darker", "text-xs" ] ] [ text title ] ]
-        , ul [ toClassName [ "list-reset" ] ]
+            [ span [ toClassName [ "font-bold", primaryTextColor, "text-sm" ] ] [ text title ] ]
+        , ul [ toClassName [ "list-reset", "main-menu" ] ]
             (List.map (viewMenuItem title selectedUIId) categories)
         ]
 
@@ -884,7 +938,7 @@ viewContent config model =
                         [ toClassName
                             [ "text-lg"
                             , "flex"
-                            , "text-grey-darker"
+                            , primaryTextColor
                             ]
                         ]
                         [ text "-Stephen Hay" ]
@@ -913,7 +967,7 @@ oneQuarter =
 viewMobileMenu model isOpen =
     div
         [ classList
-            [ ( "uie-bg-white", True )
+            [ ( "uie-" ++ primaryBgColor, True )
             , ( "uie-h-full", True )
             , ( "uie-w-48", True )
             , ( "uie-absolute", True )
@@ -921,6 +975,8 @@ viewMobileMenu model isOpen =
             , ( "md:uie-hidden", True )
             , ( "uie-z-50", True )
             , ( "uie-overflow-y-auto", True )
+            , ( "uie-border-r", True )
+            , ( "uie-border-grey-darkest", True )
             ]
         , onClick MobileMenuToggled
         , if isOpen then
@@ -936,7 +992,7 @@ viewMobileMenu model isOpen =
 viewMobileOverlay isOpen =
     div
         [ classList
-            [ ( "uie-bg-black", True )
+            [ ( "uie-bg-grey-darkest", True )
             , ( "uie-h-full", True )
             , ( "uie-w-full", True )
             , ( "uie-absolute", True )
@@ -960,7 +1016,10 @@ view config model =
             [ div
                 [ toClassName
                     [ oneQuarter
-                    , "bg-white"
+                    , "bg-black"
+
+                    --, "border-r"
+                    , "border-grey-darkest"
                     , "overflow-scroll"
                     , "sm:hidden"
                     ]
@@ -973,10 +1032,11 @@ view config model =
             , div
                 [ toClassName
                     [ "p-4"
-                    , "bg-white"
+                    , primaryBgColor
                     , "w-screen"
                     , "h-screen"
                     , "overflow-scroll"
+                    , "main-content"
                     ]
                 ]
                 [ viewContent config model ]
@@ -1007,19 +1067,20 @@ renderStory index { selectedStoryId } ( id, _, _ ) =
         liClass =
             if isActive then
                 [ "border"
-                , "border-black"
-                , "text-black"
+                , storyMenuTokens.selectedBorder
+                , storyMenuTokens.selectedText
                 , "cursor-default"
+                , "active"
                 ]
                     |> List.append defaultLiClass
 
             else
                 [ "border"
-                , "border-grey"
-                , "bg-white"
-                , "text-grey"
+                , storyMenuTokens.border
+                , primaryBgColor
+                , storyMenuTokens.text
                 , "cursor-pointer"
-                , hover "bg-grey-lighter"
+                , hover storyMenuTokens.hoverBg
                 ]
                     |> List.append defaultLiClass
     in
