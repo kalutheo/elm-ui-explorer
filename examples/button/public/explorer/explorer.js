@@ -11233,6 +11233,7 @@ var $author$project$UIExplorer$update = F3(
 		}
 	});
 var $author$project$UIExplorer$oneQuarter = 'w-1/4';
+var $author$project$UIExplorer$primaryBgColor = 'bg-black';
 var $author$project$UIExplorer$toClassName = function (list) {
 	return $elm$html$Html$Attributes$class(
 		A2(
@@ -11275,6 +11276,7 @@ var $author$project$UIExplorer$getUIListFromCategories = function (_v0) {
 	var categories = _v1.b;
 	return categories;
 };
+var $author$project$UIExplorer$primaryTextColor = 'text-white';
 var $author$project$UIExplorer$SelectStory = function (a) {
 	return {$: 'SelectStory', a: a};
 };
@@ -11291,6 +11293,7 @@ var $elm$html$Html$Attributes$classList = function (classes) {
 var $author$project$UIExplorer$hover = function (className) {
 	return 'hover:uie-' + className;
 };
+var $author$project$UIExplorer$storyMenuTokens = {border: 'border-grey-dark', hoverBg: 'bg-white', selectedBorder: 'border-white', selectedText: 'text-white', text: 'text-grey-dark'};
 var $author$project$UIExplorer$renderStory = F3(
 	function (index, _v0, _v1) {
 		var selectedStoryId = _v0.selectedStoryId;
@@ -11308,17 +11311,17 @@ var $author$project$UIExplorer$renderStory = F3(
 			$elm$core$List$append,
 			defaultLiClass,
 			_List_fromArray(
-				['border', 'border-black', 'text-black', 'cursor-default'])) : A2(
+				['border', $author$project$UIExplorer$storyMenuTokens.selectedBorder, $author$project$UIExplorer$storyMenuTokens.selectedText, 'cursor-default', 'active'])) : A2(
 			$elm$core$List$append,
 			defaultLiClass,
 			_List_fromArray(
 				[
 					'border',
-					'border-grey',
-					'bg-white',
-					'text-grey',
+					$author$project$UIExplorer$storyMenuTokens.border,
+					$author$project$UIExplorer$primaryBgColor,
+					$author$project$UIExplorer$storyMenuTokens.text,
 					'cursor-pointer',
-					$author$project$UIExplorer$hover('bg-grey-lighter')
+					$author$project$UIExplorer$hover($author$project$UIExplorer$storyMenuTokens.hoverBg)
 				]));
 		var buttonClass = $elm$html$Html$Attributes$classList(
 			_List_fromArray(
@@ -11452,7 +11455,7 @@ var $author$project$UIExplorer$viewContent = F2(
 									[
 										$author$project$UIExplorer$toClassName(
 										_List_fromArray(
-											['text-lg', 'flex', 'text-grey-darker']))
+											['text-lg', 'flex', $author$project$UIExplorer$primaryTextColor]))
 									]),
 								_List_fromArray(
 									[
@@ -11797,7 +11800,7 @@ var $author$project$UIExplorer$viewHeader = function (customHeader) {
 					[
 						$author$project$UIExplorer$toClassName(
 						_List_fromArray(
-							[$author$project$UIExplorer$colors.bg.primary, 'pb-3']))
+							[$author$project$UIExplorer$colors.bg.primary, 'border-grey-darker', 'border-b', 'pb-3']))
 					]),
 				_List_fromArray(
 					[
@@ -11821,7 +11824,8 @@ var $author$project$UIExplorer$viewHeader = function (customHeader) {
 };
 var $elm$html$Html$aside = _VirtualDom_node('aside');
 var $author$project$UIExplorer$styleMenuCategoryLink = _List_fromArray(
-	['text-grey-darkest', 'uppercase', 'border-b', 'border-grey-light', 'w-full', 'flex', 'cursor-default', 'pl-4', 'pb-2', 'pt-2', 'text-sm', 'no-underline']);
+	['text-grey-darkest', 'font-bold', 'w-full', 'flex', 'cursor-default', 'pl-4', 'pb-2', 'pt-2', 'text-sm', 'no-underline']);
+var $author$project$UIExplorer$menuDesignToken = {hoverBg: 'bg-white', hoverText: 'text-black', selectedBg: 'bg-grey-darkest', text: 'text-white'};
 var $author$project$UIExplorer$styleMenuItem = function (isSelected) {
 	var defaultClass = _List_fromArray(
 		[
@@ -11832,17 +11836,17 @@ var $author$project$UIExplorer$styleMenuItem = function (isSelected) {
 			'pb-2',
 			'text-xs',
 			'no-underline',
-			$author$project$UIExplorer$hover('bg-grey-lighter'),
-			$author$project$UIExplorer$hover('text-black')
+			$author$project$UIExplorer$hover($author$project$UIExplorer$menuDesignToken.hoverBg),
+			$author$project$UIExplorer$hover($author$project$UIExplorer$menuDesignToken.hoverText)
 		]);
 	return isSelected ? A2(
 		$elm$core$List$append,
 		_List_fromArray(
-			['text-black', 'bg-grey-light']),
+			['selected', $author$project$UIExplorer$menuDesignToken.text, $author$project$UIExplorer$menuDesignToken.selectedBg]),
 		defaultClass) : A2(
 		$elm$core$List$append,
 		_List_fromArray(
-			['text-grey-darker']),
+			[$author$project$UIExplorer$primaryTextColor]),
 		defaultClass);
 };
 var $author$project$UIExplorer$viewMenuItem = F3(
@@ -11914,7 +11918,7 @@ var $author$project$UIExplorer$viewMenuCategory = F2(
 								[
 									$author$project$UIExplorer$toClassName(
 									_List_fromArray(
-										['font-bold', 'text-grey-darker', 'text-xs']))
+										['font-bold', $author$project$UIExplorer$primaryTextColor, 'text-sm']))
 								]),
 							_List_fromArray(
 								[
@@ -11927,7 +11931,7 @@ var $author$project$UIExplorer$viewMenuCategory = F2(
 						[
 							$author$project$UIExplorer$toClassName(
 							_List_fromArray(
-								['list-reset']))
+								['list-reset', 'main-menu']))
 						]),
 					A2(
 						$elm$core$List$map,
@@ -11983,7 +11987,7 @@ var $author$project$UIExplorer$view = F2(
 								[
 									$author$project$UIExplorer$toClassName(
 									_List_fromArray(
-										[$author$project$UIExplorer$oneQuarter, 'bg-white', 'overflow-scroll', 'sm:hidden'])),
+										[$author$project$UIExplorer$oneQuarter, 'bg-black', 'border-grey-darkest', 'overflow-scroll', 'sm:hidden'])),
 									A2($elm$html$Html$Attributes$style, 'height', 'calc(100vh - 86px)'),
 									$elm$html$Html$Attributes$class('uie-hidden md:uie-block')
 								]),
@@ -11997,7 +12001,7 @@ var $author$project$UIExplorer$view = F2(
 								[
 									$author$project$UIExplorer$toClassName(
 									_List_fromArray(
-										['p-4', 'bg-white', 'w-screen', 'h-screen', 'overflow-scroll']))
+										['p-4', $author$project$UIExplorer$primaryBgColor, 'w-screen', 'h-screen', 'overflow-scroll', 'main-content']))
 								]),
 							_List_fromArray(
 								[
@@ -12015,14 +12019,16 @@ var $author$project$UIExplorer$viewMobileMenu = F2(
 					$elm$html$Html$Attributes$classList(
 					_List_fromArray(
 						[
-							_Utils_Tuple2('uie-bg-white', true),
+							_Utils_Tuple2('uie-' + $author$project$UIExplorer$primaryBgColor, true),
 							_Utils_Tuple2('uie-h-full', true),
 							_Utils_Tuple2('uie-w-48', true),
 							_Utils_Tuple2('uie-absolute', true),
 							_Utils_Tuple2('uie-block', true),
 							_Utils_Tuple2('md:uie-hidden', true),
 							_Utils_Tuple2('uie-z-50', true),
-							_Utils_Tuple2('uie-overflow-y-auto', true)
+							_Utils_Tuple2('uie-overflow-y-auto', true),
+							_Utils_Tuple2('uie-border-r', true),
+							_Utils_Tuple2('uie-border-grey-darkest', true)
 						])),
 					$elm$html$Html$Events$onClick($author$project$UIExplorer$MobileMenuToggled),
 					isOpen ? A2($elm$html$Html$Attributes$style, 'transform', 'translate(0%)') : A2($elm$html$Html$Attributes$style, 'transform', 'translate(-100%)'),
@@ -12041,7 +12047,7 @@ var $author$project$UIExplorer$viewMobileOverlay = function (isOpen) {
 				$elm$html$Html$Attributes$classList(
 				_List_fromArray(
 					[
-						_Utils_Tuple2('uie-bg-black', true),
+						_Utils_Tuple2('uie-bg-grey-darkest', true),
 						_Utils_Tuple2('uie-h-full', true),
 						_Utils_Tuple2('uie-w-full', true),
 						_Utils_Tuple2('uie-absolute', true),
