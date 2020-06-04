@@ -150,47 +150,96 @@ type alias Stories a b c =
     List (Story a b c)
 
 
-primaryBgColor =
-    -- "bg-white"
-    "bg-black"
+type ColorMode
+    = Dark
+    | Light
 
 
-primaryTextColor =
-    -- "text-grey-darker"
-    "text-white"
-
-
-menuDesignToken =
-    { selectedBg = "bg-grey-darkest"
-    , hoverBg = "bg-white"
-    , hoverText = "text-black"
-    , text = "text-white"
+type alias Theme =
+    { primaryBgColor : String
+    , primaryTextColor : String
+    , iconColor : String
+    , headerColor : String
+    , sidebar :
+        { background : String
+        , borderColor : String
+        }
+    , menu :
+        { selectedBg : String
+        , hoverBg : String
+        , hoverText : String
+        , text : String
+        }
+    , storyMenu :
+        { selectedBorder : String
+        , selectedText : String
+        , border : String
+        , text : String
+        , hoverBg : String
+        }
     }
 
 
-
-{--{ selectedBg = "bg-grey-light"
-    , hoverBg = "bg-grey-lighter"
-    , hoverText = "text-black"
-    } --}
-
-
-storyMenuTokens =
-    { selectedBorder = "border-white"
-    , selectedText = "text-white"
-    , border = "border-grey-dark"
-    , text = "text-grey-dark"
-    , hoverBg = "bg-white"
+lightTheme : Theme
+lightTheme =
+    { primaryBgColor = "bg-white"
+    , primaryTextColor = "text-grey-darker"
+    , headerColor = "bg-white"
+    , iconColor = "text-black"
+    , sidebar =
+        { background = "bg-white"
+        , borderColor = "border-transparent"
+        }
+    , menu =
+        { selectedBg = "bg-grey-light"
+        , hoverBg = "bg-grey-lighter"
+        , hoverText = "text-black"
+        , text = "text-black"
+        }
+    , storyMenu =
+        { selectedBorder = "border-black"
+        , selectedText = "text-black"
+        , border = "border-grey"
+        , text = "text-grey"
+        , hoverBg = "bg-grey-lighter"
+        }
     }
 
 
+darkTheme : Theme
+darkTheme =
+    { primaryBgColor = "bg-black"
+    , primaryTextColor = "text-white"
+    , headerColor = "bg-black"
+    , iconColor = "text-white"
+    , sidebar =
+        { background = "bg-black"
+        , borderColor = "border-grey-darkest"
+        }
+    , menu =
+        { selectedBg = "bg-grey-darkest"
+        , hoverBg = "bg-white"
+        , hoverText = "text-black"
+        , text = "text-white"
+        }
+    , storyMenu =
+        { selectedBorder = "border-white"
+        , selectedText = "text-white"
+        , border = "border-grey-dark"
+        , text = "text-grey-dark"
+        , hoverBg = "bg-white"
+        }
+    }
 
-{--{ selectedBorder = "border-black"
-    , selectedText = "text-black"
-    , border = "border-grey"
-    , text = "text-grey"
-    , hoverBg = "bg-grey-lighter"
-    } --}
+
+getTheme : ColorMode -> Theme
+getTheme colorMode =
+    case colorMode of
+        Dark ->
+            darkTheme
+
+        Light ->
+            lightTheme
 
 
 getStoryIdFromStories : ( String, Model a b c -> Html b, c ) -> String
@@ -208,6 +257,7 @@ type Msg a
     | LinkClicked Browser.UrlRequest
     | NoOp
     | MobileMenuToggled
+    | ColorModeToggled
 
 
 
@@ -256,6 +306,7 @@ type alias Model a b c =
     , key : Navigation.Key
     , customModel : a
     , mobileMenuIsOpen : Bool
+    , colorMode : ColorMode
     }
 
 
@@ -434,6 +485,19 @@ update config msg model =
         MobileMenuToggled ->
             ( { model | mobileMenuIsOpen = not model.mobileMenuIsOpen }, Cmd.none )
 
+        ColorModeToggled ->
+            ( { model
+                | colorMode =
+                    case model.colorMode of
+                        Dark ->
+                            Light
+
+                        Light ->
+                            Dark
+              }
+            , Cmd.none
+            )
+
 
 
 {--
@@ -573,6 +637,7 @@ init customModel categories _ url key =
       , key = key
       , customModel = customModel
       , mobileMenuIsOpen = False
+      , colorMode = Light
       }
     , Navigation.pushUrl key firstUrl
     )
@@ -676,14 +741,6 @@ exploreWithCategories config categories =
 {--VIEW --}
 
 
-colors : { bg : { primary : String } }
-colors =
-    { bg =
-        { primary = "bg-black"
-        }
-    }
-
-
 toClassName : List String -> Html.Attribute msg
 toClassName list =
     class
@@ -708,12 +765,15 @@ hover className =
 viewSidebar : Model a b c -> Html (Msg b)
 viewSidebar model =
     let
+        theme =
+            getTheme model.colorMode
+
         viewConfig =
             { selectedStoryId = model.selectedStoryId
             , selectedUIId = model.selectedUIId
             }
     in
-    viewMenu model.categories viewConfig
+    viewMenu theme model.categories viewConfig
 
 
 styleHeader :
@@ -734,11 +794,12 @@ styleHeader =
     }
 
 
-viewToggleMobileMenu =
+viewToggleMobileMenu : Theme -> Html (Msg a)
+viewToggleMobileMenu theme =
     div
-        [ class "uie-text-white uie-visible md:uie-invisible uie-flex uie-flex-col uie-justify-center uie-flex-1 uie-items-end uie-mr-4"
+        [ class "uie-block md:uie-hidden uie-flex uie-flex-col uie-justify-center uie-items-end uie-mr-4"
         ]
-        [ button [ class "uie-text-white", onClick MobileMenuToggled ]
+        [ button [ class ("uie-" ++ theme.iconColor), onClick MobileMenuToggled ]
             [ FeatherIcons.menu
                 |> FeatherIcons.withSize 22
                 |> FeatherIcons.toHtml []
@@ -746,8 +807,36 @@ viewToggleMobileMenu =
         ]
 
 
-viewHeader : Maybe (CustomHeader b) -> Html (Msg b)
-viewHeader customHeader =
+viewToggleDarkMode : ColorMode -> Theme -> Html (Msg a)
+viewToggleDarkMode colorMode theme =
+    let
+        icon =
+            case colorMode of
+                Dark ->
+                    FeatherIcons.sun
+
+                Light ->
+                    FeatherIcons.moon
+    in
+    div
+        [ class "uie-flex uie-flex-1 uie-flex-col uie-justify-center  uie-items-end uie-mr-4"
+        ]
+        [ button [ class ("uie-" ++ theme.iconColor), onClick ColorModeToggled ]
+            [ icon
+                |> FeatherIcons.withSize 22
+                |> FeatherIcons.toHtml []
+            ]
+        ]
+
+
+viewActionButtons : ColorMode -> Theme -> Html (Msg a)
+viewActionButtons colorMode theme =
+    div [ class "uie-flex  uie-flex-1" ]
+        [ viewToggleDarkMode colorMode theme, viewToggleMobileMenu theme ]
+
+
+viewHeader : ColorMode -> Theme -> Maybe (CustomHeader b) -> Html (Msg b)
+viewHeader colorMode theme customHeader =
     case customHeader of
         Just { title, logo, titleColor, bgColor } ->
             let
@@ -758,7 +847,7 @@ viewHeader customHeader =
                     titleColor |> Maybe.map (\c -> [ style "color" c ]) |> Maybe.withDefault []
 
                 headerStyles =
-                    bgColor |> Maybe.map (\c -> [ style "background-color" c ]) |> Maybe.withDefault [ toClassName [ colors.bg.primary ] ]
+                    bgColor |> Maybe.map (\c -> [ style "background-color" c ]) |> Maybe.withDefault [ toClassName [ theme.headerColor ] ]
 
                 viewLogo =
                     case logo of
@@ -779,7 +868,7 @@ viewHeader customHeader =
                     [ toClassName [ "flex", "flex-col", "justify-center" ], heightStyle ]
                     [ h3 ([ classList [ ( "md:uie-ml-4", True ) ] ] |> List.append titleStyles) [ text title ]
                     ]
-                , viewToggleMobileMenu
+                , viewActionButtons colorMode theme
                 ]
 
         Nothing ->
@@ -791,21 +880,31 @@ viewHeader customHeader =
                 ([ toClassName styleHeader.header, heightStyle ]
                     |> List.append
                         [ toClassName
-                            [ colors.bg.primary
+                            [ theme.headerColor
                             , "border-grey-darker"
                             , "border-b"
                             , "pb-3"
                             ]
                         ]
                 )
-                [ div [ toClassName [ "bg-cover", "cursor-default", "logo" ] ]
+                [ div
+                    ([ toClassName [ "bg-cover", "cursor-default", "logo" ]
+                     ]
+                        ++ (case colorMode of
+                                Dark ->
+                                    []
+
+                                Light ->
+                                    [ style "filter" "invert(1)" ]
+                           )
+                    )
                     []
-                , viewToggleMobileMenu
+                , viewActionButtons colorMode theme
                 ]
 
 
-styleMenuItem : Bool -> List String
-styleMenuItem isSelected =
+styleMenuItem : Theme -> Bool -> List String
+styleMenuItem { primaryTextColor, menu } isSelected =
     let
         defaultClass =
             [ "w-full"
@@ -815,14 +914,14 @@ styleMenuItem isSelected =
             , "pb-2"
             , "text-xs"
             , "no-underline"
-            , hover menuDesignToken.hoverBg
-            , hover menuDesignToken.hoverText
+            , hover menu.hoverBg
+            , hover menu.hoverText
             ]
     in
     if isSelected then
         defaultClass
             |> List.append
-                [ "selected", menuDesignToken.text, menuDesignToken.selectedBg ]
+                [ "selected", menu.text, menu.selectedBg ]
 
     else
         defaultClass
@@ -830,8 +929,8 @@ styleMenuItem isSelected =
                 [ primaryTextColor ]
 
 
-viewMenuItem : String -> Maybe String -> UI a b c -> Html (Msg b)
-viewMenuItem cat selectedUIId (UIType ui) =
+viewMenuItem : Theme -> String -> Maybe String -> UI a b c -> Html (Msg b)
+viewMenuItem theme cat selectedUIId (UIType ui) =
     let
         defaultLink =
             case ui.viewStories |> List.head of
@@ -847,7 +946,7 @@ viewMenuItem cat selectedUIId (UIType ui) =
                 |> Maybe.withDefault False
 
         linkClass =
-            styleMenuItem isSelected
+            styleMenuItem theme isSelected
     in
     li [ toClassName [] ]
         [ a
@@ -873,25 +972,25 @@ styleMenuCategoryLink =
     ]
 
 
-viewMenuCategory : UIViewConfig -> UICategory a b c -> Html (Msg b)
-viewMenuCategory { selectedUIId } (UICategoryType ( title, categories )) =
+viewMenuCategory : Theme -> UIViewConfig -> UICategory a b c -> Html (Msg b)
+viewMenuCategory theme { selectedUIId } (UICategoryType ( title, categories )) =
     div [ toClassName [] ]
         [ span
             [ toClassName styleMenuCategoryLink
             ]
-            [ span [ toClassName [ "font-bold", primaryTextColor, "text-sm" ] ] [ text title ] ]
+            [ span [ toClassName [ "font-bold", theme.primaryTextColor, "text-sm" ] ] [ text title ] ]
         , ul [ toClassName [ "list-reset", "main-menu" ] ]
-            (List.map (viewMenuItem title selectedUIId) categories)
+            (List.map (viewMenuItem theme title selectedUIId) categories)
         ]
 
 
-viewMenu : List (UICategory a b c) -> UIViewConfig -> Html (Msg b)
-viewMenu categories config =
+viewMenu : Theme -> List (UICategory a b c) -> UIViewConfig -> Html (Msg b)
+viewMenu theme categories config =
     aside
         [ toClassName
             [ "mt-8" ]
         ]
-        (List.map (viewMenuCategory config) categories)
+        (List.map (viewMenuCategory theme config) categories)
 
 
 filterSelectedUI : UI a b c -> Model a b c -> Bool
@@ -918,6 +1017,9 @@ viewContent config model =
             { selectedStoryId = model.selectedStoryId
             , selectedUIId = model.selectedUIId
             }
+
+        theme =
+            getTheme model.colorMode
     in
     div [ toClassName [ "m-6" ] ]
         [ filteredUIs
@@ -938,7 +1040,7 @@ viewContent config model =
                         [ toClassName
                             [ "text-lg"
                             , "flex"
-                            , primaryTextColor
+                            , theme.primaryTextColor
                             ]
                         ]
                         [ text "-Stephen Hay" ]
@@ -965,9 +1067,13 @@ oneQuarter =
 
 
 viewMobileMenu model isOpen =
+    let
+        theme =
+            getTheme model.colorMode
+    in
     div
         [ classList
-            [ ( "uie-" ++ primaryBgColor, True )
+            [ ( "uie-" ++ theme.sidebar.background, True )
             , ( "uie-h-full", True )
             , ( "uie-w-48", True )
             , ( "uie-absolute", True )
@@ -976,7 +1082,7 @@ viewMobileMenu model isOpen =
             , ( "uie-z-50", True )
             , ( "uie-overflow-y-auto", True )
             , ( "uie-border-r", True )
-            , ( "uie-border-grey-darkest", True )
+            , ( theme.sidebar.borderColor, True )
             ]
         , onClick MobileMenuToggled
         , if isOpen then
@@ -1010,16 +1116,18 @@ viewMobileOverlay isOpen =
 
 view : Config a b c -> Model a b c -> Html (Msg b)
 view config model =
+    let
+        theme =
+            getTheme model.colorMode
+    in
     div [ toClassName [ "h-screen overflow-hidden" ] ]
-        [ viewHeader config.customHeader
+        [ viewHeader model.colorMode theme config.customHeader
         , div [ toClassName [ "flex" ] ]
             [ div
                 [ toClassName
                     [ oneQuarter
-                    , "bg-black"
-
-                    --, "border-r"
-                    , "border-grey-darkest"
+                    , theme.sidebar.background
+                    , theme.sidebar.borderColor
                     , "overflow-scroll"
                     , "sm:hidden"
                     ]
@@ -1032,7 +1140,7 @@ view config model =
             , div
                 [ toClassName
                     [ "p-4"
-                    , primaryBgColor
+                    , theme.primaryBgColor
                     , "w-screen"
                     , "h-screen"
                     , "overflow-scroll"
@@ -1044,8 +1152,8 @@ view config model =
         ]
 
 
-renderStory : Int -> UIViewConfig -> ( String, a, c ) -> Html (Msg b)
-renderStory index { selectedStoryId } ( id, _, _ ) =
+renderStory : Theme -> Int -> UIViewConfig -> ( String, a, c ) -> Html (Msg b)
+renderStory { storyMenu, primaryBgColor } index { selectedStoryId } ( id, _, _ ) =
     let
         isActive =
             Maybe.map
@@ -1067,8 +1175,8 @@ renderStory index { selectedStoryId } ( id, _, _ ) =
         liClass =
             if isActive then
                 [ "border"
-                , storyMenuTokens.selectedBorder
-                , storyMenuTokens.selectedText
+                , storyMenu.selectedBorder
+                , storyMenu.selectedText
                 , "cursor-default"
                 , "active"
                 ]
@@ -1076,11 +1184,11 @@ renderStory index { selectedStoryId } ( id, _, _ ) =
 
             else
                 [ "border"
-                , storyMenuTokens.border
+                , storyMenu.border
                 , primaryBgColor
-                , storyMenuTokens.text
+                , storyMenu.text
                 , "cursor-pointer"
-                , hover storyMenuTokens.hoverBg
+                , hover storyMenu.hoverBg
                 ]
                     |> List.append defaultLiClass
     in
@@ -1098,8 +1206,11 @@ renderStories config stories viewConfig model =
         { selectedStoryId } =
             viewConfig
 
+        theme =
+            getTheme model.colorMode
+
         menu =
-            config.menuViewEnhancer model (ul [ toClassName [ "flex-wrap", "list-reset", "flex", "mb-4" ] ] (List.indexedMap (\index -> renderStory index viewConfig) stories))
+            config.menuViewEnhancer model (ul [ toClassName [ "flex-wrap", "list-reset", "flex", "mb-4" ] ] (List.indexedMap (\index -> renderStory theme index viewConfig) stories))
 
         currentStories =
             case selectedStoryId of
