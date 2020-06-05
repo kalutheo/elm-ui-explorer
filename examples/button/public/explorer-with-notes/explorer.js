@@ -15051,7 +15051,7 @@ var $elm$html$Html$nav = _VirtualDom_node('nav');
 var $elm$html$Html$section = _VirtualDom_node('section');
 var $author$project$UIExplorer$Plugins$Tabs$view = F4(
 	function (colorMode, tabs, items, onTabOpened) {
-		var themeClass = function () {
+		var themeClassList = function () {
 			if (colorMode.$ === 'Light') {
 				return _List_fromArray(
 					[
@@ -15064,10 +15064,23 @@ var $author$project$UIExplorer$Plugins$Tabs$view = F4(
 					]);
 			}
 		}();
+		var navClassList = function () {
+			if (colorMode.$ === 'Light') {
+				return _List_fromArray(
+					[
+						$elm$html$Html$Attributes$class('uie-bg-white')
+					]);
+			} else {
+				return _List_fromArray(
+					[
+						$elm$html$Html$Attributes$class('uie-bg-black')
+					]);
+			}
+		}();
 		return A2(
 			$elm$html$Html$div,
 			_Utils_ap(
-				themeClass,
+				themeClassList,
 				_List_fromArray(
 					[
 						$elm$html$Html$Attributes$class('uie-border uie-mt-8 uie-border-solid uie-border-grey-dark-light')
@@ -15076,10 +15089,12 @@ var $author$project$UIExplorer$Plugins$Tabs$view = F4(
 				[
 					A2(
 					$elm$html$Html$nav,
-					_List_fromArray(
-						[
-							$elm$html$Html$Attributes$class('uie-pl-8 uie-bg-white uie-p-2 uie-border-b uie-shadow uie-border-grey-light')
-						]),
+					_Utils_ap(
+						navClassList,
+						_List_fromArray(
+							[
+								$elm$html$Html$Attributes$class('uie-pl-8  uie-p-2 uie-border-b uie-shadow uie-border-grey-light')
+							])),
 					A2(
 						$elm$core$List$indexedMap,
 						F2(
