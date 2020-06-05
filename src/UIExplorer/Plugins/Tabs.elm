@@ -72,16 +72,24 @@ view :
     -> Html.Html (UIExplorer.Msg a)
 view colorMode tabs items onTabOpened =
     let
-        themeClass =
+        themeClassList =
             case colorMode of
                 Light ->
                     [ Attr.class "uie-bg-grey-lightest" ]
 
                 Dark ->
                     [ Attr.class "uie-bg-black" ]
+
+        navClassList =
+            case colorMode of
+                Light ->
+                    [ Attr.class "uie-bg-white" ]
+
+                Dark ->
+                    [ Attr.class "uie-bg-black" ]
     in
-    Html.div (themeClass ++ [ Attr.class "uie-border uie-mt-8 uie-border-solid uie-border-grey-dark-light" ])
-        [ Html.nav [ Attr.class "uie-pl-8 uie-bg-white uie-p-2 uie-border-b uie-shadow uie-border-grey-light" ]
+    Html.div (themeClassList ++ [ Attr.class "uie-border uie-mt-8 uie-border-solid uie-border-grey-dark-light" ])
+        [ Html.nav (navClassList ++ [ Attr.class "uie-pl-8  uie-p-2 uie-border-b uie-shadow uie-border-grey-light" ])
             (List.indexedMap
                 (\index ( title, _, icon ) ->
                     let
