@@ -1,4 +1,4 @@
-module ExplorerWithNotes exposing (main)
+port module ExplorerWithNotes exposing (main)
 
 import Button exposing (..)
 import Html exposing (Html, hr)
@@ -17,7 +17,9 @@ import UIExplorer.Plugins.Code as CodePlugin
 import UIExplorer.Plugins.Note as NotePlugin
 import UIExplorer.Plugins.Tabs as TabsPlugin
 import UIExplorer.Plugins.Tabs.Icons as TabsIconsPlugin
+import UIExplorer.ColorMode exposing (colorModeToString)
 
+port onModeChanged : String -> Cmd msg
 
 type alias PluginOption =
     { note : String
@@ -46,6 +48,7 @@ main =
         { customModel = { tabs = TabsPlugin.initialModel }
         , customHeader = Nothing
         , subscriptions = \_ -> Sub.none
+        , onModeChanged = Just (onModeChanged << colorModeToString )
         , update =
             \msg m ->
                 case msg of

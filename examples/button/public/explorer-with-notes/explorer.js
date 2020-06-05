@@ -5086,6 +5086,9 @@ var $elm$core$Basics$EQ = {$: 'EQ'};
 var $elm$core$Basics$GT = {$: 'GT'};
 var $elm$core$Basics$LT = {$: 'LT'};
 var $author$project$Button$Ghost = {$: 'Ghost'};
+var $elm$core$Maybe$Just = function (a) {
+	return {$: 'Just', a: a};
+};
 var $author$project$Button$L = {$: 'L'};
 var $author$project$Button$Link = {$: 'Link'};
 var $author$project$ExplorerWithNotes$NoOp = {$: 'NoOp'};
@@ -5122,9 +5125,6 @@ var $elm$json$Json$Decode$OneOf = function (a) {
 };
 var $elm$core$Basics$False = {$: 'False'};
 var $elm$core$Basics$add = _Basics_add;
-var $elm$core$Maybe$Just = function (a) {
-	return {$: 'Just', a: a};
-};
 var $elm$core$String$all = _String_all;
 var $elm$core$Basics$and = _Basics_and;
 var $elm$core$Basics$append = _Utils_append;
@@ -5733,6 +5733,18 @@ var $author$project$UIExplorer$Plugins$Tabs$Icons$renderIcon = function (icon) {
 		A2($1602$elm_feather$FeatherIcons$withSize, 14, icon));
 };
 var $author$project$UIExplorer$Plugins$Tabs$Icons$code = $author$project$UIExplorer$Plugins$Tabs$Icons$renderIcon($1602$elm_feather$FeatherIcons$code);
+var $author$project$UIExplorer$ColorMode$colorModeToString = function (colorMode) {
+	if (colorMode.$ === 'Dark') {
+		return 'Dark';
+	} else {
+		return 'Light';
+	}
+};
+var $elm$core$Basics$composeL = F3(
+	function (g, f, x) {
+		return g(
+			f(x));
+	});
 var $author$project$Button$Filled = {$: 'Filled'};
 var $author$project$Button$M = {$: 'M'};
 var $author$project$Button$Primary = {$: 'Primary'};
@@ -7190,11 +7202,6 @@ var $elm$browser$Debugger$Expando$None = {$: 'None'};
 var $elm$browser$Debugger$Expando$Toggle = {$: 'Toggle'};
 var $elm$browser$Debugger$Expando$Value = {$: 'Value'};
 var $elm$browser$Debugger$Expando$blue = A2($elm$html$Html$Attributes$style, 'color', 'rgb(28, 0, 207)');
-var $elm$core$Basics$composeL = F3(
-	function (g, f, x) {
-		return g(
-			f(x));
-	});
 var $elm$browser$Debugger$Expando$leftPad = function (maybeKey) {
 	if (maybeKey.$ === 'Nothing') {
 		return _List_Nil;
@@ -11326,13 +11333,6 @@ var $author$project$UIExplorer$init = F5(
 			A2($elm$browser$Browser$Navigation$pushUrl, key, firstUrl));
 	});
 var $author$project$UIExplorer$ColorMode$Dark = {$: 'Dark'};
-var $author$project$UIExplorer$ColorMode$colorModeToString = function (colorMode) {
-	if (colorMode.$ === 'Dark') {
-		return 'Dark';
-	} else {
-		return 'Light';
-	}
-};
 var $elm$browser$Browser$Navigation$load = _Browser_load;
 var $elm$core$Maybe$map2 = F3(
 	function (func, ma, mb) {
@@ -11364,7 +11364,6 @@ var $author$project$UIExplorer$makeStoryUrl = F2(
 			model.selectedCategory,
 			model.selectedUIId);
 	});
-var $author$project$UIExplorer$onModeChanged = _Platform_outgoingPort('onModeChanged', $elm$json$Json$Encode$string);
 var $elm$url$Url$addPort = F2(
 	function (maybePort, starter) {
 		if (maybePort.$ === 'Nothing') {
@@ -11469,8 +11468,8 @@ var $author$project$UIExplorer$update = F3(
 					$elm$core$Platform$Cmd$none);
 			default:
 				var colorMode = function () {
-					var _v4 = model.colorMode;
-					if (_v4.$ === 'Dark') {
+					var _v5 = model.colorMode;
+					if (_v5.$ === 'Dark') {
 						return $author$project$UIExplorer$ColorMode$Light;
 					} else {
 						return $author$project$UIExplorer$ColorMode$Dark;
@@ -11480,8 +11479,15 @@ var $author$project$UIExplorer$update = F3(
 					_Utils_update(
 						model,
 						{colorMode: colorMode}),
-					$author$project$UIExplorer$onModeChanged(
-						$author$project$UIExplorer$ColorMode$colorModeToString(colorMode)));
+					function () {
+						var _v4 = config.onModeChanged;
+						if (_v4.$ === 'Just') {
+							var f = _v4.a;
+							return f(colorMode);
+						} else {
+							return $elm$core$Platform$Cmd$none;
+						}
+					}());
 		}
 	});
 var $author$project$UIExplorer$darkTheme = {
@@ -12563,6 +12569,7 @@ var $1602$elm_feather$FeatherIcons$eye = A2(
 				]))
 		]));
 var $author$project$UIExplorer$Plugins$Tabs$Icons$note = $author$project$UIExplorer$Plugins$Tabs$Icons$renderIcon($1602$elm_feather$FeatherIcons$eye);
+var $author$project$ExplorerWithNotes$onModeChanged = _Platform_outgoingPort('onModeChanged', $elm$json$Json$Encode$string);
 var $author$project$RawContent$note = '\n# Modules\n- [Button](#button)\n\n# Button\n- [Config](#config)\n- [Size](#size)\n- [Kind](#kind)\n- [Appearance](#appearance)\n- [defaultButtonConfig](#defaultbuttonconfig)\n- [view](#view)\n\n## Button\nThe Button should be used to trigger user actions.\nSome examples of interactions:\n- Submit a form\n- Cancel an order\n- Toggle a menu visibility\n- Play a media\n```elm\nimport Button exposing (..)\nButton.view "Submit" defaultButtonConfig ()\n```\n## Links:\n- [UX Planet - Basic rules for button](https://uxplanet.org/7-basic-rules-for-button-design-63dcdf5676b4)\n\n### `Config`\n```elm\ntype alias Config  =\n{ appearance : Button.Appearance, size : Button.Size, kind : Button.Kind, class : String.String, theme : Button.Theme }\n```\nOption to customize the Button\n\n\n---\n\n\n### `Size`\n```elm\ntype Size\n= S\n| M\n| L\n```\nDefine the size of the Button\n\n\n---\n\n\n### `Kind`\n```elm\ntype Kind\n= Link\n| Filled\n| Ghost\n```\nLook and feel of the Button\n\n\n---\n\n\n### `Appearance`\n```elm\ntype Appearance\n= Primary\n| Secondary\n```\nDefine the appearance of the Button\n\n\n---\n\n\n### `defaultButtonConfig`\n```elm\ndefaultButtonConfig : Config\n```\nDefault Configurations\n\n\n---\n\n\n### `view`\n```elm\nview : String.String -> Config -> msg -> Html.Html msg\n```\nRenders the button\n\n\n---\n\n\n> Generated with elm: 0.19.0 and elm-docs: 0.4.0\n\n';
 var $author$project$RawContent$storySourceCode = '\n```elm\n  module Explorer exposing (main)\n\n  import Button exposing (Appearance(..), Kind(..), Size(..), defaultButtonConfig)\n  import UIExplorer exposing (UIExplorerProgram, defaultConfig, explore, storiesOf)\n\n\n  main : UIExplorerProgram {} () {}\n  main =\n      explore\n          defaultConfig\n          [ storiesOf\n              "Button"\n              [ ( "Primary", \\_ -> Button.view "Submit" defaultButtonConfig (), {} )\n              , ( "Secondary", \\_ -> Button.view "Submit" { defaultButtonConfig | appearance = Secondary } (), {} )\n              , ( "Small", \\_ -> Button.view "Submit" { defaultButtonConfig | size = S } (), {} )\n              , ( "Large", \\_ -> Button.view "Submit" { defaultButtonConfig | size = L } (), {} )\n              , ( "Link", \\_ -> Button.view "Submit" { defaultButtonConfig | kind = Link, appearance = Secondary } (), {} )\n              , ( "GhostPrimary", \\_ -> Button.view "Submit" { defaultButtonConfig | kind = Ghost } (), {} )\n              , ( "GhostSecondary", \\_ -> Button.view "Submit" { defaultButtonConfig | appearance = Secondary, kind = Ghost } (), {} )\n              ]\n          ]\n```\n';
 var $author$project$ExplorerWithNotes$options = {code: $author$project$RawContent$storySourceCode, note: $author$project$RawContent$note};
@@ -15306,6 +15313,8 @@ var $author$project$ExplorerWithNotes$main = A2(
 			function (m, v) {
 				return v;
 			}),
+		onModeChanged: $elm$core$Maybe$Just(
+			A2($elm$core$Basics$composeL, $author$project$ExplorerWithNotes$onModeChanged, $author$project$UIExplorer$ColorMode$colorModeToString)),
 		subscriptions: function (_v0) {
 			return $elm$core$Platform$Sub$none;
 		},

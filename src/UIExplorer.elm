@@ -1,4 +1,4 @@
-port module UIExplorer exposing
+module UIExplorer exposing
     ( explore
     , exploreWithCategories
     , defaultConfig
@@ -82,7 +82,6 @@ import UIExplorer.ColorMode exposing (..)
 import Url
 
 
-port onModeChanged : String -> Cmd msg
 
 
 {-| The Elm Program created by the UI Explorer.
@@ -351,6 +350,7 @@ type alias Config a b c =
     , subscriptions : Model a b c -> Sub b
     , viewEnhancer : ViewEnhancer a b c
     , menuViewEnhancer : MenuViewEnhancer a b c
+    , onModeChanged : Maybe (ColorMode -> Cmd (Msg b) )
     }
 
 
@@ -366,6 +366,7 @@ defaultConfig =
         \_ -> Sub.none
     , viewEnhancer = \_ stories -> stories
     , menuViewEnhancer = \_ v -> v
+    , onModeChanged = Nothing
     }
 
 
@@ -497,7 +498,10 @@ update config msg model =
             ( { model
                 | colorMode = colorMode
               }
-            , onModeChanged (colorModeToString colorMode)
+            , 
+            case config.onModeChanged of 
+                Just f -> f colorMode
+                Nothing -> Cmd.none
             )
 
 
