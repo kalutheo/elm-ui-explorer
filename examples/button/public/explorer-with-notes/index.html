@@ -8,22 +8,24 @@
 
   <title>Elm UI Explorer - Button With Notes</title>
 
-  <link rel="stylesheet" type="text/css" href="  https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/4.0.0/github-markdown.min.css">
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/4.0.0/github-markdown.min.css"> 
 
   <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/kalutheo/elm-ui-explorer@master/assets/styles.css">
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/highlight.min.js">
   </script>
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/languages/elm.min.js">
   </script>
-  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/styles/atelier-plateau-dark.min.css" >
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/styles/atelier-plateau-dark.min.css" > 
 
 </head>
 
 <body class="overflow-hidden">
   <div id="root"></div>
+  <script src="ui-explorer.js"></script>
   <script src="explorer.js"></script>
   <script type="text/javascript">
   var app = Elm.ExplorerWithNotes.init({ node: document.getElementById('root') });
+  app.ports.onModeChanged.subscribe(ElmUIExplorer.handleMode);
 </script>
 </body>
 
