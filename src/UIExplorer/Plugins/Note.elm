@@ -44,7 +44,7 @@ viewEnhancer : UIExplorer.Model a b { c | note : String } -> Html.Html (UIExplor
 viewEnhancer model =
     case getCurrentSelectedStory model of
         Just ( _, _, option ) ->
-            Markdown.toHtml [ class "content uie-text-sm markdown-body", style "width" "100%" ] option.note
+            Markdown.toHtml [ class "content uie-text-sm markdown-body markdown", style "width" "100%" ] option.note
 
         Nothing ->
             Html.text ""

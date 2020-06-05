@@ -62,9 +62,9 @@ main =
             \m stories ->
                 Html.div []
                     [ stories
-                    , TabsPlugin.view m.customModel.tabs
+                    , TabsPlugin.view m.colorMode m.customModel.tabs
                         [ ( "Notes", NotePlugin.viewEnhancer m, TabsIconsPlugin.note )
-                        , ( "Story Code", CodePlugin.viewEnhancer m, TabsIconsPlugin.code )
+                        , ( "Story Code", CodePlugin.viewEnhancer m.colorMode m, TabsIconsPlugin.code )
                         ]
                         TabMsg
                     ]

@@ -1,4 +1,4 @@
-module UIExplorer exposing
+port module UIExplorer exposing
     ( explore
     , exploreWithCategories
     , defaultConfig
@@ -78,7 +78,11 @@ import FeatherIcons
 import Html exposing (Html, a, article, aside, button, div, h3, header, img, li, span, text, ul)
 import Html.Attributes exposing (class, classList, href, src, style)
 import Html.Events exposing (onClick)
+import UIExplorer.ColorMode exposing (..)
 import Url
+
+
+port onModeChanged : String -> Cmd msg
 
 
 {-| The Elm Program created by the UI Explorer.
@@ -148,11 +152,6 @@ type alias Story a b c =
 
 type alias Stories a b c =
     List (Story a b c)
-
-
-type ColorMode
-    = Dark
-    | Light
 
 
 type alias Theme =
@@ -486,16 +485,19 @@ update config msg model =
             ( { model | mobileMenuIsOpen = not model.mobileMenuIsOpen }, Cmd.none )
 
         ColorModeToggled ->
-            ( { model
-                | colorMode =
+            let
+                colorMode =
                     case model.colorMode of
                         Dark ->
                             Light
 
                         Light ->
                             Dark
+            in
+            ( { model
+                | colorMode = colorMode
               }
-            , Cmd.none
+            , onModeChanged (colorModeToString colorMode)
             )
 
 

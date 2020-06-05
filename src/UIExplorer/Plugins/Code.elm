@@ -18,15 +18,25 @@ import Html
 import Html.Attributes exposing (class, style)
 import Markdown
 import UIExplorer exposing (getCurrentSelectedStory)
+import UIExplorer.ColorMode exposing (ColorMode(..))
 
 
 {-| Code view enhancer
 -}
-viewEnhancer : UIExplorer.Model a b { c | code : String } -> Html.Html (UIExplorer.Msg b)
-viewEnhancer model =
+viewEnhancer : ColorMode -> UIExplorer.Model a b { c | code : String } -> Html.Html (UIExplorer.Msg b)
+viewEnhancer colorMode model =
+    let
+        colorModeClassList =
+            case colorMode of
+                Dark ->
+                    [ class "uie-text-white" ]
+
+                Light ->
+                    []
+    in
     case getCurrentSelectedStory model of
         Just ( _, _, option ) ->
-            Markdown.toHtml [ class "content uie-text-sm uie-overflow-auto", style "width" "100%" ] option.code
+            Markdown.toHtml (colorModeClassList ++ [ class "content uie-text-sm  uie-overflow-auto", style "width" "100%" ]) option.code
 
         Nothing ->
             Html.text ""
