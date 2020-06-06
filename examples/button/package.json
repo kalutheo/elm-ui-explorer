@@ -8,7 +8,7 @@
     "elm-live": "^4.0.1"
   },
   "scripts": {
-    "build": "npm run build:app && npm run build:explorer && npm run build:explorer-with-notes",
+    "build": "npm run build:app && npm run build:explorer && npm run build:explorer-with-notes && npm run build:explorer-with-locale",
     "build:app": "elm make Main.elm --output=../../docs/examples/button/app.js",
     "build:explorer": "elm make Explorer.elm --output=../../docs/examples/button/explorer/explorer.js",
     "build:explorer-with-notes": "elm make ExplorerWithNotes.elm --output=../../docs/examples/button/explorer-with-notes/explorer.js",
