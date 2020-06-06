@@ -11975,11 +11975,9 @@ var $author$project$UIExplorer$viewToggleDarkMode = F3(
 					$elm$html$Html$button,
 					_Utils_ap(
 						defaultColor,
-						_Utils_ap(
-							_List_fromArray(
-								[
-									$elm$html$Html$Events$onClick($author$project$UIExplorer$ColorModeToggled)
-								]),
+						A2(
+							$elm$core$List$cons,
+							$elm$html$Html$Events$onClick($author$project$UIExplorer$ColorModeToggled),
 							styles)),
 					_List_fromArray(
 						[
@@ -12063,11 +12061,9 @@ var $author$project$UIExplorer$viewToggleMobileMenu = F2(
 					$elm$html$Html$button,
 					_Utils_ap(
 						defaultColor,
-						_Utils_ap(
-							_List_fromArray(
-								[
-									$elm$html$Html$Events$onClick($author$project$UIExplorer$MobileMenuToggled)
-								]),
+						A2(
+							$elm$core$List$cons,
+							$elm$html$Html$Events$onClick($author$project$UIExplorer$MobileMenuToggled),
 							styles)),
 					_List_fromArray(
 						[
@@ -12210,13 +12206,11 @@ var $author$project$UIExplorer$viewHeader = F3(
 					[
 						A2(
 						$elm$html$Html$div,
-						_Utils_ap(
-							_List_fromArray(
-								[
-									$author$project$UIExplorer$toClassName(
-									_List_fromArray(
-										['bg-cover', 'cursor-default', 'logo']))
-								]),
+						A2(
+							$elm$core$List$cons,
+							$author$project$UIExplorer$toClassName(
+								_List_fromArray(
+									['bg-cover', 'cursor-default', 'logo'])),
 							function () {
 								if (colorMode.$ === 'Dark') {
 									return _List_Nil;
@@ -15257,36 +15251,36 @@ var $elm$core$Maybe$isJust = function (maybe) {
 };
 var $elm_explorations$markdown$Markdown$toHtmlWith = _Markdown_toHtml;
 var $elm_explorations$markdown$Markdown$toHtml = $elm_explorations$markdown$Markdown$toHtmlWith($elm_explorations$markdown$Markdown$defaultOptions);
-var $author$project$UIExplorer$Plugins$Code$viewEnhancer = F2(
-	function (colorMode, model) {
-		var colorModeClassList = function () {
-			if (colorMode.$ === 'Dark') {
-				return _List_fromArray(
-					[
-						$elm$html$Html$Attributes$class('uie-text-white')
-					]);
-			} else {
-				return _List_Nil;
-			}
-		}();
-		var _v0 = $author$project$UIExplorer$getCurrentSelectedStory(model);
-		if (_v0.$ === 'Just') {
-			var _v1 = _v0.a;
-			var option = _v1.c;
-			return A2(
-				$elm_explorations$markdown$Markdown$toHtml,
-				_Utils_ap(
-					colorModeClassList,
-					_List_fromArray(
-						[
-							$elm$html$Html$Attributes$class('content uie-text-sm  uie-overflow-auto'),
-							A2($elm$html$Html$Attributes$style, 'width', '100%')
-						])),
-				option.code);
+var $author$project$UIExplorer$Plugins$Code$viewEnhancer = function (model) {
+	var colorModeClassList = function () {
+		var _v2 = model.colorMode;
+		if (_v2.$ === 'Dark') {
+			return _List_fromArray(
+				[
+					$elm$html$Html$Attributes$class('uie-text-white')
+				]);
 		} else {
-			return $elm$html$Html$text('');
+			return _List_Nil;
 		}
-	});
+	}();
+	var _v0 = $author$project$UIExplorer$getCurrentSelectedStory(model);
+	if (_v0.$ === 'Just') {
+		var _v1 = _v0.a;
+		var option = _v1.c;
+		return A2(
+			$elm_explorations$markdown$Markdown$toHtml,
+			_Utils_ap(
+				colorModeClassList,
+				_List_fromArray(
+					[
+						$elm$html$Html$Attributes$class('content uie-text-sm  uie-overflow-auto'),
+						A2($elm$html$Html$Attributes$style, 'width', '100%')
+					])),
+			option.code);
+	} else {
+		return $elm$html$Html$text('');
+	}
+};
 var $author$project$UIExplorer$Plugins$Note$viewEnhancer = function (model) {
 	var _v0 = $author$project$UIExplorer$getCurrentSelectedStory(model);
 	if (_v0.$ === 'Just') {
@@ -15358,7 +15352,7 @@ var $author$project$ExplorerWithNotes$main = A2(
 									$author$project$UIExplorer$Plugins$Tabs$Icons$note),
 									_Utils_Tuple3(
 									'Story Code',
-									A2($author$project$UIExplorer$Plugins$Code$viewEnhancer, m.colorMode, m),
+									$author$project$UIExplorer$Plugins$Code$viewEnhancer(m),
 									$author$project$UIExplorer$Plugins$Tabs$Icons$code)
 								]),
 							$author$project$ExplorerWithNotes$TabMsg)

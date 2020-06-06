@@ -23,11 +23,11 @@ import UIExplorer.ColorMode exposing (ColorMode(..))
 
 {-| Code view enhancer
 -}
-viewEnhancer : ColorMode -> UIExplorer.Model a b { c | code : String } -> Html.Html (UIExplorer.Msg b)
-viewEnhancer colorMode model =
+viewEnhancer : UIExplorer.Model a b { c | code : String } -> Html.Html (UIExplorer.Msg b)
+viewEnhancer model =
     let
         colorModeClassList =
-            case colorMode of
+            case model.colorMode of
                 Dark ->
                     [ class "uie-text-white" ]
 
