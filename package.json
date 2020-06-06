@@ -6,7 +6,10 @@
     "example": "examples"
   },
   "scripts": {
-    "build": "tailwind build src/styles.css --output assets/styles.css --config tailwind.js"
+    "build": "tailwind build src/styles.css --output assets/styles.css --config tailwind.js",
+    "build:examples": "npm run build:examples:button && npm run build:examples:dsm",
+    "build:examples:button": "cd examples/button && npm run build",
+    "build:examples:dsm": "cd examples/dsm && npm run build"
   },
   "repository": {
     "type": "git",
@@ -22,6 +25,7 @@
     "tailwindcss": "^0.7.4"
   },
   "devDependencies": {
-    "elm-analyse": "^0.16.5"
+    "elm-analyse": "^0.16.5",
+    "elm-doc-preview": "^5.0.3"
   }
 }
