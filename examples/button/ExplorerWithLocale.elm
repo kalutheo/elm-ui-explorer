@@ -79,6 +79,7 @@ main =
             \m -> Sub.none
         , viewEnhancer = \m stories -> stories
         , menuViewEnhancer = menuViewEnhancer
+        , onModeChanged = Nothing
         }
         [ storiesOf
             "Button"

@@ -78,10 +78,8 @@ import FeatherIcons
 import Html exposing (Html, a, article, aside, button, div, h3, header, img, li, span, text, ul)
 import Html.Attributes exposing (class, classList, href, src, style)
 import Html.Events exposing (onClick)
-import UIExplorer.ColorMode exposing (..)
+import UIExplorer.ColorMode exposing (ColorMode(..))
 import Url
-
-
 
 
 {-| The Elm Program created by the UI Explorer.
@@ -350,7 +348,7 @@ type alias Config a b c =
     , subscriptions : Model a b c -> Sub b
     , viewEnhancer : ViewEnhancer a b c
     , menuViewEnhancer : MenuViewEnhancer a b c
-    , onModeChanged : Maybe (ColorMode -> Cmd (Msg b) )
+    , onModeChanged : Maybe (ColorMode -> Cmd (Msg b))
     }
 
 
@@ -498,10 +496,12 @@ update config msg model =
             ( { model
                 | colorMode = colorMode
               }
-            , 
-            case config.onModeChanged of 
-                Just f -> f colorMode
-                Nothing -> Cmd.none
+            , case config.onModeChanged of
+                Just f ->
+                    f colorMode
+
+                Nothing ->
+                    Cmd.none
             )
 
 
@@ -813,7 +813,7 @@ viewToggleMobileMenu theme styles =
     div
         [ class "uie-block md:uie-hidden uie-flex uie-flex-col uie-justify-center uie-items-end uie-mr-4"
         ]
-        [ button (defaultColor ++ [ onClick MobileMenuToggled ] ++ styles)
+        [ button (defaultColor ++ (onClick MobileMenuToggled :: styles))
             [ FeatherIcons.menu
                 |> FeatherIcons.withSize 22
                 |> FeatherIcons.toHtml []
@@ -842,7 +842,7 @@ viewToggleDarkMode colorMode theme styles =
     div
         [ class "uie-flex uie-flex-1 uie-flex-col uie-justify-center  uie-items-end uie-mr-4"
         ]
-        [ button (defaultColor ++ [ onClick ColorModeToggled ] ++ styles)
+        [ button (defaultColor ++ (onClick ColorModeToggled :: styles))
             [ icon
                 |> FeatherIcons.withSize 22
                 |> FeatherIcons.toHtml []
@@ -909,9 +909,8 @@ viewHeader colorMode theme customHeader =
                         ]
                 )
                 [ div
-                    ([ toClassName [ "bg-cover", "cursor-default", "logo" ]
-                     ]
-                        ++ (case colorMode of
+                    (toClassName [ "bg-cover", "cursor-default", "logo" ]
+                        :: (case colorMode of
                                 Dark ->
                                     []
 
@@ -1087,6 +1086,7 @@ oneQuarter =
     "w-1/4"
 
 
+viewMobileMenu : Model a b c -> Bool -> Html (Msg b)
 viewMobileMenu model isOpen =
     let
         theme =
@@ -1116,6 +1116,7 @@ viewMobileMenu model isOpen =
         [ viewSidebar model ]
 
 
+viewMobileOverlay : Bool -> Html (Msg b)
 viewMobileOverlay isOpen =
     div
         [ classList
