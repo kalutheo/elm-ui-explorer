@@ -8,8 +8,8 @@
   "scripts": {
     "build": "tailwind build src/styles.css --output assets/styles.css --config tailwind.js",
     "build:examples": "npm run build:examples:button && npm run build:examples:dsm",
-    "build:examples:button": "cd examples/button && npm run build",
-    "build:examples:dsm": "cd examples/dsm && npm run build"
+    "build:examples:button": "cd examples/button && npm i && npm run build",
+    "build:examples:dsm": "cd examples/dsm && npm i && npm run build"
   },
   "repository": {
     "type": "git",
