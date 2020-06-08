@@ -81,7 +81,7 @@ main =
             \m stories ->
                 Html.div []
                     [ stories
-                    , TabsPlugin.view m.customModel.tabs
+                    , TabsPlugin.view m.colorMode m.customModel.tabs
                         [ ( "Knobs"
                           , KnobsPlugin.viewEnhancer m
                                 (\model option ->
@@ -93,6 +93,7 @@ main =
                         TabMsg
                     ]
         , menuViewEnhancer = \m v -> v
+        , onModeChanged = Nothing
         }
         [ storiesOf
             "Button"
