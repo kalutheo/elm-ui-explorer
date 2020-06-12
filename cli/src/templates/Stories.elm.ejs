@@ -1,0 +1,12 @@
+module <%= props.moduleNameSpace %>.Stories exposing (stories)
+
+import Html
+import UIExplorer exposing (storiesOf)
+
+
+stories : UIExplorer.UI a b { hasMenu : Bool }
+stories =
+    storiesOf
+        "<%= props.componentName %>"
+        [ ( "Primary", \_ -> Html.text "your story here..." , { hasMenu = True} )
+        ]

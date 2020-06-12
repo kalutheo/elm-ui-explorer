@@ -1,0 +1,15 @@
+module Explorer.Components exposing (stories)
+
+<% props.stories.forEach(function(story){ %>
+import <%= story %>
+<% }); %>
+
+stories = 
+    [
+    <% props.stories.forEach(function(story, index){ %>
+        <%= story %>.stories<%= index === props.stories.length -1 ? '' : ',' %>
+    <% }); %>
+    ]
+
+
+

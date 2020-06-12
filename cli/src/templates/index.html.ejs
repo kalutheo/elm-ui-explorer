@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="x-ua-compatible" content="ie=edge" />
+    <title><%= props.name %></title>
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.5.1/css/bulma.css"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="https://cdn.jsdelivr.net/gh/kalutheo/elm-ui-explorer@master/assets/styles.css"
+    />
+  </head>
+
+  <body class="overflow-hidden">
+    <div id="root"></div>
+    <script src="explorer.js"></script>
+    <script type="text/javascript">
+      var app = Elm.Explorer.init({
+        node: document.getElementById("root")
+      })
+    </script>
+  </body>
+</html>
