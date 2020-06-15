@@ -2,22 +2,16 @@ import { GluegunToolbox } from 'gluegun'
 import * as path from 'path'
 
 module.exports = {
-  name: 'new',
-  alias: ['n'],
+  name: 'init',
+  alias: ['i'],
   run: async (toolbox: GluegunToolbox) => {
     const {
-      parameters,
       template: { generate },
       print: { info }
     } = toolbox
     const { options } = toolbox.parameters
-    const name = parameters.first || 'Elm Ui Explorer'
     const templatesDir = path.join(__dirname, '..', 'templates')
     const logoSource = `${templatesDir}/elm-logo.png`
-
-    if (!name) {
-      return toolbox.print.error('Please provide a name of your')
-    }
 
     if (!options.outputDir && process.env.NODE_ENV === 'test') {
       return toolbox.print.error('outputDir must be defined in TEST mode')
@@ -30,7 +24,7 @@ module.exports = {
       generate({
         template: 'Explorer.elm.ejs',
         target: `${destFolder}src/Explorer.elm`,
-        props: { name }
+        props: {}
       }),
       generate({
         template: 'elm.json.ejs',
@@ -43,11 +37,11 @@ module.exports = {
       generate({
         template: 'index.html.ejs',
         target: `${destFolder}public/index.html`
-      }),
-      toolbox.filesystem.copyAsync(logoSource, 'public/logo.png', {
-        overwrite: true
       })
     ])
+    if (process.env.NODE_ENV !== 'test') {
+      await toolbox.system.run('npm i')
+    }
 
     info(`Generated your ui-explorer`)
   }

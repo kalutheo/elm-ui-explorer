@@ -16,7 +16,7 @@ test('outputs help', async () => {
 })
 
 test('generates file', async () => {
-  const output = await cli('new --outputDir=dummy')
+  const output = await cli('init --outputDir=dummy')
   expect(output).toContain('Generated your ui-explorer')
   filesystem.remove('dummy')
 })
