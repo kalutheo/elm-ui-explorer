@@ -14,6 +14,30 @@ This project is inspired by [React Storybook](https://storybook.js.org/) and sty
 
 ### How to use it ?
 
+
+### Quick Start 
+
+First install the cli.
+```
+npm install @kalutheo/uie
+```
+
+Then initialize your project.
+```
+uie init
+```
+
+To run your storybook:
+```
+npm run uie
+```
+Finally, you should be able to see your explorer by visiting `http://localhost:8000`
+
+
+
+
+### Manual Setup
+
 Here is a basic example of a button showcased in Elm UI Explorer:
 
 Add this to your `Main.elm` file.
@@ -72,6 +96,11 @@ You can now run the `Main.elm` application with the tool of your choice.
 * **Plugins :** Elm UI Explorer has a mechanism that let you extend the tool by creating your own plugins. By defaults the library comes with [built in plugins](https://github.com/kalutheo/elm-ui-explorer/tree/master/src/UIExplorer/Plugins).
 
 - **Customization :** You can make the header match your brand identity by changing colors, title and icons.
+
+
+- **Responsivness :** The explorer navigation is adapted for devices with small screens.
+
+- **Dark mode :** For aesthetic purposes, Dark mode can be enabled with one click.
 
 ### Best Practices
 
