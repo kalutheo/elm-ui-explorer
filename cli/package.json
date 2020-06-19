@@ -1,8 +1,7 @@
 {
   "name": "@kalutheo/uie",
-  "version": "0.0.1",
+  "version": "0.0.3",
   "description": "uie CLI",
-  "private": true,
   "bin": {
     "uie": "bin/uie"
   },

@@ -1,5 +1,4 @@
 import { GluegunToolbox } from 'gluegun'
-import * as path from 'path'
 
 module.exports = {
   name: 'init',
@@ -10,16 +9,13 @@ module.exports = {
       print: { info }
     } = toolbox
     const { options } = toolbox.parameters
-    const templatesDir = path.join(__dirname, '..', 'templates')
-    const logoSource = `${templatesDir}/elm-logo.png`
 
     if (!options.outputDir && process.env.NODE_ENV === 'test') {
       return toolbox.print.error('outputDir must be defined in TEST mode')
     }
 
     const destFolder = options.outputDir ? `${options.outputDir}/` : ''
-    console.log('logoSource', logoSource)
-    console.log('env', process.env.NODE_ENV)
+
     await Promise.all([
       generate({
         template: 'Explorer.elm.ejs',
