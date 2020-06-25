@@ -5043,7 +5043,7 @@ var $elm$core$Basics$GT = {$: 'GT'};
 var $elm$core$Basics$LT = {$: 'LT'};
 var $elm$core$Basics$False = {$: 'False'};
 var $elm$core$Basics$True = {$: 'True'};
-var $author$project$Docs$about = '\n# About Tasty\n\n*"Le grec parisien"* is a brand created by two French nationals, Joseph (the CEO) and Yannick, (the co-founder), for a Kebab restaurant in Montreal.\n\n**Tasty** is the name of the Design System for digital products and experiences around the restaurant.\nThe system is composed of guidelines, components and code examples.\n\n\n\n![Preview](https://www.jerome-kalumbu.com/sites/default/files/logo-duo.jpg)\n\n\n';
+var $author$project$Docs$about = '\n# About Tasty\n\n*"Le grec parisien"* is a brand created by two French nationals, Joseph (the CEO) and Yannick, (the co-founder), for a Kebab restaurant in Montreal.\n\n**Tasty** is the name of the Design System for digital products and experiences around the restaurant.\nThe system is composed of guidelines, components and code examples.\n\n\n\n![Preview](/logo-final.svg)\n\n\n';
 var $elm$core$Basics$apR = F2(
 	function (x, f) {
 		return f(x);
@@ -5527,6 +5527,7 @@ var $author$project$UIExplorer$defaultConfig = {
 		function (_v0, v) {
 			return v;
 		}),
+	onModeChanged: $elm$core$Maybe$Nothing,
 	subscriptions: function (_v1) {
 		return $elm$core$Platform$Sub$none;
 	},
@@ -9911,7 +9912,7 @@ var $elm$core$Basics$never = function (_v0) {
 	}
 };
 var $elm$browser$Browser$application = _Browser_application;
-var $author$project$UIExplorer$Light = {$: 'Light'};
+var $author$project$UIExplorer$ColorMode$Light = {$: 'Light'};
 var $author$project$UIExplorer$getDefaultUrlFromCategories = function (categories) {
 	return A2(
 		$elm$core$Maybe$withDefault,
@@ -10047,10 +10048,10 @@ var $author$project$UIExplorer$init = F5(
 				selectedUIId,
 				selectedStoryId));
 		return _Utils_Tuple2(
-			{categories: categories, colorMode: $author$project$UIExplorer$Light, customModel: customModel, key: key, mobileMenuIsOpen: false, selectedCategory: selectedCategory, selectedStoryId: selectedStoryId, selectedUIId: selectedUIId, url: url},
+			{categories: categories, colorMode: $author$project$UIExplorer$ColorMode$Light, customModel: customModel, key: key, mobileMenuIsOpen: false, selectedCategory: selectedCategory, selectedStoryId: selectedStoryId, selectedUIId: selectedUIId, url: url},
 			A2($elm$browser$Browser$Navigation$pushUrl, key, firstUrl));
 	});
-var $author$project$UIExplorer$Dark = {$: 'Dark'};
+var $author$project$UIExplorer$ColorMode$Dark = {$: 'Dark'};
 var $elm$browser$Browser$Navigation$load = _Browser_load;
 var $author$project$UIExplorer$makeStoryUrl = F2(
 	function (model, storyId) {
@@ -10170,20 +10171,27 @@ var $author$project$UIExplorer$update = F3(
 						{mobileMenuIsOpen: !model.mobileMenuIsOpen}),
 					$elm$core$Platform$Cmd$none);
 			default:
+				var colorMode = function () {
+					var _v5 = model.colorMode;
+					if (_v5.$ === 'Dark') {
+						return $author$project$UIExplorer$ColorMode$Light;
+					} else {
+						return $author$project$UIExplorer$ColorMode$Dark;
+					}
+				}();
 				return _Utils_Tuple2(
 					_Utils_update(
 						model,
-						{
-							colorMode: function () {
-								var _v4 = model.colorMode;
-								if (_v4.$ === 'Dark') {
-									return $author$project$UIExplorer$Light;
-								} else {
-									return $author$project$UIExplorer$Dark;
-								}
-							}()
-						}),
-					$elm$core$Platform$Cmd$none);
+						{colorMode: colorMode}),
+					function () {
+						var _v4 = config.onModeChanged;
+						if (_v4.$ === 'Just') {
+							var f = _v4.a;
+							return f(colorMode);
+						} else {
+							return $elm$core$Platform$Cmd$none;
+						}
+					}());
 		}
 	});
 var $author$project$UIExplorer$darkTheme = {
@@ -10192,7 +10200,7 @@ var $author$project$UIExplorer$darkTheme = {
 	menu: {hoverBg: 'bg-white', hoverText: 'text-black', selectedBg: 'bg-grey-darkest', text: 'text-white'},
 	primaryBgColor: 'bg-black',
 	primaryTextColor: 'text-white',
-	sidebar: {background: 'bg-black', borderColor: 'border-grey-darkest'},
+	sidebar: {background: 'bg-black', borderColor: 'border-transparent'},
 	storyMenu: {border: 'border-grey-dark', hoverBg: 'bg-white', selectedBorder: 'border-white', selectedText: 'text-white', text: 'text-grey-dark'}
 };
 var $author$project$UIExplorer$lightTheme = {
@@ -10759,11 +10767,9 @@ var $author$project$UIExplorer$viewToggleDarkMode = F3(
 					$elm$html$Html$button,
 					_Utils_ap(
 						defaultColor,
-						_Utils_ap(
-							_List_fromArray(
-								[
-									$elm$html$Html$Events$onClick($author$project$UIExplorer$ColorModeToggled)
-								]),
+						A2(
+							$elm$core$List$cons,
+							$elm$html$Html$Events$onClick($author$project$UIExplorer$ColorModeToggled),
 							styles)),
 					_List_fromArray(
 						[
@@ -10847,11 +10853,9 @@ var $author$project$UIExplorer$viewToggleMobileMenu = F2(
 					$elm$html$Html$button,
 					_Utils_ap(
 						defaultColor,
-						_Utils_ap(
-							_List_fromArray(
-								[
-									$elm$html$Html$Events$onClick($author$project$UIExplorer$MobileMenuToggled)
-								]),
+						A2(
+							$elm$core$List$cons,
+							$elm$html$Html$Events$onClick($author$project$UIExplorer$MobileMenuToggled),
 							styles)),
 					_List_fromArray(
 						[
@@ -10994,13 +10998,11 @@ var $author$project$UIExplorer$viewHeader = F3(
 					[
 						A2(
 						$elm$html$Html$div,
-						_Utils_ap(
-							_List_fromArray(
-								[
-									$author$project$UIExplorer$toClassName(
-									_List_fromArray(
-										['bg-cover', 'cursor-default', 'logo']))
-								]),
+						A2(
+							$elm$core$List$cons,
+							$author$project$UIExplorer$toClassName(
+								_List_fromArray(
+									['bg-cover', 'cursor-default', 'logo'])),
 							function () {
 								if (colorMode.$ === 'Dark') {
 									return _List_Nil;
@@ -11226,7 +11228,7 @@ var $author$project$UIExplorer$viewMobileMenu = F2(
 							_Utils_Tuple2('md:uie-hidden', true),
 							_Utils_Tuple2('uie-z-50', true),
 							_Utils_Tuple2('uie-overflow-y-auto', true),
-							_Utils_Tuple2('uie-border-r', true),
+							_Utils_Tuple2('uie-border-r', false),
 							_Utils_Tuple2(theme.sidebar.borderColor, true)
 						])),
 					$elm$html$Html$Events$onClick($author$project$UIExplorer$MobileMenuToggled),
@@ -11292,7 +11294,7 @@ var $author$project$UIExplorer$exploreWithCategories = F2(
 	function (config, categories) {
 		return A2($author$project$UIExplorer$app, config, categories);
 	});
-var $author$project$Docs$principles = '\n# Design Principles\n\n\n- #### Classy;\n- #### Premium;\n- #### Quality;\n- #### Professional;\n- #### Simple.\n\n\n![Preview](https://www.jerome-kalumbu.com/sites/default/files/stylescape.jpg)\n\n\n\n\n';
+var $author$project$Docs$principles = '\n# Design Principles\n\n\n- #### Classy;\n- #### Premium;\n- #### Quality;\n- #### Professional;\n- #### Simple.\n\n\n![Preview](/stylescape.jpg)\n\n\n\n\n';
 var $author$project$UIExplorer$UIType = function (a) {
 	return {$: 'UIType', a: a};
 };

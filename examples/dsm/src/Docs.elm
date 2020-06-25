@@ -22,7 +22,7 @@ The system is composed of guidelines, components and code examples.
 
 
 
-![Preview](https://www.jerome-kalumbu.com/sites/default/files/logo-duo.jpg)
+![Preview](/logo-final.svg)
 
 
 """
@@ -41,7 +41,7 @@ principles =
 - #### Simple.
 
 
-![Preview](https://www.jerome-kalumbu.com/sites/default/files/stylescape.jpg)
+![Preview](/stylescape.jpg)
 
 
 
