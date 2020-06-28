@@ -9,7 +9,8 @@
     "elm-live": "^4.0.1"
   },
   "scripts": {
-    "build": "npm run build:app && npm run build:explorer && npm run build:explorer-with-notes && npm run build:explorer-with-locale && npm run build:explorer-with-knobs",
+    "pre-build": "mkdir -p ../../docs/examples/button && cp -r public/* ../../docs/examples/button",
+    "build": "npm run pre-build && npm run build:app && npm run build:explorer && npm run build:explorer-with-notes && npm run build:explorer-with-locale && npm run build:explorer-with-knobs",
     "build:app": "elm make Main.elm --output=../../docs/examples/button/app.js",
     "build:explorer": "elm make Explorer.elm --output=../../docs/examples/button/explorer/explorer.js",
     "build:explorer-with-notes": "elm make ExplorerWithNotes.elm --output=../../docs/examples/button/explorer-with-notes/explorer.js",
@@ -20,7 +21,6 @@
     "start:explorer-with-notes": "elm-live ExplorerWithNotes.elm --open --dir=public/explorer-with-notes --start-page=index.html -- --output=public/explorer-with-notes/explorer.js --debug",
     "start:explorer-with-locale": "elm-live ExplorerWithLocale.elm --open --dir=public/explorer-with-locale --start-page=index.html -- --output=public/explorer-with-locale/explorer.js --debug",
     "start:explorer-with-knobs": "elm-live ExplorerWithKnobs.elm --open --dir=public/explorer-with-knobs --start-page=index.html -- --output=public/explorer-with-knobs/explorer.js --debug"
-
   },
   "author": "",
   "license": "ISC"

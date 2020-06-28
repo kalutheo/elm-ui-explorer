@@ -9,3 +9,4 @@ elm-docs
 .DS_Store
 # Local Netlify folder
 .netlify
+docs
