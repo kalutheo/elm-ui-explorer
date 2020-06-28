@@ -98,6 +98,11 @@ jobs:
         run: |
           npx elm make ExplorerWithLocale.elm
 
+      - name: Build Button ExplorerWithKnobs Example
+        working-directory: examples/button/
+        run: |
+          npx elm make ExplorerWithKnobs.elm
+
   lint-dsm-examples:
     runs-on: ubuntu-latest
 
@@ -131,7 +136,7 @@ jobs:
         run: |
           npm ci
 
-      - name: Build Button Main Example
+      - name: Build Dsm Main Example
         working-directory: examples/dsm/
         run: |
           npx elm make src/Main.elm

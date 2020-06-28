@@ -31,6 +31,7 @@ import Html
 import Html.Attributes as Attr
 import Html.Events as Events
 import UIExplorer
+import UIExplorer.ColorMode exposing (ColorMode(..))
 
 
 {-| Messages triggered by the tab
@@ -64,13 +65,31 @@ update msg m =
 {-| display the tab with this function
 -}
 view :
-    { b | displayedTab : Int }
+    ColorMode
+    -> { b | displayedTab : Int }
     -> List ( String, Html.Html (UIExplorer.Msg a), Html.Html (UIExplorer.Msg a) )
     -> (Msg -> a)
     -> Html.Html (UIExplorer.Msg a)
-view tabs items onTabOpened =
-    Html.div [ Attr.class "uie-bg-grey-lightest uie-border uie-mt-8 uie-border-solid uie-border-grey-dark-light" ]
-        [ Html.nav [ Attr.class "uie-pl-8 uie-bg-white uie-p-2 uie-border-b uie-shadow uie-border-grey-light" ]
+view colorMode tabs items onTabOpened =
+    let
+        themeClassList =
+            case colorMode of
+                Light ->
+                    [ Attr.class "uie-bg-grey-lightest" ]
+
+                Dark ->
+                    [ Attr.class "uie-bg-black" ]
+
+        navClassList =
+            case colorMode of
+                Light ->
+                    [ Attr.class "uie-bg-white" ]
+
+                Dark ->
+                    [ Attr.class "uie-bg-black" ]
+    in
+    Html.div (themeClassList ++ [ Attr.class "uie-border uie-mt-8 uie-border-solid uie-border-grey-dark-light" ])
+        [ Html.nav (navClassList ++ [ Attr.class "uie-pl-8  uie-p-2 uie-border-b uie-shadow uie-border-grey-light" ])
             (List.indexedMap
                 (\index ( title, _, icon ) ->
                     let

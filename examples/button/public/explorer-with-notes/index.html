@@ -4,14 +4,18 @@
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <title>Elm UI Explorer - Button With Notes</title>
-  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.5.1/css/bulma.css">
+
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/4.0.0/github-markdown.min.css"> 
+
   <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/kalutheo/elm-ui-explorer@master/assets/styles.css">
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/highlight.min.js">
   </script>
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/languages/elm.min.js">
   </script>
-  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/styles/atelier-plateau-dark.min.css" >
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/styles/atelier-plateau-dark.min.css" > 
 
 </head>
 
@@ -20,6 +24,22 @@
   <script src="explorer.js"></script>
   <script type="text/javascript">
   var app = Elm.ExplorerWithNotes.init({ node: document.getElementById('root') });
+  app.ports.onModeChanged.subscribe(function(mode) {
+  const darkLink = document.getElementById("uie-dark-theme");
+  if (darkLink) {
+    darkLink.remove();
+  }
+  if (mode === "Dark") {
+    const link = document.createElement("link");
+    const head = document.getElementsByTagName("head")[0];
+    link.rel = "stylesheet";
+    link.href =
+      "https://cdn.rawgit.com/tylingsoft/markdown-plus-themes/0.0.3/dark/index.css";
+    link.id = "uie-dark-theme";
+    link.type = "text/css";
+    head.appendChild(link);
+  }
+});
 </script>
 </body>
 

@@ -14,6 +14,30 @@ This project is inspired by [React Storybook](https://storybook.js.org/) and sty
 
 ### How to use it ?
 
+
+### Quick Start 
+
+First install the cli.
+```
+npm install @kalutheo/uie
+```
+
+Then initialize your project.
+```
+uie init
+```
+
+To run your explorer:
+```
+npm run uie
+```
+Finally, you should be able to see your explorer by visiting `http://localhost:8000`
+
+
+
+
+### Manual Setup
+
 Here is a basic example of a button showcased in Elm UI Explorer:
 
 Add this to your `Main.elm` file.
@@ -56,22 +80,37 @@ Then in your Html add a link to the Elm UI Explorer stylesheet
 
 You can now run the `Main.elm` application with the tool of your choice.
 
-[Checkout more examples here](https://github.com/kalutheo/elm-ui-explorer/tree/master/examples)
 
-- Button Example [source](https://github.com/kalutheo/elm-ui-explorer/tree/master/examples/button)| [explorer demo](https://kalutheo.github.io/elm-ui-explorer/examples/button/explorer/index.html) |
-  [explorer with notes demo](https://kalutheo.github.io/elm-ui-explorer/examples/button/explorer-with-notes/index.html) | [explorer with locale demo](https://kalutheo.github.io/elm-ui-explorer/examples/button/explorer-with-locale/index.html) | [app demo](https://kalutheo.github.io/elm-ui-explorer/examples/button/index.html)
+### Examples
 
-- Design system [source](https://github.com/kalutheo/elm-ui-explorer/tree/master/examples/dsm/) | [explorer demo](https://kalutheo.github.io/elm-ui-explorer/examples/dsm/index.html)
+
+- [Simple](https://elm-ui-explorer.netlify.app/examples/button/explorer/#Default/Button/Primary) - The simplest example
+- [Notes & Code](https://elm-ui-explorer.netlify.app/examples/button/explorer-with-notes/#Default/Button/Primary) - How to add markdown and source code to your explorer
+
+
+- [Custom Menu](https://elm-ui-explorer.netlify.app/examples/button/explorer-with-notes/#Default/Button/Primary) - Advanced example with custom [MenuViewEnhancer](https://package.elm-lang.org/packages/kalutheo/elm-ui-explorer/latest/UIExplorer#MenuViewEnhancer)
+
+- [Knobs](https://elm-ui-explorer.netlify.app/examples/button/explorer-with-knobs/#Default/Button/WithKnobs) - How to make interactive stories 
+
+- [Design System](https://elm-ui-explorer.netlify.app/examples/dsm/#Getting%20Started/About/About) - A real world example of a Design System
+
+
+[Checkout all examples source code here](https://github.com/kalutheo/elm-ui-explorer/tree/master/examples)
 
 ### Main Features
 
-- **Deep linking :** You can easily share UI Explorer states by copying and pasting the url ( ex: attach them to your JIRA tickets, Pull Request etc... )
+- **Deep linking:** You can easily share UI Explorer states by copying and pasting the url ( ex: attach them to your JIRA tickets, Pull Request etc... )
 
-- **Categories :** Your UI Explorer can be divided into categories. Convenient if you have many views and you want to group them by family.
+- **Categories:** Your UI Explorer can be divided into categories. Convenient if you have many views and you want to group them by family.
 
-* **Plugins :** Elm UI Explorer has a mechanism that let you extend the tool by creating your own plugins. By defaults the library comes with [built in plugins](https://github.com/kalutheo/elm-ui-explorer/tree/master/src/UIExplorer/Plugins).
+* **Plugins:** Elm UI Explorer has a mechanism that let you extend the tool by creating your own plugins. By defaults the library comes with [built in plugins](https://github.com/kalutheo/elm-ui-explorer/tree/master/src/UIExplorer/Plugins).
 
-- **Customization :** You can make the header match your brand identity by changing colors, title and icons.
+- **Customization:** You can make the header match your brand identity by changing colors, title and icons.
+
+
+- **Responsivness:** The explorer navigation is adapted for devices with small screens.
+
+- **Dark mode:** For aesthetic purposes, Dark mode can be enabled with one click.
 
 ### Best Practices
 

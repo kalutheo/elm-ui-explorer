@@ -5043,7 +5043,7 @@ var $elm$core$Basics$GT = {$: 'GT'};
 var $elm$core$Basics$LT = {$: 'LT'};
 var $elm$core$Basics$False = {$: 'False'};
 var $elm$core$Basics$True = {$: 'True'};
-var $author$project$Docs$about = '\n# About Tasty\n\n*"Le grec parisien"* is a brand created by two French nationals, Joseph (the CEO) and Yannick, (the co-founder), for a Kebab restaurant in Montreal.\n\n**Tasty** is the name of the Design System for digital products and experiences around the restaurant.\nThe system is composed of guidelines, components and code examples.\n\n\n\n![Preview](https://www.jerome-kalumbu.com/sites/default/files/logo-duo.jpg)\n\n\n';
+var $author$project$Docs$about = '\n# About Tasty\n\n*"Le grec parisien"* is a brand created by two French nationals, Joseph (the CEO) and Yannick, (the co-founder), for a Kebab restaurant in Montreal.\n\n**Tasty** is the name of the Design System for digital products and experiences around the restaurant.\nThe system is composed of guidelines, components and code examples.\n\n\n\n![Preview](logo-final.svg)\n\n\n';
 var $elm$core$Basics$apR = F2(
 	function (x, f) {
 		return f(x);
@@ -5524,18 +5524,19 @@ var $author$project$UIExplorer$defaultConfig = {
 	customHeader: $elm$core$Maybe$Nothing,
 	customModel: {},
 	menuViewEnhancer: F2(
-		function (m, v) {
+		function (_v0, v) {
 			return v;
 		}),
-	subscriptions: function (m) {
+	onModeChanged: $elm$core$Maybe$Nothing,
+	subscriptions: function (_v1) {
 		return $elm$core$Platform$Sub$none;
 	},
 	update: F2(
-		function (msg, m) {
+		function (_v2, m) {
 			return _Utils_Tuple2(m, $elm$core$Platform$Cmd$none);
 		}),
 	viewEnhancer: F2(
-		function (m, stories) {
+		function (_v3, stories) {
 			return stories;
 		})
 };
@@ -5617,21 +5618,22 @@ var $author$project$UIExplorer$findStory = F3(
 								$elm$core$List$map,
 								function (_v0) {
 									var _v1 = _v0.a;
-									var a = _v1.a;
 									var b = _v1.b;
 									return b;
 								},
 								categories))))));
 		return $elm$core$List$head(foundStory);
 	});
-var $author$project$UIExplorer$join = function (mx) {
-	if (mx.$ === 'Just') {
-		var x = mx.a;
-		return x;
-	} else {
-		return $elm$core$Maybe$Nothing;
-	}
-};
+var $elm$core$Maybe$andThen = F2(
+	function (callback, maybeValue) {
+		if (maybeValue.$ === 'Just') {
+			var value = maybeValue.a;
+			return callback(value);
+		} else {
+			return $elm$core$Maybe$Nothing;
+		}
+	});
+var $author$project$UIExplorer$join = $elm$core$Maybe$andThen($elm$core$Basics$identity);
 var $elm$core$Maybe$map = F2(
 	function (f, maybe) {
 		if (maybe.$ === 'Just') {
@@ -5722,10 +5724,10 @@ var $author$project$Main$config = _Utils_update(
 	{
 		customHeader: $elm$core$Maybe$Just(
 			{
-				bgColor: $elm$core$Maybe$Nothing,
+				bgColor: $elm$core$Maybe$Just('#22292f'),
 				logo: $author$project$UIExplorer$logoFromUrl('grec-logo-header.png'),
 				title: 'Tasty Design System',
-				titleColor: $elm$core$Maybe$Nothing
+				titleColor: $elm$core$Maybe$Just('#FFFFFF')
 			}),
 		menuViewEnhancer: $author$project$UIExplorer$Plugins$MenuVisibility$menuViewEnhancer
 	});
@@ -9910,6 +9912,7 @@ var $elm$core$Basics$never = function (_v0) {
 	}
 };
 var $elm$browser$Browser$application = _Browser_application;
+var $author$project$UIExplorer$ColorMode$Light = {$: 'Light'};
 var $author$project$UIExplorer$getDefaultUrlFromCategories = function (categories) {
 	return A2(
 		$elm$core$Maybe$withDefault,
@@ -10028,7 +10031,7 @@ var $elm$core$Maybe$map3 = F4(
 	});
 var $elm$browser$Browser$Navigation$pushUrl = _Browser_pushUrl;
 var $author$project$UIExplorer$init = F5(
-	function (customModel, categories, flags, url, key) {
+	function (customModel, categories, _v0, url, key) {
 		var selectedUIId = $author$project$UIExplorer$getSelectedUIfromPath(url);
 		var selectedStoryId = $author$project$UIExplorer$getSelectedStoryfromPath(url);
 		var selectedCategory = $author$project$UIExplorer$getSelectedCategoryfromPath(url);
@@ -10045,9 +10048,10 @@ var $author$project$UIExplorer$init = F5(
 				selectedUIId,
 				selectedStoryId));
 		return _Utils_Tuple2(
-			{categories: categories, customModel: customModel, key: key, selectedCategory: selectedCategory, selectedStoryId: selectedStoryId, selectedUIId: selectedUIId, url: url},
+			{categories: categories, colorMode: $author$project$UIExplorer$ColorMode$Light, customModel: customModel, key: key, mobileMenuIsOpen: false, selectedCategory: selectedCategory, selectedStoryId: selectedStoryId, selectedUIId: selectedUIId, url: url},
 			A2($elm$browser$Browser$Navigation$pushUrl, key, firstUrl));
 	});
+var $author$project$UIExplorer$ColorMode$Dark = {$: 'Dark'};
 var $elm$browser$Browser$Navigation$load = _Browser_load;
 var $author$project$UIExplorer$makeStoryUrl = F2(
 	function (model, storyId) {
@@ -10144,7 +10148,7 @@ var $author$project$UIExplorer$update = F3(
 							url: location
 						}),
 					$elm$core$Platform$Cmd$none);
-			default:
+			case 'LinkClicked':
 				var urlRequest = msg.a;
 				if (urlRequest.$ === 'Internal') {
 					var url = urlRequest.a;
@@ -10160,8 +10164,61 @@ var $author$project$UIExplorer$update = F3(
 						model,
 						$elm$browser$Browser$Navigation$load(href));
 				}
+			case 'MobileMenuToggled':
+				return _Utils_Tuple2(
+					_Utils_update(
+						model,
+						{mobileMenuIsOpen: !model.mobileMenuIsOpen}),
+					$elm$core$Platform$Cmd$none);
+			default:
+				var colorMode = function () {
+					var _v5 = model.colorMode;
+					if (_v5.$ === 'Dark') {
+						return $author$project$UIExplorer$ColorMode$Light;
+					} else {
+						return $author$project$UIExplorer$ColorMode$Dark;
+					}
+				}();
+				return _Utils_Tuple2(
+					_Utils_update(
+						model,
+						{colorMode: colorMode}),
+					function () {
+						var _v4 = config.onModeChanged;
+						if (_v4.$ === 'Just') {
+							var f = _v4.a;
+							return f(colorMode);
+						} else {
+							return $elm$core$Platform$Cmd$none;
+						}
+					}());
 		}
 	});
+var $author$project$UIExplorer$darkTheme = {
+	headerColor: 'bg-black',
+	iconColor: 'text-white',
+	menu: {hoverBg: 'bg-white', hoverText: 'text-black', selectedBg: 'bg-grey-darkest', text: 'text-white'},
+	primaryBgColor: 'bg-black',
+	primaryTextColor: 'text-white',
+	sidebar: {background: 'bg-black', borderColor: 'border-transparent'},
+	storyMenu: {border: 'border-grey-dark', hoverBg: 'bg-white', selectedBorder: 'border-white', selectedText: 'text-white', text: 'text-grey-dark'}
+};
+var $author$project$UIExplorer$lightTheme = {
+	headerColor: 'bg-white',
+	iconColor: 'text-black',
+	menu: {hoverBg: 'bg-grey-lighter', hoverText: 'text-black', selectedBg: 'bg-grey-light', text: 'text-black'},
+	primaryBgColor: 'bg-white',
+	primaryTextColor: 'text-grey-darker',
+	sidebar: {background: 'bg-white', borderColor: 'border-transparent'},
+	storyMenu: {border: 'border-grey', hoverBg: 'bg-grey-lighter', selectedBorder: 'border-black', selectedText: 'text-black', text: 'text-grey'}
+};
+var $author$project$UIExplorer$getTheme = function (colorMode) {
+	if (colorMode.$ === 'Dark') {
+		return $author$project$UIExplorer$darkTheme;
+	} else {
+		return $author$project$UIExplorer$lightTheme;
+	}
+};
 var $author$project$UIExplorer$oneQuarter = 'w-1/4';
 var $author$project$UIExplorer$toClassName = function (list) {
 	return $elm$html$Html$Attributes$class(
@@ -10191,7 +10248,6 @@ var $author$project$UIExplorer$filterSelectedUI = F2(
 	});
 var $author$project$UIExplorer$getUIListFromCategories = function (_v0) {
 	var _v1 = _v0.a;
-	var title = _v1.a;
 	var categories = _v1.b;
 	return categories;
 };
@@ -10211,11 +10267,12 @@ var $elm$html$Html$Attributes$classList = function (classes) {
 var $author$project$UIExplorer$hover = function (className) {
 	return 'hover:uie-' + className;
 };
-var $author$project$UIExplorer$renderStory = F3(
-	function (index, _v0, _v1) {
-		var selectedStoryId = _v0.selectedStoryId;
-		var id = _v1.a;
-		var state = _v1.b;
+var $author$project$UIExplorer$renderStory = F4(
+	function (_v0, index, _v1, _v2) {
+		var storyMenu = _v0.storyMenu;
+		var primaryBgColor = _v0.primaryBgColor;
+		var selectedStoryId = _v1.selectedStoryId;
+		var id = _v2.a;
 		var isActive = A2(
 			$elm$core$Maybe$withDefault,
 			!index,
@@ -10229,17 +10286,17 @@ var $author$project$UIExplorer$renderStory = F3(
 			$elm$core$List$append,
 			defaultLiClass,
 			_List_fromArray(
-				['border', 'border-black', 'text-black', 'cursor-default'])) : A2(
+				['border', storyMenu.selectedBorder, storyMenu.selectedText, 'cursor-default', 'active'])) : A2(
 			$elm$core$List$append,
 			defaultLiClass,
 			_List_fromArray(
 				[
 					'border',
-					'border-grey',
-					'bg-white',
-					'text-grey',
+					storyMenu.border,
+					primaryBgColor,
+					storyMenu.text,
 					'cursor-pointer',
-					$author$project$UIExplorer$hover('bg-grey-lighter')
+					$author$project$UIExplorer$hover(storyMenu.hoverBg)
 				]));
 		var buttonClass = $elm$html$Html$Attributes$classList(
 			_List_fromArray(
@@ -10263,6 +10320,7 @@ var $author$project$UIExplorer$renderStory = F3(
 	});
 var $author$project$UIExplorer$renderStories = F4(
 	function (config, stories, viewConfig, model) {
+		var theme = $author$project$UIExplorer$getTheme(model.colorMode);
 		var menu = A2(
 			config.menuViewEnhancer,
 			model,
@@ -10272,12 +10330,12 @@ var $author$project$UIExplorer$renderStories = F4(
 					[
 						$author$project$UIExplorer$toClassName(
 						_List_fromArray(
-							['list-reset', 'flex', 'mb-4']))
+							['flex-wrap', 'list-reset', 'flex', 'mb-4']))
 					]),
 				A2(
 					$elm$core$List$indexedMap,
 					function (index) {
-						return A2($author$project$UIExplorer$renderStory, index, viewConfig);
+						return A3($author$project$UIExplorer$renderStory, theme, index, viewConfig);
 					},
 					stories)));
 		var _v0 = viewConfig;
@@ -10289,7 +10347,6 @@ var $author$project$UIExplorer$renderStories = F4(
 					$elm$core$List$filter,
 					function (_v4) {
 						var id = _v4.a;
-						var state = _v4.b;
 						return _Utils_eq(id, selectedId);
 					},
 					stories);
@@ -10301,7 +10358,6 @@ var $author$project$UIExplorer$renderStories = F4(
 			var _v1 = $elm$core$List$head(currentStories);
 			if (_v1.$ === 'Just') {
 				var _v2 = _v1.a;
-				var id = _v2.a;
 				var story = _v2.b;
 				return A2(
 					$elm$html$Html$map,
@@ -10327,6 +10383,7 @@ var $author$project$UIExplorer$renderStories = F4(
 var $author$project$UIExplorer$viewContent = F2(
 	function (config, model) {
 		var viewConfig = {selectedStoryId: model.selectedStoryId, selectedUIId: model.selectedUIId};
+		var theme = $author$project$UIExplorer$getTheme(model.colorMode);
 		var filteredUIs = A2(
 			$elm$core$List$filter,
 			function (ui) {
@@ -10375,7 +10432,7 @@ var $author$project$UIExplorer$viewContent = F2(
 									[
 										$author$project$UIExplorer$toClassName(
 										_List_fromArray(
-											['text-lg', 'flex', 'text-grey-darker']))
+											['text-lg', 'flex', theme.primaryTextColor]))
 									]),
 								_List_fromArray(
 									[
@@ -10411,12 +10468,9 @@ var $author$project$UIExplorer$viewContent = F2(
 						filteredUIs))
 				]));
 	});
-var $author$project$UIExplorer$colors = {
-	bg: {primary: 'bg-black'}
-};
 var $elm$html$Html$h3 = _VirtualDom_node('h3');
+var $elm$html$Html$header = _VirtualDom_node('header');
 var $elm$html$Html$img = _VirtualDom_node('img');
-var $elm$html$Html$section = _VirtualDom_node('section');
 var $elm$html$Html$Attributes$src = function (url) {
 	return A2(
 		$elm$html$Html$Attributes$stringProperty,
@@ -10433,157 +10487,568 @@ var $author$project$UIExplorer$styleHeader = {
 	title: _List_fromArray(
 		['font-normal', 'text-3xl', 'text-black'])
 };
-var $author$project$UIExplorer$viewHeader = function (customHeader) {
-	if (customHeader.$ === 'Just') {
-		var title = customHeader.a.title;
-		var logo = customHeader.a.logo;
-		var titleColor = customHeader.a.titleColor;
-		var bgColor = customHeader.a.bgColor;
-		var titleStyles = A2(
-			$elm$core$Maybe$withDefault,
-			_List_Nil,
+var $author$project$UIExplorer$ColorModeToggled = {$: 'ColorModeToggled'};
+var $elm$svg$Svg$Attributes$class = _VirtualDom_attribute('class');
+var $elm$svg$Svg$Attributes$d = _VirtualDom_attribute('d');
+var $elm$svg$Svg$Attributes$fill = _VirtualDom_attribute('fill');
+var $elm$svg$Svg$Attributes$height = _VirtualDom_attribute('height');
+var $1602$elm_feather$FeatherIcons$Icon = function (a) {
+	return {$: 'Icon', a: a};
+};
+var $1602$elm_feather$FeatherIcons$defaultAttributes = function (name) {
+	return {
+		_class: $elm$core$Maybe$Just('feather feather-' + name),
+		size: 24,
+		sizeUnit: '',
+		strokeWidth: 2,
+		viewBox: '0 0 24 24'
+	};
+};
+var $1602$elm_feather$FeatherIcons$makeBuilder = F2(
+	function (name, src) {
+		return $1602$elm_feather$FeatherIcons$Icon(
+			{
+				attrs: $1602$elm_feather$FeatherIcons$defaultAttributes(name),
+				src: src
+			});
+	});
+var $elm$svg$Svg$trustedNode = _VirtualDom_nodeNS('http://www.w3.org/2000/svg');
+var $elm$svg$Svg$path = $elm$svg$Svg$trustedNode('path');
+var $elm$svg$Svg$Attributes$stroke = _VirtualDom_attribute('stroke');
+var $elm$svg$Svg$Attributes$strokeLinecap = _VirtualDom_attribute('stroke-linecap');
+var $elm$svg$Svg$Attributes$strokeLinejoin = _VirtualDom_attribute('stroke-linejoin');
+var $elm$svg$Svg$Attributes$strokeWidth = _VirtualDom_attribute('stroke-width');
+var $elm$svg$Svg$svg = $elm$svg$Svg$trustedNode('svg');
+var $elm$svg$Svg$Attributes$viewBox = _VirtualDom_attribute('viewBox');
+var $elm$svg$Svg$Attributes$width = _VirtualDom_attribute('width');
+var $elm$virtual_dom$VirtualDom$property = F2(
+	function (key, value) {
+		return A2(
+			_VirtualDom_property,
+			_VirtualDom_noInnerHtmlOrFormAction(key),
+			_VirtualDom_noJavaScriptOrHtmlUri(value));
+	});
+var $1602$elm_feather$FeatherIcons$xmlns = function (s) {
+	return A2(
+		$elm$virtual_dom$VirtualDom$property,
+		'xmlns',
+		$elm$json$Json$Encode$string(s));
+};
+var $1602$elm_feather$FeatherIcons$moon = A2(
+	$1602$elm_feather$FeatherIcons$makeBuilder,
+	'moon',
+	_List_fromArray(
+		[
 			A2(
-				$elm$core$Maybe$map,
-				function (c) {
-					return _List_fromArray(
-						[
-							A2($elm$html$Html$Attributes$style, 'color', c)
-						]);
-				},
-				titleColor));
-		var heightStyle = A2($elm$html$Html$Attributes$style, 'height', '80px');
-		var viewLogo = function () {
-			if (logo.a.$ === 'FromUrl') {
-				var logoUrl = logo.a.a;
-				return A2(
-					$elm$html$Html$img,
+			$elm$svg$Svg$svg,
+			_List_fromArray(
+				[
+					$1602$elm_feather$FeatherIcons$xmlns('http://www.w3.org/2000/svg'),
+					$elm$svg$Svg$Attributes$width('24'),
+					$elm$svg$Svg$Attributes$height('24'),
+					$elm$svg$Svg$Attributes$viewBox('0 0 24 24'),
+					$elm$svg$Svg$Attributes$fill('none'),
+					$elm$svg$Svg$Attributes$stroke('currentColor'),
+					$elm$svg$Svg$Attributes$strokeWidth('2'),
+					$elm$svg$Svg$Attributes$strokeLinecap('round'),
+					$elm$svg$Svg$Attributes$strokeLinejoin('round'),
+					$elm$svg$Svg$Attributes$class('feather feather-moon')
+				]),
+			_List_fromArray(
+				[
+					A2(
+					$elm$svg$Svg$path,
 					_List_fromArray(
 						[
-							$elm$html$Html$Attributes$src(logoUrl),
-							heightStyle
+							$elm$svg$Svg$Attributes$d('M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z')
 						]),
-					_List_Nil);
+					_List_Nil)
+				]))
+		]));
+var $elm$svg$Svg$circle = $elm$svg$Svg$trustedNode('circle');
+var $elm$svg$Svg$Attributes$cx = _VirtualDom_attribute('cx');
+var $elm$svg$Svg$Attributes$cy = _VirtualDom_attribute('cy');
+var $elm$svg$Svg$line = $elm$svg$Svg$trustedNode('line');
+var $elm$svg$Svg$Attributes$r = _VirtualDom_attribute('r');
+var $elm$svg$Svg$Attributes$x1 = _VirtualDom_attribute('x1');
+var $elm$svg$Svg$Attributes$x2 = _VirtualDom_attribute('x2');
+var $elm$svg$Svg$Attributes$y1 = _VirtualDom_attribute('y1');
+var $elm$svg$Svg$Attributes$y2 = _VirtualDom_attribute('y2');
+var $1602$elm_feather$FeatherIcons$sun = A2(
+	$1602$elm_feather$FeatherIcons$makeBuilder,
+	'sun',
+	_List_fromArray(
+		[
+			A2(
+			$elm$svg$Svg$svg,
+			_List_fromArray(
+				[
+					$1602$elm_feather$FeatherIcons$xmlns('http://www.w3.org/2000/svg'),
+					$elm$svg$Svg$Attributes$width('24'),
+					$elm$svg$Svg$Attributes$height('24'),
+					$elm$svg$Svg$Attributes$viewBox('0 0 24 24'),
+					$elm$svg$Svg$Attributes$fill('none'),
+					$elm$svg$Svg$Attributes$stroke('currentColor'),
+					$elm$svg$Svg$Attributes$strokeWidth('2'),
+					$elm$svg$Svg$Attributes$strokeLinecap('round'),
+					$elm$svg$Svg$Attributes$strokeLinejoin('round'),
+					$elm$svg$Svg$Attributes$class('feather feather-sun')
+				]),
+			_List_fromArray(
+				[
+					A2(
+					$elm$svg$Svg$circle,
+					_List_fromArray(
+						[
+							$elm$svg$Svg$Attributes$cx('12'),
+							$elm$svg$Svg$Attributes$cy('12'),
+							$elm$svg$Svg$Attributes$r('5')
+						]),
+					_List_Nil),
+					A2(
+					$elm$svg$Svg$line,
+					_List_fromArray(
+						[
+							$elm$svg$Svg$Attributes$x1('12'),
+							$elm$svg$Svg$Attributes$y1('1'),
+							$elm$svg$Svg$Attributes$x2('12'),
+							$elm$svg$Svg$Attributes$y2('3')
+						]),
+					_List_Nil),
+					A2(
+					$elm$svg$Svg$line,
+					_List_fromArray(
+						[
+							$elm$svg$Svg$Attributes$x1('12'),
+							$elm$svg$Svg$Attributes$y1('21'),
+							$elm$svg$Svg$Attributes$x2('12'),
+							$elm$svg$Svg$Attributes$y2('23')
+						]),
+					_List_Nil),
+					A2(
+					$elm$svg$Svg$line,
+					_List_fromArray(
+						[
+							$elm$svg$Svg$Attributes$x1('4.22'),
+							$elm$svg$Svg$Attributes$y1('4.22'),
+							$elm$svg$Svg$Attributes$x2('5.64'),
+							$elm$svg$Svg$Attributes$y2('5.64')
+						]),
+					_List_Nil),
+					A2(
+					$elm$svg$Svg$line,
+					_List_fromArray(
+						[
+							$elm$svg$Svg$Attributes$x1('18.36'),
+							$elm$svg$Svg$Attributes$y1('18.36'),
+							$elm$svg$Svg$Attributes$x2('19.78'),
+							$elm$svg$Svg$Attributes$y2('19.78')
+						]),
+					_List_Nil),
+					A2(
+					$elm$svg$Svg$line,
+					_List_fromArray(
+						[
+							$elm$svg$Svg$Attributes$x1('1'),
+							$elm$svg$Svg$Attributes$y1('12'),
+							$elm$svg$Svg$Attributes$x2('3'),
+							$elm$svg$Svg$Attributes$y2('12')
+						]),
+					_List_Nil),
+					A2(
+					$elm$svg$Svg$line,
+					_List_fromArray(
+						[
+							$elm$svg$Svg$Attributes$x1('21'),
+							$elm$svg$Svg$Attributes$y1('12'),
+							$elm$svg$Svg$Attributes$x2('23'),
+							$elm$svg$Svg$Attributes$y2('12')
+						]),
+					_List_Nil),
+					A2(
+					$elm$svg$Svg$line,
+					_List_fromArray(
+						[
+							$elm$svg$Svg$Attributes$x1('4.22'),
+							$elm$svg$Svg$Attributes$y1('19.78'),
+							$elm$svg$Svg$Attributes$x2('5.64'),
+							$elm$svg$Svg$Attributes$y2('18.36')
+						]),
+					_List_Nil),
+					A2(
+					$elm$svg$Svg$line,
+					_List_fromArray(
+						[
+							$elm$svg$Svg$Attributes$x1('18.36'),
+							$elm$svg$Svg$Attributes$y1('5.64'),
+							$elm$svg$Svg$Attributes$x2('19.78'),
+							$elm$svg$Svg$Attributes$y2('4.22')
+						]),
+					_List_Nil)
+				]))
+		]));
+var $elm$core$String$fromFloat = _String_fromNumber;
+var $elm$svg$Svg$map = $elm$virtual_dom$VirtualDom$map;
+var $1602$elm_feather$FeatherIcons$toHtml = F2(
+	function (attributes, _v0) {
+		var src = _v0.a.src;
+		var attrs = _v0.a.attrs;
+		var strSize = $elm$core$String$fromFloat(attrs.size);
+		var baseAttributes = _List_fromArray(
+			[
+				$elm$svg$Svg$Attributes$fill('none'),
+				$elm$svg$Svg$Attributes$height(
+				_Utils_ap(strSize, attrs.sizeUnit)),
+				$elm$svg$Svg$Attributes$width(
+				_Utils_ap(strSize, attrs.sizeUnit)),
+				$elm$svg$Svg$Attributes$stroke('currentColor'),
+				$elm$svg$Svg$Attributes$strokeLinecap('round'),
+				$elm$svg$Svg$Attributes$strokeLinejoin('round'),
+				$elm$svg$Svg$Attributes$strokeWidth(
+				$elm$core$String$fromFloat(attrs.strokeWidth)),
+				$elm$svg$Svg$Attributes$viewBox(attrs.viewBox)
+			]);
+		var combinedAttributes = _Utils_ap(
+			function () {
+				var _v1 = attrs._class;
+				if (_v1.$ === 'Just') {
+					var c = _v1.a;
+					return A2(
+						$elm$core$List$cons,
+						$elm$svg$Svg$Attributes$class(c),
+						baseAttributes);
+				} else {
+					return baseAttributes;
+				}
+			}(),
+			attributes);
+		return A2(
+			$elm$svg$Svg$svg,
+			combinedAttributes,
+			A2(
+				$elm$core$List$map,
+				$elm$svg$Svg$map($elm$core$Basics$never),
+				src));
+	});
+var $1602$elm_feather$FeatherIcons$withSize = F2(
+	function (size, _v0) {
+		var attrs = _v0.a.attrs;
+		var src = _v0.a.src;
+		return $1602$elm_feather$FeatherIcons$Icon(
+			{
+				attrs: _Utils_update(
+					attrs,
+					{size: size}),
+				src: src
+			});
+	});
+var $author$project$UIExplorer$viewToggleDarkMode = F3(
+	function (colorMode, theme, styles) {
+		var icon = function () {
+			if (colorMode.$ === 'Dark') {
+				return $1602$elm_feather$FeatherIcons$sun;
 			} else {
-				var viewCustom = logo.a.a;
-				return viewCustom;
+				return $1602$elm_feather$FeatherIcons$moon;
 			}
 		}();
-		var headerStyles = A2(
-			$elm$core$Maybe$withDefault,
-			_List_fromArray(
-				[
-					$author$project$UIExplorer$toClassName(
-					_List_fromArray(
-						[$author$project$UIExplorer$colors.bg.primary]))
-				]),
-			A2(
-				$elm$core$Maybe$map,
-				function (c) {
-					return _List_fromArray(
-						[
-							A2($elm$html$Html$Attributes$style, 'background-color', c)
-						]);
-				},
-				bgColor));
+		var defaultColor = (!$elm$core$List$length(styles)) ? _List_fromArray(
+			[
+				$elm$html$Html$Attributes$class('uie-' + theme.iconColor)
+			]) : _List_Nil;
 		return A2(
-			$elm$html$Html$section,
-			A2(
-				$elm$core$List$append,
-				headerStyles,
-				_List_fromArray(
-					[
-						$author$project$UIExplorer$toClassName($author$project$UIExplorer$styleHeader.header),
-						heightStyle
-					])),
+			$elm$html$Html$div,
 			_List_fromArray(
 				[
-					viewLogo,
+					$elm$html$Html$Attributes$class('uie-flex uie-flex-1 uie-flex-col uie-justify-center  uie-items-end uie-mr-4')
+				]),
+			_List_fromArray(
+				[
 					A2(
-					$elm$html$Html$div,
-					_List_fromArray(
-						[
-							$author$project$UIExplorer$toClassName(
-							_List_fromArray(
-								['flex', 'flex-col', 'justify-center'])),
-							heightStyle
-						]),
+					$elm$html$Html$button,
+					_Utils_ap(
+						defaultColor,
+						A2(
+							$elm$core$List$cons,
+							$elm$html$Html$Events$onClick($author$project$UIExplorer$ColorModeToggled),
+							styles)),
 					_List_fromArray(
 						[
 							A2(
-							$elm$html$Html$h3,
-							A2(
-								$elm$core$List$append,
-								titleStyles,
-								_List_fromArray(
-									[
-										$author$project$UIExplorer$toClassName(
-										_List_fromArray(
-											['ml-4']))
-									])),
-							_List_fromArray(
-								[
-									$elm$html$Html$text(title)
-								]))
+							$1602$elm_feather$FeatherIcons$toHtml,
+							_List_Nil,
+							A2($1602$elm_feather$FeatherIcons$withSize, 22, icon))
 						]))
 				]));
-	} else {
-		var heightStyle = A2($elm$html$Html$Attributes$style, 'height', '86px');
-		return A2(
-			$elm$html$Html$section,
+	});
+var $author$project$UIExplorer$MobileMenuToggled = {$: 'MobileMenuToggled'};
+var $1602$elm_feather$FeatherIcons$menu = A2(
+	$1602$elm_feather$FeatherIcons$makeBuilder,
+	'menu',
+	_List_fromArray(
+		[
 			A2(
-				$elm$core$List$append,
+			$elm$svg$Svg$svg,
+			_List_fromArray(
+				[
+					$1602$elm_feather$FeatherIcons$xmlns('http://www.w3.org/2000/svg'),
+					$elm$svg$Svg$Attributes$width('24'),
+					$elm$svg$Svg$Attributes$height('24'),
+					$elm$svg$Svg$Attributes$viewBox('0 0 24 24'),
+					$elm$svg$Svg$Attributes$fill('none'),
+					$elm$svg$Svg$Attributes$stroke('currentColor'),
+					$elm$svg$Svg$Attributes$strokeWidth('2'),
+					$elm$svg$Svg$Attributes$strokeLinecap('round'),
+					$elm$svg$Svg$Attributes$strokeLinejoin('round'),
+					$elm$svg$Svg$Attributes$class('feather feather-menu')
+				]),
+			_List_fromArray(
+				[
+					A2(
+					$elm$svg$Svg$line,
+					_List_fromArray(
+						[
+							$elm$svg$Svg$Attributes$x1('3'),
+							$elm$svg$Svg$Attributes$y1('12'),
+							$elm$svg$Svg$Attributes$x2('21'),
+							$elm$svg$Svg$Attributes$y2('12')
+						]),
+					_List_Nil),
+					A2(
+					$elm$svg$Svg$line,
+					_List_fromArray(
+						[
+							$elm$svg$Svg$Attributes$x1('3'),
+							$elm$svg$Svg$Attributes$y1('6'),
+							$elm$svg$Svg$Attributes$x2('21'),
+							$elm$svg$Svg$Attributes$y2('6')
+						]),
+					_List_Nil),
+					A2(
+					$elm$svg$Svg$line,
+					_List_fromArray(
+						[
+							$elm$svg$Svg$Attributes$x1('3'),
+							$elm$svg$Svg$Attributes$y1('18'),
+							$elm$svg$Svg$Attributes$x2('21'),
+							$elm$svg$Svg$Attributes$y2('18')
+						]),
+					_List_Nil)
+				]))
+		]));
+var $author$project$UIExplorer$viewToggleMobileMenu = F2(
+	function (theme, styles) {
+		var defaultColor = (!$elm$core$List$length(styles)) ? _List_fromArray(
+			[
+				$elm$html$Html$Attributes$class('uie-' + theme.iconColor)
+			]) : _List_Nil;
+		return A2(
+			$elm$html$Html$div,
+			_List_fromArray(
+				[
+					$elm$html$Html$Attributes$class('uie-block md:uie-hidden uie-flex uie-flex-col uie-justify-center uie-items-end uie-mr-4')
+				]),
+			_List_fromArray(
+				[
+					A2(
+					$elm$html$Html$button,
+					_Utils_ap(
+						defaultColor,
+						A2(
+							$elm$core$List$cons,
+							$elm$html$Html$Events$onClick($author$project$UIExplorer$MobileMenuToggled),
+							styles)),
+					_List_fromArray(
+						[
+							A2(
+							$1602$elm_feather$FeatherIcons$toHtml,
+							_List_Nil,
+							A2($1602$elm_feather$FeatherIcons$withSize, 22, $1602$elm_feather$FeatherIcons$menu))
+						]))
+				]));
+	});
+var $author$project$UIExplorer$viewActionButtons = F3(
+	function (colorMode, theme, titleStyles) {
+		return A2(
+			$elm$html$Html$div,
+			_List_fromArray(
+				[
+					$elm$html$Html$Attributes$class('uie-flex  uie-flex-1')
+				]),
+			_List_fromArray(
+				[
+					A3($author$project$UIExplorer$viewToggleDarkMode, colorMode, theme, titleStyles),
+					A2($author$project$UIExplorer$viewToggleMobileMenu, theme, titleStyles)
+				]));
+	});
+var $author$project$UIExplorer$viewHeader = F3(
+	function (colorMode, theme, customHeader) {
+		if (customHeader.$ === 'Just') {
+			var title = customHeader.a.title;
+			var logo = customHeader.a.logo;
+			var titleColor = customHeader.a.titleColor;
+			var bgColor = customHeader.a.bgColor;
+			var titleStyles = A2(
+				$elm$core$Maybe$withDefault,
+				_List_Nil,
+				A2(
+					$elm$core$Maybe$map,
+					function (c) {
+						return _List_fromArray(
+							[
+								A2($elm$html$Html$Attributes$style, 'color', c)
+							]);
+					},
+					titleColor));
+			var heightStyle = A2($elm$html$Html$Attributes$style, 'height', '80px');
+			var viewLogo = function () {
+				if (logo.a.$ === 'FromUrl') {
+					var logoUrl = logo.a.a;
+					return A2(
+						$elm$html$Html$img,
+						_List_fromArray(
+							[
+								$elm$html$Html$Attributes$src(logoUrl),
+								heightStyle
+							]),
+						_List_Nil);
+				} else {
+					var viewCustom = logo.a.a;
+					return viewCustom;
+				}
+			}();
+			var headerStyles = A2(
+				$elm$core$Maybe$withDefault,
 				_List_fromArray(
 					[
 						$author$project$UIExplorer$toClassName(
 						_List_fromArray(
-							[$author$project$UIExplorer$colors.bg.primary, 'pb-3']))
+							[theme.headerColor]))
 					]),
+				A2(
+					$elm$core$Maybe$map,
+					function (c) {
+						return _List_fromArray(
+							[
+								A2($elm$html$Html$Attributes$style, 'background-color', c)
+							]);
+					},
+					bgColor));
+			return A2(
+				$elm$html$Html$header,
+				A2(
+					$elm$core$List$append,
+					headerStyles,
+					_List_fromArray(
+						[
+							$author$project$UIExplorer$toClassName($author$project$UIExplorer$styleHeader.header),
+							heightStyle
+						])),
 				_List_fromArray(
 					[
-						$author$project$UIExplorer$toClassName($author$project$UIExplorer$styleHeader.header),
-						heightStyle
-					])),
-			_List_fromArray(
-				[
-					A2(
-					$elm$html$Html$div,
+						viewLogo,
+						A2(
+						$elm$html$Html$div,
+						_List_fromArray(
+							[
+								$author$project$UIExplorer$toClassName(
+								_List_fromArray(
+									['flex', 'flex-col', 'justify-center'])),
+								heightStyle
+							]),
+						_List_fromArray(
+							[
+								A2(
+								$elm$html$Html$h3,
+								A2(
+									$elm$core$List$append,
+									titleStyles,
+									_List_fromArray(
+										[
+											$elm$html$Html$Attributes$classList(
+											_List_fromArray(
+												[
+													_Utils_Tuple2('md:uie-ml-4', true)
+												]))
+										])),
+								_List_fromArray(
+									[
+										$elm$html$Html$text(title)
+									]))
+							])),
+						A3($author$project$UIExplorer$viewActionButtons, colorMode, theme, titleStyles)
+					]));
+		} else {
+			var heightStyle = A2($elm$html$Html$Attributes$style, 'height', '86px');
+			return A2(
+				$elm$html$Html$header,
+				A2(
+					$elm$core$List$append,
 					_List_fromArray(
 						[
 							$author$project$UIExplorer$toClassName(
 							_List_fromArray(
-								['bg-cover', 'cursor-default', 'logo']))
+								[theme.headerColor, 'border-grey-darker', 'border-b', 'pb-3']))
 						]),
-					_List_Nil)
-				]));
-	}
-};
+					_List_fromArray(
+						[
+							$author$project$UIExplorer$toClassName($author$project$UIExplorer$styleHeader.header),
+							heightStyle
+						])),
+				_List_fromArray(
+					[
+						A2(
+						$elm$html$Html$div,
+						A2(
+							$elm$core$List$cons,
+							$author$project$UIExplorer$toClassName(
+								_List_fromArray(
+									['bg-cover', 'cursor-default', 'logo'])),
+							function () {
+								if (colorMode.$ === 'Dark') {
+									return _List_Nil;
+								} else {
+									return _List_fromArray(
+										[
+											A2($elm$html$Html$Attributes$style, 'filter', 'invert(1)')
+										]);
+								}
+							}()),
+						_List_Nil),
+						A3($author$project$UIExplorer$viewActionButtons, colorMode, theme, _List_Nil)
+					]));
+		}
+	});
 var $elm$html$Html$aside = _VirtualDom_node('aside');
 var $author$project$UIExplorer$styleMenuCategoryLink = _List_fromArray(
-	['text-grey-darkest', 'uppercase', 'border-b', 'border-grey-light', 'w-full', 'flex', 'cursor-default', 'pl-4', 'pb-2', 'pt-2', 'text-sm']);
-var $author$project$UIExplorer$styleMenuItem = function (isSelected) {
-	var defaultClass = _List_fromArray(
-		[
-			'w-full',
-			'flex',
-			'pl-6',
-			'pt-2',
-			'pb-2',
-			'text-xs',
-			$author$project$UIExplorer$hover('bg-grey-lighter'),
-			$author$project$UIExplorer$hover('text-black')
-		]);
-	return isSelected ? A2(
-		$elm$core$List$append,
-		_List_fromArray(
-			['text-black', 'bg-grey-light']),
-		defaultClass) : A2(
-		$elm$core$List$append,
-		_List_fromArray(
-			['text-grey-darker']),
-		defaultClass);
-};
-var $author$project$UIExplorer$viewMenuItem = F3(
-	function (cat, selectedUIId, _v0) {
+	['text-grey-darkest', 'font-bold', 'w-full', 'flex', 'cursor-default', 'pl-4', 'pb-2', 'pt-2', 'text-sm', 'no-underline']);
+var $author$project$UIExplorer$styleMenuItem = F2(
+	function (_v0, isSelected) {
+		var primaryTextColor = _v0.primaryTextColor;
+		var menu = _v0.menu;
+		var defaultClass = _List_fromArray(
+			[
+				'w-full',
+				'flex',
+				'pl-6',
+				'pt-2',
+				'pb-2',
+				'text-xs',
+				'no-underline',
+				$author$project$UIExplorer$hover(menu.hoverBg),
+				$author$project$UIExplorer$hover(menu.hoverText)
+			]);
+		return isSelected ? A2(
+			$elm$core$List$append,
+			_List_fromArray(
+				['selected', menu.text, menu.selectedBg]),
+			defaultClass) : A2(
+			$elm$core$List$append,
+			_List_fromArray(
+				[primaryTextColor]),
+			defaultClass);
+	});
+var $author$project$UIExplorer$viewMenuItem = F4(
+	function (theme, cat, selectedUIId, _v0) {
 		var ui = _v0.a;
 		var isSelected = A2(
 			$elm$core$Maybe$withDefault,
@@ -10592,7 +11057,7 @@ var $author$project$UIExplorer$viewMenuItem = F3(
 				$elm$core$Maybe$map,
 				$elm$core$Basics$eq(ui.id),
 				selectedUIId));
-		var linkClass = $author$project$UIExplorer$styleMenuItem(isSelected);
+		var linkClass = A2($author$project$UIExplorer$styleMenuItem, theme, isSelected);
 		var defaultLink = function () {
 			var _v1 = $elm$core$List$head(ui.viewStories);
 			if (_v1.$ === 'Just') {
@@ -10623,10 +11088,9 @@ var $author$project$UIExplorer$viewMenuItem = F3(
 						]))
 				]));
 	});
-var $author$project$UIExplorer$viewMenuCategory = F2(
-	function (_v0, _v1) {
+var $author$project$UIExplorer$viewMenuCategory = F3(
+	function (theme, _v0, _v1) {
 		var selectedUIId = _v0.selectedUIId;
-		var selectedStoryId = _v0.selectedStoryId;
 		var _v2 = _v1.a;
 		var title = _v2.a;
 		var categories = _v2.b;
@@ -10639,11 +11103,10 @@ var $author$project$UIExplorer$viewMenuCategory = F2(
 			_List_fromArray(
 				[
 					A2(
-					$elm$html$Html$a,
+					$elm$html$Html$span,
 					_List_fromArray(
 						[
-							$author$project$UIExplorer$toClassName($author$project$UIExplorer$styleMenuCategoryLink),
-							$elm$html$Html$Attributes$href('#')
+							$author$project$UIExplorer$toClassName($author$project$UIExplorer$styleMenuCategoryLink)
 						]),
 					_List_fromArray(
 						[
@@ -10653,11 +11116,11 @@ var $author$project$UIExplorer$viewMenuCategory = F2(
 								[
 									$author$project$UIExplorer$toClassName(
 									_List_fromArray(
-										['font-bold', 'text-grey-darker', 'text-xs']))
+										['font-bold', theme.primaryTextColor, 'text-sm']))
 								]),
 							_List_fromArray(
 								[
-									$elm$html$Html$text('> ' + title)
+									$elm$html$Html$text(title)
 								]))
 						])),
 					A2(
@@ -10666,16 +11129,16 @@ var $author$project$UIExplorer$viewMenuCategory = F2(
 						[
 							$author$project$UIExplorer$toClassName(
 							_List_fromArray(
-								['list-reset']))
+								['list-reset', 'main-menu']))
 						]),
 					A2(
 						$elm$core$List$map,
-						A2($author$project$UIExplorer$viewMenuItem, title, selectedUIId),
+						A3($author$project$UIExplorer$viewMenuItem, theme, title, selectedUIId),
 						categories))
 				]));
 	});
-var $author$project$UIExplorer$viewMenu = F2(
-	function (categories, config) {
+var $author$project$UIExplorer$viewMenu = F3(
+	function (theme, categories, config) {
 		return A2(
 			$elm$html$Html$aside,
 			_List_fromArray(
@@ -10686,15 +11149,17 @@ var $author$project$UIExplorer$viewMenu = F2(
 				]),
 			A2(
 				$elm$core$List$map,
-				$author$project$UIExplorer$viewMenuCategory(config),
+				A2($author$project$UIExplorer$viewMenuCategory, theme, config),
 				categories));
 	});
 var $author$project$UIExplorer$viewSidebar = function (model) {
 	var viewConfig = {selectedStoryId: model.selectedStoryId, selectedUIId: model.selectedUIId};
-	return A2($author$project$UIExplorer$viewMenu, model.categories, viewConfig);
+	var theme = $author$project$UIExplorer$getTheme(model.colorMode);
+	return A3($author$project$UIExplorer$viewMenu, theme, model.categories, viewConfig);
 };
 var $author$project$UIExplorer$view = F2(
 	function (config, model) {
+		var theme = $author$project$UIExplorer$getTheme(model.colorMode);
 		return A2(
 			$elm$html$Html$div,
 			_List_fromArray(
@@ -10705,7 +11170,7 @@ var $author$project$UIExplorer$view = F2(
 				]),
 			_List_fromArray(
 				[
-					$author$project$UIExplorer$viewHeader(config.customHeader),
+					A3($author$project$UIExplorer$viewHeader, model.colorMode, theme, config.customHeader),
 					A2(
 					$elm$html$Html$div,
 					_List_fromArray(
@@ -10722,8 +11187,9 @@ var $author$project$UIExplorer$view = F2(
 								[
 									$author$project$UIExplorer$toClassName(
 									_List_fromArray(
-										[$author$project$UIExplorer$oneQuarter, 'bg-white', 'overflow-scroll'])),
-									A2($elm$html$Html$Attributes$style, 'height', 'calc(100vh - 86px)')
+										[$author$project$UIExplorer$oneQuarter, theme.sidebar.background, theme.sidebar.borderColor, 'overflow-scroll', 'sm:hidden'])),
+									A2($elm$html$Html$Attributes$style, 'height', 'calc(100vh - 86px)'),
+									$elm$html$Html$Attributes$class('uie-hidden md:uie-block')
 								]),
 							_List_fromArray(
 								[
@@ -10735,7 +11201,7 @@ var $author$project$UIExplorer$view = F2(
 								[
 									$author$project$UIExplorer$toClassName(
 									_List_fromArray(
-										['p-4', 'bg-white', 'w-screen', 'h-screen', 'overflow-scroll']))
+										['p-4', theme.primaryBgColor, 'w-screen', 'h-screen', 'overflow-scroll', 'main-content']))
 								]),
 							_List_fromArray(
 								[
@@ -10744,6 +11210,59 @@ var $author$project$UIExplorer$view = F2(
 						]))
 				]));
 	});
+var $author$project$UIExplorer$viewMobileMenu = F2(
+	function (model, isOpen) {
+		var theme = $author$project$UIExplorer$getTheme(model.colorMode);
+		return A2(
+			$elm$html$Html$div,
+			_List_fromArray(
+				[
+					$elm$html$Html$Attributes$classList(
+					_List_fromArray(
+						[
+							_Utils_Tuple2('uie-' + theme.sidebar.background, true),
+							_Utils_Tuple2('uie-h-full', true),
+							_Utils_Tuple2('uie-w-48', true),
+							_Utils_Tuple2('uie-absolute', true),
+							_Utils_Tuple2('uie-block', true),
+							_Utils_Tuple2('md:uie-hidden', true),
+							_Utils_Tuple2('uie-z-50', true),
+							_Utils_Tuple2('uie-overflow-y-auto', true),
+							_Utils_Tuple2('uie-border-r', false),
+							_Utils_Tuple2(theme.sidebar.borderColor, true)
+						])),
+					$elm$html$Html$Events$onClick($author$project$UIExplorer$MobileMenuToggled),
+					isOpen ? A2($elm$html$Html$Attributes$style, 'transform', 'translate(0%)') : A2($elm$html$Html$Attributes$style, 'transform', 'translate(-100%)'),
+					A2($elm$html$Html$Attributes$style, 'transition', 'transform 0.3s ease-out')
+				]),
+			_List_fromArray(
+				[
+					$author$project$UIExplorer$viewSidebar(model)
+				]));
+	});
+var $author$project$UIExplorer$viewMobileOverlay = function (isOpen) {
+	return A2(
+		$elm$html$Html$div,
+		_List_fromArray(
+			[
+				$elm$html$Html$Attributes$classList(
+				_List_fromArray(
+					[
+						_Utils_Tuple2('uie-bg-grey-darkest', true),
+						_Utils_Tuple2('uie-h-full', true),
+						_Utils_Tuple2('uie-w-full', true),
+						_Utils_Tuple2('uie-absolute', true),
+						_Utils_Tuple2('uie-opacity-75', true),
+						_Utils_Tuple2('uie-block', true),
+						_Utils_Tuple2('md:uie-hidden', true),
+						_Utils_Tuple2('uie-z-40', true),
+						_Utils_Tuple2('uie-visible', isOpen),
+						_Utils_Tuple2('uie-invisible', !isOpen)
+					])),
+				$elm$html$Html$Events$onClick($author$project$UIExplorer$MobileMenuToggled)
+			]),
+		_List_Nil);
+};
 var $author$project$UIExplorer$app = F2(
 	function (config, categories) {
 		return $elm$browser$Browser$application(
@@ -10762,6 +11281,8 @@ var $author$project$UIExplorer$app = F2(
 					return {
 						body: _List_fromArray(
 							[
+								$author$project$UIExplorer$viewMobileOverlay(model.mobileMenuIsOpen),
+								A2($author$project$UIExplorer$viewMobileMenu, model, model.mobileMenuIsOpen),
 								A2($author$project$UIExplorer$view, config, model)
 							]),
 						title: 'Storybook Elm'
@@ -10773,7 +11294,7 @@ var $author$project$UIExplorer$exploreWithCategories = F2(
 	function (config, categories) {
 		return A2($author$project$UIExplorer$app, config, categories);
 	});
-var $author$project$Docs$principles = '\n# Design Principles\n\n\n- #### Classy;\n- #### Premium;\n- #### Quality;\n- #### Professional;\n- #### Simple.\n\n\n![Preview](https://www.jerome-kalumbu.com/sites/default/files/stylescape.jpg)\n\n\n\n\n';
+var $author$project$Docs$principles = '\n# Design Principles\n\n\n- #### Classy;\n- #### Premium;\n- #### Quality;\n- #### Professional;\n- #### Simple.\n\n\n![Preview](stylescape.jpg)\n\n\n\n\n';
 var $author$project$UIExplorer$UIType = function (a) {
 	return {$: 'UIType', a: a};
 };
@@ -11119,7 +11640,6 @@ var $mdgriffith$elm_ui$Internal$Model$Style = F2(
 var $mdgriffith$elm_ui$Internal$Style$dot = function (c) {
 	return '.' + c;
 };
-var $elm$core$String$fromFloat = _String_fromNumber;
 var $mdgriffith$elm_ui$Internal$Model$formatColor = function (_v0) {
 	var red = _v0.a;
 	var green = _v0.b;
@@ -17278,13 +17798,6 @@ var $rtfeldman$elm_css$VirtualDom$Styled$Attribute = F3(
 	function (a, b, c) {
 		return {$: 'Attribute', a: a, b: b, c: c};
 	});
-var $elm$virtual_dom$VirtualDom$property = F2(
-	function (key, value) {
-		return A2(
-			_VirtualDom_property,
-			_VirtualDom_noInnerHtmlOrFormAction(key),
-			_VirtualDom_noJavaScriptOrHtmlUri(value));
-	});
 var $rtfeldman$elm_css$VirtualDom$Styled$property = F2(
 	function (key, value) {
 		return A3(
@@ -19943,11 +20456,6 @@ var $avh4$elm_color$Color$toCssString = function (_v0) {
 			]));
 };
 var $elm$svg$Svg$Attributes$color = _VirtualDom_attribute('color');
-var $elm$svg$Svg$Attributes$d = _VirtualDom_attribute('d');
-var $elm$svg$Svg$trustedNode = _VirtualDom_nodeNS('http://www.w3.org/2000/svg');
-var $elm$svg$Svg$path = $elm$svg$Svg$trustedNode('path');
-var $elm$svg$Svg$svg = $elm$svg$Svg$trustedNode('svg');
-var $elm$svg$Svg$Attributes$viewBox = _VirtualDom_attribute('viewBox');
 var $elm$html$Html$Attributes$width = function (n) {
 	return A2(
 		_VirtualDom_attribute,
@@ -21383,4 +21891,4 @@ var $author$project$Main$main = A2(
 						]),
 					$author$project$UIExplorer$createCategories)))));
 _Platform_export({'Main':{'init':$author$project$Main$main(
-	$elm$json$Json$Decode$succeed(_Utils_Tuple0))({"versions":{"elm":"0.19.1"},"types":{"message":"UIExplorer.Msg ()","aliases":{"Url.Url":{"args":[],"type":"{ protocol : Url.Protocol, host : String.String, port_ : Maybe.Maybe Basics.Int, path : String.String, query : Maybe.Maybe String.String, fragment : Maybe.Maybe String.String }"}},"unions":{"UIExplorer.Msg":{"args":["a"],"tags":{"ExternalMsg":["a"],"SelectStory":["String.String"],"UrlChange":["Url.Url"],"LinkClicked":["Browser.UrlRequest"],"NoOp":[]}},"Basics.Int":{"args":[],"tags":{"Int":[]}},"Maybe.Maybe":{"args":["a"],"tags":{"Just":["a"],"Nothing":[]}},"Url.Protocol":{"args":[],"tags":{"Http":[],"Https":[]}},"String.String":{"args":[],"tags":{"String":[]}},"Browser.UrlRequest":{"args":[],"tags":{"Internal":["Url.Url"],"External":["String.String"]}}}}})}});}(this));
+	$elm$json$Json$Decode$succeed(_Utils_Tuple0))({"versions":{"elm":"0.19.1"},"types":{"message":"UIExplorer.Msg ()","aliases":{"Url.Url":{"args":[],"type":"{ protocol : Url.Protocol, host : String.String, port_ : Maybe.Maybe Basics.Int, path : String.String, query : Maybe.Maybe String.String, fragment : Maybe.Maybe String.String }"}},"unions":{"UIExplorer.Msg":{"args":["a"],"tags":{"ExternalMsg":["a"],"SelectStory":["String.String"],"UrlChange":["Url.Url"],"LinkClicked":["Browser.UrlRequest"],"NoOp":[],"MobileMenuToggled":[],"ColorModeToggled":[]}},"Basics.Int":{"args":[],"tags":{"Int":[]}},"Maybe.Maybe":{"args":["a"],"tags":{"Just":["a"],"Nothing":[]}},"Url.Protocol":{"args":[],"tags":{"Http":[],"Https":[]}},"String.String":{"args":[],"tags":{"String":[]}},"Browser.UrlRequest":{"args":[],"tags":{"Internal":["Url.Url"],"External":["String.String"]}}}}})}});}(this));

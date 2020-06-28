@@ -45,21 +45,33 @@ buttonLabel locale =
             "Kennwort bestätigen"
 
 
+localButtonView : msg -> String -> Html (UIExplorer.Msg msg)
+localButtonView onClickMsg label =
+    li
+        [ style "font-size" "11px"
+        , style "margin-right" "8px"
+        ]
+        [ Html.button
+            [ onClick (UIExplorer.ExternalMsg <| onClickMsg)
+            , style "color" "#666"
+            ]
+            [ text label ]
+        ]
+
+
 menuViewEnhancer : a -> Html (UIExplorer.Msg Msg) -> Html (UIExplorer.Msg Msg)
-menuViewEnhancer model menuView =
+menuViewEnhancer _ menuView =
     div []
-        [ ul [ style "margin-bottom" "8px", style "font-size" "9px", style "display" "flex" ]
-            [ li []
-                [ Html.button [ onClick (UIExplorer.ExternalMsg <| ChangedLocale En) ] [ text "English" ]
-                ]
-            , li [ style "margin-left" "2px", style "margin-right" "2px" ] [ text "-" ]
-            , li []
-                [ Html.button [ onClick (UIExplorer.ExternalMsg <| ChangedLocale Fr) ] [ text "Français" ]
-                ]
-            , li [ style "margin-left" "2px", style "margin-right" "2px" ] [ text "-" ]
-            , li []
-                [ Html.button [ onClick (UIExplorer.ExternalMsg <| ChangedLocale De) ] [ text "Deutsch" ]
-                ]
+        [ ul
+            [ style "margin-bottom" "8px"
+            , style "font-size" "9px"
+            , style "display" "flex"
+            , style "list-style" "none"
+            , style "padding" "0px"
+            ]
+            [ localButtonView (ChangedLocale En) "English"
+            , localButtonView (ChangedLocale Fr) "Français"
+            , localButtonView (ChangedLocale De) "Deutsch"
             ]
         , menuView
         ]
@@ -79,6 +91,7 @@ main =
             \m -> Sub.none
         , viewEnhancer = \m stories -> stories
         , menuViewEnhancer = menuViewEnhancer
+        , onModeChanged = Nothing
         }
         [ storiesOf
             "Button"

@@ -33,8 +33,8 @@ config =
             Just
                 { title = "Tasty Design System"
                 , logo = logoFromUrl "grec-logo-header.png"
-                , titleColor = Nothing
-                , bgColor = Nothing
+                , titleColor = Just "#FFFFFF"
+                , bgColor = Just "#22292f"
                 }
     }
 
