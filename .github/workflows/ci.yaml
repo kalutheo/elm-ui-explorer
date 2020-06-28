@@ -131,7 +131,7 @@ jobs:
         run: |
           npm ci
 
-      - name: Build Button Main Example
+      - name: Build Dsm Main Example
         working-directory: examples/dsm/
         run: |
           npx elm make src/Main.elm
