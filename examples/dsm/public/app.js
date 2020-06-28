@@ -5043,7 +5043,7 @@ var $elm$core$Basics$GT = {$: 'GT'};
 var $elm$core$Basics$LT = {$: 'LT'};
 var $elm$core$Basics$False = {$: 'False'};
 var $elm$core$Basics$True = {$: 'True'};
-var $author$project$Docs$about = '\n# About Tasty\n\n*"Le grec parisien"* is a brand created by two French nationals, Joseph (the CEO) and Yannick, (the co-founder), for a Kebab restaurant in Montreal.\n\n**Tasty** is the name of the Design System for digital products and experiences around the restaurant.\nThe system is composed of guidelines, components and code examples.\n\n\n\n![Preview](/logo-final.svg)\n\n\n';
+var $author$project$Docs$about = '\n# About Tasty\n\n*"Le grec parisien"* is a brand created by two French nationals, Joseph (the CEO) and Yannick, (the co-founder), for a Kebab restaurant in Montreal.\n\n**Tasty** is the name of the Design System for digital products and experiences around the restaurant.\nThe system is composed of guidelines, components and code examples.\n\n\n\n![Preview](logo-final.svg)\n\n\n';
 var $elm$core$Basics$apR = F2(
 	function (x, f) {
 		return f(x);
@@ -11294,7 +11294,7 @@ var $author$project$UIExplorer$exploreWithCategories = F2(
 	function (config, categories) {
 		return A2($author$project$UIExplorer$app, config, categories);
 	});
-var $author$project$Docs$principles = '\n# Design Principles\n\n\n- #### Classy;\n- #### Premium;\n- #### Quality;\n- #### Professional;\n- #### Simple.\n\n\n![Preview](/stylescape.jpg)\n\n\n\n\n';
+var $author$project$Docs$principles = '\n# Design Principles\n\n\n- #### Classy;\n- #### Premium;\n- #### Quality;\n- #### Professional;\n- #### Simple.\n\n\n![Preview](stylescape.jpg)\n\n\n\n\n';
 var $author$project$UIExplorer$UIType = function (a) {
 	return {$: 'UIType', a: a};
 };
