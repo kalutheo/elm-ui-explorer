@@ -22,7 +22,7 @@ The system is composed of guidelines, components and code examples.
 
 
 
-![Preview](/logo-final.svg)
+![Preview](logo-final.svg)
 
 
 """
@@ -41,7 +41,7 @@ principles =
 - #### Simple.
 
 
-![Preview](/stylescape.jpg)
+![Preview](stylescape.jpg)
 
 
 
