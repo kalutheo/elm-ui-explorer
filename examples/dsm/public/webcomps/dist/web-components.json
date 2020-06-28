@@ -1,0 +1,25 @@
+{
+  "tags": [
+    {
+      "label": "svg-loader",
+      "description": "",
+      "attributes": [
+        {
+          "label": "color",
+          "description": "",
+          "required": false
+        },
+        {
+          "label": "url",
+          "description": "",
+          "required": false
+        },
+        {
+          "label": "width",
+          "description": "",
+          "required": false
+        }
+      ]
+    }
+  ]
+}
