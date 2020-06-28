@@ -1,1 +1,0 @@
-export * from '../esm/es5/myapp.define.js';

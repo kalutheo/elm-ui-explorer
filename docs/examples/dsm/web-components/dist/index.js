@@ -1,1 +1,0 @@
-// MyApp: CommonJS Main
