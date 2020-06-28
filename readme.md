@@ -84,8 +84,6 @@ You can now run the `Main.elm` application with the tool of your choice.
 ### Examples
 
 
-[Checkout examples source code here](https://github.com/kalutheo/elm-ui-explorer/tree/master/examples)
-
 - [Simple](https://elm-ui-explorer.netlify.app/examples/button/explorer/#Default/Button/Primary) - The simplest example
 - [Notes & Code](https://elm-ui-explorer.netlify.app/examples/button/explorer-with-notes/#Default/Button/Primary) - How to add markdown and source code to your explorer
 
@@ -95,6 +93,9 @@ You can now run the `Main.elm` application with the tool of your choice.
 - [Knobs](https://elm-ui-explorer.netlify.app/examples/button/explorer-with-knobs/#Default/Button/WithKnobs) - How to make interactive stories 
 
 - [Design System](https://elm-ui-explorer.netlify.app/examples/dsm/#Getting%20Started/About/About) - A real world example of a Design System
+
+
+[Checkout all examples source code here](https://github.com/kalutheo/elm-ui-explorer/tree/master/examples)
 
 ### Main Features
 
