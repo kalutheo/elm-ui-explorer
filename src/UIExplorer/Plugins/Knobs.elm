@@ -33,15 +33,14 @@ viewEnhancer :
     -> Html.Html msg
 viewEnhancer model viewKnobs =
     case getCurrentSelectedStory model of
-        Just ( _, b, option ) ->
-            case option.knobs of
-                True ->
-                    Html.div []
-                        [ viewKnobs model option
-                        ]
+        Just ( _, _, option ) ->
+            if option.knobs then
+                Html.div []
+                    [ viewKnobs model option
+                    ]
 
-                False ->
-                    Html.text ""
+            else
+                Html.text ""
 
         Nothing ->
             Html.text ""
