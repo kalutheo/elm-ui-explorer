@@ -80,12 +80,21 @@ Then in your Html add a link to the Elm UI Explorer stylesheet
 
 You can now run the `Main.elm` application with the tool of your choice.
 
-[Checkout more examples here](https://github.com/kalutheo/elm-ui-explorer/tree/master/examples)
 
-- Button Example [source](https://github.com/kalutheo/elm-ui-explorer/tree/master/examples/button)| [explorer demo](https://kalutheo.github.io/elm-ui-explorer/examples/button/explorer/index.html) |
-  [explorer with notes demo](https://kalutheo.github.io/elm-ui-explorer/examples/button/explorer-with-notes/index.html) | [explorer with locale demo](https://kalutheo.github.io/elm-ui-explorer/examples/button/explorer-with-locale/index.html) | [app demo](https://kalutheo.github.io/elm-ui-explorer/examples/button/index.html)
+### Examples
 
-- Design system [source](https://github.com/kalutheo/elm-ui-explorer/tree/master/examples/dsm/) | [explorer demo](https://kalutheo.github.io/elm-ui-explorer/examples/dsm/index.html)
+
+[Checkout examples source code here](https://github.com/kalutheo/elm-ui-explorer/tree/master/examples)
+
+- [Simple](https://elm-ui-explorer.netlify.app/examples/button/explorer/#Default/Button/Primary) - The simplest example
+- [Notes & Code](https://elm-ui-explorer.netlify.app/examples/button/explorer-with-notes/#Default/Button/Primary) - How to add markdown and source code to your explorer
+
+
+- [Custom Menu](https://elm-ui-explorer.netlify.app/examples/button/explorer-with-notes/#Default/Button/Primary) - Advanced example with custom [MenuViewEnhancer](https://package.elm-lang.org/packages/kalutheo/elm-ui-explorer/latest/UIExplorer#MenuViewEnhancer)
+
+- [Knobs](https://elm-ui-explorer.netlify.app/examples/button/explorer-with-knobs/#Default/Button/WithKnobs) - How to make interactive stories 
+
+- [Design System](https://elm-ui-explorer.netlify.app/examples/dsm/#Getting%20Started/About/About) - A real world example of a Design System
 
 ### Main Features
 
