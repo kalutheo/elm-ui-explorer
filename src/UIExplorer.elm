@@ -821,8 +821,8 @@ viewToggleMobileMenu theme styles =
         ]
 
 
-viewToggleDarkMode : ColorMode -> Theme -> List (Html.Attribute (Msg a)) -> Html (Msg a)
-viewToggleDarkMode colorMode theme styles =
+viewToggleDarkMode : ColorMode -> Theme -> List (Html.Attribute (Msg a)) -> Bool -> Html (Msg a)
+viewToggleDarkMode colorMode theme styles isColorModeBtnEnabled =
     let
         icon =
             case colorMode of
@@ -839,25 +839,31 @@ viewToggleDarkMode colorMode theme styles =
             else
                 []
     in
-    div
-        [ class "uie-flex uie-flex-1 uie-flex-col uie-justify-center  uie-items-end uie-mr-4"
-        ]
-        [ button (defaultColor ++ (onClick ColorModeToggled :: styles))
-            [ icon
-                |> FeatherIcons.withSize 22
-                |> FeatherIcons.toHtml []
+    if isColorModeBtnEnabled then
+        div
+            [ class "uie-flex uie-flex-1 uie-flex-col uie-justify-center  uie-items-end uie-mr-4"
             ]
+            [ button (defaultColor ++ (onClick ColorModeToggled :: styles))
+                [ icon
+                    |> FeatherIcons.withSize 22
+                    |> FeatherIcons.toHtml []
+                ]
+            ]
+
+    else
+        text ""
+
+
+viewActionButtons : ColorMode -> Theme -> List (Html.Attribute (Msg a)) -> Bool -> Html (Msg a)
+viewActionButtons colorMode theme titleStyles isColorModeBtnEnabled =
+    div [ class "uie-flex  uie-flex-1" ]
+        [ viewToggleDarkMode colorMode theme titleStyles isColorModeBtnEnabled
+        , viewToggleMobileMenu theme titleStyles
         ]
 
 
-viewActionButtons : ColorMode -> Theme -> List (Html.Attribute (Msg a)) -> Html (Msg a)
-viewActionButtons colorMode theme titleStyles =
-    div [ class "uie-flex  uie-flex-1" ]
-        [ viewToggleDarkMode colorMode theme titleStyles, viewToggleMobileMenu theme titleStyles ]
-
-
-viewHeader : ColorMode -> Theme -> Maybe (CustomHeader b) -> Html (Msg b)
-viewHeader colorMode theme customHeader =
+viewHeader : ColorMode -> Theme -> Maybe (CustomHeader b) -> Bool -> Html (Msg b)
+viewHeader colorMode theme customHeader isColorModeBtnEnabled =
     case customHeader of
         Just { title, logo, titleColor, bgColor } ->
             let
@@ -889,7 +895,7 @@ viewHeader colorMode theme customHeader =
                     [ toClassName [ "flex", "flex-col", "justify-center" ], heightStyle ]
                     [ h3 ([ classList [ ( "md:uie-ml-4", True ) ] ] |> List.append titleStyles) [ text title ]
                     ]
-                , viewActionButtons colorMode theme titleStyles
+                , viewActionButtons colorMode theme titleStyles isColorModeBtnEnabled
                 ]
 
         Nothing ->
@@ -919,7 +925,7 @@ viewHeader colorMode theme customHeader =
                            )
                     )
                     []
-                , viewActionButtons colorMode theme []
+                , viewActionButtons colorMode theme [] isColorModeBtnEnabled
                 ]
 
 
@@ -1141,9 +1147,14 @@ view config model =
     let
         theme =
             getTheme model.colorMode
+
+        isColorModeBtnEnabled =
+            config.onModeChanged
+                |> Maybe.map (always True)
+                |> Maybe.withDefault False
     in
     div [ toClassName [ "h-screen overflow-hidden" ] ]
-        [ viewHeader model.colorMode theme config.customHeader
+        [ viewHeader model.colorMode theme config.customHeader isColorModeBtnEnabled
         , div [ toClassName [ "flex" ] ]
             [ div
                 [ toClassName
