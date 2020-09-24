@@ -3,7 +3,7 @@
     "name": "kalutheo/elm-ui-explorer",
     "summary": "Explore your views and their states in a single tool.",
     "license": "BSD-3-Clause",
-    "version": "8.0.0",
+    "version": "8.1.0",
     "exposed-modules": [
         "UIExplorer",
         "UIExplorer.Plugins.Note",
