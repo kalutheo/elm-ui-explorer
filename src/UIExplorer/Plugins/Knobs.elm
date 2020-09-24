@@ -1,10 +1,31 @@
-module UIExplorer.Plugins.Knobs exposing (updateKnobs, viewEnhancer, viewKnobsForUI)
+module UIExplorer.Plugins.Knobs exposing
+    ( viewEnhancer
+    , viewKnobsForUI
+    , updateKnobs
+    )
+
+{-|
+
+
+# Knobs
+
+This plugin allows to make stories that are controbale with UI Inputs.
+
+See usage [here](https://github.com/kalutheo/elm-ui-explorer/blob/master/examples/button/ExplorerWithKnobs.elm)
+
+@docs viewEnhancer
+@docs viewKnobsForUI
+@docs updateKnobs
+
+-}
 
 import Debug.Control
 import Html
 import UIExplorer exposing (getCurrentSelectedStory)
 
 
+{-| Display the Controls -
+-}
 viewKnobsForUI :
     { d | customModel : c }
     -> (Debug.Control.Control a -> b)
@@ -14,6 +35,8 @@ viewKnobsForUI model onChanged getField =
     Debug.Control.view (UIExplorer.ExternalMsg << onChanged) (getField model.customModel)
 
 
+{-| Update for knobs model -
+-}
 updateKnobs : { b | customModel : a } -> c -> (c -> a) -> ( { b | customModel : a }, Cmd msg )
 updateKnobs model customModel updateField =
     let
@@ -23,6 +46,8 @@ updateKnobs model customModel updateField =
     ( { model | customModel = newModel }, Cmd.none )
 
 
+{-| Knobs view enhancer
+-}
 viewEnhancer :
     UIExplorer.Model a b { c | knobs : Bool }
     ->
