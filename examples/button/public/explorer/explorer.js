@@ -5036,6 +5036,9 @@ var $elm$core$Basics$EQ = {$: 'EQ'};
 var $elm$core$Basics$GT = {$: 'GT'};
 var $elm$core$Basics$LT = {$: 'LT'};
 var $author$project$Button$Ghost = {$: 'Ghost'};
+var $elm$core$Maybe$Just = function (a) {
+	return {$: 'Just', a: a};
+};
 var $author$project$Button$L = {$: 'L'};
 var $author$project$Button$Link = {$: 'Link'};
 var $author$project$Button$S = {$: 'S'};
@@ -5043,9 +5046,6 @@ var $author$project$Button$Secondary = {$: 'Secondary'};
 var $author$project$Button$Filled = {$: 'Filled'};
 var $author$project$Button$M = {$: 'M'};
 var $author$project$Button$Primary = {$: 'Primary'};
-var $elm$core$Maybe$Just = function (a) {
-	return {$: 'Just', a: a};
-};
 var $elm$core$Maybe$Nothing = {$: 'Nothing'};
 var $elm$core$String$length = _String_length;
 var $elm$core$Basics$lt = _Utils_lt;
@@ -5875,6 +5875,7 @@ var $elm$core$Platform$Sub$none = $elm$core$Platform$Sub$batch(_List_Nil);
 var $author$project$UIExplorer$defaultConfig = {
 	customHeader: $elm$core$Maybe$Nothing,
 	customModel: {},
+	documentTitle: $elm$core$Maybe$Nothing,
 	menuViewEnhancer: F2(
 		function (_v0, v) {
 			return v;
@@ -12407,7 +12408,7 @@ var $author$project$UIExplorer$app = F2(
 								A2($author$project$UIExplorer$viewMobileMenu, model, model.mobileMenuIsOpen),
 								A2($author$project$UIExplorer$view, config, model)
 							]),
-						title: 'Storybook Elm'
+						title: A2($elm$core$Maybe$withDefault, 'Storybook Elm', config.documentTitle)
 					};
 				}
 			});
@@ -14906,7 +14907,11 @@ var $author$project$Button$view = F3(
 	});
 var $author$project$Explorer$main = A2(
 	$author$project$UIExplorer$explore,
-	$author$project$UIExplorer$defaultConfig,
+	_Utils_update(
+		$author$project$UIExplorer$defaultConfig,
+		{
+			documentTitle: $elm$core$Maybe$Just('Button Showcase')
+		}),
 	_List_fromArray(
 		[
 			A2(

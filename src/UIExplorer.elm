@@ -349,6 +349,7 @@ type alias Config a b c =
     , viewEnhancer : ViewEnhancer a b c
     , menuViewEnhancer : MenuViewEnhancer a b c
     , onModeChanged : Maybe (ColorMode -> Cmd (Msg b))
+    , documentTitle : Maybe String
     }
 
 
@@ -365,6 +366,7 @@ defaultConfig =
     , viewEnhancer = \_ stories -> stories
     , menuViewEnhancer = \_ v -> v
     , onModeChanged = Nothing
+    , documentTitle = Nothing
     }
 
 
@@ -655,7 +657,7 @@ app config categories =
         { init = init config.customModel categories
         , view =
             \model ->
-                { title = "Storybook Elm"
+                { title = config.documentTitle |> Maybe.withDefault "Storybook Elm"
                 , body =
                     [ viewMobileOverlay model.mobileMenuIsOpen
                     , viewMobileMenu model model.mobileMenuIsOpen
