@@ -7,7 +7,7 @@ import UIExplorer exposing (UIExplorerProgram, defaultConfig, explore, storiesOf
 main : UIExplorerProgram {} () {}
 main =
     explore
-        {defaultConfig | documentTitle = Just "Button Showcase" }
+        {defaultConfig | documentTitle = Just "Button Showcase", enableDarkMode = False }
         [ storiesOf
             "Button"
             [ ( "Primary", \_ -> Button.view "Submit" defaultButtonConfig (), {} )

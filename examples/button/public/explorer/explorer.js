@@ -5035,6 +5035,7 @@ var $elm$core$Set$toList = function (_v0) {
 var $elm$core$Basics$EQ = {$: 'EQ'};
 var $elm$core$Basics$GT = {$: 'GT'};
 var $elm$core$Basics$LT = {$: 'LT'};
+var $elm$core$Basics$False = {$: 'False'};
 var $author$project$Button$Ghost = {$: 'Ghost'};
 var $elm$core$Maybe$Just = function (a) {
 	return {$: 'Just', a: a};
@@ -5531,6 +5532,7 @@ var $author$project$Button$defaultButtonConfig = {
 		secondary: $rtfeldman$elm_css$Css$hex('333333')
 	}
 };
+var $elm$core$Basics$True = {$: 'True'};
 var $elm$json$Json$Decode$Failure = F2(
 	function (a, b) {
 		return {$: 'Failure', a: a, b: b};
@@ -5546,7 +5548,6 @@ var $elm$json$Json$Decode$Index = F2(
 var $elm$json$Json$Decode$OneOf = function (a) {
 	return {$: 'OneOf', a: a};
 };
-var $elm$core$Basics$False = {$: 'False'};
 var $elm$core$String$all = _String_all;
 var $elm$core$Basics$and = _Basics_and;
 var $elm$json$Json$Encode$encode = _Json_encode;
@@ -5860,7 +5861,6 @@ var $elm$core$Array$initialize = F2(
 			return A5($elm$core$Array$initializeHelp, fn, initialFromIndex, len, _List_Nil, tail);
 		}
 	});
-var $elm$core$Basics$True = {$: 'True'};
 var $elm$core$Result$isOk = function (result) {
 	if (result.$ === 'Ok') {
 		return true;
@@ -5876,6 +5876,7 @@ var $author$project$UIExplorer$defaultConfig = {
 	customHeader: $elm$core$Maybe$Nothing,
 	customModel: {},
 	documentTitle: $elm$core$Maybe$Nothing,
+	enableDarkMode: true,
 	menuViewEnhancer: F2(
 		function (_v0, v) {
 			return v;
@@ -11129,7 +11130,9 @@ var $elm$core$Maybe$map3 = F4(
 	});
 var $elm$browser$Browser$Navigation$pushUrl = _Browser_pushUrl;
 var $author$project$UIExplorer$init = F5(
-	function (customModel, categories, _v0, url, key) {
+	function (_v0, categories, _v1, url, key) {
+		var customModel = _v0.customModel;
+		var enableDarkMode = _v0.enableDarkMode;
 		var selectedUIId = $author$project$UIExplorer$getSelectedUIfromPath(url);
 		var selectedStoryId = $author$project$UIExplorer$getSelectedStoryfromPath(url);
 		var selectedCategory = $author$project$UIExplorer$getSelectedCategoryfromPath(url);
@@ -11146,7 +11149,17 @@ var $author$project$UIExplorer$init = F5(
 				selectedUIId,
 				selectedStoryId));
 		return _Utils_Tuple2(
-			{categories: categories, colorMode: $author$project$UIExplorer$ColorMode$Light, customModel: customModel, key: key, mobileMenuIsOpen: false, selectedCategory: selectedCategory, selectedStoryId: selectedStoryId, selectedUIId: selectedUIId, url: url},
+			{
+				categories: categories,
+				colorMode: enableDarkMode ? $elm$core$Maybe$Just($author$project$UIExplorer$ColorMode$Light) : $elm$core$Maybe$Nothing,
+				customModel: customModel,
+				key: key,
+				mobileMenuIsOpen: false,
+				selectedCategory: selectedCategory,
+				selectedStoryId: selectedStoryId,
+				selectedUIId: selectedUIId,
+				url: url
+			},
 			A2($elm$browser$Browser$Navigation$pushUrl, key, firstUrl));
 	});
 var $author$project$UIExplorer$ColorMode$Dark = {$: 'Dark'};
@@ -11284,14 +11297,19 @@ var $author$project$UIExplorer$update = F3(
 						{mobileMenuIsOpen: !model.mobileMenuIsOpen}),
 					$elm$core$Platform$Cmd$none);
 			default:
-				var colorMode = function () {
-					var _v5 = model.colorMode;
-					if (_v5.$ === 'Dark') {
-						return $author$project$UIExplorer$ColorMode$Light;
-					} else {
-						return $author$project$UIExplorer$ColorMode$Dark;
-					}
-				}();
+				var colorMode = A2(
+					$elm$core$Maybe$withDefault,
+					$elm$core$Maybe$Nothing,
+					A2(
+						$elm$core$Maybe$map,
+						function (c) {
+							if (c.$ === 'Dark') {
+								return $elm$core$Maybe$Just($author$project$UIExplorer$ColorMode$Light);
+							} else {
+								return $elm$core$Maybe$Just($author$project$UIExplorer$ColorMode$Dark);
+							}
+						},
+						model.colorMode));
 				return _Utils_Tuple2(
 					_Utils_update(
 						model,
@@ -11325,12 +11343,20 @@ var $author$project$UIExplorer$lightTheme = {
 	sidebar: {background: 'bg-white', borderColor: 'border-transparent'},
 	storyMenu: {border: 'border-grey', hoverBg: 'bg-grey-lighter', selectedBorder: 'border-black', selectedText: 'text-black', text: 'text-grey'}
 };
-var $author$project$UIExplorer$getTheme = function (colorMode) {
-	if (colorMode.$ === 'Dark') {
-		return $author$project$UIExplorer$darkTheme;
-	} else {
-		return $author$project$UIExplorer$lightTheme;
-	}
+var $author$project$UIExplorer$getTheme = function (maybeColorMode) {
+	return A2(
+		$elm$core$Maybe$withDefault,
+		$author$project$UIExplorer$lightTheme,
+		A2(
+			$elm$core$Maybe$map,
+			function (colorMode) {
+				if (colorMode.$ === 'Dark') {
+					return $author$project$UIExplorer$darkTheme;
+				} else {
+					return $author$project$UIExplorer$lightTheme;
+				}
+			},
+			maybeColorMode));
 };
 var $author$project$UIExplorer$oneQuarter = 'w-1/4';
 var $author$project$UIExplorer$toClassName = function (list) {
@@ -11866,14 +11892,20 @@ var $1602$elm_feather$FeatherIcons$withSize = F2(
 			});
 	});
 var $author$project$UIExplorer$viewToggleDarkMode = F3(
-	function (colorMode, theme, styles) {
-		var icon = function () {
-			if (colorMode.$ === 'Dark') {
-				return $1602$elm_feather$FeatherIcons$sun;
-			} else {
-				return $1602$elm_feather$FeatherIcons$moon;
-			}
-		}();
+	function (maybeColorMode, theme, styles) {
+		var icon = A2(
+			$elm$core$Maybe$withDefault,
+			$elm$core$Maybe$Nothing,
+			A2(
+				$elm$core$Maybe$map,
+				function (colorMode) {
+					if (colorMode.$ === 'Dark') {
+						return $elm$core$Maybe$Just($1602$elm_feather$FeatherIcons$sun);
+					} else {
+						return $elm$core$Maybe$Just($1602$elm_feather$FeatherIcons$moon);
+					}
+				},
+				maybeColorMode));
 		var defaultColor = (!$elm$core$List$length(styles)) ? _List_fromArray(
 			[
 				$elm$html$Html$Attributes$class('uie-' + theme.iconColor)
@@ -11897,9 +11929,17 @@ var $author$project$UIExplorer$viewToggleDarkMode = F3(
 					_List_fromArray(
 						[
 							A2(
-							$1602$elm_feather$FeatherIcons$toHtml,
-							_List_Nil,
-							A2($1602$elm_feather$FeatherIcons$withSize, 22, icon))
+							$elm$core$Maybe$withDefault,
+							$elm$html$Html$text(''),
+							A2(
+								$elm$core$Maybe$map,
+								function (theIcon) {
+									return A2(
+										$1602$elm_feather$FeatherIcons$toHtml,
+										_List_Nil,
+										A2($1602$elm_feather$FeatherIcons$withSize, 22, theIcon));
+								},
+								icon))
 						]))
 				]));
 	});
@@ -12004,7 +12044,7 @@ var $author$project$UIExplorer$viewActionButtons = F3(
 				]));
 	});
 var $author$project$UIExplorer$viewHeader = F3(
-	function (colorMode, theme, customHeader) {
+	function (maybeColorMode, theme, customHeader) {
 		if (customHeader.$ === 'Just') {
 			var title = customHeader.a.title;
 			var logo = customHeader.a.logo;
@@ -12098,7 +12138,7 @@ var $author$project$UIExplorer$viewHeader = F3(
 										$elm$html$Html$text(title)
 									]))
 							])),
-						A3($author$project$UIExplorer$viewActionButtons, colorMode, theme, titleStyles)
+						A3($author$project$UIExplorer$viewActionButtons, maybeColorMode, theme, titleStyles)
 					]));
 		} else {
 			var heightStyle = A2($elm$html$Html$Attributes$style, 'height', '86px');
@@ -12127,8 +12167,17 @@ var $author$project$UIExplorer$viewHeader = F3(
 								_List_fromArray(
 									['bg-cover', 'cursor-default', 'logo'])),
 							function () {
-								if (colorMode.$ === 'Dark') {
-									return _List_Nil;
+								if (maybeColorMode.$ === 'Just') {
+									if (maybeColorMode.a.$ === 'Dark') {
+										var _v3 = maybeColorMode.a;
+										return _List_Nil;
+									} else {
+										var _v4 = maybeColorMode.a;
+										return _List_fromArray(
+											[
+												A2($elm$html$Html$Attributes$style, 'filter', 'invert(1)')
+											]);
+									}
 								} else {
 									return _List_fromArray(
 										[
@@ -12137,7 +12186,7 @@ var $author$project$UIExplorer$viewHeader = F3(
 								}
 							}()),
 						_List_Nil),
-						A3($author$project$UIExplorer$viewActionButtons, colorMode, theme, _List_Nil)
+						A3($author$project$UIExplorer$viewActionButtons, maybeColorMode, theme, _List_Nil)
 					]));
 		}
 	});
@@ -12390,7 +12439,7 @@ var $author$project$UIExplorer$app = F2(
 	function (config, categories) {
 		return $elm$browser$Browser$application(
 			{
-				init: A2($author$project$UIExplorer$init, config.customModel, categories),
+				init: A2($author$project$UIExplorer$init, config, categories),
 				onUrlChange: $author$project$UIExplorer$UrlChange,
 				onUrlRequest: $author$project$UIExplorer$LinkClicked,
 				subscriptions: function (model) {
@@ -14910,7 +14959,8 @@ var $author$project$Explorer$main = A2(
 	_Utils_update(
 		$author$project$UIExplorer$defaultConfig,
 		{
-			documentTitle: $elm$core$Maybe$Just('Button Showcase')
+			documentTitle: $elm$core$Maybe$Just('Button Showcase'),
+			enableDarkMode: false
 		}),
 	_List_fromArray(
 		[

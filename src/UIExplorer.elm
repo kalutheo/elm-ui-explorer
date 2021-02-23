@@ -78,6 +78,7 @@ import FeatherIcons
 import Html exposing (Html, a, article, aside, button, div, h3, header, img, li, span, text, ul)
 import Html.Attributes exposing (class, classList, href, src, style)
 import Html.Events exposing (onClick)
+import Maybe
 import UIExplorer.ColorMode exposing (ColorMode(..))
 import Url
 
@@ -228,14 +229,19 @@ darkTheme =
     }
 
 
-getTheme : ColorMode -> Theme
-getTheme colorMode =
-    case colorMode of
-        Dark ->
-            darkTheme
+getTheme : Maybe ColorMode -> Theme
+getTheme maybeColorMode =
+    maybeColorMode
+        |> Maybe.map
+            (\colorMode ->
+                case colorMode of
+                    Dark ->
+                        darkTheme
 
-        Light ->
-            lightTheme
+                    Light ->
+                        lightTheme
+            )
+        |> Maybe.withDefault lightTheme
 
 
 getStoryIdFromStories : ( String, Model a b c -> Html b, c ) -> String
@@ -302,7 +308,7 @@ type alias Model a b c =
     , key : Navigation.Key
     , customModel : a
     , mobileMenuIsOpen : Bool
-    , colorMode : ColorMode
+    , colorMode : Maybe ColorMode
     }
 
 
@@ -345,10 +351,11 @@ type alias Config a b c =
     { customModel : a
     , customHeader : Maybe (CustomHeader b)
     , update : b -> Model a b c -> ( Model a b c, Cmd b )
+    , enableDarkMode : Bool
     , subscriptions : Model a b c -> Sub b
     , viewEnhancer : ViewEnhancer a b c
     , menuViewEnhancer : MenuViewEnhancer a b c
-    , onModeChanged : Maybe (ColorMode -> Cmd (Msg b))
+    , onModeChanged : Maybe (Maybe ColorMode -> Cmd (Msg b))
     , documentTitle : Maybe String
     }
 
@@ -361,6 +368,7 @@ defaultConfig =
     , customHeader = Nothing
     , update =
         \_ m -> ( m, Cmd.none )
+    , enableDarkMode = True
     , subscriptions =
         \_ -> Sub.none
     , viewEnhancer = \_ stories -> stories
@@ -488,12 +496,17 @@ update config msg model =
         ColorModeToggled ->
             let
                 colorMode =
-                    case model.colorMode of
-                        Dark ->
-                            Light
+                    model.colorMode
+                        |> Maybe.map
+                            (\c ->
+                                case c of
+                                    Dark ->
+                                        Just Light
 
-                        Light ->
-                            Dark
+                                    Light ->
+                                        Just Dark
+                            )
+                        |> Maybe.withDefault Nothing
             in
             ( { model
                 | colorMode = colorMode
@@ -618,8 +631,8 @@ getDefaultUrlFromCategories categories =
         |> Maybe.withDefault ""
 
 
-init : a -> List (UICategory a b c) -> () -> Url.Url -> Navigation.Key -> ( Model a b c, Cmd (Msg b) )
-init customModel categories _ url key =
+init : Config a b c -> List (UICategory a b c) -> () -> Url.Url -> Navigation.Key -> ( Model a b c, Cmd (Msg b) )
+init { customModel, enableDarkMode } categories _ url key =
     let
         selectedUIId =
             getSelectedUIfromPath url
@@ -645,7 +658,12 @@ init customModel categories _ url key =
       , key = key
       , customModel = customModel
       , mobileMenuIsOpen = False
-      , colorMode = Light
+      , colorMode =
+            if enableDarkMode then
+                Just Light
+
+            else
+                Nothing
       }
     , Navigation.pushUrl key firstUrl
     )
@@ -654,7 +672,7 @@ init customModel categories _ url key =
 app : Config a b c -> List (UICategory a b c) -> UIExplorerProgram a b c
 app config categories =
     Browser.application
-        { init = init config.customModel categories
+        { init = init config categories
         , view =
             \model ->
                 { title = config.documentTitle |> Maybe.withDefault "Storybook Elm"
@@ -823,16 +841,21 @@ viewToggleMobileMenu theme styles =
         ]
 
 
-viewToggleDarkMode : ColorMode -> Theme -> List (Html.Attribute (Msg a)) -> Html (Msg a)
-viewToggleDarkMode colorMode theme styles =
+viewToggleDarkMode : Maybe ColorMode -> Theme -> List (Html.Attribute (Msg a)) -> Html (Msg a)
+viewToggleDarkMode maybeColorMode theme styles =
     let
         icon =
-            case colorMode of
-                Dark ->
-                    FeatherIcons.sun
+            maybeColorMode
+                |> Maybe.map
+                    (\colorMode ->
+                        case colorMode of
+                            Dark ->
+                                Just FeatherIcons.sun
 
-                Light ->
-                    FeatherIcons.moon
+                            Light ->
+                                Just FeatherIcons.moon
+                    )
+                |> Maybe.withDefault Nothing
 
         defaultColor =
             if List.length styles == 0 then
@@ -846,20 +869,25 @@ viewToggleDarkMode colorMode theme styles =
         ]
         [ button (defaultColor ++ (onClick ColorModeToggled :: styles))
             [ icon
-                |> FeatherIcons.withSize 22
-                |> FeatherIcons.toHtml []
+                |> Maybe.map
+                    (\theIcon ->
+                        theIcon
+                            |> FeatherIcons.withSize 22
+                            |> FeatherIcons.toHtml []
+                    )
+                |> Maybe.withDefault (text "")
             ]
         ]
 
 
-viewActionButtons : ColorMode -> Theme -> List (Html.Attribute (Msg a)) -> Html (Msg a)
+viewActionButtons : Maybe ColorMode -> Theme -> List (Html.Attribute (Msg a)) -> Html (Msg a)
 viewActionButtons colorMode theme titleStyles =
     div [ class "uie-flex  uie-flex-1" ]
         [ viewToggleDarkMode colorMode theme titleStyles, viewToggleMobileMenu theme titleStyles ]
 
 
-viewHeader : ColorMode -> Theme -> Maybe (CustomHeader b) -> Html (Msg b)
-viewHeader colorMode theme customHeader =
+viewHeader : Maybe ColorMode -> Theme -> Maybe (CustomHeader b) -> Html (Msg b)
+viewHeader maybeColorMode theme customHeader =
     case customHeader of
         Just { title, logo, titleColor, bgColor } ->
             let
@@ -891,7 +919,7 @@ viewHeader colorMode theme customHeader =
                     [ toClassName [ "flex", "flex-col", "justify-center" ], heightStyle ]
                     [ h3 ([ classList [ ( "md:uie-ml-4", True ) ] ] |> List.append titleStyles) [ text title ]
                     ]
-                , viewActionButtons colorMode theme titleStyles
+                , viewActionButtons maybeColorMode theme titleStyles
                 ]
 
         Nothing ->
@@ -912,16 +940,19 @@ viewHeader colorMode theme customHeader =
                 )
                 [ div
                     (toClassName [ "bg-cover", "cursor-default", "logo" ]
-                        :: (case colorMode of
-                                Dark ->
+                        :: (case maybeColorMode of
+                                Just Dark ->
                                     []
 
-                                Light ->
+                                Just Light ->
+                                    [ style "filter" "invert(1)" ]
+
+                                Nothing ->
                                     [ style "filter" "invert(1)" ]
                            )
                     )
                     []
-                , viewActionButtons colorMode theme []
+                , viewActionButtons maybeColorMode theme []
                 ]
 
 
