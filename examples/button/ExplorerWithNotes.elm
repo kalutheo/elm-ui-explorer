@@ -47,6 +47,7 @@ main =
     explore
         { customModel = { tabs = TabsPlugin.initialModel }
         , customHeader = Nothing
+        , customTitle = "UI Explorer With Notes"
         , subscriptions = \_ -> Sub.none
         , onModeChanged = Just (onModeChanged << colorModeToString )
         , update =

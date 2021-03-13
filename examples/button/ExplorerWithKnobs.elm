@@ -61,6 +61,7 @@ main =
                         )
             }
         , customHeader = Nothing
+        , customTitle = "UI Explorer With Knobs"
         , subscriptions = \_ -> Sub.none
         , update =
             \msg m ->

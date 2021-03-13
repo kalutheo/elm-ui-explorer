@@ -5875,6 +5875,7 @@ var $elm$core$Platform$Sub$none = $elm$core$Platform$Sub$batch(_List_Nil);
 var $author$project$UIExplorer$defaultConfig = {
 	customHeader: $elm$core$Maybe$Nothing,
 	customModel: {},
+	customTitle: 'UI Explorer',
 	menuViewEnhancer: F2(
 		function (_v0, v) {
 			return v;
@@ -12407,7 +12408,7 @@ var $author$project$UIExplorer$app = F2(
 								A2($author$project$UIExplorer$viewMobileMenu, model, model.mobileMenuIsOpen),
 								A2($author$project$UIExplorer$view, config, model)
 							]),
-						title: 'Storybook Elm'
+						title: config.customTitle
 					};
 				}
 			});

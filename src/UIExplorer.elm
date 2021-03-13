@@ -344,6 +344,7 @@ type alias CustomHeader b =
 type alias Config a b c =
     { customModel : a
     , customHeader : Maybe (CustomHeader b)
+    , customTitle : String
     , update : b -> Model a b c -> ( Model a b c, Cmd b )
     , subscriptions : Model a b c -> Sub b
     , viewEnhancer : ViewEnhancer a b c
@@ -358,6 +359,7 @@ defaultConfig : Config {} b c
 defaultConfig =
     { customModel = {}
     , customHeader = Nothing
+    , customTitle = "UI Explorer"
     , update =
         \_ m -> ( m, Cmd.none )
     , subscriptions =
@@ -655,7 +657,7 @@ app config categories =
         { init = init config.customModel categories
         , view =
             \model ->
-                { title = "Storybook Elm"
+                { title = config.customTitle
                 , body =
                     [ viewMobileOverlay model.mobileMenuIsOpen
                     , viewMobileMenu model model.mobileMenuIsOpen

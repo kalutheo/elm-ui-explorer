@@ -82,6 +82,7 @@ main =
     explore
         { customModel = initialModel
         , customHeader = Nothing
+        , customTitle = "UI Explorer With Locale"
         , update =
             \msg m ->
                 case msg of
