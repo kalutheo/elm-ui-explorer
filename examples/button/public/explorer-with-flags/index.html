@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="x-ua-compatible" content="ie=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Elm UI Explorer - Button</title>
+
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="https://cdn.jsdelivr.net/gh/kalutheo/elm-ui-explorer@master/assets/styles.css"
+    />
+  </head>
+
+  <body class="overflow-hidden">
+    <div id="root"></div>
+    <script src="explorer.js"></script>
+    <script type="text/javascript">
+      var app = Elm.ExplorerWithFlags.init({
+        node: document.getElementById("root"),
+        flags: "Hello Flags"
+      })
+    </script>
+  </body>
+</html>

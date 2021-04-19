@@ -91,10 +91,11 @@ Default values are sufficent most of the time.
   - a : Custom Model entry that can be used to store data related to Plugins
   - b : Message Type emitted by the UIExporer main view
   - c : Data related to Plugins and used by your Stories
+  - d : Flags
 
 -}
-type alias UIExplorerProgram a b c =
-    Program () (Model a b c) (Msg b)
+type alias UIExplorerProgram a b c d =
+    Program d (Model a b c) (Msg b)
 
 
 {-| Gives a chance to Plugins to add features to the stories selection menu.
@@ -347,10 +348,11 @@ type alias CustomHeader b =
 
 {-| Configuration Type used to extend the UI Explorer appearance and behaviour.
 -}
-type alias Config a b c =
+type alias Config a b c d =
     { customModel : a
     , customHeader : Maybe (CustomHeader b)
     , update : b -> Model a b c -> ( Model a b c, Cmd b )
+    , init : d -> a -> a
     , enableDarkMode : Bool
     , subscriptions : Model a b c -> Sub b
     , viewEnhancer : ViewEnhancer a b c
@@ -362,12 +364,14 @@ type alias Config a b c =
 
 {-| Sensible default configuration to initialize the explorer.
 -}
-defaultConfig : Config {} b c
+defaultConfig : Config {} b c d
 defaultConfig =
     { customModel = {}
     , customHeader = Nothing
     , update =
         \_ m -> ( m, Cmd.none )
+    , init =
+        \_ m -> m
     , enableDarkMode = True
     , subscriptions =
         \_ -> Sub.none
@@ -451,7 +455,7 @@ makeStoryUrl model storyId =
         model.selectedUIId
 
 
-update : Config a b c -> Msg b -> Model a b c -> ( Model a b c, Cmd (Msg b) )
+update : Config a b c d -> Msg b -> Model a b c -> ( Model a b c, Cmd (Msg b) )
 update config msg model =
     case msg of
         NoOp ->
@@ -631,9 +635,12 @@ getDefaultUrlFromCategories categories =
         |> Maybe.withDefault ""
 
 
-init : Config a b c -> List (UICategory a b c) -> () -> Url.Url -> Navigation.Key -> ( Model a b c, Cmd (Msg b) )
-init { customModel, enableDarkMode } categories _ url key =
+init : Config a b c d -> List (UICategory a b c) -> d -> Url.Url -> Navigation.Key -> ( Model a b c, Cmd (Msg b) )
+init config categories flags url key =
     let
+        customModel =
+            config.init flags config.customModel
+
         selectedUIId =
             getSelectedUIfromPath url
 
@@ -659,7 +666,7 @@ init { customModel, enableDarkMode } categories _ url key =
       , customModel = customModel
       , mobileMenuIsOpen = False
       , colorMode =
-            if enableDarkMode then
+            if config.enableDarkMode then
                 Just Light
 
             else
@@ -669,10 +676,11 @@ init { customModel, enableDarkMode } categories _ url key =
     )
 
 
-app : Config a b c -> List (UICategory a b c) -> UIExplorerProgram a b c
+app : Config a b c d -> List (UICategory a b c) -> UIExplorerProgram a b c d
 app config categories =
     Browser.application
-        { init = init config categories
+        { init =
+            init config categories
         , view =
             \model ->
                 { title = config.documentTitle |> Maybe.withDefault "Storybook Elm"
@@ -715,7 +723,7 @@ Here we have an example of a Button that we want to explore:
             ]
 
 -}
-explore : Config a b c -> List (UI a b c) -> UIExplorerProgram a b c
+explore : Config a b c d -> List (UI a b c) -> UIExplorerProgram a b c d
 explore config uiList =
     app config (fromUIList uiList)
 
@@ -758,7 +766,7 @@ to organize your UI by family.
             defaultConfig
 
 -}
-exploreWithCategories : Config a b c -> List (UICategory a b c) -> UIExplorerProgram a b c
+exploreWithCategories : Config a b c d -> List (UICategory a b c) -> UIExplorerProgram a b c d
 exploreWithCategories config categories =
     app config categories
 
@@ -1057,7 +1065,7 @@ getUIListFromCategories (UICategoryType ( _, categories )) =
     categories
 
 
-viewContent : Config a b c -> Model a b c -> Html (Msg b)
+viewContent : Config a b c d -> Model a b c -> Html (Msg b)
 viewContent config model =
     let
         filteredUIs =
@@ -1169,7 +1177,7 @@ viewMobileOverlay isOpen =
         []
 
 
-view : Config a b c -> Model a b c -> Html (Msg b)
+view : Config a b c d -> Model a b c -> Html (Msg b)
 view config model =
     let
         theme =
@@ -1255,7 +1263,7 @@ renderStory { storyMenu, primaryBgColor } index { selectedStoryId } ( id, _, _ )
         [ text id ]
 
 
-renderStories : Config a b c -> Stories a b c -> UIViewConfig -> Model a b c -> Html (Msg b)
+renderStories : Config a b c d -> Stories a b c -> UIViewConfig -> Model a b c -> Html (Msg b)
 renderStories config stories viewConfig model =
     let
         { selectedStoryId } =

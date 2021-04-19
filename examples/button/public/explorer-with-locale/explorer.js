@@ -373,7 +373,7 @@ function _Debug_toAnsiString(ansi, value)
 		return _Debug_stringColor(ansi, '<' + value.byteLength + ' bytes>');
 	}
 
-	if (typeof File === 'function' && value instanceof File)
+	if (typeof File !== 'undefined' && value instanceof File)
 	{
 		return _Debug_internalColor(ansi, '<' + value.name + '>');
 	}
@@ -443,7 +443,7 @@ function _Debug_fadeColor(ansi, string)
 
 function _Debug_internalColor(ansi, string)
 {
-	return ansi ? '\x1b[94m' + string + '\x1b[0m' : string;
+	return ansi ? '\x1b[36m' + string + '\x1b[0m' : string;
 }
 
 function _Debug_toHexDigit(n)
@@ -544,12 +544,6 @@ function _Utils_eq(x, y)
 
 function _Utils_eqHelp(x, y, depth, stack)
 {
-	if (depth > 100)
-	{
-		stack.push(_Utils_Tuple2(x,y));
-		return true;
-	}
-
 	if (x === y)
 	{
 		return true;
@@ -559,6 +553,12 @@ function _Utils_eqHelp(x, y, depth, stack)
 	{
 		typeof x === 'function' && _Debug_crash(5);
 		return false;
+	}
+
+	if (depth > 100)
+	{
+		stack.push(_Utils_Tuple2(x,y));
+		return true;
 	}
 
 	/**/
@@ -861,7 +861,7 @@ var _String_cons = F2(function(chr, str)
 function _String_uncons(string)
 {
 	var word = string.charCodeAt(0);
-	return word
+	return !isNaN(word)
 		? $elm$core$Maybe$Just(
 			0xD800 <= word && word <= 0xDBFF
 				? _Utils_Tuple2(_Utils_chr(string[0] + string[1]), string.slice(2))
@@ -1874,19 +1874,19 @@ function _Platform_initialize(flagDecoder, args, init, update, subscriptions, st
 	var result = A2(_Json_run, flagDecoder, _Json_wrap(args ? args['flags'] : undefined));
 	$elm$core$Result$isOk(result) || _Debug_crash(2 /**/, _Json_errorToString(result.a) /**/);
 	var managers = {};
-	result = init(result.a);
-	var model = result.a;
+	var initPair = init(result.a);
+	var model = initPair.a;
 	var stepper = stepperBuilder(sendToApp, model);
 	var ports = _Platform_setupEffects(managers, sendToApp);
 
 	function sendToApp(msg, viewMetadata)
 	{
-		result = A2(update, msg, model);
-		stepper(model = result.a, viewMetadata);
-		_Platform_dispatchEffects(managers, result.b, subscriptions(model));
+		var pair = A2(update, msg, model);
+		stepper(model = pair.a, viewMetadata);
+		_Platform_enqueueEffects(managers, pair.b, subscriptions(model));
 	}
 
-	_Platform_dispatchEffects(managers, result.b, subscriptions(model));
+	_Platform_enqueueEffects(managers, initPair.b, subscriptions(model));
 
 	return ports ? { ports: ports } : {};
 }
@@ -2044,6 +2044,51 @@ var _Platform_map = F2(function(tagger, bag)
 
 
 // PIPE BAGS INTO EFFECT MANAGERS
+//
+// Effects must be queued!
+//
+// Say your init contains a synchronous command, like Time.now or Time.here
+//
+//   - This will produce a batch of effects (FX_1)
+//   - The synchronous task triggers the subsequent `update` call
+//   - This will produce a batch of effects (FX_2)
+//
+// If we just start dispatching FX_2, subscriptions from FX_2 can be processed
+// before subscriptions from FX_1. No good! Earlier versions of this code had
+// this problem, leading to these reports:
+//
+//   https://github.com/elm/core/issues/980
+//   https://github.com/elm/core/pull/981
+//   https://github.com/elm/compiler/issues/1776
+//
+// The queue is necessary to avoid ordering issues for synchronous commands.
+
+
+// Why use true/false here? Why not just check the length of the queue?
+// The goal is to detect "are we currently dispatching effects?" If we
+// are, we need to bail and let the ongoing while loop handle things.
+//
+// Now say the queue has 1 element. When we dequeue the final element,
+// the queue will be empty, but we are still actively dispatching effects.
+// So you could get queue jumping in a really tricky category of cases.
+//
+var _Platform_effectsQueue = [];
+var _Platform_effectsActive = false;
+
+
+function _Platform_enqueueEffects(managers, cmdBag, subBag)
+{
+	_Platform_effectsQueue.push({ p: managers, q: cmdBag, r: subBag });
+
+	if (_Platform_effectsActive) return;
+
+	_Platform_effectsActive = true;
+	for (var fx; fx = _Platform_effectsQueue.shift(); )
+	{
+		_Platform_dispatchEffects(fx.p, fx.q, fx.r);
+	}
+	_Platform_effectsActive = false;
+}
 
 
 function _Platform_dispatchEffects(managers, cmdBag, subBag)
@@ -2081,8 +2126,8 @@ function _Platform_gatherEffects(isCmd, bag, effectsDict, taggers)
 
 		case 3:
 			_Platform_gatherEffects(isCmd, bag.o, effectsDict, {
-				p: bag.n,
-				q: taggers
+				s: bag.n,
+				t: taggers
 			});
 			return;
 	}
@@ -2093,9 +2138,9 @@ function _Platform_toEffect(isCmd, home, taggers, value)
 {
 	function applyTaggers(x)
 	{
-		for (var temp = taggers; temp; temp = temp.q)
+		for (var temp = taggers; temp; temp = temp.t)
 		{
-			x = temp.p(x);
+			x = temp.s(x);
 		}
 		return x;
 	}
@@ -2142,7 +2187,7 @@ function _Platform_outgoingPort(name, converter)
 	_Platform_checkPortName(name);
 	_Platform_effectManagers[name] = {
 		e: _Platform_outgoingPortMap,
-		r: converter,
+		u: converter,
 		a: _Platform_setupOutgoingPort
 	};
 	return _Platform_leaf(name);
@@ -2155,7 +2200,7 @@ var _Platform_outgoingPortMap = F2(function(tagger, value) { return value; });
 function _Platform_setupOutgoingPort(name)
 {
 	var subs = [];
-	var converter = _Platform_effectManagers[name].r;
+	var converter = _Platform_effectManagers[name].u;
 
 	// CREATE MANAGER
 
@@ -2212,7 +2257,7 @@ function _Platform_incomingPort(name, converter)
 	_Platform_checkPortName(name);
 	_Platform_effectManagers[name] = {
 		f: _Platform_incomingPortMap,
-		r: converter,
+		u: converter,
 		a: _Platform_setupIncomingPort
 	};
 	return _Platform_leaf(name);
@@ -2231,7 +2276,7 @@ var _Platform_incomingPortMap = F2(function(tagger, finalTagger)
 function _Platform_setupIncomingPort(name, sendToApp)
 {
 	var subs = _List_Nil;
-	var converter = _Platform_effectManagers[name].r;
+	var converter = _Platform_effectManagers[name].u;
 
 	// CREATE MANAGER
 
@@ -4990,6 +5035,10 @@ var $elm$core$Set$toList = function (_v0) {
 var $elm$core$Basics$EQ = {$: 'EQ'};
 var $elm$core$Basics$GT = {$: 'GT'};
 var $elm$core$Basics$LT = {$: 'LT'};
+var $elm$core$Basics$False = {$: 'False'};
+var $elm$core$Maybe$Just = function (a) {
+	return {$: 'Just', a: a};
+};
 var $elm$core$Maybe$Nothing = {$: 'Nothing'};
 var $elm$core$Result$Err = function (a) {
 	return {$: 'Err', a: a};
@@ -5012,11 +5061,7 @@ var $elm$core$Result$Ok = function (a) {
 var $elm$json$Json$Decode$OneOf = function (a) {
 	return {$: 'OneOf', a: a};
 };
-var $elm$core$Basics$False = {$: 'False'};
 var $elm$core$Basics$add = _Basics_add;
-var $elm$core$Maybe$Just = function (a) {
-	return {$: 'Just', a: a};
-};
 var $elm$core$String$all = _String_all;
 var $elm$core$Basics$and = _Basics_and;
 var $elm$core$Basics$append = _Utils_append;
@@ -10678,7 +10723,7 @@ var $elm$core$Maybe$map3 = F4(
 	});
 var $elm$browser$Browser$Navigation$pushUrl = _Browser_pushUrl;
 var $author$project$UIExplorer$init = F5(
-	function (customModel, categories, _v0, url, key) {
+	function (config, categories, flags, url, key) {
 		var selectedUIId = $author$project$UIExplorer$getSelectedUIfromPath(url);
 		var selectedStoryId = $author$project$UIExplorer$getSelectedStoryfromPath(url);
 		var selectedCategory = $author$project$UIExplorer$getSelectedCategoryfromPath(url);
@@ -10694,8 +10739,19 @@ var $author$project$UIExplorer$init = F5(
 				selectedCategory,
 				selectedUIId,
 				selectedStoryId));
+		var customModel = A2(config.init, flags, config.customModel);
 		return _Utils_Tuple2(
-			{categories: categories, colorMode: $author$project$UIExplorer$ColorMode$Light, customModel: customModel, key: key, mobileMenuIsOpen: false, selectedCategory: selectedCategory, selectedStoryId: selectedStoryId, selectedUIId: selectedUIId, url: url},
+			{
+				categories: categories,
+				colorMode: config.enableDarkMode ? $elm$core$Maybe$Just($author$project$UIExplorer$ColorMode$Light) : $elm$core$Maybe$Nothing,
+				customModel: customModel,
+				key: key,
+				mobileMenuIsOpen: false,
+				selectedCategory: selectedCategory,
+				selectedStoryId: selectedStoryId,
+				selectedUIId: selectedUIId,
+				url: url
+			},
 			A2($elm$browser$Browser$Navigation$pushUrl, key, firstUrl));
 	});
 var $author$project$UIExplorer$ColorMode$Dark = {$: 'Dark'};
@@ -10833,14 +10889,19 @@ var $author$project$UIExplorer$update = F3(
 						{mobileMenuIsOpen: !model.mobileMenuIsOpen}),
 					$elm$core$Platform$Cmd$none);
 			default:
-				var colorMode = function () {
-					var _v5 = model.colorMode;
-					if (_v5.$ === 'Dark') {
-						return $author$project$UIExplorer$ColorMode$Light;
-					} else {
-						return $author$project$UIExplorer$ColorMode$Dark;
-					}
-				}();
+				var colorMode = A2(
+					$elm$core$Maybe$withDefault,
+					$elm$core$Maybe$Nothing,
+					A2(
+						$elm$core$Maybe$map,
+						function (c) {
+							if (c.$ === 'Dark') {
+								return $elm$core$Maybe$Just($author$project$UIExplorer$ColorMode$Light);
+							} else {
+								return $elm$core$Maybe$Just($author$project$UIExplorer$ColorMode$Dark);
+							}
+						},
+						model.colorMode));
 				return _Utils_Tuple2(
 					_Utils_update(
 						model,
@@ -10874,12 +10935,20 @@ var $author$project$UIExplorer$lightTheme = {
 	sidebar: {background: 'bg-white', borderColor: 'border-transparent'},
 	storyMenu: {border: 'border-grey', hoverBg: 'bg-grey-lighter', selectedBorder: 'border-black', selectedText: 'text-black', text: 'text-grey'}
 };
-var $author$project$UIExplorer$getTheme = function (colorMode) {
-	if (colorMode.$ === 'Dark') {
-		return $author$project$UIExplorer$darkTheme;
-	} else {
-		return $author$project$UIExplorer$lightTheme;
-	}
+var $author$project$UIExplorer$getTheme = function (maybeColorMode) {
+	return A2(
+		$elm$core$Maybe$withDefault,
+		$author$project$UIExplorer$lightTheme,
+		A2(
+			$elm$core$Maybe$map,
+			function (colorMode) {
+				if (colorMode.$ === 'Dark') {
+					return $author$project$UIExplorer$darkTheme;
+				} else {
+					return $author$project$UIExplorer$lightTheme;
+				}
+			},
+			maybeColorMode));
 };
 var $author$project$UIExplorer$oneQuarter = 'w-1/4';
 var $author$project$UIExplorer$toClassName = function (list) {
@@ -11415,14 +11484,20 @@ var $1602$elm_feather$FeatherIcons$withSize = F2(
 			});
 	});
 var $author$project$UIExplorer$viewToggleDarkMode = F3(
-	function (colorMode, theme, styles) {
-		var icon = function () {
-			if (colorMode.$ === 'Dark') {
-				return $1602$elm_feather$FeatherIcons$sun;
-			} else {
-				return $1602$elm_feather$FeatherIcons$moon;
-			}
-		}();
+	function (maybeColorMode, theme, styles) {
+		var icon = A2(
+			$elm$core$Maybe$withDefault,
+			$elm$core$Maybe$Nothing,
+			A2(
+				$elm$core$Maybe$map,
+				function (colorMode) {
+					if (colorMode.$ === 'Dark') {
+						return $elm$core$Maybe$Just($1602$elm_feather$FeatherIcons$sun);
+					} else {
+						return $elm$core$Maybe$Just($1602$elm_feather$FeatherIcons$moon);
+					}
+				},
+				maybeColorMode));
 		var defaultColor = (!$elm$core$List$length(styles)) ? _List_fromArray(
 			[
 				$elm$html$Html$Attributes$class('uie-' + theme.iconColor)
@@ -11446,9 +11521,17 @@ var $author$project$UIExplorer$viewToggleDarkMode = F3(
 					_List_fromArray(
 						[
 							A2(
-							$1602$elm_feather$FeatherIcons$toHtml,
-							_List_Nil,
-							A2($1602$elm_feather$FeatherIcons$withSize, 22, icon))
+							$elm$core$Maybe$withDefault,
+							$elm$html$Html$text(''),
+							A2(
+								$elm$core$Maybe$map,
+								function (theIcon) {
+									return A2(
+										$1602$elm_feather$FeatherIcons$toHtml,
+										_List_Nil,
+										A2($1602$elm_feather$FeatherIcons$withSize, 22, theIcon));
+								},
+								icon))
 						]))
 				]));
 	});
@@ -11553,7 +11636,7 @@ var $author$project$UIExplorer$viewActionButtons = F3(
 				]));
 	});
 var $author$project$UIExplorer$viewHeader = F3(
-	function (colorMode, theme, customHeader) {
+	function (maybeColorMode, theme, customHeader) {
 		if (customHeader.$ === 'Just') {
 			var title = customHeader.a.title;
 			var logo = customHeader.a.logo;
@@ -11647,7 +11730,7 @@ var $author$project$UIExplorer$viewHeader = F3(
 										$elm$html$Html$text(title)
 									]))
 							])),
-						A3($author$project$UIExplorer$viewActionButtons, colorMode, theme, titleStyles)
+						A3($author$project$UIExplorer$viewActionButtons, maybeColorMode, theme, titleStyles)
 					]));
 		} else {
 			var heightStyle = A2($elm$html$Html$Attributes$style, 'height', '86px');
@@ -11676,8 +11759,17 @@ var $author$project$UIExplorer$viewHeader = F3(
 								_List_fromArray(
 									['bg-cover', 'cursor-default', 'logo'])),
 							function () {
-								if (colorMode.$ === 'Dark') {
-									return _List_Nil;
+								if (maybeColorMode.$ === 'Just') {
+									if (maybeColorMode.a.$ === 'Dark') {
+										var _v3 = maybeColorMode.a;
+										return _List_Nil;
+									} else {
+										var _v4 = maybeColorMode.a;
+										return _List_fromArray(
+											[
+												A2($elm$html$Html$Attributes$style, 'filter', 'invert(1)')
+											]);
+									}
 								} else {
 									return _List_fromArray(
 										[
@@ -11686,7 +11778,7 @@ var $author$project$UIExplorer$viewHeader = F3(
 								}
 							}()),
 						_List_Nil),
-						A3($author$project$UIExplorer$viewActionButtons, colorMode, theme, _List_Nil)
+						A3($author$project$UIExplorer$viewActionButtons, maybeColorMode, theme, _List_Nil)
 					]));
 		}
 	});
@@ -11939,7 +12031,7 @@ var $author$project$UIExplorer$app = F2(
 	function (config, categories) {
 		return $elm$browser$Browser$application(
 			{
-				init: A2($author$project$UIExplorer$init, config.customModel, categories),
+				init: A2($author$project$UIExplorer$init, config, categories),
 				onUrlChange: $author$project$UIExplorer$UrlChange,
 				onUrlRequest: $author$project$UIExplorer$LinkClicked,
 				subscriptions: function (model) {
@@ -11957,7 +12049,7 @@ var $author$project$UIExplorer$app = F2(
 								A2($author$project$UIExplorer$viewMobileMenu, model, model.mobileMenuIsOpen),
 								A2($author$project$UIExplorer$view, config, model)
 							]),
-						title: 'Storybook Elm'
+						title: A2($elm$core$Maybe$withDefault, 'Storybook Elm', config.documentTitle)
 					};
 				}
 			});
@@ -12065,6 +12157,12 @@ var $author$project$ExplorerWithLocale$main = A2(
 	{
 		customHeader: $elm$core$Maybe$Nothing,
 		customModel: $author$project$ExplorerWithLocale$initialModel,
+		documentTitle: $elm$core$Maybe$Just('This is an example with flags'),
+		enableDarkMode: false,
+		init: F2(
+			function (f, m) {
+				return m;
+			}),
 		menuViewEnhancer: $author$project$ExplorerWithLocale$menuViewEnhancer,
 		onModeChanged: $elm$core$Maybe$Nothing,
 		subscriptions: function (m) {

@@ -4,10 +4,10 @@ import Button exposing (Appearance(..), Kind(..), Size(..), defaultButtonConfig)
 import UIExplorer exposing (UIExplorerProgram, defaultConfig, explore, storiesOf)
 
 
-main : UIExplorerProgram {} () {}
+main : UIExplorerProgram {} () {} ()
 main =
     explore
-        {defaultConfig | documentTitle = Just "Button Showcase", enableDarkMode = False }
+        defaultConfig
         [ storiesOf
             "Button"
             [ ( "Primary", \_ -> Button.view "Submit" defaultButtonConfig (), {} )

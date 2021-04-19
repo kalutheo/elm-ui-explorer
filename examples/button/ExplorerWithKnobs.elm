@@ -17,7 +17,7 @@ import UIExplorer
 import UIExplorer.Plugins.Knobs as KnobsPlugin
 import UIExplorer.Plugins.Tabs as TabsPlugin
 import UIExplorer.Plugins.Tabs.Icons as TabsIconsPlugin
-
+import UIExplorer.ColorMode exposing (ColorMode(..))
 
 type alias ButtonModel =
     { label : String
@@ -45,7 +45,7 @@ options =
     }
 
 
-main : UIExplorerProgram Model Msg PluginOption
+main : UIExplorerProgram Model Msg PluginOption ()
 main =
     explore
         { customModel =
@@ -79,9 +79,12 @@ main =
                         ( m, Cmd.none )
         , viewEnhancer =
             \m stories ->
+                let
+                  colorMode = m.colorMode |> Maybe.withDefault Light 
+                in
                 Html.div []
                     [ stories
-                    , TabsPlugin.view m.colorMode m.customModel.tabs
+                    , TabsPlugin.view colorMode m.customModel.tabs
                         [ ( "Knobs"
                           , KnobsPlugin.viewEnhancer m
                                 (\model option ->
@@ -94,6 +97,9 @@ main =
                     ]
         , menuViewEnhancer = \m v -> v
         , onModeChanged = Nothing
+        , documentTitle = Just "This is an example with knobs"
+        , enableDarkMode = False
+        , init = \_ m -> m
         }
         [ storiesOf
             "Button"
@@ -106,12 +112,5 @@ main =
                     Button.view button.label { defaultButtonConfig | appearance = button.appearance } NoOp
               , options
               )
-
-            --  , ( "Secondary", \_ -> Button.view "Submit" { defaultButtonConfig | appearance = Secondary } NoOp, options )
-            --  , ( "Small", \_ -> Button.view "Submit" { defaultButtonConfig | size = S } NoOp, options )
-            --  , ( "Large", \_ -> Button.view "Submit" { defaultButtonConfig | size = L } NoOp, options )
-            --  , ( "Link", \_ -> Button.view "Submit" { defaultButtonConfig | kind = Link, appearance = Secondary } NoOp, options )
-            --  , ( "Ghost Primary", \_ -> Button.view "Submit" { defaultButtonConfig | kind = Ghost } NoOp, options )
-            --  , ( "GhostSecondary", \_ -> Button.view "Submit" { defaultButtonConfig | appearance = Secondary, kind = Ghost } NoOp, options )
             ]
         ]

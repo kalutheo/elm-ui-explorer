@@ -28,10 +28,10 @@ viewEnhancer model =
     let
         colorModeClassList =
             case model.colorMode of
-                Dark ->
+                Just Dark ->
                     [ class "uie-text-white" ]
 
-                Light ->
+                _ ->
                     []
     in
     case getCurrentSelectedStory model of

@@ -5035,11 +5035,7 @@ var $elm$core$Set$toList = function (_v0) {
 var $elm$core$Basics$EQ = {$: 'EQ'};
 var $elm$core$Basics$GT = {$: 'GT'};
 var $elm$core$Basics$LT = {$: 'LT'};
-var $elm$core$Basics$False = {$: 'False'};
 var $author$project$Button$Ghost = {$: 'Ghost'};
-var $elm$core$Maybe$Just = function (a) {
-	return {$: 'Just', a: a};
-};
 var $author$project$Button$L = {$: 'L'};
 var $author$project$Button$Link = {$: 'Link'};
 var $author$project$Button$S = {$: 'S'};
@@ -5047,6 +5043,9 @@ var $author$project$Button$Secondary = {$: 'Secondary'};
 var $author$project$Button$Filled = {$: 'Filled'};
 var $author$project$Button$M = {$: 'M'};
 var $author$project$Button$Primary = {$: 'Primary'};
+var $elm$core$Maybe$Just = function (a) {
+	return {$: 'Just', a: a};
+};
 var $elm$core$Maybe$Nothing = {$: 'Nothing'};
 var $elm$core$String$length = _String_length;
 var $elm$core$Basics$lt = _Utils_lt;
@@ -5548,6 +5547,7 @@ var $elm$json$Json$Decode$Index = F2(
 var $elm$json$Json$Decode$OneOf = function (a) {
 	return {$: 'OneOf', a: a};
 };
+var $elm$core$Basics$False = {$: 'False'};
 var $elm$core$String$all = _String_all;
 var $elm$core$Basics$and = _Basics_and;
 var $elm$json$Json$Encode$encode = _Json_encode;
@@ -5877,20 +5877,24 @@ var $author$project$UIExplorer$defaultConfig = {
 	customModel: {},
 	documentTitle: $elm$core$Maybe$Nothing,
 	enableDarkMode: true,
+	init: F2(
+		function (_v0, m) {
+			return m;
+		}),
 	menuViewEnhancer: F2(
-		function (_v0, v) {
+		function (_v1, v) {
 			return v;
 		}),
 	onModeChanged: $elm$core$Maybe$Nothing,
-	subscriptions: function (_v1) {
+	subscriptions: function (_v2) {
 		return $elm$core$Platform$Sub$none;
 	},
 	update: F2(
-		function (_v2, m) {
+		function (_v3, m) {
 			return _Utils_Tuple2(m, $elm$core$Platform$Cmd$none);
 		}),
 	viewEnhancer: F2(
-		function (_v3, stories) {
+		function (_v4, stories) {
 			return stories;
 		})
 };
@@ -11130,9 +11134,7 @@ var $elm$core$Maybe$map3 = F4(
 	});
 var $elm$browser$Browser$Navigation$pushUrl = _Browser_pushUrl;
 var $author$project$UIExplorer$init = F5(
-	function (_v0, categories, _v1, url, key) {
-		var customModel = _v0.customModel;
-		var enableDarkMode = _v0.enableDarkMode;
+	function (config, categories, flags, url, key) {
 		var selectedUIId = $author$project$UIExplorer$getSelectedUIfromPath(url);
 		var selectedStoryId = $author$project$UIExplorer$getSelectedStoryfromPath(url);
 		var selectedCategory = $author$project$UIExplorer$getSelectedCategoryfromPath(url);
@@ -11148,10 +11150,11 @@ var $author$project$UIExplorer$init = F5(
 				selectedCategory,
 				selectedUIId,
 				selectedStoryId));
+		var customModel = A2(config.init, flags, config.customModel);
 		return _Utils_Tuple2(
 			{
 				categories: categories,
-				colorMode: enableDarkMode ? $elm$core$Maybe$Just($author$project$UIExplorer$ColorMode$Light) : $elm$core$Maybe$Nothing,
+				colorMode: config.enableDarkMode ? $elm$core$Maybe$Just($author$project$UIExplorer$ColorMode$Light) : $elm$core$Maybe$Nothing,
 				customModel: customModel,
 				key: key,
 				mobileMenuIsOpen: false,
@@ -14956,12 +14959,7 @@ var $author$project$Button$view = F3(
 	});
 var $author$project$Explorer$main = A2(
 	$author$project$UIExplorer$explore,
-	_Utils_update(
-		$author$project$UIExplorer$defaultConfig,
-		{
-			documentTitle: $elm$core$Maybe$Just('Button Showcase'),
-			enableDarkMode: false
-		}),
+	$author$project$UIExplorer$defaultConfig,
 	_List_fromArray(
 		[
 			A2(

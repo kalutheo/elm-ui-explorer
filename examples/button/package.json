@@ -10,17 +10,19 @@
   },
   "scripts": {
     "pre-build": "mkdir -p ../../docs/examples/button && cp -r public/* ../../docs/examples/button",
-    "build": "npm run pre-build && npm run build:app && npm run build:explorer && npm run build:explorer-with-notes && npm run build:explorer-with-locale && npm run build:explorer-with-knobs",
+    "build": "npm run pre-build && npm run build:app && npm run build:explorer && npm run build:explorer-with-notes && npm run build:explorer-with-locale && npm run build:explorer-with-knobs && npm run build:explorer-with-flags",
     "build:app": "elm make Main.elm --output=../../docs/examples/button/app.js",
     "build:explorer": "elm make Explorer.elm --output=../../docs/examples/button/explorer/explorer.js",
     "build:explorer-with-notes": "elm make ExplorerWithNotes.elm --output=../../docs/examples/button/explorer-with-notes/explorer.js",
     "build:explorer-with-locale": "elm make ExplorerWithLocale.elm --output=../../docs/examples/button/explorer-with-locale/explorer.js",
     "build:explorer-with-knobs": "elm make ExplorerWithKnobs.elm --output=../../docs/examples/button/explorer-with-knobs/explorer.js",
+    "build:explorer-with-flags": "elm make ExplorerWithFlags.elm --output=../../docs/examples/button/explorer-with-flags/explorer.js",
     "start": "elm-live Main.elm --open --dir=public --start-page=index.html -- --output=public/app.js --debug ",
     "start:explorer": "elm-live Explorer.elm --open --dir=public/explorer --start-page=index.html -- --output=public/explorer/explorer.js --debug",
     "start:explorer-with-notes": "elm-live ExplorerWithNotes.elm --open --dir=public/explorer-with-notes --start-page=index.html -- --output=public/explorer-with-notes/explorer.js --debug",
     "start:explorer-with-locale": "elm-live ExplorerWithLocale.elm --open --dir=public/explorer-with-locale --start-page=index.html -- --output=public/explorer-with-locale/explorer.js --debug",
-    "start:explorer-with-knobs": "elm-live ExplorerWithKnobs.elm --open --dir=public/explorer-with-knobs --start-page=index.html -- --output=public/explorer-with-knobs/explorer.js --debug"
+    "start:explorer-with-knobs": "elm-live ExplorerWithKnobs.elm --open --dir=public/explorer-with-knobs --start-page=index.html -- --output=public/explorer-with-knobs/explorer.js --debug",
+    "start:explorer-with-flags": "elm-live ExplorerWithFlags.elm --open --dir=public/explorer-with-flags --start-page=index.html -- --output=public/explorer-with-flags/explorer.js --debug"
   },
   "author": "",
   "license": "ISC"

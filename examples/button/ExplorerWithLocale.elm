@@ -77,7 +77,7 @@ menuViewEnhancer _ menuView =
         ]
 
 
-main : UIExplorerProgram Model Msg {}
+main : UIExplorerProgram Model Msg {} ()
 main =
     explore
         { customModel = initialModel
@@ -92,6 +92,9 @@ main =
         , viewEnhancer = \m stories -> stories
         , menuViewEnhancer = menuViewEnhancer
         , onModeChanged = Nothing
+        , documentTitle = Just "This is an example with flags"
+        , init = \f m -> m
+        , enableDarkMode = False
         }
         [ storiesOf
             "Button"
