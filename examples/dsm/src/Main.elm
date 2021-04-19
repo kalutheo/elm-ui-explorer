@@ -39,7 +39,7 @@ config =
     }
 
 
-main : UIExplorerProgram {} () { hasMenu : Bool }
+main : UIExplorerProgram {} () { hasMenu : Bool } ()
 main =
     exploreWithCategories
         config
