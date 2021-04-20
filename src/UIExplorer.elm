@@ -130,7 +130,7 @@ type alias MenuViewEnhancer a b c =
 {-| Gives a chance to Plugins to add features to the main view canvas.
 For example, the Notes plugin allows to add markdown notes for each stories:
 
-    main : UIExplorerProgram {} () PluginOption
+    main : UIExplorerProgram {} () PluginOption ()
     main =
         explore
             { defaultConfig | viewEnhancer = ExplorerNotesPlugin.viewEnhancer }
@@ -710,7 +710,7 @@ Here we have an example of a Button that we want to explore:
             [ style "background-color" bgColor ]
             [ Html.text label ]
 
-    main : UIExplorerProgram {} () {}
+    main : UIExplorerProgram {} () {} ()
     main =
         explore
             defaultConfig
@@ -734,7 +734,7 @@ Launches a UI Explorer Applicaton given a list of [UI Categories](#UICategory).
 This is a more advanced way to initialize the UI Explorer app. It can be usefull if you want
 to organize your UI by family.
 
-    main : UIExplorerProgram {} () {}
+    main : UIExplorerProgram {} () {} ()
     main =
         exploreWithCategories
             defaultConfig
