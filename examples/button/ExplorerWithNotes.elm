@@ -17,7 +17,7 @@ import UIExplorer.Plugins.Code as CodePlugin
 import UIExplorer.Plugins.Note as NotePlugin
 import UIExplorer.Plugins.Tabs as TabsPlugin
 import UIExplorer.Plugins.Tabs.Icons as TabsIconsPlugin
-import UIExplorer.ColorMode exposing (colorModeToString)
+import UIExplorer.ColorMode exposing (colorModeToString, ColorMode(..))
 
 port onModeChanged : String -> Cmd msg
 
@@ -42,13 +42,13 @@ options =
     }
 
 
-main : UIExplorerProgram Model Msg PluginOption
+main : UIExplorerProgram Model Msg PluginOption ()
 main =
     explore
         { customModel = { tabs = TabsPlugin.initialModel }
         , customHeader = Nothing
         , subscriptions = \_ -> Sub.none
-        , onModeChanged = Just (onModeChanged << colorModeToString )
+        , onModeChanged = Just (onModeChanged <<  colorModeToString << Maybe.withDefault Light )
         , update =
             \msg m ->
                 case msg of
@@ -63,15 +63,22 @@ main =
                         ( m, Cmd.none )
         , viewEnhancer =
             \m stories ->
+                let
+                 colorMode =  m.colorMode |> Maybe.withDefault Light
+                in
                 Html.div []
                     [ stories
-                    , TabsPlugin.view m.colorMode m.customModel.tabs
+                    , TabsPlugin.view colorMode m.customModel.tabs
                         [ ( "Notes", NotePlugin.viewEnhancer m, TabsIconsPlugin.note )
                         , ( "Story Code", CodePlugin.viewEnhancer  m, TabsIconsPlugin.code )
                         ]
                         TabMsg
                     ]
         , menuViewEnhancer = \m v -> v
+        , documentTitle = Just "This is an example with notes"
+        , enableDarkMode = True
+        , init = \_ m -> m
+
         }
         [ storiesOf
             "Button"

@@ -4,7 +4,7 @@ import Button exposing (Appearance(..), Kind(..), Size(..), defaultButtonConfig)
 import UIExplorer exposing (UIExplorerProgram, defaultConfig, explore, storiesOf)
 
 
-main : UIExplorerProgram {} () {}
+main : UIExplorerProgram {} () {} ()
 main =
     explore
         defaultConfig
