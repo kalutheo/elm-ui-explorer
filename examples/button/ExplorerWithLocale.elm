@@ -92,7 +92,7 @@ main =
         , viewEnhancer = \m stories -> stories
         , menuViewEnhancer = menuViewEnhancer
         , onModeChanged = Nothing
-        , documentTitle = Just "This is an example with flags"
+        , documentTitle = Just "This is an example with locale"
         , init = \f m -> m
         , enableDarkMode = False
         }
