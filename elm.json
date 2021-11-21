@@ -6,6 +6,7 @@
     "version": "9.0.0",
     "exposed-modules": [
         "UIExplorer",
+        "UIExplorer.ColorMode",
         "UIExplorer.Plugins.Note",
         "UIExplorer.Plugins.MenuVisibility",
         "UIExplorer.Plugins.Tabs",
