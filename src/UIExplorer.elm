@@ -1209,6 +1209,9 @@ view config model =
                     , "overflow-scroll"
                     , "main-content"
                     ]
+                , style
+                    "height"
+                    "calc(100vh - 86px) !important"
                 ]
                 [ viewContent config model ]
             ]
