@@ -76,8 +76,9 @@ import Browser
 import Browser.Navigation as Navigation
 import FeatherIcons
 import Html exposing (Html, a, article, aside, button, div, h3, header, img, li, span, text, ul)
-import Html.Attributes exposing (class, classList, href, src, style)
+import Html.Attributes exposing (class, classList, href, property, src, style)
 import Html.Events exposing (onClick)
+import Json.Encode as Encode
 import Maybe
 import UIExplorer.ColorMode exposing (ColorMode(..))
 import Url
@@ -1209,9 +1210,7 @@ view config model =
                     , "overflow-scroll"
                     , "main-content"
                     ]
-                , style
-                    "height"
-                    "calc(100vh - 86px) !important"
+                , property "style" (Encode.string "height: calc(100vh - 86px) !important")    
                 ]
                 [ viewContent config model ]
             ]
